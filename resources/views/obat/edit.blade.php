@@ -1,11 +1,11 @@
 @extends('layouts.app')
-@section('title','Tambah Pengguna')
+@section('title','Edit Obat')
 @section('content')
 <div class="content-wrapper">
     <section class="content-header">
       <h1>
-        Kelola Pengguna
-        <small>Edit Pengguna</small>
+        Kelola Obat
+        <small>Edit Obat</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -18,9 +18,9 @@
           <div class="col-xs-12">
             <div class="box">
               <div class="box-body">
-                  {!! Form::model($user,['route'=>['user.update',$user->id],'method'=>'PUT','class'=>'form-horizontal']) !!}
+                  {!! Form::model($obat,['route'=>['obat.update',$obat->id],'method'=>'PUT','class'=>'form-horizontal']) !!}
                   @include('validation_error')
-                  @include('user.form')
+                  @include('obat.form')
                   {!! Form::close() !!}
               </div>
             </div>

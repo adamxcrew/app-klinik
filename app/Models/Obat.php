@@ -11,7 +11,7 @@ class Obat extends Model
     protected $fillable=[
         'nama_obat',
         'kode',
-        'status',
+        'aktif',
         'harga',
         'stock',
         'satuan_id'

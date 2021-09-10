@@ -1,11 +1,11 @@
 @extends('layouts.app')
-@section('title','Kelola Pengguna')
+@section('title','Kelola Data Obat')
 @section('content')
 <div class="content-wrapper">
     <section class="content-header">
       <h1>
-        Kelola Pengguna
-        <small>Daftar Pengguna</small>
+        Kelola Data Obat
+        <small>Daftar Obat</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -32,7 +32,7 @@
                         <th>Nama Obat</th>
                         <th>Satuan</th>
                         <th>Harga</th>
-                        <th>Status</th>
+                        <th>Aktif</th>
                         <th width="60">#</th>
                       </tr>
                   </thead>
@@ -60,7 +60,7 @@
                 { data: 'nama_obat', name: 'nama_obat' },
                 { data: 'satuan.satuan', name: 'satuan.satuan' },
                 { data: 'harga', name: 'harga' },
-                { data: 'status', name: 'status' },
+                { data: 'aktif', name: 'aktif' },
                 { data: 'action', name: 'action' }
             ]
         });

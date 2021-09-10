@@ -16,13 +16,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-Route::resource('obat', 'ObatController');
-Route::resource('user', 'UserController');
-Route::resource('pasien', 'PasienController');
-Route::resource('poliklinik', 'PoliklinikController');
-Route::get('profile', 'UserController@profile');
-Route::put('profile', 'UserController@profileUpdate')->name('user.profile');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::resource('obat', 'ObatController');
+    Route::resource('user', 'UserController');
+    Route::resource('pasien', 'PasienController');
+    Route::resource('diagnosa', 'DiagnosaController');
+    Route::resource('poliklinik', 'PoliklinikController');
+    Route::get('profile', 'UserController@profile');
+    Route::put('profile', 'UserController@profileUpdate')->name('user.profile');
+});

@@ -1,11 +1,11 @@
 @extends('layouts.app')
-@section('title','Kelola Data Poliklinik')
+@section('title','Kelola Diagnosa')
 @section('content')
 <div class="content-wrapper">
     <section class="content-header">
       <h1>
-        Kelola Data Poliklinik
-        <small>Daftar Poliklinik</small>
+        Kelola Diagnosa
+        <small>Daftar Diagnosa</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -20,7 +20,7 @@
             <div class="box">
         
               <div class="box-body">
-                  <a href="{{route('poliklinik.create')}}" class="btn btn-info btn-social btn-flat"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                  <a href="{{route('diagnosa.create')}}" class="btn btn-info btn-social btn-flat"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
                      Tambah Data</a>
                   <hr>
                 @include('alert')
@@ -29,8 +29,7 @@
                       <tr>
                         <th width="10">Nomor</th>
                         <th>Kode</th>
-                        <th>Nama Poliklinik</th>
-                        <th>Keterangan</th>
+                        <th>Nama Diagnosa</th>
                         <th>Status</th>
                         <th width="60">#</th>
                       </tr>
@@ -52,12 +51,11 @@
         $('#users-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '/poliklinik',
+            ajax: '/diagnosa',
             columns: [
                 {data: 'DT_RowIndex', orderable: false, searchable: false},
-                { data: 'nomor_poli', name: 'nomor_poli' },
+                { data: 'kode', name: 'kode' },
                 { data: 'nama', name: 'nama' },
-                { data: 'keterangan', name: 'keterangan' },
                 { data: 'aktif', name: 'aktif' },
                 { data: 'action', name: 'action' }
             ]

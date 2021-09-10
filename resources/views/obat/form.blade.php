@@ -26,7 +26,7 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">Status</label>
     <div class="col-sm-10">
-        {!! Form::select('status',[1=>'Aktif',0=>'Tidak Aktif'], null, ['class'=>'form-control']) !!}
+        {!! Form::select('aktif',[1=>'Aktif',0=>'Tidak Aktif'], null, ['class'=>'form-control']) !!}
     </div>
 </div>
 <div class="form-group">

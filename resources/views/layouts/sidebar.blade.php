@@ -27,14 +27,18 @@
         <li class="header">MENU UTAMA</li>
         <?php
         $admin = [
-          ['icon'=>'fa fa-user','link'=>'/home','label'=>'DASHBOARD'],
-          ['icon'=>'fa fa-user-circle-o','link'=>'/pasien','label'=>'PASIEN'],
-          ['icon'=>'fa fa-bars','link'=>'/home','label'=>'DATA MASTER','submenu'=>[
-            ['icon'=>'fa fa-cube','link'=>'obat','label'=>'DATA OBAT'],
-            ['icon'=>'fa fa-clone','link'=>'satuan','label'=>'DATA SATUAN'],
-            ['icon'=>'fa fa-building','link'=>'poliklinik','label'=>'DATA POLIKLINIK']
+          ['icon'=>'fa fa-user','link'=>'/home','label'=>'Dashboard'],
+          ['icon'=>'fa fa-user-circle-o','link'=>'/pasien','label'=>'Data Pasien'],
+          ['icon'=>'fa fa-bars','link'=>'/home','label'=>'Data Master','submenu'=>[
+            ['icon'=>'fa fa-cube','link'=>'/obat','label'=>'Data Obat'],
+            ['icon'=>'fa fa-clone','link'=>'/satuan','label'=>'Data Satuan'],
+            ['icon'=>'fa fa-building','link'=>'/poliklinik','label'=>'Data Poliklinik'],
+            ['icon'=>'fa fa-building','link'=>'/diagnosa','label'=>'Data Diagnosa'],
+            ['icon'=>'fa fa-building','link'=>'/gejala','label'=>'Data Gejala'],
+            ['icon'=>'fa fa-building','link'=>'/dokter','label'=>'Data Dokter']
           ]],
-          ['icon'=>'fa fa-user-circle-o','link'=>'/user','label'=>'PENGGUNA APLIKASI']
+          ['icon'=>'fa fa-user-circle-o','link'=>'/user','label'=>'Pengguna Aplikasi'],
+          ['icon'=>'fa fa-gear','link'=>'/setting','label'=>'Setting Aplikasi']
         ];
 
         $menus = ['admin'=>$admin,'dokter'=>[]];
