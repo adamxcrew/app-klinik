@@ -29,7 +29,7 @@ class ObatStoreRequest extends FormRequest
             'harga'     =>  'required|integer',
             'satuan_id' =>  'required',
             'status'    =>  'required',
-            'status'   =>  'required'
+            'status'    =>  'required'
         ];
     }
 }

@@ -23,7 +23,7 @@ class ObatController extends Controller
               $btn = \Form::open(['url' => 'obat/'.$row->id, 'method' => 'DELETE','style'=>'float:right;margin-right:5px']);
               $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
               $btn .= \Form::close();
-              $btn .='<a class="btn btn-danger btn-sm" href="/obat/'.$row->id.'/edit"><i class="fas fa-edit" aria-hidden="true"></i></a>';
+              $btn .='<a class="btn btn-danger btn-sm" href="/obat/'.$row->id.'/edit"><i class="fa-pencil-square-o" aria-hidden="true"></i></a>';
               return $btn;
           })
           ->rawColumns(['action','code'])

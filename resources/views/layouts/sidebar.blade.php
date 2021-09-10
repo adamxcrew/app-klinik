@@ -28,6 +28,7 @@
         <?php
         $menus = [
           ['icon'=>'fa fa-user','link'=>'/home','label'=>'DASHBOARD'],
+          ['icon'=>'fa fa-user-circle-o','link'=>'/pasien','label'=>'PASIEN'],
           ['icon'=>'fa fa-bars','link'=>'/home','label'=>'DATA MASTER','submenu'=>[
             ['icon'=>'fa fa-cube','link'=>'obat','label'=>'DATA OBAT'],
             ['icon'=>'fa fa-clone','link'=>'satuan','label'=>'DATA SATUAN']

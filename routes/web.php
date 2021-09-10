@@ -22,5 +22,6 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('obat', 'ObatController');
 Route::resource('user', 'UserController');
+Route::resource('pasien', 'PasienController');
 Route::get('profile', 'UserController@profile');
 Route::put('profile', 'UserController@profileUpdate')->name('user.profile');
