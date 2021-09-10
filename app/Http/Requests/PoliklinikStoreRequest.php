@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ObatStoreRequest extends FormRequest
+class PoliklinikStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,10 @@ class ObatStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'kode'      =>  'required',
-            'nama_obat' =>  'required',
-            'harga'     =>  'required|integer',
-            'satuan_id' =>  'required',
-            'aktif'     =>  'required'
+            'nomor_poli'    =>  'required',
+            'nama'          =>  'required',
+            'keterangan'    =>  'required',
+            'aktif'         =>  'required'
         ];
     }
 }

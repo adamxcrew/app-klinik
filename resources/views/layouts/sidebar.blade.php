@@ -24,20 +24,23 @@
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">MAIN NAVIGATION</li>
+        <li class="header">MENU UTAMA</li>
         <?php
-        $menus = [
+        $admin = [
           ['icon'=>'fa fa-user','link'=>'/home','label'=>'DASHBOARD'],
           ['icon'=>'fa fa-user-circle-o','link'=>'/pasien','label'=>'PASIEN'],
           ['icon'=>'fa fa-bars','link'=>'/home','label'=>'DATA MASTER','submenu'=>[
             ['icon'=>'fa fa-cube','link'=>'obat','label'=>'DATA OBAT'],
-            ['icon'=>'fa fa-clone','link'=>'satuan','label'=>'DATA SATUAN']
+            ['icon'=>'fa fa-clone','link'=>'satuan','label'=>'DATA SATUAN'],
+            ['icon'=>'fa fa-building','link'=>'poliklinik','label'=>'DATA POLIKLINIK']
           ]],
           ['icon'=>'fa fa-user-circle-o','link'=>'/user','label'=>'PENGGUNA APLIKASI']
         ];
+
+        $menus = ['admin'=>$admin,'dokter'=>[]];
         ?>
 
-        @foreach($menus as $menu)
+        @foreach($menus[Auth::user()->role] as $menu)
           @if(array_key_exists('submenu',$menu))
           <li class="active treeview">
             <a href="#">
