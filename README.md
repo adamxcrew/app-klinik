@@ -1,25 +1,16 @@
-## About Laravel Project Starter
+## Tentang Project
 
-This is a laravel repository project with a package that I often use when developing an application.
+Aplikasi untuk pengelolaan proses klinik
 
-in this project the package is available below :
-
-1. Laravel 7
-2. Laravel Collective
-3. Yajra Datatables
-4. Laravel Excel
-5. Laravel FPDF
-6. Laravel DOM PDF
-7. Laravel Debugbar
-8. Laravel Chart
-9. Guzzle HTTP Client
-10. Laravel UI
-11. Bootstrap 4
-12. Font Awesome 5
-13. Sweet Alert
-## How To Use
+## Cara Install
+1. git clone https://github.com/nurisakbar/app-klinik.git
+2. cd app-klinik
+3. composer install
+4. cp .env-example dan sesuaikan konfigurasi database
+5. php artisan migrate --seed
 
 
-## License
+## Login
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Email : admin@gmail.com 
+password : password
