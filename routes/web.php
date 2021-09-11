@@ -24,6 +24,10 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('pasien', 'PasienController');
     Route::resource('diagnosa', 'DiagnosaController');
     Route::resource('poliklinik', 'PoliklinikController');
+    Route::resource('gejala', 'GejalaController');
+    Route::resource('satuan', 'SatuanController');
     Route::get('profile', 'UserController@profile');
     Route::put('profile', 'UserController@profileUpdate')->name('user.profile');
+    Route::get('setting', 'SettingController@index')->name('setting.index');
+    Route::put('setting', 'SettingController@update')->name('setting.update');
 });
