@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DataTables;
 use App\Models\Pasien;
 use App\Http\Requests\PasienStoreRequest;
+use App\Models\Poliklinik;
 
 class PasienController extends Controller
 {
@@ -43,7 +44,8 @@ class PasienController extends Controller
      */
     public function create()
     {
-        return view('pasien.create');
+        $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
+        return view('pasien.create', $data);
     }
 
     /**

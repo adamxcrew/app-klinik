@@ -1,5 +1,11 @@
 
 <div class="form-group">
+    <label class="col-sm-2 control-label">Nomor Pendaftaran</label>
+    <div class="col-sm-3">
+        <input type="text" value="{{generateKodePendaftaran()}}" class="form-control" readonly>
+    </div>
+</div>
+<div class="form-group">
     <label class="col-sm-2 control-label">Nomor KTP & Nama</label>
     <div class="col-sm-3">
         {!! Form::text('nomor_ktp', null, ['class'=>'form-control','Placeholder'=>'Nomor KTP']) !!}
@@ -33,6 +39,23 @@
     </div>
     <div class="col-sm-4">
         {!! Form::text('alamat', null, ['class'=>'form-control','Placeholder'=>'Alamat']) !!}
+    </div>
+</div>
+<hr>
+<div class="form-group">
+    <label class="col-sm-2 control-label">Tujuan</label>
+    <div class="col-sm-3">
+        {!! Form::select('poliklinik',$poliklinik, null, ['class'=>'form-control']) !!}
+    </div>
+    <div class="col-sm-4">
+        {!! Form::text('alamat', null, ['class'=>'form-control','Placeholder'=>'Alamat']) !!}
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label">Jenis Layanan</label>
+    <div class="col-sm-3">
+        <input type="radio" name="layanan" value="umum"> Umum 
+        <input type="radio" name="layanan" value="pbjs"> PBJS 
     </div>
 </div>
 

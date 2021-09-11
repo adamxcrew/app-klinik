@@ -8,6 +8,8 @@ use DataTables;
 use App\Http\Requests\UserStoreRequest;
 use Illuminate\Support\Facades\Hash;
 use Auth;
+use App\Models\Poliklinik;
+use App\Models\DokterPoliklinik;
 
 class UserController extends Controller
 {
@@ -18,20 +20,23 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        $role = $request->role=='user'?['administrator','admin','kasir']:[$request->role];
         if ($request->ajax()) {
-            return DataTables::of(User::all())
+            return DataTables::of(User::with('poliklinik.poliklinik')->whereIn('role', $role)->get())
             ->addColumn('action', function ($row) {
                 $btn = \Form::open(['url' => 'user/'.$row->id, 'method' => 'DELETE','style'=>'float:right;margin-right:5px']);
                 $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
                 $btn .= \Form::close();
-                $btn .='<a class="btn btn-danger btn-sm" href="/user/'.$row->id.'/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+                $btn .='<a class="btn btn-danger btn-sm" href="/user/'.$row->id.'/edit?jabatan='.$row->role.'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> ';
+                $btn .='<a class="btn btn-danger btn-sm" href="/user/'.$row->id.'"><i class="fa fa-eye" aria-hidden="true"></i></a>';
                 return $btn;
             })
             ->rawColumns(['action','code'])
             ->addIndexColumn()
             ->make(true);
         }
-        return view('user.index');
+        $jabatan = $request->jabatan=='user'?'index':$request->jabatan;
+        return view('user.'.$jabatan);
     }
 
     /**
@@ -41,7 +46,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('user.create');
+        $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
+        return view('user.create', $data);
     }
 
     /**
@@ -52,10 +58,13 @@ class UserController extends Controller
      */
     public function store(UserStoreRequest $request)
     {
-        $data = $request->all();
-        $data['password'] = Hash::make($request->password);
-        User::create($data);
-        return redirect(route('user.index'))->with('message', 'Pengguna Bernama '.$request->name.' Berhasil Ditambahkan');
+        $request['password']   = Hash::make($request->password);
+        $user = User::create($request->all());
+        if ($request->role=='dokter') {
+            DokterPoliklinik::create(['user_id'=>$user->id,'poliklinik_id'=>$request->poliklinik_id]);
+        }
+        $role = in_array($request->role, ['administrator','kasir'])?'user':$request->role;
+        return redirect(route('user.index', ['jabatan'=>$role]))->with('message', 'Pengguna Bernama '.$request->name.' Berhasil Ditambahkan');
     }
 
     /**
@@ -77,6 +86,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
         $data['user'] = User::findOrFail($id);
         return view('user.edit', $data);
     }
@@ -98,7 +108,8 @@ class UserController extends Controller
         }
         $user = User::findOrFail($id);
         $user->update($data);
-        return redirect(route('user.index'))->with('message', 'Pengguna Bernama '.$request->name.' Berhasil Diubah');
+        $role = in_array($request->role, ['administrator','kasir'])?'user':$request->role;
+        return redirect(route('user.index', ['jabatan'=>$role]))->with('message', 'Pengguna Bernama '.$request->name.' Berhasil Diubah');
     }
 
     /**

@@ -28,10 +28,11 @@
                     <thead>
                         <tr>
                             <th width="20px">Nomor</th>
-                            <th>Nama Lengkap</th>
+                            <th>Kode</th>
+                            <th>Nama Dokter</th>
                             <th>Email</th>
-                            <th>Role</th>
-                            <th width="60">Action</th>
+                            <th>Poliklinik</th>
+                            <th width="90">Action</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -40,7 +41,7 @@
                           <th>Nama Lengkap</th>
                           <th>Email</th>
                           <th>Role</th>
-                          <th width="110">Action</th>
+                          <th width="60">Action</th>
                       </tr>
                   </tfoot>
                 </table>
@@ -60,12 +61,13 @@
         $('#users-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '/user?role=user',
+            ajax: '/user?role=dokter',
             columns: [
                 {data: 'DT_RowIndex', orderable: false, searchable: false},
+                { data: 'kode', name: 'kode' },
                 { data: 'name', name: 'name' },
                 { data: 'email', name: 'email' },
-                { data: 'role', name: 'role' },
+                { data: 'poliklinik.poliklinik.nama', name: 'poliklinik.poliklinik.nama' },
                 { data: 'action', name: 'action' }
             ]
         });

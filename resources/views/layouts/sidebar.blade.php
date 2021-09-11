@@ -28,20 +28,25 @@
         <?php
         $admin = [
           ['icon'=>'fa fa-user','link'=>'/home','label'=>'Dashboard'],
-          ['icon'=>'fa fa-user-circle-o','link'=>'/pasien','label'=>'Data Pasien'],
+          ['icon'=>'fa fa-user-circle-o','link'=>'/pasien','label'=>'Pasien Baru'],
           ['icon'=>'fa fa-bars','link'=>'/home','label'=>'Data Master','submenu'=>[
             ['icon'=>'fa fa-cube','link'=>'/obat','label'=>'Data Obat'],
             ['icon'=>'fa fa-clone','link'=>'/satuan','label'=>'Data Satuan'],
             ['icon'=>'fa fa-building','link'=>'/poliklinik','label'=>'Data Poliklinik'],
-            ['icon'=>'fa fa-building','link'=>'/diagnosa','label'=>'Data Diagnosa'],
-            ['icon'=>'fa fa-building','link'=>'/gejala','label'=>'Data Gejala'],
-            ['icon'=>'fa fa-building','link'=>'/dokter','label'=>'Data Dokter']
+            ['icon'=>'fa fa-file-text','link'=>'/diagnosa','label'=>'Data Diagnosa'],
+            ['icon'=>'fa fa-list-ul','link'=>'/gejala','label'=>'Data Gejala'],
+            ['icon'=>'fa fa-user-md','link'=>'/user?jabatan=dokter','label'=>'Data Dokter']
           ]],
-          ['icon'=>'fa fa-user-circle-o','link'=>'/user','label'=>'Pengguna Aplikasi'],
+          ['icon'=>'fa fa-user-circle-o','link'=>'/user?jabatan=user','label'=>'Pengguna Aplikasi'],
           ['icon'=>'fa fa-gear','link'=>'/setting','label'=>'Setting Aplikasi']
         ];
 
-        $menus = ['admin'=>$admin,'dokter'=>[]];
+        $kasir = [
+          ['icon'=>'fa fa-user','link'=>'/home','label'=>'Dashboard'],
+          ['icon'=>'fa fa-user-circle-o','link'=>'/pasien','label'=>'Pembayaran']
+        ];
+
+        $menus = ['admin'=>$admin,'dokter'=>[],'kasir'=>$kasir];
         ?>
 
         @foreach($menus[Auth::user()->role] as $menu)
