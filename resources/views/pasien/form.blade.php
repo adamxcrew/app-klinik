@@ -2,7 +2,7 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">Nomor Pendaftaran</label>
     <div class="col-sm-3">
-        <input type="text" value="{{generateKodePendaftaran()}}" class="form-control" readonly>
+        <input type="text" name="kode" value="{{generateKodePendaftaran()}}" class="form-control" readonly>
     </div>
 </div>
 <div class="form-group">
@@ -45,7 +45,7 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">Tujuan</label>
     <div class="col-sm-3">
-        {!! Form::select('poliklinik',$poliklinik, null, ['class'=>'form-control poliklinik']) !!}
+        {!! Form::select('poliklinik_id',$poliklinik, null, ['class'=>'form-control poliklinik']) !!}
     </div>
     <div class="col-sm-4">
         <div id="dokter"></div>
@@ -54,8 +54,8 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">Jenis Layanan</label>
     <div class="col-sm-3">
-        <input type="radio" name="layanan" value="umum"> Umum 
-        <input type="radio" name="layanan" value="pbjs"> PBJS 
+        <input type="radio" name="jenis_layanan" value="umum"> Umum 
+        <input type="radio" name="jenis_layanan" value="pbjs"> PBJS 
     </div>
 </div>
 

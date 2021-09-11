@@ -7,6 +7,7 @@ use DataTables;
 use App\Models\Pasien;
 use App\Http\Requests\PasienStoreRequest;
 use App\Models\Poliklinik;
+use App\Models\Pendaftaran;
 
 class PasienController extends Controller
 {
@@ -20,19 +21,19 @@ class PasienController extends Controller
         if ($request->ajax()) {
             return DataTables::of(Pasien::all())
             ->addColumn('tempat_tanggal_lahir', function ($row) {
-                return $row->tempat_lahir.', '.$row->tanggal_lahir;
+                return $row->tempat_lahir . ', ' . $row->tanggal_lahir;
             })
             ->addColumn('action', function ($row) {
-                $btn = \Form::open(['url' => 'pasien/'.$row->id, 'method' => 'DELETE','style'=>'float:right;margin-right:5px']);
+                $btn = \Form::open(['url' => 'pasien/' . $row->id, 'method' => 'DELETE','style' => 'float:right;margin-right:5px']);
                 $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
                 $btn .= \Form::close();
-                $btn .='<a class="btn btn-danger btn-sm" href="/pasien/'.$row->id.'/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> ';
-                $btn .='<a class="btn btn-danger btn-sm" href="/pasien/'.$row->id.'"><i class="fa fa-eye" aria-hidden="true"></i></a>';
+                $btn .= '<a class="btn btn-danger btn-sm" href="/pasien/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> ';
+                $btn .= '<a class="btn btn-danger btn-sm" href="/pasien/' . $row->id . '"><i class="fa fa-eye" aria-hidden="true"></i></a>';
                 return $btn;
             })
-          ->rawColumns(['action','code'])
-          ->addIndexColumn()
-          ->make(true);
+            ->rawColumns(['action','code'])
+            ->addIndexColumn()
+            ->make(true);
         }
         return view('pasien.index');
     }
@@ -56,7 +57,10 @@ class PasienController extends Controller
      */
     public function store(PasienStoreRequest $request)
     {
-        Pasien::create($request->all());
+        $data               =   $request->all();
+        $pasien             =   Pasien::create($data);
+        $data['pasien_id']  =   $pasien->id;
+        $pendaftaran        =   Pendaftaran::create($data);
         return redirect(route('pasien.index'));
     }
 

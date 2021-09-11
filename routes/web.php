@@ -18,7 +18,7 @@ Route::get('/', function () {
 });
 
 Route::get('test', function () {
-    dd(generateUniqNumber('pendaftaran', 'kode', 'INV'));
+    dd(generateKodePendaftaran());
 });
 Auth::routes();
 Route::middleware(['auth'])->group(function () {

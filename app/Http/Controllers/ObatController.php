@@ -19,19 +19,19 @@ class ObatController extends Controller
     {
         if ($request->ajax()) {
             return DataTables::of(Obat::with('satuan')->get())
-          ->addColumn('action', function ($row) {
-              $btn = \Form::open(['url' => 'obat/'.$row->id, 'method' => 'DELETE','style'=>'float:right;margin-right:5px']);
-              $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
-              $btn .= \Form::close();
-              $btn .='<a class="btn btn-danger btn-sm" href="/obat/'.$row->id.'/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
-              return $btn;
-          })
-          ->addColumn('aktif', function ($row) {
-              return $row->aktif==1?'Aktif':'Tidak Aktif';
-          })
-          ->rawColumns(['action','code'])
-          ->addIndexColumn()
-          ->make(true);
+            ->addColumn('action', function ($row) {
+                $btn = \Form::open(['url' => 'obat/' . $row->id, 'method' => 'DELETE','style' => 'float:right;margin-right:5px']);
+                $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
+                $btn .= \Form::close();
+                $btn .= '<a class="btn btn-danger btn-sm" href="/obat/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+                return $btn;
+            })
+            ->addColumn('aktif', function ($row) {
+                return $row->aktif == 1 ? 'Aktif' : 'Tidak Aktif';
+            })
+            ->rawColumns(['action','code'])
+            ->addIndexColumn()
+            ->make(true);
         }
         return view('obat.index');
     }

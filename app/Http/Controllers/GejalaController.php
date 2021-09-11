@@ -19,14 +19,14 @@ class GejalaController extends Controller
         if ($request->ajax()) {
             return DataTables::of(Gejala::all())
             ->addColumn('action', function ($row) {
-                $btn = \Form::open(['url' => 'gejala/'.$row->id, 'method' => 'DELETE','style'=>'float:right;margin-right:5px']);
+                $btn = \Form::open(['url' => 'gejala/' . $row->id, 'method' => 'DELETE','style' => 'float:right;margin-right:5px']);
                 $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
                 $btn .= \Form::close();
-                $btn .='<a class="btn btn-danger btn-sm" href="/gejala/'.$row->id.'/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+                $btn .= '<a class="btn btn-danger btn-sm" href="/gejala/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
                 return $btn;
             })
             ->addColumn('aktif', function ($row) {
-                return $row->aktif==1?'Aktif':'Tidak Aktif';
+                return $row->aktif == 1 ? 'Aktif' : 'Tidak Aktif';
             })
             ->rawColumns(['action','code'])
             ->addIndexColumn()
