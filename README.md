@@ -14,3 +14,8 @@ Aplikasi untuk pengelolaan proses klinik
 
 Email : admin@gmail.com 
 password : password
+
+
+## Informasi penting :
+Referensi app klinik : https://github.com/nurisakbar/klinik_l8<br>
+Rererensi app akutansi : https://github.com/nurisakbar/laransi
