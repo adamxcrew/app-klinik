@@ -122,7 +122,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
-        return redirect(route('user.index'))->with('message', 'Pengguna Bernama '.$user->name.' Berhasil Dihapus');
+        return redirect(route('user.index', ['jabatan'=>$user->role]))->with('message', 'Pengguna Bernama '.$user->name.' Berhasil Dihapus');
     }
 
 

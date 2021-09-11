@@ -45,10 +45,10 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">Tujuan</label>
     <div class="col-sm-3">
-        {!! Form::select('poliklinik',$poliklinik, null, ['class'=>'form-control']) !!}
+        {!! Form::select('poliklinik',$poliklinik, null, ['class'=>'form-control poliklinik']) !!}
     </div>
     <div class="col-sm-4">
-        {!! Form::text('alamat', null, ['class'=>'form-control','Placeholder'=>'Alamat']) !!}
+        <div id="dokter"></div>
     </div>
 </div>
 <div class="form-group">
@@ -65,3 +65,24 @@
         <a href="/pasien" class="btn btn-danger btn btn-sm"><i class="fa fa-share-square-o" aria-hidden="true"></i> Kembali</a>
     </div>
 </div>
+
+
+@push('scripts')
+<script>
+$( document ).ready(function() {
+
+    $('.poliklinik').bind('change', function () {
+        var poliklinik = $(".poliklinik").val();
+        $.ajax({
+            url: "/ajax/dropdown-dokter-berdasarkan-poliklinik",
+            type: "get",
+            data: {poliklinik:poliklinik},
+            success: function(response) {
+                $("#dokter").html(response);
+        }});
+    });
+
+    $('.poliklinik').trigger('change');
+});
+</script>
+@endpush

@@ -34,4 +34,5 @@ Route::middleware(['auth'])->group(function () {
     Route::put('profile', 'UserController@profileUpdate')->name('user.profile');
     Route::get('setting', 'SettingController@index')->name('setting.index');
     Route::put('setting', 'SettingController@update')->name('setting.update');
+    Route::get('ajax/dropdown-dokter-berdasarkan-poliklinik', 'AjaxController@dropdownDokterBerdasarkanPoliklinik');
 });

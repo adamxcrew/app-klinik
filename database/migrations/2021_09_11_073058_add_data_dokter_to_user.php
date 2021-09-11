@@ -16,6 +16,7 @@ class AddDataDokterToUser extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('kode')->nullable();
             $table->string('spesialis')->nullable();
+            $table->string('nomor_hp', 13)->nullable();
         });
     }
 
