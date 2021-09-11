@@ -102,7 +102,7 @@ class TindakanController extends Controller
      */
     public function destroy($id)
     {
-        $tindakan = tindakan::findOrFail($id);
+        $tindakan = Tindakan::findOrFail($id);
         $tindakan->delete();
         return redirect(route('tindakan.index'))->with('message', 'Data tindakan Berhasil Dihapus');
     }
