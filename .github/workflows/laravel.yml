@@ -33,4 +33,5 @@ jobs:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
       run: vendor/bin/phpunit
+    - name: check codestyle
       run: vendor/bin/phpcs
