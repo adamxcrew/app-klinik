@@ -15,11 +15,15 @@ class SettingController extends Controller
 
     public function update(Request $request)
     {
+        $input = $request->all();
         if ($request->hasFile('logo')) {
+            $file = $request->file('logo');
+            $fileName = str_replace(" ", "", $file->getClientOriginalName());
+            $file->move("image", $fileName);
+            $input['logo'] = $fileName;
         }
-
         $setting = Setting::first();
-        $setting->update($request->all());
+        $setting->update($input);
         return redirect(route('setting.index'))->with('message', 'Update Berhasil');
     }
 }
