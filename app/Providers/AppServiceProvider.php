@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $setting = Setting::first();
-        View::share('setting', $setting);
+        // $setting = Setting::first();
+        // View::share('setting', $setting);
     }
 }
