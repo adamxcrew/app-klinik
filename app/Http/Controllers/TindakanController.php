@@ -51,10 +51,10 @@ class TindakanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(tindakanStoreRequest $request)
+    public function store(TindakanStoreRequest $request)
     {
-        tindakan::create($request->all());
-        return redirect(route('tindakan.index'));
+        Tindakan::create($request->all());
+        return redirect(route('tindakan.index'))->with('message', 'Data Tindakan Berhasil Disimpan');
     }
 
     /**
@@ -76,7 +76,7 @@ class TindakanController extends Controller
      */
     public function edit($id)
     {
-        $data['tindakan'] = tindakan::findOrFail($id);
+        $data['tindakan'] = Tindakan::findOrFail($id);
         return view('tindakan.edit', $data);
     }
 
@@ -89,7 +89,7 @@ class TindakanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $tindakan = tindakan::findOrFail($id);
+        $tindakan = Tindakan::findOrFail($id);
         $tindakan->update($request->all());
         return redirect(route('tindakan.index'))->with('message', 'Data tindakan Berhasil Di Update');
     }

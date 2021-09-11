@@ -30,6 +30,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('poliklinik', 'PoliklinikController');
     Route::resource('gejala', 'GejalaController');
     Route::resource('satuan', 'SatuanController');
+    Route::resource('tindakan', 'TindakanController');
     Route::get('profile', 'UserController@profile');
     Route::put('profile', 'UserController@profileUpdate')->name('user.profile');
     Route::get('setting', 'SettingController@index')->name('setting.index');

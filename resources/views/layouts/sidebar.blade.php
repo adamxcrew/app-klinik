@@ -35,6 +35,7 @@
             ['icon'=>'fa fa-building','link'=>'/poliklinik','label'=>'Data Poliklinik'],
             ['icon'=>'fa fa-file-text','link'=>'/diagnosa','label'=>'Data Diagnosa'],
             ['icon'=>'fa fa-list-ul','link'=>'/gejala','label'=>'Data Gejala'],
+            ['icon'=>'fa fa-list-ul','link'=>'/tindakan','label'=>'Data Tindakan'],
             ['icon'=>'fa fa-user-md','link'=>'/user?jabatan=dokter','label'=>'Data Dokter']
           ]],
           ['icon'=>'fa fa-user-circle-o','link'=>'/user?jabatan=user','label'=>'Pengguna Aplikasi'],
