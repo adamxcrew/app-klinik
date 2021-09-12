@@ -15,9 +15,9 @@ Aplikasi untuk pengelolaan proses klinik
 
 ## Login
 
-Email : admin@gmail.com 
-password : password
-
+Email : admin@gmail.com <br>
+password : password<br>
+Server Testing : http://klinik.nurisakbar.com
 
 ## Informasi penting :
 Referensi app klinik : https://github.com/nurisakbar/klinik_l8<br>
