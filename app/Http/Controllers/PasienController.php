@@ -114,4 +114,9 @@ class PasienController extends Controller
         $pasien->delete();
         return redirect(route('pasien.index'))->with('message', 'Data Berhasil Dihapus');
     }
+
+    public function pasienDiagnosa()
+    {
+        return view('pasien.diagnosa');
+    }
 }

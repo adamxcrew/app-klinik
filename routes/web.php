@@ -18,6 +18,8 @@ Route::get('/', function () {
 });
 Auth::routes();
 Route::middleware(['auth'])->group(function () {
+    Route::get('pasien/diagnosa', 'PasienController@pasienDiagnosa')->name('pasien.diagnosa');
+
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('obat', 'ObatController');
     Route::resource('user', 'UserController');
