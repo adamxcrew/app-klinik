@@ -16,5 +16,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PoliklinikSeeder::class);
         $this->call(DokterSeeder::class);
         $this->call(WilayahIndonesiaSeeder::class);
+        $this->call(SatuanSeeder::class);
     }
 }
