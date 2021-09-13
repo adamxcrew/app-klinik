@@ -40,12 +40,12 @@
 
     <div class="col-sm-10">
         {{-- {!! Form::hidden('role', $_GET['jabatan']) !!} --}}
-        {!! Form::select('role',['administrator'=>'Administrator','dokter'=>'Dokter','kasir'=>'Kasir'], $_GET['jabatan'], ['class'=>'form-control']) !!}
+        {!! Form::select('role',['administrator'=>'Administrator','dokter'=>'Dokter','kasir'=>'Kasir', 'keuangan' => 'Keuangan'], $_GET['jabatan'], ['class'=>'form-control']) !!}
     </div>
 </div>
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
         <button type="submit" class="btn btn-danger btn btn-sm"><i class="fa fa-floppy-o" aria-hidden="true"></i> Simpan</button>
-        <a href="/user" class="btn btn-danger btn btn-sm"><i class="fa fa-share-square-o" aria-hidden="true"></i> Kembali</a>
+        <a href="/user?jabatan={{$_GET['jabatan']}}" class="btn btn-danger btn btn-sm"><i class="fa fa-share-square-o" aria-hidden="true"></i> Kembali</a>
     </div>
 </div>

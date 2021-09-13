@@ -8,7 +8,7 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">Nomor KTP & Nama</label>
     <div class="col-sm-3">
-        {!! Form::text('nomor_ktp', null, ['class'=>'form-control','Placeholder'=>'Nomor KTP']) !!}
+        {!! Form::text('nomor_ktp', null, ['class'=>'form-control ktp','Placeholder'=>'Nomor KTP']) !!}
     </div>
     <div class="col-sm-4">
         {!! Form::text('nama', null, ['class'=>'form-control','Placeholder'=>'Nama Pasien']) !!}
@@ -20,7 +20,7 @@
         {!! Form::text('tempat_lahir', null, ['class'=>'form-control','Placeholder'=>'Tempat Lahir']) !!}
     </div>
     <div class="col-sm-2">
-        {!! Form::date('tanggal_lahir', null, ['class'=>'form-control','Placeholder'=>'Tanggal Lahir']) !!}
+        {!! Form::date('tanggal_lahir', null, ['class'=>'form-control tanggal_lahir','Placeholder'=>'Tanggal Lahir']) !!}
     </div>
 </div>
 <div class="form-group">
@@ -70,6 +70,19 @@
 @push('scripts')
 <script>
 $( document ).ready(function() {
+
+    $(".ktp").keyup(function() {
+        var ktp = $(".ktp").val();
+        if(ktp.length>=16)
+        {
+            var tanggal_lahir = ktp.substr(6, 2);
+            var bulan_lahir   = ktp.substr(8, 2);
+            var tahun_lahir   = '19' + ktp.substr(10, 2);
+            $(".tanggal_lahir").val(tahun_lahir+'-'+bulan_lahir+'-'+tanggal_lahir);
+        }
+        
+    });
+    
 
     $('.poliklinik').bind('change', function () {
         var poliklinik = $(".poliklinik").val();

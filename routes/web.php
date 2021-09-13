@@ -14,11 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('test', function () {
-    dd(generateKodePendaftaran());
+    return redirect('login');
 });
 Auth::routes();
 Route::middleware(['auth'])->group(function () {
@@ -31,6 +27,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('gejala', 'GejalaController');
     Route::resource('satuan', 'SatuanController');
     Route::resource('tindakan', 'TindakanController');
+    Route::resource('akun', 'AkunController');
+    Route::resource('jurnal', 'JurnalController');
     Route::get('profile', 'UserController@profile');
     Route::put('profile', 'UserController@profileUpdate')->name('user.profile');
     Route::get('setting', 'SettingController@index')->name('setting.index');

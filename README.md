@@ -7,14 +7,17 @@ Aplikasi untuk pengelolaan proses klinik
 2. cd app-klinik
 3. composer install
 4. cp .env-example dan sesuaikan konfigurasi database
-5. php artisan migrate --seed
+5. lakukan comment pada script 28 - 29 pada App\Providers\AppServiceProvider.php
+6. php artisan migrate --seed
+7. uncomment pada script 28 - 29 pada App\Providers\AppServiceProvider.php
+8. php artisan serve
 
 
 ## Login
 
-Email : admin@gmail.com 
-password : password
-
+Email : admin@gmail.com <br>
+password : password<br>
+Server Testing : http://klinik.nurisakbar.com
 
 ## Informasi penting :
 Referensi app klinik : https://github.com/nurisakbar/klinik_l8<br>
