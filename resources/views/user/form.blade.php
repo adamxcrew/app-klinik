@@ -40,7 +40,7 @@
 
     <div class="col-sm-10">
         {{-- {!! Form::hidden('role', $_GET['jabatan']) !!} --}}
-        {!! Form::select('role',['administrator'=>'Administrator','dokter'=>'Dokter','kasir'=>'Kasir', 'keuangan' => 'Keuangan'], $_GET['jabatan'], ['class'=>'form-control']) !!}
+        {!! Form::select('role',['administrator'=>'Administrator','dokter'=>'Dokter','kasir'=>'Kasir', 'keuangan' => 'Keuangan', 'hrd' => 'HRD'], $_GET['jabatan'], ['class'=>'form-control']) !!}
     </div>
 </div>
 <div class="form-group">
