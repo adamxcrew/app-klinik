@@ -38,7 +38,6 @@
           ['icon' => 'fa fa-user-md', 'link' => '/user?jabatan=dokter', 'label' => 'Data Dokter']
         ]],
         ['icon' => 'fa fa-user-circle-o', 'link' => '/user?jabatan=user', 'label' => 'Pengguna Aplikasi'],
-        ['icon' => 'fa fa-user', 'link' => '/akun', 'label' => 'Akun'],
         ['icon' => 'fa fa-gear', 'link' => '/setting', 'label' => 'Setting Aplikasi']
       ];
 
@@ -47,7 +46,16 @@
         ['icon' => 'fa fa-user-circle-o', 'link' => '/pasien', 'label' => 'Pembayaran']
       ];
 
-      $menus = ['admin' => $admin, 'dokter' => [], 'kasir' => $kasir];
+      $keuangan = [
+        ['icon' => 'fa fa-user', 'link' => '/home', 'label' => 'Dashboard'],
+        ['icon' => 'fa fa-user', 'link' => '/akun', 'label' => 'Akun'],
+        ['icon' => 'fa fa-user', 'link' => '/jurnal', 'label' => 'Jurnal Umum'],
+        ['icon' => 'fa fa-user', 'link' => '/akun', 'label' => 'Buku Besar'],
+        ['icon' => 'fa fa-user', 'link' => '/akun', 'label' => 'Neraca Saldo'],
+        ['icon' => 'fa fa-user', 'link' => '/akun', 'label' => 'Laporan'],
+      ];
+
+      $menus = ['admin' => $admin, 'dokter' => [], 'kasir' => $kasir, 'keuangan' => $keuangan];
       ?>
 
       @foreach($menus[Auth::user()->role] as $menu)

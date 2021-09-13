@@ -27,6 +27,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('gejala', 'GejalaController');
     Route::resource('satuan', 'SatuanController');
     Route::resource('akun', 'AkunController');
+    Route::resource('jurnal', 'JurnalController');
     Route::get('profile', 'UserController@profile');
     Route::put('profile', 'UserController@profileUpdate')->name('user.profile');
     Route::get('setting', 'SettingController@index')->name('setting.index');
