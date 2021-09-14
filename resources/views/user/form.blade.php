@@ -39,8 +39,7 @@
     <label for="inputName" class="col-sm-2 control-label">Jabatan</label>
 
     <div class="col-sm-10">
-        {{-- {!! Form::hidden('role', $_GET['jabatan']) !!} --}}
-        {!! Form::select('role',['administrator'=>'Administrator','dokter'=>'Dokter','kasir'=>'Kasir', 'keuangan' => 'Keuangan', 'hrd' => 'HRD'], $_GET['jabatan'], ['class'=>'form-control']) !!}
+        {!! Form::select('role',$user_role, $_GET['jabatan'], ['class'=>'form-control']) !!}
     </div>
 </div>
 <div class="form-group">
