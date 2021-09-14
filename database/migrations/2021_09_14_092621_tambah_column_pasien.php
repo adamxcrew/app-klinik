@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePegawaisTable extends Migration
+class TambahColumnPasien extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class CreatePegawaisTable extends Migration
      */
     public function up()
     {
-        Schema::create('pegawai', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama');
+        Schema::table('pasien', function (Blueprint $table) {
+            $table->string('nomor_rekam_medis');
         });
     }
 
@@ -26,6 +25,8 @@ class CreatePegawaisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pegawais');
+        Schema::table('pasien', function (Blueprint $table) {
+            //
+        });
     }
 }

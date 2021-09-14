@@ -24,14 +24,14 @@ class PasienStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'nomor_ktp'         =>  'required',
+            'nomor_ktp'         =>  'required|integer|min:16',
             'nama'              =>  'required',
-            'nomor_hp'          =>  'required|integer',
+            'nomor_hp'          =>  'required',
             'alamat'            =>  'required',
             'rt_rw'             =>  'required',
             'pekerjaan'         =>  'required',
-            'nomor_hp'          =>  'required',
-            'pekerjaan'         =>  'required'
+            'pendidikan'        =>  'required',
+            'nama_ibu'          =>  'required',
         ];
     }
 }
