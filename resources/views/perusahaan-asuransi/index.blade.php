@@ -1,11 +1,11 @@
 @extends('layouts.app')
-@section('title','Kelola Data Akun')
+@section('title','Kelola Data Asuransi')
 @section('content')
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
-      Kelola Data Pegawai
-      <small>Daftar Pegawai</small>
+      Kelola Data Perusahaan Asuransi
+      <small>Daftar Perusahaan Asuransi</small>
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -20,21 +20,23 @@
         <div class="box">
 
           <div class="box-body">
-            <a href="{{route('pegawai.create')}}" class="btn btn-info btn-social btn-flat"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
+            <a href="{{route('asuransi.create')}}" class="btn btn-info btn-social btn-flat"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
               Tambah Data</a>
             <hr>
             @include('alert')
-            <table class="table table-bordered table-striped" id="pegawai-table">
+            <table class="table table-bordered table-striped" id="asuransi-table">
               <thead>
                 <tr>
                   <th width="10">Nomor</th>
                   <th>Nama</th>
-                  <th>Tempat Lahir</th>
-                  <th>Tanggal Lahir</th>
-                  <th>Kelompok Pegawai</th>
-                  <th>Agama</th>
-                  <th>Jenis Kelamin</th>
                   <th>Alamat</th>
+                  <th>No Telp</th>
+                  <th>Contact Person</th>
+                  <th>No Telp CP</th>
+                  <th>Mulai Kontrak</th>
+                  <th>Akhir Kontrak</th>
+                  <th>Kelompok Perusahaan</th>
+                  <th>Kelompok</th>
                   <th width="60">#</th>
                 </tr>
               </thead>
@@ -53,10 +55,10 @@
 <script src="{{asset('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 <script>
   $(function() {
-    $('#pegawai-table').DataTable({
+    $('#asuransi-table').DataTable({
       processing: true,
       serverSide: true,
-      ajax: '/pegawai',
+      ajax: '/asuransi',
       columns: [{
           data: 'DT_RowIndex',
           orderable: false,
@@ -67,28 +69,36 @@
           name: 'nama'
         },
         {
-          data: 'nip',
-          name: 'nip'
-        },
-        {
-          data: 'tempat_lahir',
-          name: 'tempat_lahir'
-        },
-        {
-          data: 'kelompok_pegawai',
-          name: 'kelompok_pegawai'
-        },
-        {
-          data: 'agama',
-          name: 'agama'
-        },
-        {
-          data: 'jenis_kelamin',
-          name: 'jenis_kelamin'
-        },
-        {
           data: 'alamat',
           name: 'alamat'
+        },
+        {
+          data: 'no_telp',
+          name: 'no_telp'
+        },
+        {
+          data: 'contact_person',
+          name: 'contact_person'
+        },
+        {
+          data: 'no_telp_cp',
+          name: 'no_telp_cp'
+        },
+        {
+          data: 'mulai_kontrak',
+          name: 'mulai_kontrak'
+        },
+        {
+          data: 'akhir_kontrak',
+          name: 'akhir_kontrak'
+        },
+        {
+          data: 'kelompok_perusahaan',
+          name: 'kelompok_perusahaan'
+        },
+        {
+          data: 'kelompok',
+          name: 'kelompok'
         },
         {
           data: 'action',

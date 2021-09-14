@@ -22,3 +22,14 @@ function generateKodePendaftaran()
         return 'PD-' . date('Ymd') . sprintf("%04s", $noUrut);
     }
 }
+
+function generateKodeRekamMedis()
+{
+    $latestValue = \DB::table('pasien')->max('nomor_rekam_medis');
+    if ($latestValue == null) {
+        return 'NMC-00000001';
+    } else {
+        $noUrut = (int) substr($latestValue, 4, 8) + 1;
+        return 'NMC-' . sprintf("%08s", $noUrut);
+    }
+}

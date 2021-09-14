@@ -1,11 +1,11 @@
 @extends('layouts.app')
-@section('title','Tambah Pegawai')
+@section('title','Edit Perusahaan Asuransi')
 @section('content')
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
-      Kelola Pegawai
-      <small>Tambah Pegawai</small>
+      Kelola Perusahaan Asuransi
+      <small>Edit Perusahaan Asuransi</small>
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -18,9 +18,9 @@
       <div class="col-xs-12">
         <div class="box">
           <div class="box-body">
-            {!! Form::open(['route'=>'pegawai.store','class'=>'form-horizontal']) !!}
+            {!! Form::model($asuransi,['route'=>['asuransi.update',$asuransi->id],'method'=>'PUT','class'=>'form-horizontal']) !!}
             @include('validation_error')
-            @include('pegawai.form')
+            @include('perusahaan-asuransi.form')
             {!! Form::close() !!}
           </div>
         </div>

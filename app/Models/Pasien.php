@@ -13,10 +13,15 @@ class Pasien extends Model
         'nama',
         'tempat_lahir',
         'tanggal_lahir',
-        'tanggal_lahir',
         'nomor_hp',
         'pekerjaan',
         'alamat',
-        'rt_rw'
+        'rt_rw',
+        'jenis_kelamin',
+        'pendidikan',
+        'agama',
+        'status_pernikahan',
+        'nama_ibu',
+        'nomor_rekam_medis'
     ];
 }
