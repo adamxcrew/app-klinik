@@ -30,6 +30,7 @@
       $admin = [
         ['icon' => 'fa fa-user', 'link' => '/home', 'label' => 'Dashboard'],
         ['icon' => 'fa fa-user-circle-o', 'link' => '/pasien', 'label' => 'Data Pasien'],
+        ['icon' => 'fa fa-address-card', 'link' => '/pasien-antri', 'label' => 'Data Pasien Antri'],
         ['icon' => 'fa fa-bars', 'link' => '/home', 'label' => 'Data Master', 'submenu' => [
           ['icon' => 'fa fa-cube', 'link' => '/obat', 'label' => 'Data Obat'],
           ['icon' => 'fa fa-clone', 'link' => '/satuan', 'label' => 'Data Satuan'],
