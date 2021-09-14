@@ -22,7 +22,7 @@
               <div class="box-body">
                   <a href="{{route('pasien.create')}}" class="btn btn-info btn-social btn-flat">
                     <i class="fa fa-plus-square-o" aria-hidden="true"></i>Pendaftaran Pasien Baru</a>
-                  <a href="{{route('pasien.create')}}" class="btn btn-success btn-social btn-flat">
+                  <a href="{{route('pasien.terdaftar')}}" class="btn btn-success btn-social btn-flat">
                       <i class="fa fa-plus-square-o" aria-hidden="true"></i>Pendaftaran Pasien Lama</a>
                   <hr>
                 @include('alert')

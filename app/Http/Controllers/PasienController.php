@@ -192,4 +192,23 @@ class PasienController extends Controller
         $pdf = PDF::loadView('pasien.cetak');
         return $pdf->stream();
     }
+
+    public function pasienTerdaftar()
+    {
+        $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
+        $data['pasien'] = Pasien::pluck('nama', 'id');
+        return view('pasien.pasien-terdaftar', $data);
+    }
+
+    public function detailPasien(Request $request)
+    {
+        $data = Pasien::where('id', $request->id)->first();
+        return $data;
+    }
+
+    public function pasienInsert(Request $request)
+    {
+        Pendaftaran::create($request->all());
+        return redirect('/pasien');
+    }
 }
