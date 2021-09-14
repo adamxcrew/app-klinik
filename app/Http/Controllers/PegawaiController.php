@@ -10,6 +10,13 @@ use App\Models\Agama;
 
 class PegawaiController extends Controller
 {
+    protected $kelompokPegawai;
+
+
+    public function __construct()
+    {
+        $this->kelompokPegawai = config('datareferensi.kelompok_pegawai');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -40,24 +47,8 @@ class PegawaiController extends Controller
      */
     public function create()
     {
-        $data['kelompok_pegawai'] = [
-            'dokter' => 'Dokter',
-            'perawat' => 'Perawat',
-            'administrasi' => 'Administrasi',
-            'penunjang_medis' => 'Penunjang Medis',
-            'security' => 'Security',
-            'non_medis' => 'Non Medis',
-            'bidan' => 'Bidan',
-            'dokter_radioterapi' => 'Dokter Radioterapi',
-            'farmasi' => 'Farmasi',
-            'dokter_luar' => 'Dokter Luar',
-            'terapis' => 'Terapis',
-            'supir' => 'Supir',
-            'radiografer' => 'Radiografer',
-            'direkur' => 'Direkur',
-            'keuangan' => 'Keuangan',
-        ];
-        $data['agama'] = Agama::pluck('agama', 'id');
+        $data['kelompok_pegawai']   = $this->kelompokPegawai;
+        $data['agama']              = Agama::pluck('agama', 'id');
         return view('pegawai.create', $data);
     }
 
@@ -93,25 +84,9 @@ class PegawaiController extends Controller
      */
     public function edit($id)
     {
-        $data['kelompok_pegawai'] = [
-            'dokter' => 'Dokter',
-            'perawat' => 'Perawat',
-            'administrasi' => 'Administrasi',
-            'penunjang_medis' => 'Penunjang Medis',
-            'security' => 'Security',
-            'non_medis' => 'Non Medis',
-            'bidan' => 'Bidan',
-            'dokter_radioterapi' => 'Dokter Radioterapi',
-            'farmasi' => 'Farmasi',
-            'dokter_luar' => 'Dokter Luar',
-            'terapis' => 'Terapis',
-            'supir' => 'Supir',
-            'radiografer' => 'Radiografer',
-            'direkur' => 'Direkur',
-            'keuangan' => 'Keuangan',
-        ];
-        $data['agama'] = Agama::pluck('agama', 'id');
-        $data['pegawai'] = Pegawai::findOrFail($id);
+        $data['kelompok_pegawai']   = $this->kelompokPegawai;
+        $data['agama']              = Agama::pluck('agama', 'id');
+        $data['pegawai']            = Pegawai::findOrFail($id);
         return view('pegawai.edit', $data);
     }
 
