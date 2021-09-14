@@ -28,9 +28,13 @@
               <thead>
                 <tr>
                   <th width="10">Nomor</th>
-                  <th>Kode</th>
                   <th>Nama</th>
-                  <th>Gaji Pokok</th>
+                  <th>Tempat Lahir</th>
+                  <th>Tanggal Lahir</th>
+                  <th>Kelompok Pegawai</th>
+                  <th>Agama</th>
+                  <th>Jenis Kelamin</th>
+                  <th>Alamat</th>
                   <th width="60">#</th>
                 </tr>
               </thead>
@@ -59,16 +63,32 @@
           searchable: false
         },
         {
-          data: 'kode',
-          name: 'kode'
-        },
-        {
           data: 'nama',
           name: 'nama'
         },
         {
-          data: 'gaji_pokok',
-          name: 'gaji_pokok'
+          data: 'nip',
+          name: 'nip'
+        },
+        {
+          data: 'tempat_lahir',
+          name: 'tempat_lahir'
+        },
+        {
+          data: 'kelompok_pegawai',
+          name: 'kelompok_pegawai'
+        },
+        {
+          data: 'agama.agama',
+          name: 'agama.agama'
+        },
+        {
+          data: 'jenis_kelamin',
+          name: 'jenis_kelamin'
+        },
+        {
+          data: 'alamat',
+          name: 'alamat'
         },
         {
           data: 'action',

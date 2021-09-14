@@ -15,10 +15,7 @@ class CreatePegawaisTable extends Migration
     {
         Schema::create('pegawai', function (Blueprint $table) {
             $table->id();
-            $table->string('kode');
             $table->string('nama');
-            $table->integer('gaji_pokok');
-            $table->timestamps();
         });
     }
 

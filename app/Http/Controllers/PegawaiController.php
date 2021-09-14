@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DataTables;
 use App\Models\Pegawai;
 use App\Http\Requests\PegawaiStoreRequest;
+use App\Models\Agama;
 
 class PegawaiController extends Controller
 {
@@ -17,7 +18,7 @@ class PegawaiController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(Pegawai::all())
+            return DataTables::of(Pegawai::with('agama')->get())
                 ->addColumn('action', function ($row) {
                     $btn = \Form::open(['url' => 'pegawai/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
                     $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
@@ -39,7 +40,25 @@ class PegawaiController extends Controller
      */
     public function create()
     {
-        return view('pegawai.create');
+        $data['kelompok_pegawai'] = [
+            'dokter' => 'Dokter',
+            'perawat' => 'Perawat',
+            'administrasi' => 'Administrasi',
+            'penunjang_medis' => 'Penunjang Medis',
+            'security' => 'Security',
+            'non_medis' => 'Non Medis',
+            'bidan' => 'Bidan',
+            'dokter_radioterapi' => 'Dokter Radioterapi',
+            'farmasi' => 'Farmasi',
+            'dokter_luar' => 'Dokter Luar',
+            'terapis' => 'Terapis',
+            'supir' => 'Supir',
+            'radiografer' => 'Radiografer',
+            'direkur' => 'Direkur',
+            'keuangan' => 'Keuangan',
+        ];
+        $data['agama'] = Agama::pluck('agama', 'id');
+        return view('pegawai.create', $data);
     }
 
     /**
@@ -74,6 +93,24 @@ class PegawaiController extends Controller
      */
     public function edit($id)
     {
+        $data['kelompok_pegawai'] = [
+            'dokter' => 'Dokter',
+            'perawat' => 'Perawat',
+            'administrasi' => 'Administrasi',
+            'penunjang_medis' => 'Penunjang Medis',
+            'security' => 'Security',
+            'non_medis' => 'Non Medis',
+            'bidan' => 'Bidan',
+            'dokter_radioterapi' => 'Dokter Radioterapi',
+            'farmasi' => 'Farmasi',
+            'dokter_luar' => 'Dokter Luar',
+            'terapis' => 'Terapis',
+            'supir' => 'Supir',
+            'radiografer' => 'Radiografer',
+            'direkur' => 'Direkur',
+            'keuangan' => 'Keuangan',
+        ];
+        $data['agama'] = Agama::pluck('agama', 'id');
         $data['pegawai'] = Pegawai::findOrFail($id);
         return view('pegawai.edit', $data);
     }
