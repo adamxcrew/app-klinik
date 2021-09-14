@@ -11,11 +11,12 @@ use App\Models\Agama;
 class PegawaiController extends Controller
 {
     protected $kelompokPegawai;
-
+    protected $agama;
 
     public function __construct()
     {
         $this->kelompokPegawai = config('datareferensi.kelompok_pegawai');
+        $this->agama           = config('datareferensi.agama');
     }
     /**
      * Display a listing of the resource.
@@ -25,7 +26,7 @@ class PegawaiController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(Pegawai::with('agama')->get())
+            return DataTables::of(Pegawai::all())
                 ->addColumn('action', function ($row) {
                     $btn = \Form::open(['url' => 'pegawai/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
                     $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
@@ -48,7 +49,7 @@ class PegawaiController extends Controller
     public function create()
     {
         $data['kelompok_pegawai']   = $this->kelompokPegawai;
-        $data['agama']              = Agama::pluck('agama', 'id');
+        $data['agama']              = $this->agama;
         return view('pegawai.create', $data);
     }
 
@@ -85,7 +86,7 @@ class PegawaiController extends Controller
     public function edit($id)
     {
         $data['kelompok_pegawai']   = $this->kelompokPegawai;
-        $data['agama']              = Agama::pluck('agama', 'id');
+        $data['agama']              = $this->agama;
         $data['pegawai']            = Pegawai::findOrFail($id);
         return view('pegawai.edit', $data);
     }

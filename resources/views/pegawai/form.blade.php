@@ -31,7 +31,7 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">Agama</label>
     <div class="col-sm-10">
-        {!! Form::select('agama_id', $agama, null, ['class'=>'form-control']) !!}
+        {!! Form::select('agama', $agama, null, ['class'=>'form-control']) !!}
     </div>
 </div>
 <div class="form-group">
