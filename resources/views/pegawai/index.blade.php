@@ -79,8 +79,8 @@
           name: 'kelompok_pegawai'
         },
         {
-          data: 'agama.agama',
-          name: 'agama.agama'
+          data: 'agama',
+          name: 'agama'
         },
         {
           data: 'jenis_kelamin',

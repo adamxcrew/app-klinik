@@ -18,7 +18,7 @@ class TambahColumnPegawai extends Migration
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
             $table->string('kelompok_pegawai');
-            $table->foreignId('agama_id');
+            $table->string('agama');
             $table->string('jenis_kelamin');
             $table->text('alamat');
             $table->timestamps();
