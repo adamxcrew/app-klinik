@@ -15,5 +15,8 @@ class DatabaseSeeder extends Seeder
         $this->call(SettingSeeder::class);
         $this->call(PoliklinikSeeder::class);
         $this->call(DokterSeeder::class);
+        $this->call(WilayahIndonesiaSeeder::class);
+        $this->call(AgamaSeeder::class);
+        $this->call(JenjangPendidikanSeeder::class);
     }
 }
