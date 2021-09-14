@@ -24,9 +24,11 @@ class PegawaiStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'kode'          =>  'required',
             'nama'          =>  'required',
-            'gaji_pokok'    =>  'required',
+            'nip'           =>  'required|min:16|numeric',
+            'tanggal_lahir' =>  'required',
+            'tempat_lahir'  =>  'required',
+            'alamat'        =>  'required',
         ];
     }
 }
