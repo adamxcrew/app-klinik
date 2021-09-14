@@ -6,6 +6,12 @@
     </div>
 </div>
 <div class="form-group">
+    <label class="col-sm-2 control-label">Nomor Rekam Medis</label>
+    <div class="col-sm-3">
+        <input type="text" name="nomor_rekam_medis" value="{{generateKodeRekamMedis()}}" class="form-control" readonly>
+    </div>
+</div>
+<div class="form-group">
     <label class="col-sm-2 control-label">Nomor KTP & Nama</label>
     <div class="col-sm-3">
         {!! Form::text('nomor_ktp', null, ['class'=>'form-control ktp','Placeholder'=>'Nomor KTP']) !!}
