@@ -21,7 +21,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pasien/{id}/diagnosa', 'PasienController@pasienDiagnosa')->name('pasien.diagnosa');
     Route::get('data-tindakan','PasienController@dataTindakan')->name('data.tindakan');
     Route::get('data-obat','PasienController@dataObat')->name('data.obat');
-
     Route::get('pasien/antrian', 'PasienController@pasienAntrian')->name('pasien.antrian');
     Route::get('pasien/antrian/{id}/cetak', 'PasienController@pasienAntrianCetak')->name('pasien.cetak');
 
