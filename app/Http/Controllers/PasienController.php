@@ -8,6 +8,7 @@ use App\Models\Pasien;
 use App\Http\Requests\PasienStoreRequest;
 use App\Models\Poliklinik;
 use App\Models\Pendaftaran;
+use PDF;
 
 class PasienController extends Controller
 {
@@ -136,5 +137,16 @@ class PasienController extends Controller
     public function pasienDiagnosa()
     {
         return view('pasien.diagnosa');
+    }
+
+    public function pasienAntrian()
+    {
+        return view('pasien.antrian');
+    }
+
+    public function pasienAntrianCetak()
+    {
+        $pdf = PDF::loadView('pasien.cetak');
+        return $pdf->stream();
     }
 }

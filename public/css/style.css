@@ -5,6 +5,34 @@
 .card-spac{
     padding-bottom: 30px;
 }
+.card-spac-antrian{
+    padding-bottom: 50px;
+}
 .card-height{
     height: 185px;
+}
+.label-nomor-antrian{
+    position: absolute;
+    background-color: #31CE36;
+    text-align: center;
+    border-radius: 13px;
+    min-width: 25px;
+    height: 25px;
+    font-size: 15px;
+    color: #ffffff;
+    font-weight: bold;
+    line-height: 25px;
+    top: -1px;
+    right: 15px;
+    letter-spacing: -1px;
+}
+.small-label-antrian{
+    position: absolute;
+    top: 20px;
+    left: 15px;
+}
+.status-antrian{
+    background: greenyellow;
+    padding: 6px;
+    border-radius: 7px;
 }
