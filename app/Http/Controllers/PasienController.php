@@ -101,7 +101,7 @@ class PasienController extends Controller
         $pasien             =   Pasien::create($data);
         $data['pasien_id']  =   $pasien->id;
         $pendaftaran        =   Pendaftaran::create($data);
-        return redirect(route('pasien.index'));
+        return redirect('/pendaftaran/'.$pendaftaran->id.'/cetak');
     }
 
     /**
