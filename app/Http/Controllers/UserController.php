@@ -13,6 +13,12 @@ use App\Models\DokterPoliklinik;
 
 class UserController extends Controller
 {
+    protected $user_role;
+
+    public function __construct()
+    {
+        $this->user_role    = config('datareferensi.user_role');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -46,6 +52,7 @@ class UserController extends Controller
      */
     public function create()
     {
+        $data['user_role']  = $this->user_role;
         $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
         return view('user.create', $data);
     }
@@ -86,8 +93,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        $data['user_role']  = $this->user_role;
         $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
-        $data['user'] = User::findOrFail($id);
+        $data['user']       = User::findOrFail($id);
         return view('user.edit', $data);
     }
 

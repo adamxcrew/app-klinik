@@ -2,10 +2,7 @@
 
 
 return [
-
-
-
-    // kelompok pegawai
+    // data referensi kelompok pegawai
     'kelompok_pegawai'     =>   [
         'dokter'                => 'Dokter',
         'perawat'               => 'Perawat',
@@ -23,6 +20,8 @@ return [
         'direkur'               => 'Direkur',
         'keuangan'              => 'Keuangan',
     ],
+
+    // data referensi agama
     'agama'                 => [
         'islam'                 => 'Islam',
         'protestan'             => 'Protestan',
@@ -32,6 +31,8 @@ return [
         'khonghucu'             => 'Khonghucu',
 
     ],
+
+    // data referensi jenjang pendidikan
     'jenjang_pendidikan'    => [
         'TK'                    => 'TK',
         'SD'                    => 'SD',
@@ -39,6 +40,7 @@ return [
         'SMA/SMK/SMU'           => 'SMA/SMK/SMU',
         'Perguruan Tinggi'      => 'Perguruan Tinggi',
     ],
+
     'status_pernikahan'    => [
         'sudah menikah'         => 'Sudah Menikah',
         'belum menikah'         => 'Belum Menikah',
@@ -71,4 +73,12 @@ return [
         'bpjs'         => 'BPJS'
     ],
 
+
+    'user_role'            =>[
+                                'administrator' =>  'Administrator',
+                                'dokter'        =>  'Dokter',
+                                'kasir'         =>  'Kasir',
+                                'keuangan'      =>  'Keuangan',
+                                'hrd'           =>  'HRD'
+    ]
 ];
