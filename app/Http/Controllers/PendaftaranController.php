@@ -9,6 +9,7 @@ use App\Models\Tindakan;
 use App\Models\Obat;
 use App\Models\Poliklinik;
 use App\Models\Pasien;
+use App\Models\PendaftaranResume;
 use DataTables;
 use PDF;
 
@@ -53,7 +54,11 @@ class PendaftaranController extends Controller
 
     public function detail($id)
     {
-        $data['pasien'] = Pendaftaran::find($id);
+        $data['diagnosa'] = Diagnosa::all();
+        $data['obat']     = Obat::all();
+        $data['tindakan'] = Tindakan::all();
+        $data['pasien']   = Pendaftaran::find($id);
+
         return view('pendaftaran.detail', $data);
     }
 
@@ -78,13 +83,14 @@ class PendaftaranController extends Controller
         return redirect('/pendaftaran');
     }
 
-    
-    public function dataDiagnosa(Request $request)
+    public function resumeDiagnosa(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(Diagnosa::all())
+            return DataTables::of(PendaftaranResume::where('jenis', 'diagnosa')->with('diagnosa')->get())
                 ->addColumn('action', function ($row) {
-                    $btn = '<a class="btn btn-danger btn-sm" href="/pasien/' . $row->id . '/edit">Pilih</a> ';
+                    $btn = \Form::open(['url' => 'resume/diagnosa/' . $row->id, 'method' => 'DELETE']);
+                    $btn .= "<button type='submit' class='btn btn-danger btn-sm'>Hapus</button>";
+                    $btn .= \Form::close();
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -93,12 +99,28 @@ class PendaftaranController extends Controller
         }
     }
 
-    public function dataTindakan(Request $request)
+    public function resumePilihDiagnosa(Request $request)
+    {
+        $data = PendaftaranResume::create($request->all());
+        return $data;
+    }
+
+    public function resumeHapusDiagnosa($id)
+    {
+        $data = PendaftaranResume::findOrFail($id);
+        $data->delete();
+
+        return redirect()->back();
+    }
+
+    public function resumeResep(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(Tindakan::all())
+            return DataTables::of(PendaftaranResume::where('jenis', 'obat')->with('obat')->get())
                 ->addColumn('action', function ($row) {
-                    $btn = '<a class="btn btn-danger btn-sm" href="/pasien/' . $row->id . '/edit">Pilih</a> ';
+                    $btn = \Form::open(['url' => 'resume/resep/' . $row->id, 'method' => 'DELETE']);
+                    $btn .= "<button type='submit' class='btn btn-danger btn-sm'>Hapus</button>";
+                    $btn .= \Form::close();
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -107,17 +129,53 @@ class PendaftaranController extends Controller
         }
     }
 
-    public function dataObat(Request $request)
+    public function resumePilihResep(Request $request)
+    {
+        $data = Obat::where('id', $request->id)->first();
+        return $data;
+    }
+
+    public function resumeTambahResep(Request $request)
+    {
+        $data = PendaftaranResume::create($request->all());
+        return $data;
+    }
+
+    public function resumeHapusResep($id)
+    {
+        $data = PendaftaranResume::findOrFail($id);
+        $data->delete();
+
+        return redirect()->back();
+    }
+
+    public function resumeTindakan(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(Obat::all())
+            return DataTables::of(PendaftaranResume::where('jenis', 'tindakan')->with('tindakan')->get())
                 ->addColumn('action', function ($row) {
-                    $btn = '<a class="btn btn-danger btn-sm" href="/pasien/' . $row->id . '/edit">Pilih</a> ';
+                    $btn = \Form::open(['url' => 'resume/tindakan/' . $row->id, 'method' => 'DELETE']);
+                    $btn .= "<button type='submit' class='btn btn-danger btn-sm'>Hapus</button>";
+                    $btn .= \Form::close();
                     return $btn;
                 })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
         }
+    }
+
+    public function resumePilihTindakan(Request $request)
+    {
+        $data = PendaftaranResume::create($request->all());
+        return $data;
+    }
+
+    public function resumeHapusTindakan($id)
+    {
+        $data = PendaftaranResume::findOrFail($id);
+        $data->delete();
+
+        return redirect()->back();
     }
 }
