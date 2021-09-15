@@ -8,16 +8,30 @@ use App\Models\Pasien;
 use App\Http\Requests\PasienStoreRequest;
 use App\Models\Poliklinik;
 use App\Models\Pendaftaran;
+use App\Models\Province;
+use App\Models\Regency;
 
 class PasienController extends Controller
 {
     protected $agama;
     protected $jenjang_pendidikan;
+    protected $status_pernikahan;
+    protected $kewarganegaraan;
+    protected $golongan_darah;
+    protected $privilage_khusus;
+    protected $hubungan_pasien;
+    protected $penjamin;
 
     public function __construct()
     {
         $this->agama              = config('datareferensi.agama');
         $this->jenjang_pendidikan = config('datareferensi.jenjang_pendidikan');
+        $this->status_pernikahan  = config('datareferensi.status_pernikahan');
+        $this->kewarganegaraan    = config('datareferensi.kewarganegaraan');
+        $this->golongan_darah     = config('datareferensi.golongan_darah');
+        $this->privilage_khusus   = config('datareferensi.privilage_khusus');
+        $this->hubungan_pasien    = config('datareferensi.hubungan_pasien');
+        $this->penjamin           = config('datareferensi.penjamin');
     }
 
     /**
@@ -54,8 +68,16 @@ class PasienController extends Controller
      */
     public function create()
     {
-        $data['agama']      = $this->agama;
+        $data['agama']              = $this->agama;
         $data['jenjang_pendidikan'] = $this->jenjang_pendidikan;
+        $data['status_pernikahan']  = $this->status_pernikahan;
+        $data['kewarganegaraan']    = $this->kewarganegaraan;
+        $data['golongan_darah']     = $this->golongan_darah;
+        $data['privilage_khusus']   = $this->privilage_khusus;
+        $data['hubungan_pasien']    = $this->hubungan_pasien;
+        $data['penjamin']           = $this->penjamin;
+
+        $data['provinces'] = Province::pluck('name', 'id');
         $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
         return view('pasien.create', $data);
     }

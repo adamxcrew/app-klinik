@@ -27,11 +27,18 @@ class PasienStoreRequest extends FormRequest
             'nomor_ktp'         =>  'required|integer|min:16',
             'nama'              =>  'required',
             'nomor_hp'          =>  'required',
+            'tanggal_lahir'     =>  'required',
+            'tempat_lahir'      =>  'required',
             'alamat'            =>  'required',
             'rt_rw'             =>  'required',
+            'agama'             =>  'required',
             'pekerjaan'         =>  'required',
             'pendidikan'        =>  'required',
             'nama_ibu'          =>  'required',
+            'suku_bangsa'       =>  'required',
+            'penanggung_jawab'  =>  'required',
+            'alamat_penanggung_jawab'  =>  'required',
+            'no_telp_penanggung_jawab'  =>  'required',
         ];
     }
 }
