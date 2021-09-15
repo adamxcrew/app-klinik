@@ -1,11 +1,11 @@
 @extends('layouts.app')
-@section('title','Kelola Data Pasien')
+@section('title','Pasien Terdaftar')
 @section('content')
 <div class="content-wrapper">
     <section class="content-header">
       <h1>
-        Kelola Data Pasien
-        <small>Daftar Pasien</small>
+        Daftar Pasien Menunggu Pelayanan
+        <small></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -25,8 +25,9 @@
                       <tr>
                         <th width="10">Nomor</th>
                         <th>Nomor Pendaftaran</th>
-                        <th>Nama</th>
+                        <th>Nama Pasien</th>
                         <th>Poliklinik Tujuan</th>
+                        <th>Jenis Layanan</th>
                         <th width="160">#</th>
                       </tr>
                   </thead>
@@ -54,6 +55,7 @@
                 { data: 'kode', name: 'kode' },
                 { data: 'pasien.nama', name: 'pasien.nama' },
                 { data: 'poliklinik.nama', name: 'poliklinik.nama' },
+                { data: 'jenis_layanan', name: 'jenis_layanan' },
                 { data: 'action', name: 'action' }
             ]
         });

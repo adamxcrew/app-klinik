@@ -15,8 +15,7 @@
 
     <section class="content">
         <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="box">
                     <div class="box-header card-header">
                         <div class="row">
@@ -97,7 +96,6 @@
                                 <a href="{{ route('pasien.cetak', ['id' => $pasien->id]) }}" class="btn btn-primary btn-sm" target="_blank" style="width:100%">Cetak Nomor Antrian</a>
                             </div>
                         </div>
-                        
 
                       </div>
                     </div>

@@ -37,14 +37,13 @@ class PasienController extends Controller
                     return $row->tempat_lahir . ', ' . $row->tanggal_lahir;
                 })
                 ->addColumn('action', function ($row) {
-                    $btn = \Form::open(['url' => 'pasien/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:79px']);
+                    $btn = \Form::open(['url' => 'pasien/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right']);
                     $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
                     $btn .= \Form::close();
                     $btn .= '<a class="btn btn-danger btn-sm" href="/pasien/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> ';
-                    $btn .= '<a class="btn btn-danger btn-sm" href="/pasien/' . $row->id . '"><i class="fa fa-eye" aria-hidden="true"></i></a>&nbsp;';
-
-                    $btn .= '<a class="btn btn-danger btn-sm" href="/pasien/' . $row->id . '/diagnosa"><i class="fa fa-user" aria-hidden="true"></i></a>';
-                    $btn .= '<a title="Pendaftaran Baru" class="btn btn-danger btn-sm" href="/pasien/' . $row->id . '"><i class="fa fa-plus-square-o" aria-hidden="true"></i></a>';
+                    $btn .= '<a class="btn btn-danger btn-sm" href="/pasien/' . $row->id . '"><i class="fa fa-eye" aria-hidden="true"></i></a>';
+                    // $btn .= '<a class="btn btn-danger btn-sm" href="/pasien/' . $row->id . '/diagnosa"><i class="fa fa-user" aria-hidden="true"></i></a>';
+                    // $btn .= '<a title="Pendaftaran Baru" class="btn btn-danger btn-sm" href="/pasien/' . $row->id . '"><i class="fa fa-plus-square-o" aria-hidden="true"></i></a>';
                     return $btn;
                 })
                 ->rawColumns(['action', 'code'])
@@ -145,7 +144,7 @@ class PasienController extends Controller
             return DataTables::of(Diagnosa::all())
                 ->addColumn('action', function ($row) {
                     $btn = '<a class="btn btn-danger btn-sm" href="/pasien/' . $row->id . '/edit">Pilih</a> ';
-                 return $btn;
+                    return $btn;
                 })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
@@ -162,7 +161,7 @@ class PasienController extends Controller
             return DataTables::of(Tindakan::all())
                 ->addColumn('action', function ($row) {
                     $btn = '<a class="btn btn-danger btn-sm" href="/pasien/' . $row->id . '/edit">Pilih</a> ';
-                 return $btn;
+                    return $btn;
                 })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
@@ -176,7 +175,7 @@ class PasienController extends Controller
             return DataTables::of(Obat::all())
                 ->addColumn('action', function ($row) {
                     $btn = '<a class="btn btn-danger btn-sm" href="/pasien/' . $row->id . '/edit">Pilih</a> ';
-                 return $btn;
+                    return $btn;
                 })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
@@ -193,7 +192,7 @@ class PasienController extends Controller
                     $btn .= "<button type='submit' class='btn btn-danger btn-sm'>Hapus</button>";
                     $btn .= \Form::close();
                     $btn .= '<a class="btn btn-danger btn-sm" href="/pasien-antri/' . $row->id . '/detail">Detail</a> ';
-                 return $btn;
+                    return $btn;
                 })
                 ->rawColumns(['action'])
                 ->addIndexColumn()

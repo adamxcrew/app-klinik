@@ -33,10 +33,8 @@
                         <th>Nomor KTP</th>
                         <th>Nomor Rekam Medis</th>
                         <th>Nama Pasien</th>
-                        <th>Alamat</th>
                         <th>Tempat, Tanggal Lahir</th>
-                        <th width="160">#</th>
-                        <th width="127">#</th>
+                        <th width="85">#</th>
                       </tr>
                   </thead>
               </table>
@@ -63,7 +61,6 @@
                 { data: 'nomor_ktp', name: 'nomor_ktp' },
                 { data: 'nomor_rekam_medis', name: 'nomor_rekam_medis' },
                 { data: 'nama', name: 'nama' },
-                { data: 'alamat', name: 'alamat' },
                 { data: 'tempat_tanggal_lahir', name: 'tempat_tanggal_lahir' },
                 { data: 'action', name: 'action' }
             ]
