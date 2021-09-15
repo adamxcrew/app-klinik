@@ -29,10 +29,10 @@
       <?php
       $admin = [
         ['icon' => 'fa fa-user', 'link' => '/home', 'label' => 'Dashboard'],
-        ['icon' => 'fa fa-address-card', 'link' => '/pasien-antri', 'label' => 'Data Pasien Antri'],
+        ['icon' => 'fa fa-address-card', 'link' => '/pendaftaran', 'label' => 'Data Pasien Antri'],
         ['icon' => 'fa fa-bars', 'link' => '/home', 'label' => 'Pendaftaran Pasien', 'submenu' => [
           ['icon' => 'fa fa-plus-square', 'link' => '/pasien/create', 'label' => 'Pasien Baru'],
-          ['icon' => 'fa fa-plus-square-o', 'link' => '/pasien', 'label' => 'Pasien Lama'],
+          ['icon' => 'fa fa-plus-square-o', 'link' => '/pendaftaran/create', 'label' => 'Pasien Lama'],
         ]],
         ['icon' => 'fa fa-bars', 'link' => '/home', 'label' => 'Data Master', 'submenu' => [
           ['icon' => 'fa fa-cube', 'link' => '/obat', 'label' => 'Data Obat'],

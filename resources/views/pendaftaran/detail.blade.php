@@ -243,7 +243,7 @@
 
   </div>
 
-@include('pasien._modal')
+@include('pendaftaran._modal')
 @endsection
 
 @push('scripts')
@@ -273,7 +273,7 @@
         $('#diagnosa-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '{{ route("pasien.diagnosa", ["id" => '.$pasien->id.']) }}',
+            ajax: '{{ route("data.diagnosa") }}',
             columns: [
                 {data: 'DT_RowIndex', orderable: false, searchable: false},
                 { data: 'kode', name: 'kode' },

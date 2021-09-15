@@ -20,7 +20,7 @@
             <div class="box">
         
               <div class="box-body">
-                <table class="table table-bordered table-striped" id="pasien-antri-table">
+                <table class="table table-bordered table-striped" id="pendaftaran-table">
                   <thead>
                       <tr>
                         <th width="10">Nomor</th>
@@ -39,17 +39,16 @@
       </section>
   </div>
 @endsection
-
 @push('scripts')
 <!-- DataTables -->
 <script src="{{asset('adminlte/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 <script>
     $(function() {
-        $('#pasien-antri-table').DataTable({
+        $('#pendaftaran-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '{{ route('pasien.antri') }}',
+            ajax: '/pendaftaran',
             columns: [
                 {data: 'DT_RowIndex', orderable: false, searchable: false},
                 { data: 'kode', name: 'kode' },
