@@ -112,10 +112,18 @@ class PasienController extends Controller
      */
     public function show($id)
     {
-        $data['pasien'] = Pasien::findOrFail($id);
-        $data['agama'] = $this->agama;
-        $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
+        $data['agama']              = $this->agama;
         $data['jenjang_pendidikan'] = $this->jenjang_pendidikan;
+        $data['status_pernikahan']  = $this->status_pernikahan;
+        $data['kewarganegaraan']    = $this->kewarganegaraan;
+        $data['golongan_darah']     = $this->golongan_darah;
+        $data['privilage_khusus']   = $this->privilage_khusus;
+        $data['hubungan_pasien']    = $this->hubungan_pasien;
+        $data['penjamin']           = $this->penjamin;
+
+        $data['pasien'] = Pasien::findOrFail($id);
+        $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
+        $data['provinces'] = Province::pluck('name', 'id');
         return view('pasien.show', $data);
     }
 
@@ -127,10 +135,18 @@ class PasienController extends Controller
      */
     public function edit($id)
     {
+        $data['agama']              = $this->agama;
+        $data['jenjang_pendidikan'] = $this->jenjang_pendidikan;
+        $data['status_pernikahan']  = $this->status_pernikahan;
+        $data['kewarganegaraan']    = $this->kewarganegaraan;
+        $data['golongan_darah']     = $this->golongan_darah;
+        $data['privilage_khusus']   = $this->privilage_khusus;
+        $data['hubungan_pasien']    = $this->hubungan_pasien;
+        $data['penjamin']           = $this->penjamin;
+
         $data['pasien'] = Pasien::findOrFail($id);
         $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
-        $data['agama']  = $this->agama;
-        $data['jenjang_pendidikan'] = $this->jenjang_pendidikan;
+        $data['provinces'] = Province::pluck('name', 'id');
         return view('pasien.edit', $data);
     }
 

@@ -22,6 +22,7 @@ class Pasien extends Model
         'agama',
         'status_pernikahan',
         'nama_ibu',
+        'nomor_asuransi',
         'kewarganegaraan',
         'golongan_darah',
         'privilage_khusus',
