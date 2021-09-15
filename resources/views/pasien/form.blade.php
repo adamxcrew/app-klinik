@@ -114,6 +114,24 @@
             {!! Form::select('privilage_khusus', $privilage_khusus, null, ['class'=>'form-control']) !!}
         </div>
     </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Desa</label>
+            <select name="pm_village_id" id="alamat" class="alamat form-control" style="height: 100px;" placeholder="Masukan Nama Desa"></select>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Alamat</label>
+            {!! Form::text('alamat', null, ['class'=>'form-control','Placeholder'=>'Alamat']) !!}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>RT / RW</label>
+            {!! Form::text('rt_rw', null, ['class'=>'form-control','Placeholder'=>'RT RW']) !!}
+        </div>
+    </div>
     <div class="col-md-3">
         <div class="form-group">
             <label>Provinsi</label>
@@ -222,6 +240,7 @@
 
 
 @push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 <script>
 $( document ).ready(function() {
 
@@ -250,6 +269,30 @@ $( document ).ready(function() {
     });
 
     $('.poliklinik').trigger('change');
+
+    $('.alamat').select2({
+        placeholder: 'Cari Nama Desa',
+        ajax: {
+        url: '/ajax/select2Desa',
+        dataType: 'json',
+        delay: 250,
+        processResults: function (data) {
+            return {
+            results:  $.map(data, function (item) {
+                return {
+                text: item.village_name,
+                id: item.village_id
+                }
+            })
+            };
+        },
+        cache: true
+        }
+    });
 });
 </script>
+@endpush
+
+@push('css')
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />   
 @endpush
