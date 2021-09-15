@@ -4,7 +4,7 @@
 <div class="content-wrapper">
     <section class="content-header">
       <h1>
-        Kelola Pasien
+        Formulir Pendaftaran Pasien
         <small>Pendaftaran Pasien Baru</small>
       </h1>
       <ol class="breadcrumb">
