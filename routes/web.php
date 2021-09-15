@@ -21,11 +21,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pasien/{id}/diagnosa', 'PasienController@pasienDiagnosa')->name('pasien.diagnosa');
     Route::get('data-tindakan','PasienController@dataTindakan')->name('data.tindakan');
     Route::get('data-obat','PasienController@dataObat')->name('data.obat');
-
     Route::get('pasien-antri', 'PasienController@pasienAntri')->name('pasien.antri');
     Route::get('pasien-antri/{id}/detail', 'PasienController@pasienDetail')->name('pasien.detail');
     Route::get('pasien-antri/{id}/cetak', 'PasienController@pasienCetak')->name('pasien.cetak');
     Route::delete('pasien-antri/{id}', 'PasienController@pasienDelete')->name('pasien.delete');
+    Route::get('pasien/antrian', 'PasienController@pasienAntrian')->name('pasien.antrian');
+    Route::get('pasien/antrian/{id}/cetak', 'PasienController@pasienAntrianCetak')->name('pasien.cetak');
 
     Route::get('pasien/pasien-terdaftar', 'PasienController@pasienTerdaftar')->name('pasien.terdaftar');
     Route::post('detail-pasien', 'PasienController@detailPasien')->name('pasien.detail');

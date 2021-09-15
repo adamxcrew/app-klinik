@@ -16,9 +16,10 @@ class CreateKehadiransTable extends Migration
         Schema::create('kehadiran', function (Blueprint $table) {
             $table->id();
             $table->integer('pegawai_id');
-            $table->datetime('masuk');
-            $table->datetime('keluar');
+            $table->datetime('jam_masuk');
+            $table->datetime('jam_keluar');
             $table->string('status_kehadiran');
+            $table->text('keterangan')->nullable();
             $table->timestamps();
         });
     }
