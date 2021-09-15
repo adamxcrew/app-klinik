@@ -18,19 +18,20 @@ Route::get('/', function () {
 });
 Auth::routes();
 Route::middleware(['auth'])->group(function () {
-    Route::get('pasien/{id}/diagnosa', 'PasienController@pasienDiagnosa')->name('pasien.diagnosa');
-    Route::get('data-tindakan', 'PasienController@dataTindakan')->name('data.tindakan');
-    Route::get('data-obat', 'PasienController@dataObat')->name('data.obat');
-    Route::get('pasien-antri', 'PasienController@pasienAntri')->name('pasien.antri');
-    Route::get('pasien-antri/{id}/detail', 'PasienController@pasienDetail')->name('pasien.detail');
-    Route::get('pasien-antri/{id}/cetak', 'PasienController@pasienCetak')->name('pasien.cetak');
-    Route::delete('pasien-antri/{id}', 'PasienController@pasienDelete')->name('pasien.delete');
-    Route::get('pasien/antrian', 'PasienController@pasienAntrian')->name('pasien.antrian');
-    Route::get('pasien/antrian/{id}/cetak', 'PasienController@pasienAntrianCetak')->name('pasien.cetak');
 
-    Route::get('pasien/pasien-terdaftar', 'PasienController@pasienTerdaftar')->name('pasien.terdaftar');
-    Route::post('detail-pasien', 'PasienController@detailPasien')->name('pasien.detail');
-    Route::post('pasien/pasien-terdaftar/insert', 'PasienController@pasienInsert')->name('pasien.insert');
+    Route::get('pendaftaran', 'PendaftaranController@index')->name('pendaftaran.index');
+    Route::get('pendaftaran/{id}/detail', 'PendaftaranController@detail')->name('pendaftaran.detail');
+    Route::get('pendaftaran/{id}/cetak', 'PendaftaranController@cetak')->name('pendaftaran.cetak');
+    Route::get('pendaftaran/{id}/print', 'PendaftaranController@print')->name('pendaftaran.print');
+    Route::delete('pendaftaran/{id}', 'PendaftaranController@destroy')->name('pendaftaran.delete');
+
+    Route::get('data-diagnosa', 'PendaftaranController@dataDiagnosa')->name('data.diagnosa');
+    Route::get('data-tindakan', 'PendaftaranController@dataTindakan')->name('data.tindakan');
+    Route::get('data-obat', 'PendaftaranController@dataObat')->name('data.obat');
+
+    Route::get('pendaftaran/create', 'PendaftaranController@pendaftaranCreate')->name('pendaftaran.pasien-terdaftar');
+    Route::post('detail-pasien', 'PendaftaranController@detailPasien')->name('pasien.detail');
+    Route::post('pendaftaran/insert', 'PendaftaranController@pendaftaranInsert')->name('pendaftaran.insert');
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('obat', 'ObatController');

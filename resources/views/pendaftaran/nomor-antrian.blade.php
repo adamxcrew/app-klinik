@@ -93,7 +93,7 @@
 
                         <div class="card-spac-antrian">
                             <div class="col-md-12">
-                                <a href="{{ route('pasien.cetak', ['id' => $pasien->id]) }}" class="btn btn-primary btn-sm" target="_blank" style="width:100%">Cetak Nomor Antrian</a>
+                                <a href="{{ route('pendaftaran.print', ['id' => $pasien->id]) }}" class="btn btn-primary btn-sm" target="_blank" style="width:100%">Cetak Nomor Antrian</a>
                             </div>
                         </div>
 

@@ -21,7 +21,7 @@
         
               <div class="box-body">
                   <div class="row">
-                    {!! Form::open(['route'=>'pasien.insert']) !!}
+                    {!! Form::open(['route'=>'pendaftaran.insert']) !!}
                     {{ Form::hidden('kode', generateKodePendaftaran()) }}
                     <div class="col-md-6">
                         <h3><strong>Tujuan</strong></h3>
