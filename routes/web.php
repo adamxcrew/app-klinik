@@ -34,6 +34,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('gaji', 'GajiController');
     Route::resource('pegawai', 'PegawaiController');
     Route::resource('asuransi', 'AsuransiController');
+    Route::post('kehadiran-pegawai/export_excel', 'KehadiranPegawaiController@export_excel')->name('kehadiran-pegawai.export_excel');
+    Route::resource('kehadiran-pegawai', 'KehadiranPegawaiController');
     Route::get('profile', 'UserController@profile');
     Route::put('profile', 'UserController@profileUpdate')->name('user.profile');
     Route::get('setting', 'SettingController@index')->name('setting.index');

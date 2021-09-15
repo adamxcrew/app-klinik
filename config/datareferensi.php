@@ -70,5 +70,11 @@ return [
         'umum'         => 'Umum',
         'bpjs'         => 'BPJS'
     ],
+    'status_kehadiran'    => [
+        'hadir'        => 'Hadir',
+        'tidak hadir'  => 'Tidak Hadir',
+        'izin'         => 'Izin',
+        'sakit'        => 'Sakit'
+    ],
 
 ];
