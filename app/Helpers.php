@@ -33,3 +33,13 @@ function generateKodeRekamMedis()
         return 'NMC-' . sprintf("%08s", $noUrut);
     }
 }
+
+
+function hitung_umur($date)
+{
+    $sekarang      = Carbon\Carbon::now();
+    $tanggal_lahir = Carbon\Carbon::parse($date);
+    $umur = $tanggal_lahir->diffInYears($sekarang);
+    
+    return $umur;
+}

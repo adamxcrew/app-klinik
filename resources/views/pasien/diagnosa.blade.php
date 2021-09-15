@@ -29,7 +29,7 @@
                                 <strong>Nomor Pendaftaran</strong>
                             </div>
                             <div class="col-md-7">
-                                sample
+                                {{ $pasien->kode }}
                             </div>
                         </div>
 
@@ -38,7 +38,7 @@
                                 <strong>Nama</strong>
                             </div>
                             <div class="col-md-7">
-                                sample
+                                {{ $pasien->pasien->nama }}
                             </div>
                         </div>
 
@@ -47,7 +47,7 @@
                                 <strong>Tempat tgl lahir</strong>
                             </div>
                             <div class="col-md-7">
-                                sample
+                                {{ $pasien->pasien->tempat_lahir }}, {{ date('d-m-Y', strtotime($pasien->pasien->tanggal_lahir)) }}
                             </div>
                         </div>
 
@@ -56,7 +56,7 @@
                                 <strong>Umur</strong>
                             </div>
                             <div class="col-md-7">
-                                sample
+                                {{ hitung_umur($pasien->pasien->tanggal_lahir) }} tahun
                             </div>
                         </div>
 
@@ -79,7 +79,7 @@
                                 <strong>Tujuan Poliklinik</strong>
                             </div>
                             <div class="col-md-7">
-                                sample
+                                {{ $pasien->poliklinik->nama }}
                             </div>
                         </div>
 
@@ -88,7 +88,7 @@
                                 <strong>Tanggal Sekarang</strong>
                             </div>
                             <div class="col-md-7">
-                                sample
+                                {{ date('d-m-Y') }}
                             </div>
                         </div>
 
@@ -97,7 +97,7 @@
                                 <strong>Jenis Layanan</strong>
                             </div>
                             <div class="col-md-7">
-                                sample
+                                {{ $pasien->jenis_layanan }}
                             </div>
                         </div>
 
@@ -145,24 +145,24 @@
                                 <div class="box-body">
                                     <table class="table table-striped">
                                         <thead>
-                                          <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Kode</th>
-                                            <th scope="col">Nama Diagnosa</th>
-                                            <th scope="col">Keterangan</th>
-                                            <th scope="col">Action</th>
-                                          </tr>
+                                            <tr>
+                                              <th scope="col">#</th>
+                                              <th scope="col">Kode</th>
+                                              <th scope="col">Nama Diagnosa</th>
+                                              <th scope="col">Keterangan</th>
+                                              <th scope="col">Action</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
-                                          <tr>
-                                            <th scope="row">1</th>
-                                            <td>Mark</td>
-                                            <td>Otto</td>
-                                            <td>@mdo</td>
-                                            <td><button class="btn btn-danger btn-sm">Hapus</button></td>
-                                          </tr>
+                                            <tr>
+                                              <th scope="row">1</th>
+                                              <td>Mark</td>
+                                              <td>Otto</td>
+                                              <td>@mdo</td>
+                                              <td><button class="btn btn-danger btn-sm">Hapus</button></td>
+                                            </tr>
                                         </tbody>
-                                      </table>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -243,7 +243,7 @@
 
   </div>
 
-  @include('pasien._modal')
+@include('pasien._modal')
 @endsection
 
 @push('scripts')
@@ -264,4 +264,51 @@
     });
 </script>
 
+<!-- DataTables -->
+<script src="{{asset('adminlte/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+<script>
+    $(function() {
+
+        $('#diagnosa-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: '{{ route("pasien.diagnosa", ["id" => '.$pasien->id.']) }}',
+            columns: [
+                {data: 'DT_RowIndex', orderable: false, searchable: false},
+                { data: 'kode', name: 'kode' },
+                { data: 'nama', name: 'nama' },
+                { data: 'action', name: 'action' }
+            ]
+        });
+
+        $('#obat-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: '{{ route("data.obat") }}',
+            columns: [
+                {data: 'DT_RowIndex', orderable: false, searchable: false},
+                { data: 'kode', name: 'kode' },
+                { data: 'nama_obat', name: 'nama_obat' },
+                { data: 'action', name: 'action' }
+            ]
+        });
+
+        $('#tindakan-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: '{{ route("data.tindakan") }}',
+            columns: [
+                {data: 'DT_RowIndex', orderable: false, searchable: false},
+                { data: 'kode', name: 'kode' },
+                { data: 'tindakan', name: 'tindakan' },
+                { data: 'action', name: 'action' }
+            ]
+        });
+    });
+</script>
+@endpush
+
+@push('css')
+    <link rel="stylesheet" href="{{asset('adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
 @endpush

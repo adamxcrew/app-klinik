@@ -35,6 +35,7 @@
                         <th>Nama Pasien</th>
                         <th>Alamat</th>
                         <th>Tempat, Tanggal Lahir</th>
+                        <th width="160">#</th>
                         <th width="127">#</th>
                       </tr>
                   </thead>
