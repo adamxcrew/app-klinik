@@ -37,11 +37,12 @@ class PasienController extends Controller
                     return $row->tempat_lahir . ', ' . $row->tanggal_lahir;
                 })
                 ->addColumn('action', function ($row) {
-                    $btn = \Form::open(['url' => 'pasien/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:45px']);
+                    $btn = \Form::open(['url' => 'pasien/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:79px']);
                     $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
                     $btn .= \Form::close();
                     $btn .= '<a class="btn btn-danger btn-sm" href="/pasien/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> ';
                     $btn .= '<a class="btn btn-danger btn-sm" href="/pasien/' . $row->id . '"><i class="fa fa-eye" aria-hidden="true"></i></a>&nbsp;';
+
                     $btn .= '<a class="btn btn-danger btn-sm" href="/pasien/' . $row->id . '/diagnosa"><i class="fa fa-user" aria-hidden="true"></i></a>';
                     $btn .= '<a title="Pendaftaran Baru" class="btn btn-danger btn-sm" href="/pasien/' . $row->id . '"><i class="fa fa-plus-square-o" aria-hidden="true"></i></a>';
                     return $btn;
@@ -183,14 +184,34 @@ class PasienController extends Controller
         }
     }
 
-    public function pasienAntrian()
+    public function pasienAntri(Request $request)
     {
-        return view('pasien.antrian');
+        if ($request->ajax()) {
+            return DataTables::of(Pendaftaran::with('pasien')->with('poliklinik')->get())
+                ->addColumn('action', function ($row) {
+                    $btn = \Form::open(['url' => 'pasien-antri/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:75px']);
+                    $btn .= "<button type='submit' class='btn btn-danger btn-sm'>Hapus</button>";
+                    $btn .= \Form::close();
+                    $btn .= '<a class="btn btn-danger btn-sm" href="/pasien-antri/' . $row->id . '/detail">Detail</a> ';
+                 return $btn;
+                })
+                ->rawColumns(['action'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+        return view('pasien.antri');
     }
 
-    public function pasienAntrianCetak()
+    public function pasienDetail($id)
     {
-        $pdf = PDF::loadView('pasien.cetak');
+        $data['pasien'] = Pendaftaran::find($id);
+        return view('pasien.detail', $data);
+    }
+
+    public function pasienCetak($id)
+    {
+        $data['pasien'] = Pendaftaran::find($id);
+        $pdf = PDF::loadView('pasien.cetak', $data);
         return $pdf->stream();
     }
 
@@ -209,7 +230,15 @@ class PasienController extends Controller
 
     public function pasienInsert(Request $request)
     {
-        Pendaftaran::create($request->all());
-        return redirect('/pasien');
+        $data = Pendaftaran::create($request->all());
+        return redirect('/pasien-antri/'.$data->id.'/detail');
+    }
+
+    public function pasienDelete($id)
+    {
+        $data = Pendaftaran::findOrFail($id);
+        $data->delete();
+
+        return redirect('/pasien-antri');
     }
 }

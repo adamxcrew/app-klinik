@@ -29,6 +29,8 @@
       <?php
       $admin = [
         ['icon' => 'fa fa-user', 'link' => '/home', 'label' => 'Dashboard'],
+        ['icon' => 'fa fa-user-circle-o', 'link' => '/pasien', 'label' => 'Data Pasien'],
+        ['icon' => 'fa fa-address-card', 'link' => '/pasien-antri', 'label' => 'Data Pasien Antri'],
         ['icon' => 'fa fa-bars', 'link' => '/home', 'label' => 'Pendaftaran Pasien', 'submenu' => [
           ['icon' => 'fa fa-plus-square', 'link' => '/pasien/create', 'label' => 'Pasien Baru'],
           ['icon' => 'fa fa-plus-square-o', 'link' => '/pasien', 'label' => 'Pasien Lama'],

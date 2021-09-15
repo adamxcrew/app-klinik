@@ -14,7 +14,7 @@
         }
         .content-header{
             border-bottom: 1px solid black;
-            padding-bottom:40px;
+            padding-bottom:20px;
             padding-top:10px
         }
         .content-body{
@@ -31,18 +31,9 @@
             margin-top: -19px;
         }
         .nomor-antrian{
-            background-color: #31CE36;
-            text-align: center;
-            border-radius: 13px;
-            width: 12px;
-            height: 15px;
             font-size: 15px;
-            color: #ffffff;
+            color: black;
             font-weight: bold;
-            padding: 5px 8px 8px 8px;
-            display: inline-block;
-            position: absolute;
-            float: right;
         }
         .text-right{
             text-align: right;
@@ -61,16 +52,6 @@
         .content-spac{
             padding-bottom: 20px;
         }
-        .status-antrian{
-            background: greenyellow;
-            padding: 5px;
-            border-radius: 7px;
-            display: inline-block;
-            position: absolute;
-            height: 16px;
-            float: right;
-            top: -8px
-        }
     </style>
 </head>
 <body style="font-family: 'sans-serif;">
@@ -80,7 +61,7 @@
                 <span>Nomor Antrian</span>
             </div>
             <div class="header-right">
-                <label class="nomor-antrian">3</label>
+                <label class="nomor-antrian">{{ substr($pasien->kode,11, 5) }}</label>
             </div>
         </div>
 
@@ -92,7 +73,7 @@
                     <small class="text-small">Pasien detail</small>
                 </div>
                 <div class="text-right">
-                    <span class="text-right-info">Wahyu Safrizal</span>
+                    <span class="text-right-info">{{ $pasien->pasien->nama }}</span>
                 </div>
             </div>
 
@@ -102,7 +83,7 @@
                     <small class="text-small">Pendaftaran</small>
                 </div>
                 <div class="text-right">
-                    <span class="text-right-info">PS-20210911- </span>
+                    <span class="text-right-info">{{ $pasien->kode }}</span>
                 </div>
             </div>
 
@@ -112,7 +93,7 @@
                     <small class="text-small">Bagian</small>
                 </div>
                 <div class="text-right">
-                    <span class="text-right-info">UMUM</span>
+                    <span class="text-right-info">{{ $pasien->poliklinik->nama }}</span>
                 </div>
             </div>
 
@@ -122,26 +103,27 @@
                     <small class="text-small">Dokter</small>
                 </div>
                 <div class="text-right">
-                    <span class="text-right-info">dr. Resti Amalia </span>
+                    <span class="text-right-info">{{ $pasien->dokter->name }}</span>
                 </div>
             </div>
 
             <div class="content-spac">
                 <div class="text-left">
-                    <span class="text-left-info">Status Antrian</span><br>
-                    <small class="text-small">Status</small>
+                    <span class="text-left-info">Jenis Layanan</span><br>
+                    <small class="text-small">Jenis</small>
                 </div>
                 <div class="text-right">
-                    <span class="text-right-info status-antrian">Mengantri untuk diagnosa </span>
+                    <span class="text-right-info">{{ $pasien->jenis_layanan }}</span>
                 </div>
             </div>
 
-            <div class="content-spac" style="padding-top:20px">
+            <div class="content-spac">
                 <div class="text-left">
                     <span class="text-left-info">Tanggal Pendaftaran</span><br>
+                    <small class="text-small">tanggal</small>
                 </div>
                 <div class="text-right">
-                    <span class="text-right-info">{{ date('d-m-Y') }}</span>
+                    <span class="text-right-info">{{ substr($pasien->created_at, 0 ,10) }}</span>
                 </div>
             </div>
 
