@@ -18,7 +18,7 @@
           <div class="col-xs-12">
             <div class="box">
               <div class="box-body">
-                  {!! Form::model($pasien,['route'=>['pasien.update',$pasien->id],'method'=>'PUT','class'=>'form-horizontal']) !!}
+                  {!! Form::model($pasien,['route'=>['pasien.update',$pasien->id],'method'=>'PUT']) !!}
                   @include('validation_error')
                   @include('pasien.form')
                   {!! Form::close() !!}
