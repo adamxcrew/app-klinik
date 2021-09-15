@@ -22,6 +22,15 @@ class Pasien extends Model
         'agama',
         'status_pernikahan',
         'nama_ibu',
-        'nomor_rekam_medis'
+        'kewarganegaraan',
+        'golongan_darah',
+        'privilage_khusus',
+        'penanggung_jawab',
+        'suku_bangsa',
+        'hubungan_pasien',
+        'alamat_penanggung_jawab',
+        'no_telp_penanggung_jawab',
+        'nomor_rekam_medis',
+        'penjamin'
     ];
 }

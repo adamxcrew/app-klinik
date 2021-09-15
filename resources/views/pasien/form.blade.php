@@ -1,101 +1,217 @@
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Nomor Pendaftaran</label>
+            <input type="text" name="kode" value="{{generateKodePendaftaran()}}" class="form-control" readonly>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Nomor Rekam Medis</label>
+            <input type="text" name="nomor_rekam_medis" value="{{generateKodeRekamMedis()}}" class="form-control" readonly>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Nomor KTP</label>
+            {!! Form::text('nomor_ktp', null, ['class'=>'form-control ktp','Placeholder'=>'Nomor KTP']) !!}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Nama pasien</label>
+            {!! Form::text('nama', null, ['class'=>'form-control','Placeholder'=>'Nama Pasien']) !!}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Tempat Lahir</label>
+            {!! Form::text('tempat_lahir', null, ['class'=>'form-control','Placeholder'=>'Tempat Lahir']) !!}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Tanggal Lahir</label>
+            {!! Form::date('tanggal_lahir', null, ['class'=>'form-control tanggal_lahir','Placeholder'=>'Tanggal Lahir']) !!}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Nomor HP</label>
+            {!! Form::number('nomor_hp', null, ['class'=>'form-control','Placeholder'=>'Nomor HP']) !!}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Pekerjaan</label>
+            {!! Form::text('pekerjaan', null, ['class'=>'form-control','Placeholder'=>'Pekerjaan']) !!}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Alamat</label>
+            {!! Form::text('alamat', null, ['class'=>'form-control','Placeholder'=>'Alamat']) !!}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>RT / RW</label>
+            {!! Form::text('rt_rw', null, ['class'=>'form-control','Placeholder'=>'RT RW']) !!}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Pendidikan</label>
+            {!! Form::select('pendidikan', $jenjang_pendidikan, null, ['class'=>'form-control','Placeholder'=>'Pendidikan']) !!}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Agama</label>
+            {!! Form::select('agama', $agama, null, ['class'=>'form-control']) !!}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Jenis Kelamin</label>
+            <div >
+                {{Form::radio('jenis_kelamin','pria',['class'=>'form-check-input'])}}
+                <label>Pria</label>
+                {{Form::radio('jenis_kelamin','wanita',['class'=>'form-check-input'])}}
+                <label>Wanita</label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Status Pernikahan</label>
+            {!! Form::select('status_pernikahan', $status_pernikahan, null, ['class'=>'form-control']) !!}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Kewarganegaraan</label>
+            {!! Form::select('kewarganegaraan', $kewarganegaraan, null, ['class'=>'form-control']) !!}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Suku Bangsa</label>
+            {!! Form::text('suku_bangsa', null, ['class'=>'form-control','Placeholder'=>'Suku bangsa']) !!}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Golongan Darah</label>
+            {!! Form::select('golongan_darah', $golongan_darah, null, ['class'=>'form-control','Placeholder'=>'Pendidikan']) !!}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Privilage Khusus</label>
+            {!! Form::select('privilage_khusus', $privilage_khusus, null, ['class'=>'form-control']) !!}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Provinsi</label>
+            {!! Form::select('', $provinces, null, ['class'=>'form-control']) !!}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Kota/Kab</label>
+            {!! Form::select('', $provinces, null, ['class'=>'form-control']) !!}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Kecamatan</label>
+            {!! Form::select('', $provinces, null, ['class'=>'form-control']) !!}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Desa/Kelurahan</label>
+            {!! Form::select('', $provinces, null, ['class'=>'form-control']) !!}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Nama Ibu Kandung</label>
+            {!! Form::text('nama_ibu', null, ['class'=>'form-control','Placeholder'=>'Nama ibu kandung']) !!}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Penanggung Jawab</label>
+            {!! Form::text('penanggung_jawab', null, ['class'=>'form-control','Placeholder'=>'Nama penanggung jawab']) !!}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Hubungan Dengan Pasien</label>
+            {!! Form::select('hubungan_pasien', $hubungan_pasien, null, ['class'=>'form-control','Placeholder'=>'Pendidikan']) !!}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Alamat Penanggung Jawab</label>
+            {!! Form::text('alamat_penanggung_jawab', null, ['class'=>'form-control','Placeholder'=>'Alamat penanggung jawab']) !!}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>No. Telepon Penanggung Jawab</label>
+            {!! Form::text('no_telp_penanggung_jawab', null, ['class'=>'form-control','Placeholder'=>'Nomor telepon penanggung jawab']) !!}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Penjamin</label>
+            {!! Form::select('penjamin', $penjamin, null, ['class'=>'form-control','Placeholder'=>'Pendidikan']) !!}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Nomor Asuransi</label>
+            {!! Form::text('nomor_asuransi', null, ['class'=>'form-control','Placeholder'=>'Nomor asuransi']) !!}
+        </div>
+    </div>
+</div>
 
-<div class="form-group">
-    <label class="col-sm-2 control-label">Nomor Pendaftaran</label>
-    <div class="col-sm-3">
-        <input type="text" name="kode" value="{{generateKodePendaftaran()}}" class="form-control" readonly>
-    </div>
-</div>
-<div class="form-group">
-    <label class="col-sm-2 control-label">Nomor Rekam Medis</label>
-    <div class="col-sm-3">
-        <input type="text" name="nomor_rekam_medis" value="{{generateKodeRekamMedis()}}" class="form-control" readonly>
-    </div>
-</div>
-<div class="form-group">
-    <label class="col-sm-2 control-label">Nomor KTP & Nama</label>
-    <div class="col-sm-3">
-        {!! Form::text('nomor_ktp', null, ['class'=>'form-control ktp','Placeholder'=>'Nomor KTP']) !!}
-    </div>
-    <div class="col-sm-4">
-        {!! Form::text('nama', null, ['class'=>'form-control','Placeholder'=>'Nama Pasien']) !!}
-    </div>
-</div>
-<div class="form-group">
-    <label class="col-sm-2 control-label">Tempat, Tanggal Lahir</label>
-    <div class="col-sm-3">
-        {!! Form::text('tempat_lahir', null, ['class'=>'form-control','Placeholder'=>'Tempat Lahir']) !!}
-    </div>
-    <div class="col-sm-2">
-        {!! Form::date('tanggal_lahir', null, ['class'=>'form-control tanggal_lahir','Placeholder'=>'Tanggal Lahir']) !!}
-    </div>
-</div>
-<div class="form-group">
-    <label class="col-sm-2 control-label">Nomor HP & Pekerjaan</label>
-    <div class="col-sm-3">
-        {!! Form::number('nomor_hp', null, ['class'=>'form-control','Placeholder'=>'Nomor HP']) !!}
-    </div>
-    <div class="col-sm-4">
-        {!! Form::text('pekerjaan', null, ['class'=>'form-control','Placeholder'=>'Pekerjaan']) !!}
-    </div>
-</div>
-<div class="form-group">
-    <label class="col-sm-2 control-label">Alamat</label>
-    <div class="col-sm-3">
-        {!! Form::text('rt_rw', null, ['class'=>'form-control','Placeholder'=>'RT RW']) !!}
-    </div>
-    <div class="col-sm-4">
-        {!! Form::text('alamat', null, ['class'=>'form-control','Placeholder'=>'Alamat']) !!}
-    </div>
-</div>
-<div class="form-group">
-    <label class="col-sm-2 control-label">Pendidikan & Agama</label>
-    <div class="col-sm-3">
-        {!! Form::select('pendidikan', $jenjang_pendidikan, null, ['class'=>'form-control','Placeholder'=>'Pendidikan']) !!}
-    </div>
-    <div class="col-sm-4">
-        {!! Form::select('agama', $agama, null, ['class'=>'form-control']) !!}
-    </div>
-</div>
-<div class="form-group">
-    <label class="col-sm-2 control-label">Jenis Kelamin & Status Pernikahan</label>
-    <div class="col-sm-3">
-        {{Form::radio('jenis_kelamin','pria',['class'=>'form-check-input'])}}
-        <label class="form-check-label ml-2" for="inlineRadio1">Pria</label>
-        {{Form::radio('jenis_kelamin','wanita',['class'=>'form-check-input'])}}
-        <label class="form-check-label ml-2" for="inlineRadio2">Wanita</label>
-    </div>
-    <div class="col-sm-4">
-        {{Form::radio('status_pernikahan','sudah_menikah',['class'=>'form-check-input'])}}
-        <label class="form-check-label ml-2" for="inlineRadio1">Sudah Menikah</label>
-        {{Form::radio('status_pernikahan','belum_menikah',['class'=>'form-check-input'])}}
-        <label class="form-check-label ml-2" for="inlineRadio2">Belum Menikah</label>
-    </div>
-</div>
-<div class="form-group">
-    <label class="col-sm-2 control-label">Nama Ibu</label>
-    <div class="col-sm-3">
-        {!! Form::text('nama_ibu', null, ['class'=>'form-control','Placeholder'=>'Nama ibu']) !!}
-    </div>
-</div>
 <hr>
-<div class="form-group">
-    <label class="col-sm-2 control-label">Tujuan</label>
-    <div class="col-sm-3">
-        {!! Form::select('poliklinik_id',$poliklinik, null, ['class'=>'form-control poliklinik']) !!}
-    </div>
-    <div class="col-sm-4">
-        <div id="dokter"></div>
-    </div>
-</div>
-<div class="form-group">
-    <label class="col-sm-2 control-label">Jenis Layanan</label>
-    <div class="col-sm-3">
-        {{Form::radio('jenis_layanan','umum',['class'=>'form-check-input'])}}
-        <label class="form-check-label ml-2" for="inlineRadio1">Umum</label>
-        {{Form::radio('jenis_layanan','bpjs',['class'=>'form-check-input'])}}
-        <label class="form-check-label ml-2" for="inlineRadio2">BPJS</label>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Tujuan</label>
+            <div class="col-sm-3">
+                {!! Form::select('poliklinik_id',$poliklinik, null, ['class'=>'form-control poliklinik']) !!}
+            </div>
+            <div class="col-sm-4">
+                <div id="dokter"></div>
+            </div>
+        </div>
     </div>
 </div>
+    <div class="form-group"></div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group mt-4">
+            <label class="col-sm-2 control-label">Jenis Layanan</label>
+            <div class="col-sm-4">
+                {{Form::radio('jenis_layanan','umum',['class'=>'form-check-input'])}}
+                <label class="form-check-label ml-2" for="inlineRadio1">Umum</label>
+                {{Form::radio('jenis_layanan','bpjs',['class'=>'form-check-input'])}}
+                <label class="form-check-label ml-2" for="inlineRadio2">BPJS</label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="form-group"></div>
 
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
