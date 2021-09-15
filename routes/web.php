@@ -19,8 +19,8 @@ Route::get('/', function () {
 Auth::routes();
 Route::middleware(['auth'])->group(function () {
     Route::get('pasien/{id}/diagnosa', 'PasienController@pasienDiagnosa')->name('pasien.diagnosa');
-    Route::get('data-tindakan','PasienController@dataTindakan')->name('data.tindakan');
-    Route::get('data-obat','PasienController@dataObat')->name('data.obat');
+    Route::get('data-tindakan', 'PasienController@dataTindakan')->name('data.tindakan');
+    Route::get('data-obat', 'PasienController@dataObat')->name('data.obat');
     Route::get('pasien-antri', 'PasienController@pasienAntri')->name('pasien.antri');
     Route::get('pasien-antri/{id}/detail', 'PasienController@pasienDetail')->name('pasien.detail');
     Route::get('pasien-antri/{id}/cetak', 'PasienController@pasienCetak')->name('pasien.cetak');
@@ -51,4 +51,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('setting', 'SettingController@index')->name('setting.index');
     Route::put('setting', 'SettingController@update')->name('setting.update');
     Route::get('ajax/dropdown-dokter-berdasarkan-poliklinik', 'AjaxController@dropdownDokterBerdasarkanPoliklinik');
+    Route::get('ajax/select2Desa', 'AjaxController@select2Desa');
 });

@@ -7862,16 +7862,7 @@ INSERT INTO `regencies` (`id`, `province_id`, `name`) VALUES
 -- Stand-in struktur untuk tampilan `view_wilayah_administratif_indonesia`
 -- (Lihat di bawah untuk tampilan aktual)
 --
-CREATE TABLE `view_wilayah_administratif_indonesia` (
-`village_id` varchar(10)
-,`village_name` varchar(37)
-,`district_id` varchar(6)
-,`district_name` varchar(31)
-,`regency_id` varchar(4)
-,`regency_name` varchar(32)
-,`province_id` varchar(2)
-,`province_name` varchar(26)
-);
+
 
 -- --------------------------------------------------------
 
@@ -91399,9 +91390,6 @@ INSERT INTO `villages` (`id`, `district_id`, `name`) VALUES
 --
 -- Struktur untuk view `view_wilayah_administratif_indonesia`
 --
-DROP TABLE IF EXISTS `view_wilayah_administratif_indonesia`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_wilayah_administratif_indonesia`  AS  select `villages`.`id` AS `village_id`,`villages`.`name` AS `village_name`,`districts`.`id` AS `district_id`,`districts`.`name` AS `district_name`,`regencies`.`id` AS `regency_id`,`regencies`.`name` AS `regency_name`,`provinces`.`id` AS `province_id`,`provinces`.`name` AS `province_name` from (((`villages` left join `districts` on((`districts`.`id` = `villages`.`district_id`))) left join `regencies` on((`regencies`.`id` = `districts`.`regency_id`))) left join `provinces` on((`provinces`.`id` = `regencies`.`province_id`))) ;
 
 --
 -- Indexes for dumped tables
