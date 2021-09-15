@@ -24,6 +24,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pasien/antrian', 'PasienController@pasienAntrian')->name('pasien.antrian');
     Route::get('pasien/antrian/{id}/cetak', 'PasienController@pasienAntrianCetak')->name('pasien.cetak');
 
+    Route::get('pasien/pasien-terdaftar', 'PasienController@pasienTerdaftar')->name('pasien.terdaftar');
+    Route::post('detail-pasien', 'PasienController@detailPasien')->name('pasien.detail');
+    Route::post('pasien/pasien-terdaftar/insert', 'PasienController@pasienInsert')->name('pasien.insert');
+
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('obat', 'ObatController');
     Route::resource('user', 'UserController');
