@@ -16,7 +16,7 @@ class AjaxController extends Controller
     }
 
     // pencarian nama desa dengan element select2
-    public function select2Desa()
+    public function select2Desa(Request $request)
     {
         $data = \DB::table('view_wilayah_administratif_indonesia')
                 ->select('village_id', \DB::raw('CONCAT(village_name, ", ", district_name,", ", regency_name, ", ",province_name) AS village_name'))
