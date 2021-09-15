@@ -55,7 +55,8 @@
       $hrd = [
         ['icon' => 'fa fa-user', 'link' => '/home', 'label' => 'Dashboard'],
         ['icon' => 'fa fa-user-circle-o', 'link' => '/pegawai', 'label' => 'Pegawai'],
-        ['icon' => 'fa fa-dollar', 'link' => '/gaji', 'label' => 'Gaji']
+        ['icon' => 'fa fa-dollar', 'link' => '/gaji', 'label' => 'Gaji'],
+        ['icon' => 'fa fa-id-card', 'link' => '/kehadiran-pegawai', 'label' => 'Kehadiran Pegawai'],
       ];
 
       $keuangan = [
