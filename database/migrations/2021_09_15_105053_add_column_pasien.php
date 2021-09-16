@@ -14,7 +14,6 @@ class AddColumnPasien extends Migration
     public function up()
     {
         Schema::table('pasien', function (Blueprint $table) {
-            $table->string('kewarganegaraan');
             $table->string('suku_bangsa');
             $table->string('golongan_darah', 5);
             $table->string('privilage_khusus', 20);
