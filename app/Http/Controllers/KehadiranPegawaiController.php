@@ -8,6 +8,7 @@ use App\Models\KehadiranPegawai;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\KehadiranPegawaiExport;
 use App\Http\Requests\KehadiranPegawaiStoreRequest;
+use App\Models\Pegawai;
 
 class KehadiranPegawaiController extends Controller
 {
@@ -25,7 +26,7 @@ class KehadiranPegawaiController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(KehadiranPegawai::all())
+            return DataTables::of(KehadiranPegawai::with('pegawai')->get())
                 ->addColumn('action', function ($row) {
                     $btn = \Form::open(['url' => 'kehadiran-pegawai/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
                     $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
@@ -53,6 +54,7 @@ class KehadiranPegawaiController extends Controller
     public function create()
     {
         $data['status'] = $this->status_kehadiran;
+        $data['pegawai'] = Pegawai::pluck('nama', 'id');
         return view('kehadiran-pegawai.create', $data);
     }
 
@@ -89,6 +91,7 @@ class KehadiranPegawaiController extends Controller
     public function edit($id)
     {
         $data['status'] = $this->status_kehadiran;
+        $data['pegawai'] = Pegawai::pluck('nama', 'id');
         $data['kehadiran_pegawai']            = KehadiranPegawai::findOrFail($id);
         return view('kehadiran-pegawai.edit', $data);
     }

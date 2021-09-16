@@ -24,7 +24,6 @@ class KehadiranPegawaiStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'nama'            =>  'required',
             'jam_masuk'       =>  'required',
             'jam_keluar'      =>  'required',
             'tanggal'         =>  'required',

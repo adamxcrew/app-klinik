@@ -56,8 +56,8 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+      {{ Form::open(['route' => 'kehadiran-pegawai.export_excel', 'method' => 'post']) }}
       <div class="modal-body">
-        {{ Form::open(['route' => 'kehadiran-pegawai.export_excel']) }}
         <table class="table table-bordered">
           <tr>
             <th>Tanggal Mulai</th>
@@ -96,8 +96,8 @@
           searchable: false
         },
         {
-          data: 'nama',
-          name: 'nama'
+          data: 'pegawai.nama',
+          name: 'pegawai.nama'
         },
         {
           data: 'jam_masuk',
