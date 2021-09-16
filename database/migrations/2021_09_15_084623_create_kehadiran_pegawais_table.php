@@ -15,7 +15,7 @@ class CreateKehadiranPegawaisTable extends Migration
     {
         Schema::create('kehadiran_pegawai', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
+            $table->foreignId('pegawai_id');
             $table->string('jam_masuk');
             $table->string('jam_keluar');
             $table->date('tanggal');

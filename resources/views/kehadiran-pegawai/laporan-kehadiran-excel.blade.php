@@ -13,7 +13,7 @@
         @foreach($laporan_kehadiran as $laporan)
         <tr>
             <td>{{$loop->iteration}}</td>
-            <td>{{$laporan->nama}}</td>
+            <td>{{$laporan->pegawai->nama}}</td>
             <td>{{$laporan->jam_masuk}}</td>
             <td>{{$laporan->jam_keluar}}</td>
             <td>{{$laporan->tanggal}}</td>

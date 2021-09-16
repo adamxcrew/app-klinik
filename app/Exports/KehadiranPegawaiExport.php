@@ -13,7 +13,7 @@ class KehadiranPegawaiExport implements FromView, ShouldAutoSize
     public $tanggal_mulai;
     public $tanggal_selesai;
 
-    public function construct($tanggal_mulai, $tanggal_selesai)
+    public function __construct($tanggal_mulai, $tanggal_selesai)
     {
         $this->tanggal_mulai = $tanggal_mulai;
         $this->tanggal_selesai = $tanggal_selesai;
@@ -24,7 +24,7 @@ class KehadiranPegawaiExport implements FromView, ShouldAutoSize
         \Log::info($this->tanggal_mulai);
         \Log::info($this->tanggal_selesai);
         return view('kehadiran-pegawai.laporan-kehadiran-excel', [
-            'laporan_kehadiran' => KehadiranPegawai::whereBetween('tanggal', [$this->tanggal_mulai, $this->tanggal_selesai])
+            'laporan_kehadiran' => KehadiranPegawai::with('pegawai')->whereBetween('tanggal', [$this->tanggal_mulai, $this->tanggal_selesai])->get()
         ]);
     }
 }
