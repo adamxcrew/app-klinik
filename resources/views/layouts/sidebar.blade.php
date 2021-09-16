@@ -63,7 +63,7 @@
         ['icon' => 'fa fa-user', 'link' => '/home', 'label' => 'Dashboard'],
         ['icon' => 'fa fa-user', 'link' => '/akun', 'label' => 'Akun'],
         ['icon' => 'fa fa-user', 'link' => '/jurnal', 'label' => 'Jurnal Umum'],
-        ['icon' => 'fa fa-user', 'link' => '/akun', 'label' => 'Buku Besar'],
+        ['icon' => 'fa fa-book', 'link' => '/buku-besar', 'label' => 'Buku Besar'],
         ['icon' => 'fa fa-user', 'link' => '/akun', 'label' => 'Neraca Saldo'],
         ['icon' => 'fa fa-user', 'link' => '/akun', 'label' => 'Laporan'],
       ];

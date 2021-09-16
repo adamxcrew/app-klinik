@@ -20,34 +20,34 @@ Auth::routes();
 Route::middleware(['auth'])->group(function () {
 
     // route master pendaftaran
-    Route::get('pendaftaran'             , 'PendaftaranController@index')->name('pendaftaran.index');
-    Route::get('pendaftaran/{id}/detail' , 'PendaftaranController@detail')->name('pendaftaran.detail');
-    Route::get('pendaftaran/{id}/cetak'  , 'PendaftaranController@cetak')->name('pendaftaran.cetak');
-    Route::get('pendaftaran/{id}/print'  , 'PendaftaranController@print')->name('pendaftaran.print');
-    Route::delete('pendaftaran/{id}'     , 'PendaftaranController@destroy')->name('pendaftaran.delete');
+    Route::get('pendaftaran', 'PendaftaranController@index')->name('pendaftaran.index');
+    Route::get('pendaftaran/{id}/detail', 'PendaftaranController@detail')->name('pendaftaran.detail');
+    Route::get('pendaftaran/{id}/cetak', 'PendaftaranController@cetak')->name('pendaftaran.cetak');
+    Route::get('pendaftaran/{id}/print', 'PendaftaranController@print')->name('pendaftaran.print');
+    Route::delete('pendaftaran/{id}', 'PendaftaranController@destroy')->name('pendaftaran.delete');
 
     // route pendaftaran pasien yang sudah pernah terdaftar
-    Route::get('pendaftaran/create'  , 'PendaftaranController@pendaftaranCreate')->name('pendaftaran.pasien-terdaftar');
-    Route::post('detail-pasien'      , 'PendaftaranController@detailPasien')->name('pasien.detail');
-    Route::post('pendaftaran/insert' , 'PendaftaranController@pendaftaranInsert')->name('pendaftaran.insert');
+    Route::get('pendaftaran/create', 'PendaftaranController@pendaftaranCreate')->name('pendaftaran.pasien-terdaftar');
+    Route::post('detail-pasien', 'PendaftaranController@detailPasien')->name('pasien.detail');
+    Route::post('pendaftaran/insert', 'PendaftaranController@pendaftaranInsert')->name('pendaftaran.insert');
 
     // route menampilkan data diagnosa, resep dan tindakan yang dipilih
-    Route::get('resume/diagnosa' , 'PendaftaranController@resumeDiagnosa')->name('resume.diagnosa');
-    Route::get('resume/resep'    , 'PendaftaranController@resumeResep')->name('resume.resep');
-    Route::get('resume/tindakan' , 'PendaftaranController@resumeTindakan')->name('resume.tindakan');
+    Route::get('resume/diagnosa', 'PendaftaranController@resumeDiagnosa')->name('resume.diagnosa');
+    Route::get('resume/resep', 'PendaftaranController@resumeResep')->name('resume.resep');
+    Route::get('resume/tindakan', 'PendaftaranController@resumeTindakan')->name('resume.tindakan');
 
     // pilih dan hapus pendaftaran resume diagnosa
-    Route::post('resume/diagnosa/pilih' , 'PendaftaranController@resumePilihDiagnosa')->name('resume.pilih-diagnosa');
-    Route::delete('resume/diagnosa/{id}' , 'PendaftaranController@resumeHapusDiagnosa')->name('resume.hapus-diagnosa');
+    Route::post('resume/diagnosa/pilih', 'PendaftaranController@resumePilihDiagnosa')->name('resume.pilih-diagnosa');
+    Route::delete('resume/diagnosa/{id}', 'PendaftaranController@resumeHapusDiagnosa')->name('resume.hapus-diagnosa');
 
     // pilih dan hapus pendaftaran resume obat
-    Route::post('resume/resep/pilih'    , 'PendaftaranController@resumePilihResep')->name('resume.pilih-resep');
-    Route::post('resume/resep/tambah'   , 'PendaftaranController@resumeTambahResep')->name('resume.tambah-resep');
-    Route::delete('resume/resep/{id}' , 'PendaftaranController@resumeHapusResep')->name('resume.hapus-resep');
+    Route::post('resume/resep/pilih', 'PendaftaranController@resumePilihResep')->name('resume.pilih-resep');
+    Route::post('resume/resep/tambah', 'PendaftaranController@resumeTambahResep')->name('resume.tambah-resep');
+    Route::delete('resume/resep/{id}', 'PendaftaranController@resumeHapusResep')->name('resume.hapus-resep');
 
     // pilih dan hapus pendaftaran resume tindakan
-    Route::post('resume/tindakan/pilih'     , 'PendaftaranController@resumePilihTindakan')->name('resume.pilih-tindakan');
-    Route::delete('resume/tindakan/{id}' , 'PendaftaranController@resumeHapusTindakan')->name('resume.hapus-tindakan');
+    Route::post('resume/tindakan/pilih', 'PendaftaranController@resumePilihTindakan')->name('resume.pilih-tindakan');
+    Route::delete('resume/tindakan/{id}', 'PendaftaranController@resumeHapusTindakan')->name('resume.hapus-tindakan');
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('obat', 'ObatController');
@@ -65,6 +65,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('asuransi', 'AsuransiController');
     Route::post('kehadiran-pegawai/export_excel', 'KehadiranPegawaiController@export_excel')->name('kehadiran-pegawai.export_excel');
     Route::resource('kehadiran-pegawai', 'KehadiranPegawaiController');
+    Route::get('buku-besar', 'BukuBesarController@index');
+    Route::get('buku-besar/periode/{kode}', 'BukuBesarController@show_periode');
+    Route::get('buku-besar/{kode}', 'BukuBesarController@show');
     Route::get('profile', 'UserController@profile');
     Route::put('profile', 'UserController@profileUpdate')->name('user.profile');
     Route::get('setting', 'SettingController@index')->name('setting.index');
