@@ -32,8 +32,7 @@ jobs:
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
-    - name: Pengecekan Code Style
-      run: vendor/bin/phpcs
-    - name: Menjalankan unit testing
-      run: vendor/bin/phpunit
+      run: |
+        vendor/bin/phpcs
+        vendor/bin/phpunit
 
