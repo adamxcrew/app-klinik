@@ -1,7 +1,7 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">Nama Pegawai</label>
     <div class="col-sm-10">
-        {!! Form::text('nama', null, ['class'=>'form-control','Placeholder'=>'Nama pegawai']) !!}
+        {!! Form::select('pegawai_id', $pegawai, null, ['class'=>'form-control']) !!}
     </div>
 </div>
 <div class="form-group">

@@ -19,7 +19,7 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">Keterangan</label>
     <div class="col-sm-10">
-        {!! Form::textarea('keterangan', null, ['class'=>'form-control','Placeholder'=>'Keterangan']) !!}
+        {!! Form::text('keterangan', null, ['class'=>'form-control','Placeholder'=>'Keterangan']) !!}
     </div>
 </div>
 <div class="form-group">
