@@ -21,15 +21,13 @@ jobs:
     #     KEY: ${{ secrets.SSHKEY }}
     #   with:
     #     source: "."
-    #     target: "/home/nuris_akbar/app-klinik"
+    #     target: "/var/www/html/project/app-klinik"
 
-    - name: Pull Perubahan Terbaru Di Server
+    - name: Executing remote command
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
-        source: "."
-        target: "/home/nuris_akbar/app-klinik"
         script: ls
