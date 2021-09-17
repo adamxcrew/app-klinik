@@ -63,6 +63,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('gaji', 'GajiController');
     Route::resource('pegawai', 'PegawaiController');
     Route::resource('asuransi', 'AsuransiController');
+    Route::resource('supplier', 'SupplierController');
     Route::post('kehadiran-pegawai/export_excel', 'KehadiranPegawaiController@export_excel')->name('kehadiran-pegawai.export_excel');
     Route::resource('kehadiran-pegawai', 'KehadiranPegawaiController');
     Route::get('buku-besar', 'BukuBesarController@index');
