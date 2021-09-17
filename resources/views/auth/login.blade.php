@@ -30,7 +30,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="../../index2.html"><b>Aplikasi</b> Klinik</a>
+    <a href="/"><b>Aplikasi Nurdin Wahid</b></a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
