@@ -14,7 +14,7 @@ class ChangeColumnTanggalSelesaiNull extends Migration
     public function up()
     {
         Schema::table('surat_sehat_sakit', function (Blueprint $table) {
-            $table->date('tanggal_selesai')->nullable();
+            $table->date('tanggal_selesai')->nullable()->change();
         });
     }
 
