@@ -19,7 +19,7 @@ jobs:
         KEY: ${{ secrets.SSHKEY }}
       with:
         source: "."
-        target: "/var/www/html/project/app-klinik"
+        target: "/home/nuris_akbar/app-klinik"
 
     - name: Executing remote command
       uses: appleboy/ssh-action@master
