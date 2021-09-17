@@ -19,10 +19,20 @@ class AjaxController extends Controller
     public function select2Desa(Request $request)
     {
         $data = \DB::table('view_wilayah_administratif_indonesia')
-                ->select('village_id', \DB::raw('CONCAT(village_name, ", ", district_name,", ", regency_name, ", ",province_name) AS village_name'))
-                ->where('village_name', 'like', "%".$request->q."%")
-                ->limit(20)
-                ->get();
+            ->select('village_id', \DB::raw('CONCAT(village_name, ", ", district_name,", ", regency_name, ", ",province_name) AS village_name'))
+            ->where('village_name', 'like', "%" . $request->q . "%")
+            ->limit(20)
+            ->get();
+        return response()->json($data);
+    }
+
+    public function select2Pasien(Request $request)
+    {
+        $data = \DB::table('pasien')
+            ->select('nama')
+            ->where('nama', 'like', "%" . $request->q . "%")
+            ->limit(20)
+            ->get();
         return response()->json($data);
     }
 }

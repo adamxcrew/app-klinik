@@ -63,6 +63,18 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('gaji', 'GajiController');
     Route::resource('pegawai', 'PegawaiController');
     Route::resource('asuransi', 'AsuransiController');
+
+    /**
+     * Surat Sehat Sakit Route
+     */
+    Route::get('surat-sehat-sakit/{tipe}', 'SuratSehatSakitController@create');
+    Route::resource('surat-sehat-sakit', 'SuratSehatSakitController');
+    Route::post('surat-sehat/store_sehat', 'SuratSehatSakitController@store_surat_sehat')->name('surat-sehat.store_sehat');
+    Route::post('surat-sehat/store_sakit', 'SuratSehatSakitController@store_surat_sakit')->name('surat-sakit.store_sakit');
+    Route::get('surat-sehat-sakit/{id}/print', 'SuratSehatSakitController@print')->name('surat.print');
+
+    /** End */
+
     Route::post('kehadiran-pegawai/export_excel', 'KehadiranPegawaiController@export_excel')->name('kehadiran-pegawai.export_excel');
     Route::resource('kehadiran-pegawai', 'KehadiranPegawaiController');
     Route::get('buku-besar', 'BukuBesarController@index');
@@ -74,4 +86,5 @@ Route::middleware(['auth'])->group(function () {
     Route::put('setting', 'SettingController@update')->name('setting.update');
     Route::get('ajax/dropdown-dokter-berdasarkan-poliklinik', 'AjaxController@dropdownDokterBerdasarkanPoliklinik');
     Route::get('ajax/select2Desa', 'AjaxController@select2Desa');
+    Route::get('ajax/select2Pasien', 'AjaxController@select2Pasien');
 });
