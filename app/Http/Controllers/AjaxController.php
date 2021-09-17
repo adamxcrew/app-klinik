@@ -29,7 +29,7 @@ class AjaxController extends Controller
     public function select2Pasien(Request $request)
     {
         $data = \DB::table('pasien')
-            ->select('nama')
+            ->select('id', 'nama')
             ->where('nama', 'like', "%" . $request->q . "%")
             ->limit(20)
             ->get();

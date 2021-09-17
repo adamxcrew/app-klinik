@@ -8,7 +8,6 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">Pasien</label>
     <div class="col-sm-10">
-        {{-- {{ Form::select('pasien_id', $pasien, null, ['class' => 'form-control']) }} --}}
         <select name="pasien_id" id="pasien" class="pasien form-control" style="height: 100px;" placeholder="Masukan Nama Pasien"></select>
     </div>
 </div>
@@ -55,7 +54,7 @@
     <div class="form-group">
         <label class="col-sm-2 control-label">Selama</label>
         <div class="col-sm-10">
-            {!! Form::text('selama', null, ['class'=>'form-control','Placeholder'=>'Selama']) !!}
+            {!! Form::number('selama', null, ['class'=>'form-control','Placeholder'=>'Selama']) !!}
         </div>
     </div>
     <div class="form-group">
@@ -97,7 +96,7 @@ $( document ).ready(function() {
             results:  $.map(data, function (item) {
                 return {
                 text: item.nama,
-                id: item.id
+                id: 1
                 }
             })
             };
