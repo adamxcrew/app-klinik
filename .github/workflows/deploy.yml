@@ -12,16 +12,16 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
-    - name: Copy repository contents via scp
-      uses: appleboy/scp-action@master
-      env:
-        HOST: ${{ secrets.HOST }}
-        USERNAME: ${{ secrets.USERNAME }}
-        PORT: ${{ secrets.PORT }}
-        KEY: ${{ secrets.SSHKEY }}
-      with:
-        source: "."
-        target: "/home/nuris_akbar/app-klinik"
+    # - name: Copy repository contents via scp
+    #   uses: appleboy/scp-action@master
+    #   env:
+    #     HOST: ${{ secrets.HOST }}
+    #     USERNAME: ${{ secrets.USERNAME }}
+    #     PORT: ${{ secrets.PORT }}
+    #     KEY: ${{ secrets.SSHKEY }}
+    #   with:
+    #     source: "."
+    #     target: "/home/nuris_akbar/app-klinik"
 
     - name: Executing remote command
       uses: appleboy/ssh-action@master
@@ -30,4 +30,6 @@ jobs:
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
-        script: composer dump-autoload && php artisan migrate
+        source: "."
+        target: "/home/nuris_akbar/app-klinik"
+        script: git pull origin master
