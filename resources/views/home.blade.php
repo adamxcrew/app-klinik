@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Dashboard Aplikasi')
+@section('title','Dashboard')
 @section('content')
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->

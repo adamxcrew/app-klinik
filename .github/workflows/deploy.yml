@@ -18,4 +18,4 @@ jobs:
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
-        script: cd app-klinik && git pull origin master | composer dump-autoload | php artisan migrate
+        script: cd app-klinik && git pull origin master | composer dump-autoload | sudo php artisan migrate
