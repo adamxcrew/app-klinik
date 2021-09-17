@@ -32,4 +32,4 @@ jobs:
         KEY: ${{ secrets.SSHKEY }}
         source: "."
         target: "/home/nuris_akbar/app-klinik"
-        script: git pull origin master
+        script: ls
