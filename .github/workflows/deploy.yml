@@ -23,7 +23,7 @@ jobs:
     #     source: "."
     #     target: "/home/nuris_akbar/app-klinik"
 
-    - name: Executing remote command
+    - name: Pull Perubahan Terbaru Di Server
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
