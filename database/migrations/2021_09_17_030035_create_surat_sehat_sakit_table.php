@@ -20,9 +20,9 @@ class CreateSuratSehatSakitTable extends Migration
             $table->foreignId('user_id');
             $table->string('selama')->nullable();
             $table->date('tanggal_mulai');
-            $table->string('tanggal_selesai');
+            $table->date('tanggal_selesai')->nullable();
 
-            // Surat Sehat 
+            // Surat Sehat
             $table->string('keperluan')->nullable();
             $table->string('tekanan_darah')->nullable();
             $table->string('tinggi_badan')->nullable();
