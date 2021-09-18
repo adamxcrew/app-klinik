@@ -49,7 +49,7 @@ class PasienController extends Controller
         if ($request->ajax()) {
             return DataTables::of(Pasien::all())
                 ->addColumn('tempat_tanggal_lahir', function ($row) {
-                    return $row->tempat_lahir . ', ' . $row->tanggal_lahir;
+                    return $row->tempat_lahir . ', ' . tgl_indo($row->tanggal_lahir);
                 })
                 ->addColumn('action', function ($row) {
                     $btn = \Form::open(['url' => 'pasien/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right']);
@@ -97,10 +97,17 @@ class PasienController extends Controller
      */
     public function store(PasienStoreRequest $request)
     {
-        $data               =   $request->all();
-        $pasien             =   Pasien::create($data);
-        $data['pasien_id']  =   $pasien->id;
-        $pendaftaran        =   Pendaftaran::create($data);
+        $wilayah_administratif = \DB::table('view_wilayah_administratif_indonesia')
+                                ->where('village_id', $request->wilayah_administratif)
+                                ->first();
+        $data                =   $request->all();
+        $data['village_id']  = $wilayah_administratif->village_id;
+        $data['district_id'] = $wilayah_administratif->district_id;
+        $data['province_id'] = $wilayah_administratif->province_id;
+        $data['regency_id']  = $wilayah_administratif->regency_id;
+        $pasien              =   Pasien::create($data);
+        $data['pasien_id']   =   $pasien->id;
+        $pendaftaran         =   Pendaftaran::create($data);
         return redirect('/pendaftaran/'.$pendaftaran->id.'/cetak');
     }
 
@@ -176,5 +183,4 @@ class PasienController extends Controller
         $pasien->delete();
         return redirect(route('pasien.index'))->with('message', 'Data Berhasil Dihapus');
     }
-    
 }

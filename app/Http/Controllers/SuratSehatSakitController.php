@@ -32,6 +32,9 @@ class SuratSehatSakitController extends Controller
                     $btn = '<a class="btn btn-danger btn-sm" href="/surat-sehat-sakit/' . $row->id . '/print" target="_blank"><i class="fa fa-print" aria-hidden="true"></i></a> ';
                     return $btn;
                 })
+                ->addColumn('tanggal_mulai', function ($row) {
+                    return tgl_indo($row->tanggal_mulai);
+                })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
@@ -125,9 +128,9 @@ class SuratSehatSakitController extends Controller
 
     /**
      * Print
-     * 
+     *
      * Cetak surat sehat sakit
-     * 
+     *
      * @return mixed
      */
     public function print($id)

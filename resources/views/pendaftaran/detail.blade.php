@@ -37,7 +37,7 @@
                                 <strong>Nomor Pendaftaran</strong>
                             </div>
                             <div class="col-md-7">
-                                {{ $pasien->kode }}
+                                : {{ $pasien->kode }}
                             </div>
                         </div>
 
@@ -46,7 +46,7 @@
                                 <strong>Nama</strong>
                             </div>
                             <div class="col-md-7">
-                                {{ $pasien->pasien->nama }}
+                                : {{ $pasien->pasien->nama }}
                             </div>
                         </div>
 
@@ -55,7 +55,7 @@
                                 <strong>Tempat tgl lahir</strong>
                             </div>
                             <div class="col-md-7">
-                                {{ $pasien->pasien->tempat_lahir }}, {{ date('d-m-Y', strtotime($pasien->pasien->tanggal_lahir)) }}
+                                : {{ $pasien->pasien->tempat_lahir }}, {{ tgl_indo($pasien->pasien->tanggal_lahir) }}
                             </div>
                         </div>
 
@@ -64,7 +64,7 @@
                                 <strong>Umur</strong>
                             </div>
                             <div class="col-md-7">
-                                {{ hitung_umur($pasien->pasien->tanggal_lahir) }} tahun
+                                : {{ hitung_umur($pasien->pasien->tanggal_lahir) }} tahun
                             </div>
                         </div>
 
@@ -87,7 +87,7 @@
                                 <strong>Tujuan Poliklinik</strong>
                             </div>
                             <div class="col-md-7">
-                                {{ $pasien->poliklinik->nama }}
+                                : {{ $pasien->poliklinik->nama }}
                             </div>
                         </div>
 
@@ -96,7 +96,7 @@
                                 <strong>Tanggal Sekarang</strong>
                             </div>
                             <div class="col-md-7">
-                                {{ date('d-m-Y') }}
+                                : {{ tgl_indo(date('Y-m-d')) }}
                             </div>
                         </div>
 
@@ -105,7 +105,7 @@
                                 <strong>Jenis Layanan</strong>
                             </div>
                             <div class="col-md-7">
-                                {{ $pasien->jenis_layanan }}
+                                : {{ $pasien->jenis_layanan }}
                             </div>
                         </div>
 
