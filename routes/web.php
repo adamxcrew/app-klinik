@@ -62,6 +62,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('tindakan', 'TindakanController');
     Route::resource('akun', 'AkunController');
     Route::resource('jurnal', 'JurnalController');
+    Route::resource('komponengaji', 'KomponenGajiController');
     Route::resource('gaji', 'GajiController');
     Route::resource('pegawai', 'PegawaiController');
     Route::resource('asuransi', 'AsuransiController');
