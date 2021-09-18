@@ -60,6 +60,7 @@
         ['icon' => 'fa fa-user-circle-o', 'link' => '/pegawai', 'label' => 'Pegawai'],
         ['icon' => 'fa fa-dollar', 'link' => '/gaji', 'label' => 'Gaji'],
         ['icon' => 'fa fa-id-card', 'link' => '/kehadiran-pegawai', 'label' => 'Kehadiran Pegawai'],
+        ['icon' => 'fa fa-dollar', 'link' => '/komponengaji', 'label' => 'Komponen Gaji']
       ];
 
       $keuangan = [
