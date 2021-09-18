@@ -32,6 +32,10 @@ class Pasien extends Model
         'alamat_penanggung_jawab',
         'no_telp_penanggung_jawab',
         'nomor_rekam_medis',
-        'penjamin'
+        'penjamin',
+        'village_id',
+        'province_id',
+        'district_id',
+        'regency_id'
     ];
 }

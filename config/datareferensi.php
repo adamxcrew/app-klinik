@@ -66,7 +66,9 @@ return [
         'autis'         => 'Autis',
     ],
     'hubungan_pasien'    => [
-        'pasien'         => 'Pasien',
+        'ibu'         => 'Ibu',
+        'ayah'        => 'Ayah',
+        'saudara'     => 'Saudara'
     ],
     'penjamin'    => [
         'umum'         => 'Umum',
