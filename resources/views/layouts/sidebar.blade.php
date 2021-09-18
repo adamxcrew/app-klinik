@@ -33,6 +33,7 @@
         ['icon' => 'fa fa-bars', 'link' => '/home', 'label' => 'Pendaftaran Pasien', 'submenu' => [
           ['icon' => 'fa fa-plus-square', 'link' => '/pasien/create', 'label' => 'Pasien Baru'],
           ['icon' => 'fa fa-plus-square-o', 'link' => '/pendaftaran/create', 'label' => 'Pasien Lama'],
+          ['icon' => 'fa fa-list-ul', 'link' => '/pasien', 'label' => 'Database Pasien'],
         ]],
         ['icon' => 'fa fa-bars', 'link' => '/home', 'label' => 'Data Master', 'submenu' => [
           ['icon' => 'fa fa-cube', 'link' => '/obat', 'label' => 'Data Obat'],
@@ -42,8 +43,8 @@
           ['icon' => 'fa fa-list-ul', 'link' => '/gejala', 'label' => 'Data Gejala'],
           ['icon' => 'fa fa-user-md', 'link' => '/user?jabatan=dokter', 'label' => 'Data Dokter'],
           ['icon' => 'fa fa-list-ul', 'link' => '/asuransi', 'label' => 'Data Perusahaan Asuransi'],
-          ['icon' => 'fa fa-list-ul', 'link' => '/surat-sehat-sakit', 'label' => 'Data Surat Sehat Dan Sakit'],
         ]],
+        ['icon' => 'fa fa-list-ul', 'link' => '/surat-sehat-sakit', 'label' => 'Data Surat Sehat Dan Sakit'],
         ['icon' => 'fa fa-user-circle-o', 'link' => '/user?jabatan=user', 'label' => 'Pengguna Aplikasi'],
         ['icon' => 'fa fa-gear', 'link' => '/setting', 'label' => 'Setting Aplikasi']
       ];
