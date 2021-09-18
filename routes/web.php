@@ -58,6 +58,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('gejala', 'GejalaController');
     Route::resource('kategoribiaya', 'KategoriBiayaController');
     Route::resource('satuan', 'SatuanController');
+    Route::resource('harilibur', 'HariLiburController');
     Route::resource('tindakan', 'TindakanController');
     Route::resource('akun', 'AkunController');
     Route::resource('jurnal', 'JurnalController');
