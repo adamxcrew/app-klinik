@@ -57,11 +57,11 @@
 
       $hrd = [
         ['icon' => 'fa fa-user', 'link' => '/home', 'label' => 'Dashboard'],
-        ['icon' => 'fa fa-user-circle-o', 'link' => '/pegawai', 'label' => 'Pegawai'],
-        ['icon' => 'fa fa-dollar', 'link' => '/gaji', 'label' => 'Gaji'],
-        ['icon' => 'fa fa-dollar', 'link' => '/harilibur', 'label' => 'Setting Hari Libur'],
+        ['icon' => 'fa fa-user-circle-o', 'link' => '/pegawai', 'label' => 'Data Pegawai'],
+        ['icon' => 'fa fa-money', 'link' => '/gaji', 'label' => 'Laporan Gaji'],
+        ['icon' => 'fa fa-calendar-check-o', 'link' => '/harilibur', 'label' => 'Setting Hari Libur'],
         ['icon' => 'fa fa-id-card', 'link' => '/kehadiran-pegawai', 'label' => 'Kehadiran Pegawai'],
-        ['icon' => 'fa fa-dollar', 'link' => '/komponengaji', 'label' => 'Komponen Gaji']
+        ['icon' => 'fa fa-list-alt', 'link' => '/komponengaji', 'label' => 'Komponen Gaji']
       ];
 
       $keuangan = [
