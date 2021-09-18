@@ -19,8 +19,5 @@ jobs:
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
         script: cd app-klinik && git pull origin master | composer dump-autoload | sudo php artisan migrate
-<<<<<<< Updated upstream
-=======
     - name: Dump Autoload
       run: pwd
->>>>>>> Stashed changes
