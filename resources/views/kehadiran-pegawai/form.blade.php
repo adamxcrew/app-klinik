@@ -5,26 +5,20 @@
     </div>
 </div>
 <div class="form-group">
-    <label class="col-sm-2 control-label">Jam Masuk</label>
-    <div class="col-sm-3">
+    <label class="col-sm-2 control-label">Jam Masuk & Pulang</label>
+    <div class="col-sm-2">
         {!! Form::text('jam_masuk', null, ['class'=>'form-control','Placeholder'=>'Ex: 08:00']) !!}
     </div>
-</div>
-<div class="form-group">
-    <label class="col-sm-2 control-label">Jam Keluar</label>
-    <div class="col-sm-3">
+    <div class="col-sm-2">
         {!! Form::text('jam_keluar', null, ['class'=>'form-control','Placeholder'=>'Ex: 17:00']) !!}
     </div>
 </div>
 <div class="form-group">
-    <label class="col-sm-2 control-label">Tanggal</label>
-    <div class="col-sm-10">
+    <label class="col-sm-2 control-label">Tanggal & Status Kehadiran</label>
+    <div class="col-sm-2">
         {!! Form::date('tanggal', null, ['class'=>'form-control']) !!}
     </div>
-</div>
-<div class="form-group">
-    <label class="col-sm-2 control-label">Status Kehadiran</label>
-    <div class="col-sm-10">
+    <div class="col-sm-2">
         {!! Form::select('status', $status, null, ['class'=>'form-control']) !!}
     </div>
 </div>
