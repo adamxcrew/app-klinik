@@ -8,7 +8,6 @@ use App\Models\Pasien;
 use App\Http\Requests\PasienStoreRequest;
 use App\Models\Poliklinik;
 use App\Models\Pendaftaran;
-
 use App\Models\Province;
 use App\Models\Regency;
 use App\Models\Diagnosa;
@@ -108,7 +107,7 @@ class PasienController extends Controller
         $pasien              =   Pasien::create($data);
         $data['pasien_id']   =   $pasien->id;
         $pendaftaran         =   Pendaftaran::create($data);
-        return redirect('/pendaftaran/'.$pendaftaran->id.'/cetak');
+        return redirect('/pendaftaran/' . $pendaftaran->id . '/cetak');
     }
 
     /**

@@ -67,6 +67,11 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('pegawai', 'PegawaiController');
     Route::resource('asuransi', 'AsuransiController');
 
+    Route::prefix('laporan')->group(function () {
+        Route::get('/kunjungan-perpoli', 'LaporanController@laporanKunjunganPerPoli');
+    });
+
+
     /**
      * Surat Sehat Sakit Route
      */

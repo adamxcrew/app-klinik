@@ -65,7 +65,7 @@ class SuratSehatSakitController extends Controller
     public function store_surat_sehat(SuratSehatStoreRequest $request)
     {
         $surat_sehat = SuratSehatSakit::create(array_merge($request->all(), ['tipe_surat' => 'Surat Sehat']));
-        return redirect('surat-sehat-sakit/' . $surat_sehat->id . '/cetak');
+        return redirect('surat-sehat-sakit/' . $surat_sehat->id . '/print');
     }
 
     public function store_surat_sakit(SuratSakitStoreRequest $request)
