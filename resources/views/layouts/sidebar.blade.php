@@ -82,7 +82,7 @@
 
       @foreach($menus[Auth::user()->role] as $menu)
       @if(array_key_exists('submenu',$menu))
-      <li class="active treeview">
+      <li class="treeview">
         <a href="#">
           <i class="{{$menu['icon']}}"></i> <span>{{$menu['label']}}</span>
           <span class="pull-right-container">
