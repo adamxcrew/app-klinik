@@ -20,4 +20,4 @@ jobs:
         KEY: ${{ secrets.SSHKEY }}
         script: cd app-klinik && git pull origin master | composer dump-autoload | sudo php artisan migrate
     - name: Dump Autoload
-      script: 'cd /var/www/html && ./server_deploy.sh'
+      script: 'cd /home/nuris_akbar && ./server_deploy.sh'
