@@ -51,6 +51,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('obat', 'ObatController');
+    Route::resource('barang', 'BarangController');
     Route::resource('user', 'UserController');
     Route::resource('pasien', 'PasienController');
     Route::resource('diagnosa', 'DiagnosaController');

@@ -88,5 +88,9 @@ return [
                                 'kasir'         =>  'Kasir',
                                 'keuangan'      =>  'Keuangan',
                                 'hrd'           =>  'HRD'
-    ]
+    ],
+    'jenis_barang'          => [
+        'obat'  =>  'Obat',
+        'alkes' =>  'Alkes'
+        ]
 ];
