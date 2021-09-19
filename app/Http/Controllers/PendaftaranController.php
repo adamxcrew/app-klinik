@@ -49,7 +49,7 @@ class PendaftaranController extends Controller
     public function pendaftaranInsert(Request $request)
     {
         $data = Pendaftaran::create($request->all());
-        return redirect('/pendaftaran/'.$data->id.'/cetak');
+        return redirect('/pendaftaran/' . $data->id . '/cetak');
     }
 
     public function detail($id)

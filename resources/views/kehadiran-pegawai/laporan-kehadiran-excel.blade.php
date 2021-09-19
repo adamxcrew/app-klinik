@@ -16,7 +16,7 @@
             <td>{{$laporan->pegawai->nama}}</td>
             <td>{{$laporan->jam_masuk}}</td>
             <td>{{$laporan->jam_keluar}}</td>
-            <td>{{$laporan->tanggal}}</td>
+            <td>{{tgl_indo($laporan->tanggal)}}</td>
             <td>{{$laporan->status}}</td>
         </tr>
         @endforeach

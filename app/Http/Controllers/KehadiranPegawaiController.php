@@ -34,6 +34,9 @@ class KehadiranPegawaiController extends Controller
                     $btn .= '<a class="btn btn-danger btn-sm" href="/kehadiran-pegawai/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> ';
                     return $btn;
                 })
+                ->addColumn('tanggal', function ($row) {
+                    return tgl_indo($row->tanggal);
+                })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);

@@ -21,10 +21,9 @@ class KehadiranPegawaiExport implements FromView, ShouldAutoSize
 
     public function view(): View
     {
-        \Log::info($this->tanggal_mulai);
-        \Log::info($this->tanggal_selesai);
-        return view('kehadiran-pegawai.laporan-kehadiran-excel', [
-            'laporan_kehadiran' => KehadiranPegawai::with('pegawai')->whereBetween('tanggal', [$this->tanggal_mulai, $this->tanggal_selesai])->get()
-        ]);
+        $kehadiran = KehadiranPegawai::with('pegawai')
+                    ->whereBetween('tanggal', [$this->tanggal_mulai, $this->tanggal_selesai])
+                    ->get();
+        return view('kehadiran-pegawai.laporan-kehadiran-excel', ['laporan_kehadiran' => $kehadiran]);
     }
 }

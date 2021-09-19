@@ -51,19 +51,40 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('obat', 'ObatController');
+    Route::resource('barang', 'BarangController');
     Route::resource('user', 'UserController');
     Route::resource('pasien', 'PasienController');
     Route::resource('diagnosa', 'DiagnosaController');
     Route::resource('poliklinik', 'PoliklinikController');
     Route::resource('gejala', 'GejalaController');
+    Route::resource('kategoribiaya', 'KategoriBiayaController');
     Route::resource('satuan', 'SatuanController');
+    Route::resource('harilibur', 'HariLiburController');
     Route::resource('tindakan', 'TindakanController');
     Route::resource('akun', 'AkunController');
     Route::resource('jurnal', 'JurnalController');
+    Route::resource('komponengaji', 'KomponenGajiController');
     Route::resource('gaji', 'GajiController');
     Route::resource('pegawai', 'PegawaiController');
     Route::resource('asuransi', 'AsuransiController');
     Route::resource('supplier', 'SupplierController');
+
+    Route::prefix('laporan')->group(function () {
+        Route::get('/kunjungan-perpoli', 'LaporanController@laporanKunjunganPerPoli');
+    });
+
+
+    /**
+     * Surat Sehat Sakit Route
+     */
+    Route::get('surat-sehat-sakit/{tipe}', 'SuratSehatSakitController@create');
+    Route::resource('surat-sehat-sakit', 'SuratSehatSakitController');
+    Route::post('surat-sehat/store_sehat', 'SuratSehatSakitController@store_surat_sehat')->name('surat-sehat.store_sehat');
+    Route::post('surat-sehat/store_sakit', 'SuratSehatSakitController@store_surat_sakit')->name('surat-sakit.store_sakit');
+    Route::get('surat-sehat-sakit/{id}/print', 'SuratSehatSakitController@print')->name('surat.print');
+
+    /** End */
+
     Route::post('kehadiran-pegawai/export_excel', 'KehadiranPegawaiController@export_excel')->name('kehadiran-pegawai.export_excel');
     Route::resource('kehadiran-pegawai', 'KehadiranPegawaiController');
     Route::get('buku-besar', 'BukuBesarController@index');
@@ -75,4 +96,5 @@ Route::middleware(['auth'])->group(function () {
     Route::put('setting', 'SettingController@update')->name('setting.update');
     Route::get('ajax/dropdown-dokter-berdasarkan-poliklinik', 'AjaxController@dropdownDokterBerdasarkanPoliklinik');
     Route::get('ajax/select2Desa', 'AjaxController@select2Desa');
+    Route::get('ajax/select2Pasien', 'AjaxController@select2Pasien');
 });
