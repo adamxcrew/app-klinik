@@ -82,9 +82,7 @@ class PasienController extends Controller
         $data['privilage_khusus']   = $this->privilage_khusus;
         $data['hubungan_pasien']    = $this->hubungan_pasien;
         $data['penjamin']           = $this->penjamin;
-
-        $data['provinces'] = Province::pluck('name', 'id');
-        $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
+        $data['poliklinik']         = Poliklinik::pluck('nama', 'id');
         return view('pasien.create', $data);
     }
 
@@ -150,9 +148,8 @@ class PasienController extends Controller
         $data['hubungan_pasien']    = $this->hubungan_pasien;
         $data['penjamin']           = $this->penjamin;
 
-        $data['pasien'] = Pasien::findOrFail($id);
-        $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
-        $data['provinces'] = Province::pluck('name', 'id');
+        $data['pasien'] = Pasien::with('wilayahAdministratifIndonesia')->findOrFail($id);
+        //return $data['pasien'];
         return view('pasien.edit', $data);
     }
 
