@@ -24,6 +24,6 @@ jobs:
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
-        script: cd app-klinik && git pull origin master | composer dump-autoload | composer install --no-interaction --prefer-dist --optimize-autoloader | sudo php artisan migrate --force
+        script: cd app-klinik && git pull origin master && composer dump-autoload && composer install --no-interaction --prefer-dist --optimize-autoloader && sudo php artisan migrate --force
     # - name: Migrate
     #   run : cd /home/nuris_akbar/app-klinik | composer install --no-interaction --prefer-dist --optimize-autoloader | sudo php artisan migrate --force
