@@ -9,11 +9,11 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    # strategy:
-    #   matrix:
-    #     operating-system: [ubuntu-latest]
-    #     php-versions: [ '8.0','7.4','7.3' ]
-    #     dependency-stability: [ prefer-stable ]
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest]
+        php-versions: [ '8.0','7.4','7.3' ]
+        dependency-stability: [ prefer-stable ]
 
     steps:
     - uses: actions/checkout@v1
