@@ -77,6 +77,12 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('jadwal-praktek', 'JadwalPraktekController');
 
     /**
+     * Tunjangan Gaji Pegawai
+     */
+    Route::get('tunjangan-gaji', 'TunjanganGajiController@index');
+    Route::resource('tunjangan-gaji', 'TunjanganGajiController');
+
+    /**
      * Surat Sehat Sakit Route
      */
     Route::get('surat-sehat-sakit/{tipe}', 'SuratSehatSakitController@create');
