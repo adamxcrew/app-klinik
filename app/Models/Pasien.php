@@ -38,4 +38,10 @@ class Pasien extends Model
         'district_id',
         'regency_id'
     ];
+
+
+    public function wilayahAdministratifIndonesia()
+    {
+        return $this->belongsTo('App\Models\WilayahAdministratifIndonesia', 'village_id', 'village_id');
+    }
 }

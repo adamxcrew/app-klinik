@@ -111,12 +111,21 @@
     </div>
 </div>
 <div class="row">
+    @if(!isset($pasien))
     <div class="col-md-6">
         <div class="form-group">
             <label>Desa</label>
             <select name="wilayah_administratif" id="alamat" class="alamat form-control" style="height: 100px;" placeholder="Masukan Nama Desa"></select>
         </div>
     </div>
+    @else
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Desa</label>
+            <input class="form-control" disabled type="text" value="{{ $pasien->wilayahAdministratifIndonesia->province_name.','.$pasien->wilayahAdministratifIndonesia->regency_name.','.$pasien->wilayahAdministratifIndonesia->district_name.','.$pasien->wilayahAdministratifIndonesia->village_name}}">
+        </div>
+    </div>
+    @endif
     <div class="col-md-3">
         <div class="form-group">
             <label>RT / RW</label>
@@ -178,6 +187,7 @@
     </div>
 </div>
 
+@if(!isset($pasien))
 
 <hr>
 
@@ -209,9 +219,9 @@
     </div>
 </div>
 <div class="form-group"></div>
-
+@endif
 <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
+    <div class="col-sm-10">
         <button type="submit" class="btn btn-danger btn btn-sm"><i class="fa fa-floppy-o" aria-hidden="true"></i> Simpan</button>
         <a href="/pasien" class="btn btn-danger btn btn-sm"><i class="fa fa-share-square-o" aria-hidden="true"></i> Kembali</a>
     </div>
