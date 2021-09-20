@@ -27,15 +27,39 @@
               </button>
             <hr>
             @include('alert')
+            {!! Form::open(['url'=>'laporan/kunjungan-perpoli','method'=>'GET']) !!}
+            <table class="table table-bordered">
+                <tr>
+                    <td width="200">Tanggal Mulai</td>
+                    <td>
+                        <div class="row">
+                            <div class="col-md-3">
+                              {!! Form::date('tanggal_awal', $tanggal_awal, ['class'=>'form-control','placeholder'=>'Tanggal Mulai']) !!}
+                            </div>
+                            <div class="col-md-3">
+                              {!! Form::date('tanggal_akhir', $tanggal_akhir, ['class'=>'form-control','placeholder'=>'Tanggal Mulai']) !!}
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" name="type" value="web" class="btn btn-danger"><i class="fa fa-cogs" aria-hidden="true"></i>
+                                   Filter Laporan</button>
+                                <button type="submit" name="type" value="excel" class="btn btn-success" style="float:right"><i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                                   Download Excel</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            {!! Form::close() !!}
             <table class="table table-bordered table-striped" id="pegawai-table">
               <thead>
                 <tr>
                   <th width="10">Nomor</th>
+                  <th>NIP</th>
                   <th>Nama</th>
                   <th>Jam Masuk</th>
                   <th>Jam Keluar</th>
                   <th>Tanggal</th>
-                  <th>Status</th>
+                  <th>Status Kehadiran</th>
                   <th width="60">#</th>
                 </tr>
               </thead>
@@ -94,6 +118,10 @@
           data: 'DT_RowIndex',
           orderable: false,
           searchable: false
+        },
+        {
+          data: 'pegawai.nip',
+          name: 'pegawai.nip'
         },
         {
           data: 'pegawai.nama',
