@@ -72,6 +72,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/kunjungan-perpoli', 'LaporanController@laporanKunjunganPerPoli');
     });
 
+    /**
+     * Jadwal Praktek Dokter
+     */
+    Route::get('jadwal-praktek', 'JadwalPraktekController@index');
+    Route::resource('jadwal-praktek', 'JadwalPraktekController');
 
     /**
      * Surat Sehat Sakit Route
