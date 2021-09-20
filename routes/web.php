@@ -20,15 +20,13 @@ Auth::routes();
 Route::middleware(['auth'])->group(function () {
 
     // route master pendaftaran
-    Route::get('pendaftaran', 'PendaftaranController@index')->name('pendaftaran.index');
-    Route::get('pendaftaran/{id}/detail', 'PendaftaranController@detail')->name('pendaftaran.detail');
     Route::get('pendaftaran/{id}/cetak', 'PendaftaranController@cetak')->name('pendaftaran.cetak');
+    Route::get('pendaftaran/{id}/input_tanda_vital', 'PendaftaranController@input_tanda_vital')->name('pendaftaran.input_tanda_vital');
+    Route::put('pendaftaran/{id}/input_tanda_vital_store', 'PendaftaranController@input_tanda_vital_store')->name('pendaftaran.input_tanda_vital_store');
     Route::get('pendaftaran/{id}/print', 'PendaftaranController@print')->name('pendaftaran.print');
-    Route::delete('pendaftaran/{id}', 'PendaftaranController@destroy')->name('pendaftaran.delete');
+    Route::resource('pendaftaran', 'PendaftaranController');
 
     // route pendaftaran pasien yang sudah pernah terdaftar
-    Route::get('pendaftaran/create', 'PendaftaranController@pendaftaranCreate')->name('pendaftaran.pasien-terdaftar');
-    Route::post('detail-pasien', 'PendaftaranController@detailPasien')->name('pasien.detail');
     Route::post('pendaftaran/insert', 'PendaftaranController@pendaftaranInsert')->name('pendaftaran.insert');
 
     // route menampilkan data diagnosa, resep dan tindakan yang dipilih

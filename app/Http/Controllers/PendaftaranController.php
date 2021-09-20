@@ -12,6 +12,7 @@ use App\Models\Pasien;
 use App\Models\PendaftaranResume;
 use DataTables;
 use PDF;
+use App\Http\Requests\PendaftaranInputTandaVitalRequet;
 
 class PendaftaranController extends Controller
 {
@@ -20,10 +21,11 @@ class PendaftaranController extends Controller
         if ($request->ajax()) {
             return DataTables::of(Pendaftaran::with('pasien')->with('poliklinik')->get())
                 ->addColumn('action', function ($row) {
-                    $btn = \Form::open(['url' => 'pendaftaran/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:75px']);
+                    $btn = \Form::open(['url' => 'pendaftaran/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:15px']);
                     $btn .= "<button type='submit' class='btn btn-danger btn-sm'>Hapus</button>";
                     $btn .= \Form::close();
-                    $btn .= '<a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/detail">Detail</a> ';
+                    $btn .= '<a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '">Detail</a> ';
+                    $btn .= '<a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/input_tanda_vital">Input Tanda Vital</a> ';
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -33,26 +35,42 @@ class PendaftaranController extends Controller
         return view('pendaftaran.index');
     }
 
-    public function pendaftaranCreate()
+    public function create()
     {
         $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
         $data['pasien'] = Pasien::pluck('nama', 'id');
         return view('pendaftaran.pasien-terdaftar', $data);
     }
 
+
+    public function input_tanda_vital($id)
+    {
+        $data['pendaftaran'] = Pendaftaran::with('pasien')->find($id);
+        return view('pendaftaran.input_tanda_vital', $data);
+    }
+
+    public function input_tanda_vital_store($id, PendaftaranInputTandaVitalRequet $request)
+    {
+        $pendaftaran    = Pendaftaran::find($id);
+        $input          = $request->except(['_token','_method']);
+        $pendaftaran->update(['tanda_tanda_vital'=>serialize($input)]);
+        return redirect('pendaftaran/'.$id)->with('message', 'Tanda Tanda Fital Berhasil Disimpan');
+    }
+
     public function detailPasien(Request $request)
     {
+        $pendaftaran = Pendaftaran::find($id);
         $data = Pasien::where('id', $request->id)->first();
         return $data;
     }
 
-    public function pendaftaranInsert(Request $request)
+    public function store(Request $request)
     {
         $data = Pendaftaran::create($request->all());
         return redirect('/pendaftaran/' . $data->id . '/cetak');
     }
 
-    public function detail($id)
+    public function show($id)
     {
         $data['diagnosa'] = Diagnosa::all();
         $data['obat']     = Obat::all();

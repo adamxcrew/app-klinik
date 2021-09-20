@@ -8,7 +8,7 @@ class Pendaftaran extends Model
 {
     protected $table = "pendaftaran";
 
-    protected $fillable = ['kode','pasien_id','dokter_id','jenis_layanan','status_pembayaran','poliklinik_id'];
+    protected $fillable = ['kode','pasien_id','dokter_id','jenis_layanan','status_pembayaran','poliklinik_id','tanda_tanda_vital'];
 
     public function pasien()
     {
