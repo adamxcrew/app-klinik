@@ -30,7 +30,6 @@
                   <th width="10">Nomor</th>
                   <th>Kode</th>
                   <th>Indonesia</th>
-                  <th >#</th>
                 </tr>
               </thead>
             </table>
@@ -64,10 +63,6 @@
         {
           data: 'indonesia',
           name: 'indonesia'
-        },
-        {
-          data: 'action',
-          name: 'action'
         }
       ]
     });

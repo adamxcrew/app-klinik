@@ -24,4 +24,9 @@ class Pendaftaran extends Model
     {
         return $this->belongsTo('App\User', 'dokter_id', 'id');
     }
+
+    public function getTandaTandaVitalAttribute($value)
+    {
+        return unserialize($value);
+    }
 }

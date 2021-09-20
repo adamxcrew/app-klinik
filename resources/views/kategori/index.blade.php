@@ -1,11 +1,11 @@
 @extends('layouts.app')
-@section('title','Kelola Kategori Biaya')
+@section('title','Kelola Kategori')
 @section('content')
 <div class="content-wrapper">
     <section class="content-header">
       <h1>
-        Kelola Kategori Biaya
-        <small>Daftar Kategori Biaya</small>
+        Kelola Kategori
+        <small>Daftar Kategori</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -20,7 +20,7 @@
             <div class="box">
         
               <div class="box-body">
-                  <a href="{{route('kategoribiaya.create')}}" class="btn btn-info btn-social btn-flat"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                  <a href="{{route('kategori.create')}}" class="btn btn-info btn-social btn-flat"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
                      Tambah Data</a>
                   <hr>
                 @include('alert')
@@ -28,7 +28,8 @@
                   <thead>
                       <tr>
                         <th width="10">Nomor</th>
-                        <th>Nama Kategori Biaya</th>
+                        <th>Nama Kategori</th>
+                        <th>Jenis Kategori</th>
                         <th>Keterangan</th>
                         <th width="60">#</th>
                       </tr>
@@ -51,10 +52,11 @@
         $('#users-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '/kategoribiaya',
+            ajax: '/kategori',
             columns: [
                 {data: 'DT_RowIndex', orderable: false, searchable: false},
                 { data: 'nama_kategori', name: 'nama_kategori' },
+                { data: 'jenis', name: 'jenis' },
                 { data: 'keterangan', name: 'keterangan' },
                 { data: 'action', name: 'action' }
             ]
