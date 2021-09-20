@@ -28,6 +28,19 @@
         {!! Form::text('bpjs', null, ['class'=>'form-control','Placeholder'=>'Trafi BPJS']) !!}
     </div>
 </div>
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">Tindakan Iterasi</label>
+    <div class="col-sm-2">
+        {!! Form::select('iterasi',['ya'=>'Ya','tidak'=>'Tidak'], null, ['class'=>'form-control']) !!}
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label">Penunjang</label>
+    <div class="col-sm-2">
+        {!! Form::select('penunjang',['ya'=>'Ya','tidak'=>'Tidak'], null, ['class'=>'form-control']) !!}
+    </div>
+</div>
 <hr>
 <div class="form-group">
     <label class="col-sm-2 control-label"></label>

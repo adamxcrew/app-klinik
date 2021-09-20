@@ -19,6 +19,8 @@ class AddColumnTindakan extends Migration
             $table->integer('biaya_perusahaan');
             $table->integer('biaya_pbjs');
             $table->dropColumn('harga');
+            $table->boolean('iterasi');
+            $table->boolean('penunjang');
         });
     }
 
