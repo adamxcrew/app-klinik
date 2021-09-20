@@ -46,6 +46,7 @@
           ['icon' => 'fa fa-user-md', 'link' => '/kategoribiaya', 'label' => 'Kategori Biaya'],
           ['icon' => 'fa fa-user-md', 'link' => '/barang', 'label' => 'Data Barang'],
           ['icon' => 'fa fa-list-ul', 'link' => '/asuransi', 'label' => 'Perusahaan Asuransi'],
+          ['icon' => 'fa fa-list-ul', 'link' => '/icd', 'label' => 'Data ICD'],
         ]],
         ['icon' => 'fa fa-bars', 'link' => '#', 'label' => 'Laporan', 'submenu' => [
           ['icon' => 'fa fa-plus-square', 'link' => '/laporan/kunjungan-perpoli', 'label' => 'Kunjungan Perpoli']
