@@ -11,9 +11,44 @@
     </div>
 </div>
 <div class="form-group">
-    <label class="col-sm-2 control-label">Harga</label>
-    <div class="col-sm-10">
-        {!! Form::text('harga', null, ['class'=>'form-control','Placeholder'=>'Harga']) !!}
+    <label class="col-sm-2 control-label">Poliklinik</label>
+    <div class="col-sm-5">
+        {!! Form::select('poliklinik_id',$poliklinik, null, ['class'=>'form-control','Placeholder'=>'Nama Tindakan']) !!}
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label">Tarif</label>
+    <div class="col-sm-3">
+        {!! Form::text('umum', null, ['class'=>'form-control','Placeholder'=>'Tarif Umum']) !!}
+    </div>
+    <div class="col-sm-3">
+        {!! Form::text('perusahaan', null, ['class'=>'form-control','Placeholder'=>'Tarif Perusahaan']) !!}
+    </div>
+    <div class="col-sm-3">
+        {!! Form::text('bpjs', null, ['class'=>'form-control','Placeholder'=>'Trafi BPJS']) !!}
+    </div>
+</div>
+<hr>
+<div class="form-group">
+    <label class="col-sm-2 control-label"></label>
+    <div class="row">
+        @foreach($jenis as $j)
+            <div class="col-md-3">
+                @foreach($object as $row)
+                <div class="form-group">
+                    <label>Fee {{ $row }}</label>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <input type="text" class="form-control" placeholder="Enter ...">
+                        </div>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control" placeholder="Enter ...">
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        @endforeach
     </div>
 </div>
 <div class="form-group">
