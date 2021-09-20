@@ -40,6 +40,7 @@
           ['icon' => 'fa fa-clone', 'link' => '/satuan', 'label' => 'Data Satuan'],
           ['icon' => 'fa fa-hospital-o', 'link' => '/poliklinik', 'label' => 'Data Poliklinik'],
           ['icon' => 'fa fa-file-text', 'link' => '/diagnosa', 'label' => 'Data Diagnosa'],
+          ['icon' => 'fa fa-file-text', 'link' => '/tindakan', 'label' => 'Data Tindakan'],
           ['icon' => 'fa fa-list-ul', 'link' => '/gejala', 'label' => 'Data Gejala'],
           ['icon' => 'fa fa-user-md', 'link' => '/user?jabatan=dokter', 'label' => 'Data Dokter'],
           ['icon' => 'fa fa-user-md', 'link' => '/kategoribiaya', 'label' => 'Kategori Biaya'],
