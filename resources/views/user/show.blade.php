@@ -19,7 +19,7 @@
                 <div class="box">
                     <div class="box-body text-center">
                         <img src="https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg?size=338&ext=jpg" width="230">
-                        <h4>Dokter Sanusi SPG</h4>
+                        <h4>Dokter {{ $user->name }}</h4>
                     </div>
                 </div>
             </div>
@@ -28,36 +28,18 @@
                     <div class="box-body">
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                            Tambah Jadwal
+                            <i class="fa fa-plus"></i> Tambah Jadwal
                         </button>
                         <hr>
-                        <table class="table table-bordered" id="myTable">
+                        <table class="table table-bordered table-striped" id="jadwal-praktek-table">
                             <thead>
                                 <tr>
-                                    <th>Nomor</th>
+                                    <th width="20px">Nomor</th>
                                     <th>Hari</th>
                                     <th>Jam</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Senin</td>
-                                    <td>09:00 - 16:00</td>
-                                    <td>
-                                        <button type="" class="btn btn-danger">Hapus</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Selasa</td>
-                                    <td>09:00 - 16:00</td>
-                                    <td>
-                                        <button type="" class="btn btn-danger">Hapus</button>
-                                    </td>
-                                </tr>
-                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -73,18 +55,21 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Form Tambah Jadwal Dokter</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+        {!! Form::open(['route'=>'jadwal-praktek.store','class'=>'form-horizontal']) !!}
         <div class="modal-body">
-          ...
+          @include('validation_error')
+          @include('jadwal-praktek.form')
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
         </div>
+        {!! Form::close() !!}
       </div>
     </div>
   </div>
@@ -95,7 +80,31 @@
 <script src="{{asset('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 <script>
 $(document).ready( function () {
-    $('#myTable').DataTable();
+  $(function() {
+    $('#jadwal-praktek-table').DataTable({
+      processing: true,
+      serverSide: true,
+      ajax: '/jadwal-praktek?user_id=' + {{ $user->id }} + '',
+      columns: [{
+          data: 'DT_RowIndex',
+          orderable: false,
+          searchable: false
+        },
+        {
+          data: 'hari',
+          name: 'hari'
+        },
+        {
+          data: 'jam',
+          name: 'jam'
+        },
+        {
+          data: 'action',
+          name: 'action'
+        }
+      ]
+    });
+  });
 } );
 </script>
 @endpush
