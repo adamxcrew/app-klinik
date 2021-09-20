@@ -67,6 +67,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('gaji', 'GajiController');
     Route::resource('pegawai', 'PegawaiController');
     Route::resource('asuransi', 'AsuransiController');
+    Route::resource('icd', 'ICDController');
 
     Route::prefix('laporan')->group(function () {
         Route::get('/kunjungan-perpoli', 'LaporanController@laporanKunjunganPerPoli');
