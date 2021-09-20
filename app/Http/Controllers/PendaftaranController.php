@@ -12,6 +12,7 @@ use App\Models\Pasien;
 use App\Models\PendaftaranResume;
 use DataTables;
 use PDF;
+use App\Http\Requests\PendaftaranInputTandaVitalRequet;
 
 class PendaftaranController extends Controller
 {
@@ -44,11 +45,11 @@ class PendaftaranController extends Controller
 
     public function input_tanda_vital($id)
     {
-        $data['pendaftaran'] = Pendaftaran::find($id);
+        $data['pendaftaran'] = Pendaftaran::with('pasien')->find($id);
         return view('pendaftaran.input_tanda_vital', $data);
     }
 
-    public function input_tanda_vital_store($id, Request $request)
+    public function input_tanda_vital_store($id, PendaftaranInputTandaVitalRequet $request)
     {
         $pendaftaran    = Pendaftaran::find($id);
         $input          = $request->except(['_token','_method']);
