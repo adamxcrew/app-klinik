@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DataTables;
 use App\Models\Barang;
 use App\Models\Satuan;
+use App\Models\Kategori;
 use App\Http\Requests\BarangStoreRequest;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\BarangExport;
@@ -26,7 +27,7 @@ class BarangController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(Barang::with('satuan')->get())
+            return DataTables::of(Barang::with('satuan', 'kategori')->get())
                 ->addColumn('action', function ($row) {
                     $btn = \Form::open(['url' => 'barang/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
                     $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
@@ -54,8 +55,9 @@ class BarangController extends Controller
      */
     public function create()
     {
-        $data['satuan'] = Satuan::pluck('satuan', 'id');
-        $data['jenis_barang'] = $this->jenis_barang;
+        $data['satuan']         = Satuan::pluck('satuan', 'id');
+        $data['kategori']       = Kategori::pluck('nama_kategori', 'id');
+        $data['jenis_barang']   = $this->jenis_barang;
         return view('barang.create', $data);
     }
 
@@ -92,6 +94,7 @@ class BarangController extends Controller
     {
         $data['barang']         = Barang::findOrFail($id);
         $data['satuan']         = Satuan::pluck('satuan', 'id');
+        $data['kategori']       = Kategori::pluck('nama_kategori', 'id');
         $data['jenis_barang']   = $this->jenis_barang;
         return view('barang.edit', $data);
     }

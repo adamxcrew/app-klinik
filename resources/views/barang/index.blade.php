@@ -23,14 +23,11 @@
                 <div class="row">
                   <div class="col-md-2">
                     <a href="{{route('barang.create')}}" class="btn btn-info btn-social btn-flat"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
-                      Tambah Data</a>
+                      Tambah Barang</a>
                   </div>
-                  <div class="col-md-1" style="margin-left: -60px">
-                    {{ Form::open(['route' => 'barang.export_excel', 'method' => 'post']) }}
-                     <button ype="button" class="btn btn-success"><i class="fa fa-download"></i>
-                       Cetak Excel</button>
-                    {{ Form::close() }}
-                  </div>
+                  <a href="{{route('barang.export_excel')}}" class="btn btn btn-success btn-social btn-flat"><i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                    Export Excel
+                  </a>
                 </div>
 
                   <hr>
@@ -42,6 +39,7 @@
                         <th>Kode Barang</th>
                         <th>Nama Barang</th>
                         <th>Satuan</th>
+                        <th>Kategori</th>
                         <th>Jenis</th>
                         <th>Harga</th>
                         <th>Aktif</th>
@@ -73,6 +71,7 @@
                 { data: 'kode', name: 'kode' },
                 { data: 'nama_barang', name: 'nama_barang' },
                 { data: 'satuan.satuan', name: 'satuan.satuan' },
+                { data: 'kategori.nama_kategori', name: 'kategori.nama_kategori' },
                 { data: 'jenis_barang', name: 'jenis_barang' },
                 { data: 'harga', name: 'harga' },
                 { data: 'aktif', name: 'aktif' },

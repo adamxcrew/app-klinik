@@ -25,4 +25,9 @@ class Barang extends Model
     {
         return $this->belongsTo(\App\Models\Satuan::class);
     }
+
+    public function kategori()
+    {
+        return $this->belongsTo(\App\Models\Kategori::class);
+    }
 }
