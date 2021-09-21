@@ -20,8 +20,19 @@
             <div class="box">
         
               <div class="box-body">
-                  <a href="{{route('barang.create')}}" class="btn btn-info btn-social btn-flat"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
-                     Tambah Data</a>
+                <div class="row">
+                  <div class="col-md-2">
+                    <a href="{{route('barang.create')}}" class="btn btn-info btn-social btn-flat"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                      Tambah Data</a>
+                  </div>
+                  <div class="col-md-1" style="margin-left: -60px">
+                    {{ Form::open(['route' => 'barang.export_excel', 'method' => 'post']) }}
+                     <button ype="button" class="btn btn-success"><i class="fa fa-download"></i>
+                       Cetak Excel</button>
+                    {{ Form::close() }}
+                  </div>
+                </div>
+
                   <hr>
                 @include('alert')
                 <table class="table table-bordered table-striped" id="users-table">
@@ -44,6 +55,7 @@
         </div>
       </section>
   </div>
+  
 @endsection
 
 @push('scripts')
