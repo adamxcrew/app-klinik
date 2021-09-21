@@ -47,6 +47,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('resume/tindakan/pilih', 'PendaftaranController@resumePilihTindakan')->name('resume.pilih-tindakan');
     Route::delete('resume/tindakan/{id}', 'PendaftaranController@resumeHapusTindakan')->name('resume.hapus-tindakan');
 
+    // Laporan barang excel
+    Route::post('barang/export_excel', 'BarangController@export_excel')->name('barang.export_excel');
+
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('obat', 'ObatController');
     Route::resource('barang', 'BarangController');

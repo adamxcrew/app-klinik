@@ -7,6 +7,8 @@ use DataTables;
 use App\Models\Barang;
 use App\Models\Satuan;
 use App\Http\Requests\BarangStoreRequest;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\BarangExport;
 
 class BarangController extends Controller
 {
@@ -25,22 +27,22 @@ class BarangController extends Controller
     {
         if ($request->ajax()) {
             return DataTables::of(Barang::with('satuan')->get())
-            ->addColumn('action', function ($row) {
-                $btn = \Form::open(['url' => 'barang/' . $row->id, 'method' => 'DELETE','style' => 'float:right;margin-right:5px']);
-                $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
-                $btn .= \Form::close();
-                $btn .= '<a class="btn btn-danger btn-sm" href="/barang/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
-                return $btn;
-            })
-            ->addColumn('aktif', function ($row) {
-                return $row->aktif == 1 ? 'Aktif' : 'Tidak Aktif';
-            })
-            ->addColumn('harga', function ($row) {
-                return convert_rupiah($row->harga);
-            })
-            ->rawColumns(['action','code'])
-            ->addIndexColumn()
-            ->make(true);
+                ->addColumn('action', function ($row) {
+                    $btn = \Form::open(['url' => 'barang/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
+                    $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
+                    $btn .= \Form::close();
+                    $btn .= '<a class="btn btn-danger btn-sm" href="/barang/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+                    return $btn;
+                })
+                ->addColumn('aktif', function ($row) {
+                    return $row->aktif == 1 ? 'Aktif' : 'Tidak Aktif';
+                })
+                ->addColumn('harga', function ($row) {
+                    return convert_rupiah($row->harga);
+                })
+                ->rawColumns(['action', 'code'])
+                ->addIndexColumn()
+                ->make(true);
         }
         return view('barang.index');
     }
@@ -119,5 +121,10 @@ class BarangController extends Controller
         $barang = Barang::findOrFail($id);
         $barang->delete();
         return redirect(route('barang.index'))->with('message', 'Data Barang Berhasil Dihapus');
+    }
+
+    public function export_excel()
+    {
+        return Excel::download(new BarangExport, 'Barang.xlsx');
     }
 }
