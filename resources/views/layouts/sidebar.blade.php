@@ -36,7 +36,6 @@
           ['icon' => 'fa fa-list-ul', 'link' => '/pasien', 'label' => 'Database Pasien'],
         ]],
         ['icon' => 'fa fa-bars', 'link' => '/home', 'label' => 'Data Master', 'submenu' => [
-          ['icon' => 'fa fa-cube', 'link' => '/obat', 'label' => 'Data Obat'],
           ['icon' => 'fa fa-clone', 'link' => '/satuan', 'label' => 'Data Satuan'],
           ['icon' => 'fa fa-hospital-o', 'link' => '/poliklinik', 'label' => 'Data Poliklinik'],
           ['icon' => 'fa fa-file-text', 'link' => '/diagnosa', 'label' => 'Data Diagnosa'],
