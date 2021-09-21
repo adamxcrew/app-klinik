@@ -71,6 +71,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('asuransi', 'AsuransiController');
     Route::resource('icd', 'ICDController');
 
+    Route::post('stock-opname/export_excel', 'StockOpnameController@export_excel')->name('stock-opname.export_excel');
     Route::resource('stock-opname', 'StockOpnameController');
 
     Route::resource('kamar', 'KamarController');

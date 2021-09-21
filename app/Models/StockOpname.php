@@ -10,6 +10,6 @@ class StockOpname extends Model
 
     public function barang()
     {
-        return $this->belongsTo(\App\Models\Barang::class);
+        return $this->belongsTo(\App\Models\Barang::class, 'kode_barang', 'kode');
     }
 }

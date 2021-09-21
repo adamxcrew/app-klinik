@@ -15,7 +15,7 @@ class CreateStokOpnamesTable extends Migration
     {
         Schema::create('stock_opname', function (Blueprint $table) {
             $table->id();
-            $table->integer('barang_id');
+            $table->string('barang_id');
             $table->integer('jumlah_real');
             $table->integer('stock_sebelumnya');
             $table->date('tanggal'); // tanggal melakukan stock opname
