@@ -55,7 +55,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('diagnosa', 'DiagnosaController');
     Route::resource('poliklinik', 'PoliklinikController');
     Route::resource('gejala', 'GejalaController');
-    Route::resource('kategoribiaya', 'KategoriBiayaController');
+    Route::resource('kategori', 'KategoriController');
     Route::resource('satuan', 'SatuanController');
     Route::resource('harilibur', 'HariLiburController');
     Route::resource('tindakan', 'TindakanController');
@@ -66,7 +66,12 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('pegawai', 'PegawaiController');
     Route::resource('asuransi', 'AsuransiController');
     Route::resource('icd', 'ICDController');
+
     Route::resource('stock-opname', 'StockOpnameController');
+
+    Route::resource('kamar', 'KamarController');
+    Route::resource('bed', 'BedController');
+
 
     Route::prefix('laporan')->group(function () {
         Route::get('/kunjungan-perpoli', 'LaporanController@laporanKunjunganPerPoli');
