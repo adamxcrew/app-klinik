@@ -76,7 +76,6 @@ class PendaftaranController extends Controller
         $data['obat']     = Obat::all();
         $data['tindakan'] = Tindakan::all();
         $data['pasien']   = Pendaftaran::find($id);
-
         return view('pendaftaran.detail', $data);
     }
 

@@ -1,11 +1,11 @@
 @extends('layouts.app')
-@section('title','Tambah Kategori Biaya')
+@section('title','Tambah Kategori')
 @section('content')
 <div class="content-wrapper">
     <section class="content-header">
       <h1>
-        Kelola Kategori Biaya
-        <small>Tambah Kategori Biaya</small>
+        Kelola Kategori
+        <small>Tambah Kategori</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -18,9 +18,9 @@
           <div class="col-xs-12">
             <div class="box">
               <div class="box-body">
-                  {!! Form::open(['route'=>'kategoribiaya.store','class'=>'form-horizontal']) !!}
+                  {!! Form::open(['route'=>'kategori.store','class'=>'form-horizontal']) !!}
                   @include('validation_error')
-                  @include('kategoribiaya.form')
+                  @include('kategori.form')
                   {!! Form::close() !!}
               </div>
             </div>

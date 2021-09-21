@@ -43,7 +43,7 @@
           ['icon' => 'fa fa-file-text', 'link' => '/tindakan', 'label' => 'Data Tindakan'],
           ['icon' => 'fa fa-list-ul', 'link' => '/gejala', 'label' => 'Data Gejala'],
           ['icon' => 'fa fa-user-md', 'link' => '/user?jabatan=dokter', 'label' => 'Data Dokter'],
-          ['icon' => 'fa fa-user-md', 'link' => '/kategoribiaya', 'label' => 'Kategori Biaya'],
+          ['icon' => 'fa fa-user-md', 'link' => '/kategori', 'label' => 'Data Kategori'],
           ['icon' => 'fa fa-user-md', 'link' => '/barang', 'label' => 'Data Barang'],
           ['icon' => 'fa fa-list-ul', 'link' => '/asuransi', 'label' => 'Perusahaan Asuransi'],
           ['icon' => 'fa fa-list-ul', 'link' => '/icd', 'label' => 'Data ICD'],

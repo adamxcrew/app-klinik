@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class KategoriBiayaStoreRequest extends FormRequest
+class KategoriStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,6 +25,7 @@ class KategoriBiayaStoreRequest extends FormRequest
     {
         return [
             'nama_kategori' =>  'required',
+            'jenis'         =>  'required'
         ];
     }
 }
