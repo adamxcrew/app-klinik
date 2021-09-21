@@ -28,11 +28,12 @@ class PegawaiController extends Controller
         if ($request->ajax()) {
             return DataTables::of(Pegawai::all())
                 ->addColumn('action', function ($row) {
-                    $btn = \Form::open(['url' => 'pegawai/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-left:-50px']);
-                    $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
+                    $btn = \Form::open(['url' => 'pegawai/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:15px']);
+                    $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash'></i></button>";
                     $btn .= \Form::close();
-                    $btn .= '<a style="margin-left:20px" class="btn btn-danger btn-sm" href="/pegawai/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> ';
-                    $btn .= '<a style="margin-left:8px" class="btn btn-danger btn-sm" href="/pegawai/' . $row->id . '"><i class="fa fa-eye" aria-hidden="true"></i></a> ';
+                    $btn .= '<a class="btn btn-danger btn-sm" href="/pegawai/' . $row->id . '"><i class="fa fa-eye"></i></a> ';
+                    $btn .= '<a class="btn btn-danger btn-sm" href="/pegawai/' . $row->id . '/edit"><i class="fa fa-edit"></i></a> ';
+                    return $btn;
                     return $btn;
                 })
                 ->rawColumns(['action'])

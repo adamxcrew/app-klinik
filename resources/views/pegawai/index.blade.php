@@ -35,7 +35,7 @@
                   <th>Agama</th>
                   <th>Jenis Kelamin</th>
                   <th>Alamat</th>
-                  <th >#</th>
+                  <th width="97">#</th>
                 </tr>
               </thead>
             </table>
