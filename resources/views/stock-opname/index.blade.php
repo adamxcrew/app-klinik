@@ -29,8 +29,8 @@
                           </td>
                           <td>
                               <button type="submit" name="type" value="filter" class="btn btn-danger">Filter</button>
-                              <button type="submit" name="action" value="export_excel" class="btn btn-success">Export Excel</button>
-                              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                              <button type="button" value="export_excel" class="btn btn-success" data-toggle="modal" data-target="#export-modal">Export Excel</button>
+                              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#import-stock">
                                 Import Stock Opname
                                 </button>
                           </td>
@@ -60,8 +60,8 @@
       </section>
   </div>
 <!-- Modal -->
-{!! Form::open(['route'=>'stock-opname.store']) !!}
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+{!! Form::open(['route'=>'stock-opname.store', 'files' => true]) !!}
+<div class="modal fade" id="import-stock" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -74,24 +74,56 @@
           <table class="table table-bordered">
               <tr>
                   <td>Tanggal Stock Opname</td>
-                  <td> {!! Form::date('tangal', null, ['class'=>'form-control','Placeholder'=>'Tanggal Stock Opname']) !!}</td>
+                  <td> {!! Form::date('tanggal', null, ['class'=>'form-control','Placeholder'=>'Tanggal Stock Opname']) !!}</td>
               </tr>
               <tr>
                   <td>Pilih File</td>
                   <td>
-                      {!! Form::file('file') !!}
+                      {!! Form::file('import_file', ['class' => 'form-control']) !!}
                   </td>
               </tr>
           </table>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-          <button type="button" class="btn btn-primary">Upload Stock Opname</button>
+          <button type="submit" class="btn btn-primary">Upload Stock Opname</button>
         </div>
       </div>
     </div>
   </div>
 {!! Form::close() !!}
+
+<!-- Modal -->
+<div class="modal fade" id="export-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Export Stock Opname</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {{ Form::open(['route' => 'stock-opname.export_excel', 'method' => 'POST']) }}
+      <div class="modal-body">
+        <table class="table table-bordered">
+          <tr>
+            <th>Tanggal Mulai</th>
+            <td><input type="date" name="tanggal_mulai" class="form-control"></td>
+          </tr>
+          <tr>
+            <th>Tanggal Selesai</th>
+            <td><input type="date" name="tanggal_selesai" class="form-control"></td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+        <button type="submit" class="btn btn-primary">Download</button>
+      </div>
+      {{ Form::close() }}
+    </div>
+  </div>
+</div>
 @endsection
 
 @push('scripts')
