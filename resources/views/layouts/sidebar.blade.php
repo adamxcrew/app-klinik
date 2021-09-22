@@ -43,7 +43,7 @@
           ['icon' => 'fa fa-list-ul', 'link' => '/gejala', 'label' => 'Data Gejala'],
           ['icon' => 'fa fa-user-md', 'link' => '/user?jabatan=dokter', 'label' => 'Data Dokter'],
           ['icon' => 'fa fa-list-ul', 'link' => '/asuransi', 'label' => 'Data Perusahaan Asuransi'],
-          ['icon' => 'fa fa-cube', 'link' => '/supplier', 'label' => 'Data Supplier']
+          ['icon' => 'fa fa-cube', 'link' => '/supplier', 'label' => 'Data Supplier'],
           ['icon' => 'fa fa-user-md', 'link' => '/kategoribiaya', 'label' => 'Kategori Biaya'],
           ['icon' => 'fa fa-user-md', 'link' => '/barang', 'label' => 'Data Barang'],
           ['icon' => 'fa fa-list-ul', 'link' => '/asuransi', 'label' => 'Perusahaan Asuransi'],
@@ -53,6 +53,10 @@
         ]],
 
         ['icon' => 'fa fa-list-ul', 'link' => '/surat-sehat-sakit', 'label' => 'Data Surat Sehat Dan Sakit'],
+        ['icon' => 'fa fa-bars', 'link' => '/home', 'label' => 'Transaksi Apotek', 'submenu' => [
+          ['icon' => 'fa fa-cube', 'link' => '/purchase-order', 'label' => 'Purchase Order (PO)'],
+          ['icon' => 'fa fa-plus-square', 'link' => '/purchase-order/create', 'label' => 'Tambah Purchase Order (PO)'],
+        ]],
         ['icon' => 'fa fa-user-circle-o', 'link' => '/user?jabatan=user', 'label' => 'Pengguna Aplikasi'],
         ['icon' => 'fa fa-gear', 'link' => '/setting', 'label' => 'Setting Aplikasi']
       ];

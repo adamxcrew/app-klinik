@@ -49,6 +49,15 @@ Route::middleware(['auth'])->group(function () {
     Route::post('resume/tindakan/pilih', 'PendaftaranController@resumePilihTindakan')->name('resume.pilih-tindakan');
     Route::delete('resume/tindakan/{id}', 'PendaftaranController@resumeHapusTindakan')->name('resume.hapus-tindakan');
 
+    // purchase order (PO)
+    Route::get('purchase-order', 'PurchaseOrderController@index')->name('purchase-order.index');
+    Route::get('purchase-order/create', 'PurchaseOrderController@create')->name('purchase-order.create');
+    Route::post('purchase-order/insert', 'PurchaseOrderController@insertPurchaseOrder')->name('purchase-order.insert');
+    Route::delete('purchase-order/delete/{id}', 'PurchaseOrderController@destroyPo')->name('purchase-order.destroy');
+    Route::post('purchase-order-detail/insert', 'PurchaseOrderController@insertPurchaseOrderDetail')->name('purchase-order-detail.insert');
+    Route::delete('purchase-order-detail/delete/{id}', 'PurchaseOrderController@destroy')->name('purchase-order-detail.destroy');
+    Route::get('purchase-order/cetak/{id}', 'PurchaseOrderController@cetak')->name('purchase-order.cetak');
+
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('obat', 'ObatController');
     Route::resource('barang', 'BarangController');
