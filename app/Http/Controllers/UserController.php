@@ -14,10 +14,12 @@ use App\Models\DokterPoliklinik;
 class UserController extends Controller
 {
     protected $user_role;
+    protected $hari;
 
     public function __construct()
     {
         $this->user_role    = config('datareferensi.user_role');
+        $this->hari         = config('datareferensi.hari');
     }
     /**
      * Display a listing of the resource.
@@ -82,7 +84,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $data['hari']       = $this->hari;
+        $data['user']       = User::findOrFail($id);
+        return view('user.show', $data);
     }
 
     /**

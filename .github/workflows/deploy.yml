@@ -1,0 +1,29 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest]
+        php-versions: [ 7.3' ]
+        dependency-stability: [ prefer-stable ]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Melakukan Deploy Ke Server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        PORT: ${{ secrets.PORT }}
+        KEY: ${{ secrets.SSHKEY }}
+        script: cd app-klinik && git pull origin master && composer dump-autoload && composer install --no-interaction --prefer-dist --optimize-autoloader && sudo php artisan migrate --force
+    # - name: Migrate
+    #   run : cd /home/nuris_akbar/app-klinik | composer install --no-interaction --prefer-dist --optimize-autoloader | sudo php artisan migrate --force

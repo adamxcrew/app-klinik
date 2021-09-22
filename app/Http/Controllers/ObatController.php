@@ -29,6 +29,9 @@ class ObatController extends Controller
             ->addColumn('aktif', function ($row) {
                 return $row->aktif == 1 ? 'Aktif' : 'Tidak Aktif';
             })
+            ->addColumn('harga', function ($row) {
+                return convert_rupiah($row->harga);
+            })
             ->rawColumns(['action','code'])
             ->addIndexColumn()
             ->make(true);
@@ -92,7 +95,9 @@ class ObatController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $obat = Obat::findOrFail($id);
+        $obat->update($request->all());
+        return redirect(route('obat.index'))->with('message', 'Data Obat Berhasil Diubah');
     }
 
     /**

@@ -123,7 +123,7 @@
                     <small class="text-small">tanggal</small>
                 </div>
                 <div class="text-right">
-                    <span class="text-right-info">{{ substr($pasien->created_at, 0 ,10) }}</span>
+                    <span class="text-right-info">{{ tgl_indo(substr($pasien->created_at, 0 ,10)) }}</span>
                 </div>
             </div>
 

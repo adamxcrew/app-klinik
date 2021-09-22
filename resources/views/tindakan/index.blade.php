@@ -1,11 +1,11 @@
 @extends('layouts.app')
-@section('title','Kelola Gejala')
+@section('title','Kelola Tindakan')
 @section('content')
 <div class="content-wrapper">
     <section class="content-header">
       <h1>
-        Kelola Data Gejala
-        <small>Daftar Gejala</small>
+        Kelola Data Tindakan
+        <small>Daftar Tindakan</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>

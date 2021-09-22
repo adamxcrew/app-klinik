@@ -33,17 +33,30 @@
         ['icon' => 'fa fa-bars', 'link' => '/home', 'label' => 'Pendaftaran Pasien', 'submenu' => [
           ['icon' => 'fa fa-plus-square', 'link' => '/pasien/create', 'label' => 'Pasien Baru'],
           ['icon' => 'fa fa-plus-square-o', 'link' => '/pendaftaran/create', 'label' => 'Pasien Lama'],
+          ['icon' => 'fa fa-list-ul', 'link' => '/pasien', 'label' => 'Database Pasien'],
         ]],
         ['icon' => 'fa fa-bars', 'link' => '/home', 'label' => 'Data Master', 'submenu' => [
-          ['icon' => 'fa fa-cube', 'link' => '/obat', 'label' => 'Data Obat'],
           ['icon' => 'fa fa-clone', 'link' => '/satuan', 'label' => 'Data Satuan'],
           ['icon' => 'fa fa-hospital-o', 'link' => '/poliklinik', 'label' => 'Data Poliklinik'],
           ['icon' => 'fa fa-file-text', 'link' => '/diagnosa', 'label' => 'Data Diagnosa'],
+          ['icon' => 'fa fa-file-text', 'link' => '/tindakan', 'label' => 'Data Tindakan'],
           ['icon' => 'fa fa-list-ul', 'link' => '/gejala', 'label' => 'Data Gejala'],
           ['icon' => 'fa fa-user-md', 'link' => '/user?jabatan=dokter', 'label' => 'Data Dokter'],
           ['icon' => 'fa fa-list-ul', 'link' => '/asuransi', 'label' => 'Data Perusahaan Asuransi'],
           ['icon' => 'fa fa-cube', 'link' => '/supplier', 'label' => 'Data Supplier']
+          ['icon' => 'fa fa-user-md', 'link' => '/kategori', 'label' => 'Data Kategori'],
+          ['icon' => 'fa fa-user-md', 'link' => '/barang', 'label' => 'Data Barang'],
+          ['icon' => 'fa fa-list-ul', 'link' => '/asuransi', 'label' => 'Perusahaan Asuransi'],
+          ['icon' => 'fa fa-list-ul', 'link' => '/icd', 'label' => 'Data ICD'],
+          ['icon' => 'fa fa-home', 'link' => '/kamar', 'label' => 'Data Kamar'],
+          ['icon' => 'fa fa-bed', 'link' => '/bed', 'label' => 'Data Bed'],
         ]],
+        ['icon' => 'fa fa-bars', 'link' => '#', 'label' => 'Laporan', 'submenu' => [
+          ['icon' => 'fa fa-plus-square', 'link' => '/laporan/kunjungan-perpoli', 'label' => 'Kunjungan Perpoli'],
+          ['icon' => 'fa fa-plus-square', 'link' => '/stock-opname', 'label' => 'Stock Opname']
+        ]],
+
+        ['icon' => 'fa fa-list-ul', 'link' => '/surat-sehat-sakit', 'label' => 'Data Surat Sehat Dan Sakit'],
         ['icon' => 'fa fa-user-circle-o', 'link' => '/user?jabatan=user', 'label' => 'Pengguna Aplikasi'],
         ['icon' => 'fa fa-gear', 'link' => '/setting', 'label' => 'Setting Aplikasi']
       ];
@@ -55,9 +68,11 @@
 
       $hrd = [
         ['icon' => 'fa fa-user', 'link' => '/home', 'label' => 'Dashboard'],
-        ['icon' => 'fa fa-user-circle-o', 'link' => '/pegawai', 'label' => 'Pegawai'],
-        ['icon' => 'fa fa-dollar', 'link' => '/gaji', 'label' => 'Gaji'],
+        ['icon' => 'fa fa-user-circle-o', 'link' => '/pegawai', 'label' => 'Data Pegawai'],
+        ['icon' => 'fa fa-money', 'link' => '/gaji', 'label' => 'Laporan Gaji'],
+        ['icon' => 'fa fa-calendar-check-o', 'link' => '/harilibur', 'label' => 'Setting Hari Libur'],
         ['icon' => 'fa fa-id-card', 'link' => '/kehadiran-pegawai', 'label' => 'Kehadiran Pegawai'],
+        ['icon' => 'fa fa-list-alt', 'link' => '/komponengaji', 'label' => 'Komponen Gaji']
       ];
 
       $keuangan = [
@@ -74,7 +89,7 @@
 
       @foreach($menus[Auth::user()->role] as $menu)
       @if(array_key_exists('submenu',$menu))
-      <li class="active treeview">
+      <li class="treeview">
         <a href="#">
           <i class="{{$menu['icon']}}"></i> <span>{{$menu['label']}}</span>
           <span class="pull-right-container">

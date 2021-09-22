@@ -8,7 +8,6 @@ use App\Models\Pasien;
 use App\Http\Requests\PasienStoreRequest;
 use App\Models\Poliklinik;
 use App\Models\Pendaftaran;
-
 use App\Models\Province;
 use App\Models\Regency;
 use App\Models\Diagnosa;
@@ -49,7 +48,7 @@ class PasienController extends Controller
         if ($request->ajax()) {
             return DataTables::of(Pasien::all())
                 ->addColumn('tempat_tanggal_lahir', function ($row) {
-                    return $row->tempat_lahir . ', ' . $row->tanggal_lahir;
+                    return $row->tempat_lahir . ', ' . tgl_indo($row->tanggal_lahir);
                 })
                 ->addColumn('action', function ($row) {
                     $btn = \Form::open(['url' => 'pasien/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right']);
@@ -83,9 +82,7 @@ class PasienController extends Controller
         $data['privilage_khusus']   = $this->privilage_khusus;
         $data['hubungan_pasien']    = $this->hubungan_pasien;
         $data['penjamin']           = $this->penjamin;
-
-        $data['provinces'] = Province::pluck('name', 'id');
-        $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
+        $data['poliklinik']         = Poliklinik::pluck('nama', 'id');
         return view('pasien.create', $data);
     }
 
@@ -97,11 +94,18 @@ class PasienController extends Controller
      */
     public function store(PasienStoreRequest $request)
     {
-        $data               =   $request->all();
-        $pasien             =   Pasien::create($data);
-        $data['pasien_id']  =   $pasien->id;
-        $pendaftaran        =   Pendaftaran::create($data);
-        return redirect('/pendaftaran/'.$pendaftaran->id.'/cetak');
+        $wilayah_administratif = \DB::table('view_wilayah_administratif_indonesia')
+                                ->where('village_id', $request->wilayah_administratif)
+                                ->first();
+        $data                =   $request->all();
+        $data['village_id']  = $wilayah_administratif->village_id;
+        $data['district_id'] = $wilayah_administratif->district_id;
+        $data['province_id'] = $wilayah_administratif->province_id;
+        $data['regency_id']  = $wilayah_administratif->regency_id;
+        $pasien              =   Pasien::create($data);
+        $data['pasien_id']   =   $pasien->id;
+        $pendaftaran         =   Pendaftaran::create($data);
+        return redirect('/pendaftaran/' . $pendaftaran->id . '/cetak');
     }
 
     /**
@@ -144,9 +148,8 @@ class PasienController extends Controller
         $data['hubungan_pasien']    = $this->hubungan_pasien;
         $data['penjamin']           = $this->penjamin;
 
-        $data['pasien'] = Pasien::findOrFail($id);
-        $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
-        $data['provinces'] = Province::pluck('name', 'id');
+        $data['pasien'] = Pasien::with('wilayahAdministratifIndonesia')->findOrFail($id);
+        //return $data['pasien'];
         return view('pasien.edit', $data);
     }
 
@@ -176,5 +179,4 @@ class PasienController extends Controller
         $pasien->delete();
         return redirect(route('pasien.index'))->with('message', 'Data Berhasil Dihapus');
     }
-    
 }

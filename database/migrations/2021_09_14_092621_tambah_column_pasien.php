@@ -19,7 +19,7 @@ class TambahColumnPasien extends Migration
             $table->string('penjamin');
             $table->string('kewarganegaraan');
             $table->string('golongan_darah');
-            $table->string('suku_bangsa');
+            $table->string('suku_bangsa')->nullable();
             $table->string('privilage_khusus');
             $table->string('penanggung_jawab');
             $table->string('hubungan_pasien');

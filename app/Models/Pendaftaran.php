@@ -8,7 +8,7 @@ class Pendaftaran extends Model
 {
     protected $table = "pendaftaran";
 
-    protected $fillable = ['kode','pasien_id','dokter_id','jenis_layanan','status_pembayaran','poliklinik_id'];
+    protected $fillable = ['kode','pasien_id','dokter_id','jenis_layanan','status_pembayaran','poliklinik_id','tanda_tanda_vital'];
 
     public function pasien()
     {
@@ -23,5 +23,10 @@ class Pendaftaran extends Model
     public function dokter()
     {
         return $this->belongsTo('App\User', 'dokter_id', 'id');
+    }
+
+    public function getTandaTandaVitalAttribute($value)
+    {
+        return unserialize($value);
     }
 }

@@ -16,12 +16,8 @@ class PoliklinikController extends Controller
      */
     public function index(Request $request)
     {
-        $poliklinik = \Cache::rememberForever('poliklinik', function () {
-            return Poliklinik::all();
-        });
-
         if ($request->ajax()) {
-            return DataTables::of($poliklinik)
+            return DataTables::of(Poliklinik::all())
             ->addColumn('aktif', function ($row) {
                 return $row->aktif == 1 ? 'Aktif' : 'Tidak Aktif';
             })

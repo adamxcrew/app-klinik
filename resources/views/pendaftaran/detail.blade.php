@@ -37,7 +37,7 @@
                                 <strong>Nomor Pendaftaran</strong>
                             </div>
                             <div class="col-md-7">
-                                {{ $pasien->kode }}
+                                : {{ $pasien->kode }}
                             </div>
                         </div>
 
@@ -46,7 +46,7 @@
                                 <strong>Nama</strong>
                             </div>
                             <div class="col-md-7">
-                                {{ $pasien->pasien->nama }}
+                                : {{ $pasien->pasien->nama }}
                             </div>
                         </div>
 
@@ -55,7 +55,7 @@
                                 <strong>Tempat tgl lahir</strong>
                             </div>
                             <div class="col-md-7">
-                                {{ $pasien->pasien->tempat_lahir }}, {{ date('d-m-Y', strtotime($pasien->pasien->tanggal_lahir)) }}
+                                : {{ $pasien->pasien->tempat_lahir }}, {{ tgl_indo($pasien->pasien->tanggal_lahir) }}
                             </div>
                         </div>
 
@@ -64,7 +64,7 @@
                                 <strong>Umur</strong>
                             </div>
                             <div class="col-md-7">
-                                {{ hitung_umur($pasien->pasien->tanggal_lahir) }} tahun
+                                : {{ hitung_umur($pasien->pasien->tanggal_lahir) }} tahun
                             </div>
                         </div>
 
@@ -87,7 +87,7 @@
                                 <strong>Tujuan Poliklinik</strong>
                             </div>
                             <div class="col-md-7">
-                                {{ $pasien->poliklinik->nama }}
+                                : {{ $pasien->poliklinik->nama }}
                             </div>
                         </div>
 
@@ -96,7 +96,7 @@
                                 <strong>Tanggal Sekarang</strong>
                             </div>
                             <div class="col-md-7">
-                                {{ date('d-m-Y') }}
+                                : {{ tgl_indo(date('Y-m-d')) }}
                             </div>
                         </div>
 
@@ -105,7 +105,7 @@
                                 <strong>Jenis Layanan</strong>
                             </div>
                             <div class="col-md-7">
-                                {{ $pasien->jenis_layanan }}
+                                : {{ $pasien->jenis_layanan }}
                             </div>
                         </div>
 
@@ -123,7 +123,10 @@
                     <div class="box-header">
                         <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
                             <li class="nav-item active">
-                                <a class="nav-link active" id="custom-tabs-two-home-tab" data-toggle="pill" href="#custom-tabs-two-home" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">Diagnosa</a>
+                                <a class="nav-link active" id="custom-tabs-two-vital-tab" data-toggle="pill" href="#custom-tabs-two-vital-tab" role="tab" aria-controls="custom-tabs-two-vital-tab" aria-selected="true">Tanda Tanda Vital</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link active" id="custom-tabs-two-home-tab" data-toggle="pill" href="#custom-tabs-two-home" role="tab" aria-controls="custom-tabs-two-home" aria-selected="false">Diagnosa</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="custom-tabs-two-profile-tab" data-toggle="pill" href="#custom-tabs-two-profile" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Resep</a>
@@ -138,6 +141,34 @@
                     </div>
                     <div class="box-body"> 
                         <div class="tab-content" id="custom-tabs-two-tabContent">
+                            <div class="tab-pane fade active in" id="custom-tabs-two-vital-tab" role="tabpanel" aria-labelledby="custom-tabs-two-vital-tab">
+                                <div class="box">
+                                    <div class="box-header card-header">
+                                        <div class="row">
+                                            <div class="col-md-6 text-left">
+                                                Daftar diagnosa vital
+                                            </div>
+                                            <div class="col-md-6 text-right">
+                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalDiagnosa">Tambah</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <table class="table table-bordered table-striped" width="100%" id="diagnosa-resume-table">
+                                            <thead>
+                                                <tr>
+                                                  <th width="10">Nomor</th>
+                                                  <th>Kode</th>
+                                                  <th>Nama Diagnosa</th>
+                                                  <th>#</th>
+                                                </tr>
+                                            </thead>
+                                          </table>
+                                    </div>
+                                </div>
+                            </div>
+
+
                         <div class="tab-pane fade active in" id="custom-tabs-two-home" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
                             <div class="box">
                                 <div class="box-header card-header">
