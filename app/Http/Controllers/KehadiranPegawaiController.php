@@ -41,7 +41,9 @@ class KehadiranPegawaiController extends Controller
                 ->addIndexColumn()
                 ->make(true);
         }
-        return view('kehadiran-pegawai.index');
+        $data['tanggal_awal']   = $request->tanggal_awal ?? date('Y-m-d');
+        $data['tanggal_akhir']  = $request->tanggal_akhir ?? date('Y-m-d');
+        return view('kehadiran-pegawai.index', $data);
     }
 
     public function export_excel(Request $request)

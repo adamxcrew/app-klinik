@@ -82,15 +82,28 @@ return [
     ],
 
 
-    'user_role'            =>[
-                                'administrator' =>  'Administrator',
-                                'dokter'        =>  'Dokter',
-                                'kasir'         =>  'Kasir',
-                                'keuangan'      =>  'Keuangan',
-                                'hrd'           =>  'HRD'
+    'user_role'            => [
+        'administrator' =>  'Administrator',
+        'dokter'        =>  'Dokter',
+        'kasir'         =>  'Kasir',
+        'keuangan'      =>  'Keuangan',
+        'hrd'           =>  'HRD'
     ],
     'jenis_barang'          => [
         'obat'  =>  'Obat',
         'alkes' =>  'Alkes'
-        ]
+    ],
+    'hari'                  => [
+        'senin'     => 'Senin',
+        'selasa'    => 'Selasa',
+        'rabu'      => 'Rabu',
+        'kamis'     => 'kamis',
+        'jumat'     => 'Jumat',
+        'sabtu'     => 'Sabtu',
+        'minggu'    => 'Minggu'
+    ],
+    'jenis_kategori'=>[
+        'obat_alkes'    =>  'Obat Dan Alkes',
+        'tindakan'  =>  'Tindakan'
+    ]
 ];

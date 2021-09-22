@@ -28,7 +28,7 @@
                         <th>Nama Pasien</th>
                         <th>Poliklinik Tujuan</th>
                         <th>Jenis Layanan</th>
-                        <th width="160">#</th>
+                        <th width="210">#</th>
                       </tr>
                   </thead>
               </table>

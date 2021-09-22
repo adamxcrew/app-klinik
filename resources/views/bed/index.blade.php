@@ -1,11 +1,11 @@
 @extends('layouts.app')
-@section('title','Kelola Kategori Biaya')
+@section('title','Kelola Data Bed')
 @section('content')
 <div class="content-wrapper">
     <section class="content-header">
       <h1>
-        Kelola Kategori Biaya
-        <small>Daftar Kategori Biaya</small>
+        Kelola Data Bed
+        <small>Daftar Bed</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -20,16 +20,18 @@
             <div class="box">
         
               <div class="box-body">
-                  <a href="{{route('kategoribiaya.create')}}" class="btn btn-info btn-social btn-flat"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                  <a href="{{route('bed.create')}}" class="btn btn-info btn-social btn-flat"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
                      Tambah Data</a>
                   <hr>
                 @include('alert')
-                <table class="table table-bordered table-striped" id="users-table">
+                <table class="table table-bordered table-striped" id="bed-table">
                   <thead>
                       <tr>
                         <th width="10">Nomor</th>
-                        <th>Nama Kategori Biaya</th>
-                        <th>Keterangan</th>
+                        <th>Kamar</th>
+                        <th>Kode Bed</th>
+                        <th>Tarif</th>
+                        <th>Status</th>
                         <th width="60">#</th>
                       </tr>
                   </thead>
@@ -48,14 +50,16 @@
 <script src="{{asset('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 <script>
     $(function() {
-        $('#users-table').DataTable({
+        $('#bed-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '/kategoribiaya',
+            ajax: '/bed',
             columns: [
                 {data: 'DT_RowIndex', orderable: false, searchable: false},
-                { data: 'nama_kategori', name: 'nama_kategori' },
-                { data: 'keterangan', name: 'keterangan' },
+                { data: 'kamar.nama_kamar', name: 'kamar.nama_kamar' },
+                { data: 'kode_bed', name: 'kode_bed' },
+                { data: 'tarif', name: 'tarif' },
+                { data: 'status', name: 'status' },
                 { data: 'action', name: 'action' }
             ]
         });

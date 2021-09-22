@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Kelola Data Akun')
+@section('title','Kelola Data Pegawai')
 @section('content')
 <div class="content-wrapper">
   <section class="content-header">
@@ -35,7 +35,7 @@
                   <th>Agama</th>
                   <th>Jenis Kelamin</th>
                   <th>Alamat</th>
-                  <th width="60">#</th>
+                  <th width="97">#</th>
                 </tr>
               </thead>
             </table>
@@ -67,12 +67,12 @@
           name: 'nama'
         },
         {
-          data: 'nip',
-          name: 'nip'
-        },
-        {
           data: 'tempat_lahir',
           name: 'tempat_lahir'
+        },
+        {
+          data: 'tanggal_lahir',
+          name: 'tanggal_lahir'
         },
         {
           data: 'kelompok_pegawai',
