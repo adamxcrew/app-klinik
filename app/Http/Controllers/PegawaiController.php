@@ -31,7 +31,7 @@ class PegawaiController extends Controller
                     $btn = \Form::open(['url' => 'pegawai/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:15px']);
                     $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash'></i></button>";
                     $btn .= \Form::close();
-                    $btn .= '<a class="btn btn-danger btn-sm" href="/pegawai/' . $row->id . '"><i class="fa fa-eye"></i></a> ';
+                    $btn .= '<a class="btn btn-danger btn-sm" href="/pegawai/' . $row->id . '?tab=komponen_gaji"><i class="fa fa-eye"></i></a> ';
                     $btn .= '<a class="btn btn-danger btn-sm" href="/pegawai/' . $row->id . '/edit"><i class="fa fa-edit"></i></a> ';
                     return $btn;
                     return $btn;
