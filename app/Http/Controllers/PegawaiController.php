@@ -7,6 +7,7 @@ use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use App\Models\KomponenGaji;
 use App\Http\Requests\PegawaiStoreRequest;
+use App\Models\Shift;
 
 class PegawaiController extends Controller
 {
@@ -119,5 +120,16 @@ class PegawaiController extends Controller
         $pegawai = Pegawai::findOrFail($id);
         $pegawai->delete();
         return redirect(route('pegawai.index'))->with('message', 'Data Berhasil Dihapus');
+    }
+
+    public function aturJadwal()
+    {
+        $data['shift']   = Shift::pluck('nama_shift', 'id');
+        return view('pegawai.atur-jadwal', $data);
+    }
+
+    public function aturJadwalStore(Request $request)
+    {
+        dd($request->all());
     }
 }
