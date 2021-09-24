@@ -34,6 +34,16 @@ function generateKodeRekamMedis()
     }
 }
 
+function generateKodePurchaseOrder()
+{
+    $latestValue = \DB::table('purchase_order')->max('kode');
+    if ($latestValue == null) {
+        return 'PO-00000001';
+    } else {
+        $noUrut = (int) substr($latestValue, 4, 8) + 1;
+        return 'PO-' . sprintf("%08s", $noUrut);
+    }
+}
 
 function hitung_umur($date)
 {
