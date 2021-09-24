@@ -102,8 +102,13 @@ return [
         'sabtu'     => 'Sabtu',
         'minggu'    => 'Minggu'
     ],
-    'jenis_kategori'=>[
+    'jenis_kategori'        => [
         'obat_alkes'    =>  'Obat Dan Alkes',
-        'tindakan'  =>  'Tindakan'
+        'tindakan'      =>  'Tindakan'
+    ],
+    'waktu_shift'   => [
+        'pagi'   => 'Pagi',
+        'siang'  => 'Siang',
+        'malam'  => 'Malam',
     ]
 ];
