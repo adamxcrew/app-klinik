@@ -106,9 +106,5 @@ return [
         'obat_alkes'    =>  'Obat Dan Alkes',
         'tindakan'      =>  'Tindakan'
     ],
-    'waktu_shift'   => [
-        'pagi'   => 'Pagi',
-        'siang'  => 'Siang',
-        'malam'  => 'Malam',
-    ]
+    'kelompok_pasien' => ['umum' => 'Umum', 'non_umum' => 'Non Umum']
 ];
