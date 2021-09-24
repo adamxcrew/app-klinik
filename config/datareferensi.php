@@ -105,5 +105,6 @@ return [
     'jenis_kategori'=>[
         'obat_alkes'    =>  'Obat Dan Alkes',
         'tindakan'  =>  'Tindakan'
-    ]
+    ],
+    'kelompok_pasien'=>['umum'=>'Umum','non_umum'=>'Non Umum']
 ];
