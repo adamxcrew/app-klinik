@@ -80,6 +80,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('asuransi', 'AsuransiController');
     Route::resource('supplier', 'SupplierController');
     Route::resource('icd', 'ICDController');
+    Route::resource('shift', 'ShiftController');
 
     Route::post('stock-opname/export_excel', 'StockOpnameController@export_excel')->name('stock-opname.export_excel');
     Route::resource('stock-opname', 'StockOpnameController');
