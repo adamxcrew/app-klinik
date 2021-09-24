@@ -39,8 +39,7 @@ class ShiftController extends Controller
      */
     public function create()
     {
-        $data['waktu_shift'] = config('datareferensi.waktu_shift');
-        return view('shift.create', $data);
+        return view('shift.create');
     }
 
     /**
@@ -74,7 +73,6 @@ class ShiftController extends Controller
      */
     public function edit($id)
     {
-        $data['waktu_shift'] = config('datareferensi.waktu_shift');
         $data['shift'] = Shift::findOrFail($id);
         return view('shift.edit', $data);
     }

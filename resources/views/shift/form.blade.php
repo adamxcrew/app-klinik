@@ -1,7 +1,7 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">Nama Shift</label>
     <div class="col-sm-4">
-        {!! Form::select('nama_shift', $waktu_shift,null, ['class'=>'form-control','Placeholder'=>'Ex: Pagi']) !!}
+        {!! Form::text('nama_shift',null, ['class'=>'form-control','Placeholder'=>'Ex: Pagi']) !!}
     </div>
 </div>
 <div class="form-group">
