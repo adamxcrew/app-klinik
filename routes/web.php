@@ -122,8 +122,13 @@ Route::middleware(['auth'])->group(function () {
 
     /** End */
 
+    /**
+     * Kehadiran Pegawai Route
+     */
     Route::post('kehadiran-pegawai/export_excel', 'KehadiranPegawaiController@export_excel')->name('kehadiran-pegawai.export_excel');
+    Route::post('kehadiran-pegawai/import_excel', 'KehadiranPegawaiController@import_excel')->name('kehadiran-pegawai.import_excel');
     Route::resource('kehadiran-pegawai', 'KehadiranPegawaiController');
+
     Route::get('buku-besar', 'BukuBesarController@index');
     Route::get('buku-besar/periode/{kode}', 'BukuBesarController@show_periode');
     Route::get('buku-besar/{kode}', 'BukuBesarController@show');

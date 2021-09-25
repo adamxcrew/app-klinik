@@ -8,6 +8,7 @@ use App\Models\KehadiranPegawai;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\KehadiranPegawaiExport;
 use App\Http\Requests\KehadiranPegawaiStoreRequest;
+use App\Imports\KehadiranPegawaiImport;
 use App\Models\Pegawai;
 
 class KehadiranPegawaiController extends Controller
@@ -37,6 +38,9 @@ class KehadiranPegawaiController extends Controller
                 ->addColumn('tanggal', function ($row) {
                     return tgl_indo($row->tanggal);
                 })
+                ->addColumn('status', function ($row) {
+                    return $row->status == 1 ? 'Hadir' : 'Tidak Hadir';
+                })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
@@ -49,6 +53,20 @@ class KehadiranPegawaiController extends Controller
     public function export_excel(Request $request)
     {
         return Excel::download(new KehadiranPegawaiExport($request->tanggal_mulai, $request->tanggal_selesai), 'Kehadiran Pegawai.xlsx');
+    }
+
+    public function import_excel(Request $request)
+    {
+        $file = $request->file('import_file');
+        $nama_file = $file->getClientOriginalName();
+        $file->move('file-excel', $nama_file);
+
+        try {
+            Excel::import(new KehadiranPegawaiImport, public_path('/file-excel/' . $nama_file));
+            return redirect(route('kehadiran-pegawai.index'))->with('message', 'Data kehadiran pegawai berhasil diimport!');;
+        } catch (\Throwable $th) {
+            return redirect(route('kehadiran-pegawai.index'))->with('message', 'File excel tidak valid!');
+        }
     }
 
     /**
@@ -83,8 +101,8 @@ class KehadiranPegawaiController extends Controller
      */
     public function show($id)
     {
-        $data['akun'] = Akun::findOrFail($id);
-        return view('akun.show', $data);
+        $data['kehadiran_pegawai'] = KehadiranPegawai::findOrFail($id);
+        return view('kehadiran-pegawai.show', $data);
     }
 
     /**
@@ -95,7 +113,6 @@ class KehadiranPegawaiController extends Controller
      */
     public function edit($id)
     {
-        $data['status'] = $this->status_kehadiran;
         $data['pegawai'] = Pegawai::pluck('nama', 'id');
         $data['kehadiran_pegawai']            = KehadiranPegawai::findOrFail($id);
         return view('kehadiran-pegawai.edit', $data);

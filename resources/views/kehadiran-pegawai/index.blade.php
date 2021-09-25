@@ -20,14 +20,17 @@
         <div class="box">
 
           <div class="box-body">
-            <a href="{{route('kehadiran-pegawai.create')}}" class="btn btn-info btn-social btn-flat mr-3" style="margin-right: 10px"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
+            <a href="{{route('kehadiran-pegawai.create')}}" class="btn btn-info btn-social btn-flat " style="margin-right: 5px"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
               Tambah Data</a>
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                Export Excel
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-export">
+                <i class="fa fa-download"></i> Export Excel
               </button>
+              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-import">
+                <i class="fa fa-file-excel-o"></i> Import Data Kehadiran
+                </button>
             <hr>
             @include('alert')
-            {!! Form::open(['url'=>'laporan/kunjungan-perpoli','method'=>'GET']) !!}
+            {!! Form::open(['url'=>'kehadiran-pegawai','method'=>'GET']) !!}
             <table class="table table-bordered">
                 <tr>
                     <td width="200">Tanggal Mulai</td>
@@ -70,12 +73,43 @@
     </div>
   </section>
 </div>
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+<!-- Modal Import Excel-->
+{!! Form::open(['route'=>'kehadiran-pegawai.import_excel', 'files' => true]) !!}
+<div class="modal fade" id="modal-import" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Import Data Kehadiran</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-bordered">
+              <tr>
+                  <td>Pilih File</td>
+                  <td>
+                      {!! Form::file('import_file', ['class' => 'form-control']) !!}
+                  </td>
+              </tr>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+          <button type="submit" class="btn btn-primary">Upload Stock Opname</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{!! Form::close() !!}
+
+<!-- Modal Export Excel-->
+<div class="modal fade" id="modal-export" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Export data kehadiran pegawai</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
