@@ -14,6 +14,7 @@
     </tr>
 </table>
 <hr>
+<a href="{{ url("pegawai/atur-jadwal?pegawai=$pegawai->id") }}" class="btn btn-primary" style="margin-bottom:20px">Atur Waktu Kerja</a>
 <table class="table table-bordered table-striped" id="myTable">
     <thead>
         <tr>

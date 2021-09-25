@@ -7,10 +7,10 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">Jam Masuk & Pulang</label>
     <div class="col-sm-2">
-        {!! Form::text('jam_masuk', null, ['class'=>'form-control','Placeholder'=>'Ex: 08:00']) !!}
+        {!! Form::time('jam_masuk', null, ['class'=>'form-control','Placeholder'=>'Ex: 08:00']) !!}
     </div>
     <div class="col-sm-2">
-        {!! Form::text('jam_keluar', null, ['class'=>'form-control','Placeholder'=>'Ex: 17:00']) !!}
+        {!! Form::time('jam_keluar', null, ['class'=>'form-control','Placeholder'=>'Ex: 17:00']) !!}
     </div>
 </div>
 <div class="form-group">
@@ -19,7 +19,7 @@
         {!! Form::date('tanggal', null, ['class'=>'form-control']) !!}
     </div>
     <div class="col-sm-2">
-        {!! Form::select('status', $status, null, ['class'=>'form-control']) !!}
+        {!! Form::select('status', ['1' => 'Hadir', '0' => 'Tidak Hadir'], null, ['class'=>'form-control']) !!}
     </div>
 </div>
 <div class="form-group">

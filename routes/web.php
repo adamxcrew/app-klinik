@@ -76,7 +76,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('jurnal', 'JurnalController');
     Route::resource('komponengaji', 'KomponenGajiController');
     Route::resource('gaji', 'GajiController');
-    Route::resource('pegawai', 'PegawaiController');
+
     Route::resource('asuransi', 'AsuransiController');
     Route::resource('supplier', 'SupplierController');
     Route::resource('icd', 'ICDController');
@@ -91,6 +91,13 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('laporan')->group(function () {
         Route::get('/kunjungan-perpoli', 'LaporanController@laporanKunjunganPerPoli');
     });
+
+    /**
+     * Route pegawai & kelola kehadiran pegawai
+     */
+    Route::get('pegawai/atur-jadwal', 'PegawaiController@aturJadwal');
+    Route::post('pegawai/atur-jadwal', 'PegawaiController@aturJadwalStore')->name('pegawai.atur-jadwal.store');
+    Route::resource('pegawai', 'PegawaiController');
 
     /**
      * Jadwal Praktek Dokter
@@ -115,8 +122,13 @@ Route::middleware(['auth'])->group(function () {
 
     /** End */
 
+    /**
+     * Kehadiran Pegawai Route
+     */
     Route::post('kehadiran-pegawai/export_excel', 'KehadiranPegawaiController@export_excel')->name('kehadiran-pegawai.export_excel');
+    Route::post('kehadiran-pegawai/import_excel', 'KehadiranPegawaiController@import_excel')->name('kehadiran-pegawai.import_excel');
     Route::resource('kehadiran-pegawai', 'KehadiranPegawaiController');
+
     Route::get('buku-besar', 'BukuBesarController@index');
     Route::get('buku-besar/periode/{kode}', 'BukuBesarController@show_periode');
     Route::get('buku-besar/{kode}', 'BukuBesarController@show');
