@@ -11,14 +11,11 @@
     </div>
 </div>
 <div class="form-group">
-    <label class="col-sm-2 control-label">Tempat Lahir</label>
-    <div class="col-sm-10">
+    <label class="col-sm-2 control-label">Tempat, Tanggal Lahir</label>
+    <div class="col-sm-4">
         {!! Form::text('tempat_lahir', null, ['class'=>'form-control','Placeholder'=>'Tempat lahir']) !!}
     </div>
-</div>
-<div class="form-group">
-    <label class="col-sm-2 control-label">Tanggal Lahir</label>
-    <div class="col-sm-10">
+    <div class="col-sm-3">
         {!! Form::date('tanggal_lahir', null, ['class'=>'form-control','Placeholder'=>'Nama']) !!}
     </div>
 </div>

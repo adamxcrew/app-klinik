@@ -44,7 +44,7 @@ class PurchaseOrderController extends Controller
                 ->addIndexColumn()
                 ->make(true);
         }
-        
+
         return view('purchase-order.index');
     }
 
@@ -78,9 +78,9 @@ class PurchaseOrderController extends Controller
         } else {
             $request['status_po']   = 'pengajuan_po';
             $simpan_purchase_order  = PurchaseOrder::create($request->all());
-            $update_purchase_order_detail = PurchaseOrderDetail::where('purchase_order_id', null)->update(['purchase_order_id'=> $simpan_purchase_order->id]);
-            
-            return redirect('purchase-order/'.$simpan_purchase_order->id.'/cetak');
+            $update_purchase_order_detail = PurchaseOrderDetail::where('purchase_order_id', null)->update(['purchase_order_id' => $simpan_purchase_order->id]);
+
+            return redirect('purchase-order/' . $simpan_purchase_order->id . '/cetak');
         }
     }
 

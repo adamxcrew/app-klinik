@@ -128,6 +128,6 @@ class BarangController extends Controller
 
     public function export_excel()
     {
-        return Excel::download(new BarangExport, 'Barang.xlsx');
+        return Excel::download(new BarangExport(), 'Barang.xlsx');
     }
 }

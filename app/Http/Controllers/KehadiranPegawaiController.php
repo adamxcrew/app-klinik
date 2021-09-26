@@ -62,8 +62,9 @@ class KehadiranPegawaiController extends Controller
         $file->move('file-excel', $nama_file);
 
         try {
-            Excel::import(new KehadiranPegawaiImport, public_path('/file-excel/' . $nama_file));
-            return redirect(route('kehadiran-pegawai.index'))->with('message', 'Data kehadiran pegawai berhasil diimport!');;
+            Excel::import(new KehadiranPegawaiImport(), public_path('/file-excel/' . $nama_file));
+            return redirect(route('kehadiran-pegawai.index'))->with('message', 'Data kehadiran pegawai berhasil diimport!');
+            ;
         } catch (\Throwable $th) {
             return redirect(route('kehadiran-pegawai.index'))->with('message', 'File excel tidak valid!');
         }

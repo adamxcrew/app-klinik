@@ -86,7 +86,7 @@ class PurchaseOrderDetailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id, Request  $request)
+    public function destroy($id, Request $request)
     {
         if ($request->ajax()) {
             $data = PurchaseOrderDetail::findOrFail($id);
