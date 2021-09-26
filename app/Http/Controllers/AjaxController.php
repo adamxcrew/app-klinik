@@ -35,4 +35,15 @@ class AjaxController extends Controller
             ->get();
         return response()->json($data);
     }
+
+
+    public function select2Barang(Request $request)
+    {
+        $data = \DB::table('barang')
+            ->select('id', 'nama_barang')
+            ->where('nama_barang', 'like', "%" . $request->q . "%")
+            ->limit(20)
+            ->get();
+        return response()->json($data);
+    }
 }

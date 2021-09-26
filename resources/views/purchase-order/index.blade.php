@@ -18,15 +18,19 @@
         <div class="row">
           <div class="col-xs-12">
             <div class="box">
-        
               <div class="box-body">
+                <a href="{{route('purchase-order.create')}}" class="btn btn-info btn-social btn-flat"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                  Form Purchase Order</a>
+                <hr>
+                @include('alert')
                 <table class="table table-bordered table-striped" id="purchase-order-table">
                   <thead>
                       <tr>
                         <th width="10">Nomor</th>
-                        <th>Kode</th>
-                        <th>Tanggal</th>
+                        <th>Kode Purchase Order</th>
+                        <th>Tanggal Pengajuan</th>
                         <th>Supplier</th>
+                        <th>Status Purchase Order</th>
                         <th width="60">#</th>
                       </tr>
                   </thead>
@@ -54,6 +58,7 @@
                 { data: 'kode', name: 'kode' },
                 { data: 'tanggal', name: 'tanggal' },
                 { data: 'supplier.nama_supplier', name: 'supplier.nama_supplier' },
+                { data: 'status_po', name: 'status_po' },
                 { data: 'action', name: 'action' }
             ]
         });

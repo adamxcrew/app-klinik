@@ -106,5 +106,15 @@ return [
         'obat_alkes'    =>  'Obat Dan Alkes',
         'tindakan'  =>  'Tindakan'
     ],
-    'kelompok_pasien'=>['umum'=>'Umum','non_umum'=>'Non Umum']
+
+    'kelompok_pasien'=>[
+        'umum'      =>  'Umum',
+        'non_umum'  =>  'Non Umum'
+    ],
+    'status_po'=>[
+        'pengajuan_po'          =>  'Pengajuan Purchase Order',
+        'approve_by_keuangan'   =>  'Approve Oleh Keuangan',
+        'approve_by_keuangan'   =>  'Approve Oleh Direktur',
+        'approve_by_keuangan'   =>  'Pengajuan PO Diterima'
+    ]
 ];

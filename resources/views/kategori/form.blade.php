@@ -11,7 +11,7 @@
     </div>
 </div>
 <div class="form-group">
-    <label class="col-sm-2 control-label">jenis</label>
+    <label class="col-sm-2 control-label">Jenis</label>
     <div class="col-sm-4">
         {!! Form::select('jenis',$jenis_kategori, null, ['class'=>'form-control']) !!}
     </div>

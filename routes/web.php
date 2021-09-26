@@ -48,13 +48,17 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('resume/tindakan/{id}', 'PendaftaranController@resumeHapusTindakan')->name('resume.hapus-tindakan');
 
     // purchase order (PO)
-    Route::get('purchase-order', 'PurchaseOrderController@index')->name('purchase-order.index');
-    Route::get('purchase-order/create', 'PurchaseOrderController@create')->name('purchase-order.create');
-    Route::post('purchase-order/insert', 'PurchaseOrderController@insertPurchaseOrder')->name('purchase-order.insert');
-    Route::delete('purchase-order/delete/{id}', 'PurchaseOrderController@destroyPo')->name('purchase-order.destroy');
-    Route::post('purchase-order-detail/insert', 'PurchaseOrderController@insertPurchaseOrderDetail')->name('purchase-order-detail.insert');
-    Route::delete('purchase-order-detail/delete/{id}', 'PurchaseOrderController@destroy')->name('purchase-order-detail.destroy');
-    Route::get('purchase-order/cetak/{id}', 'PurchaseOrderController@cetak')->name('purchase-order.cetak');
+    // Route::resource('purchase-order/detail-tambah-barang', 'PurchaseOrderController@purchase_order_detail_insert');
+    // Route::resource('purchase-order/detail-hapus-barang', 'PurchaseOrderController@purchase_order_detail_destroy');
+    Route::resource('purchase-order-detail', 'PurchaseOrderDetailController');
+    Route::resource('purchase-order', 'PurchaseOrderController');
+    // Route::get('purchase-order', 'PurchaseOrderController@index')->name('purchase-order.index');
+    // Route::get('purchase-order/create', 'PurchaseOrderController@create')->name('purchase-order.create');
+    // Route::post('purchase-order/insert', 'PurchaseOrderController@insertPurchaseOrder')->name('purchase-order.insert');
+    // Route::delete('purchase-order/delete/{id}', 'PurchaseOrderController@destroyPo')->name('purchase-order.destroy');
+    // Route::post('purchase-order-detail/insert', 'PurchaseOrderController@insertPurchaseOrderDetail')->name('purchase-order-detail.insert');
+    // Route::delete('purchase-order-detail/delete/{id}', 'PurchaseOrderController@destroy')->name('purchase-order-detail.destroy');
+    // Route::get('purchase-order/cetak/{id}', 'PurchaseOrderController@cetak')->name('purchase-order.cetak');
 
     // Laporan barang excel
     Route::post('barang/export_excel', 'BarangController@export_excel')->name('barang.export_excel');
@@ -126,4 +130,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('ajax/dropdown-dokter-berdasarkan-poliklinik', 'AjaxController@dropdownDokterBerdasarkanPoliklinik');
     Route::get('ajax/select2Desa', 'AjaxController@select2Desa');
     Route::get('ajax/select2Pasien', 'AjaxController@select2Pasien');
+    Route::get('ajax/select2Barang', 'AjaxController@select2Barang');
 });

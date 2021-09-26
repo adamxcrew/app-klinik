@@ -89,7 +89,24 @@
         ['icon' => 'fa fa-user', 'link' => '/akun', 'label' => 'Laporan'],
       ];
 
-      $menus = ['admin' => $admin, 'dokter' => [], 'kasir' => $kasir, 'keuangan' => $keuangan, 'hrd' => $hrd];
+      $bagian_gudang = [
+        ['icon' => 'fa fa-user', 'link' => '/home', 'label' => 'Dashboard'],
+        ['icon' => 'fa fa-user', 'link' => '/purchase-order', 'label' => 'Purchase Order'],
+        ['icon' => 'fa fa-user', 'link' => '/supplier', 'label' => 'Data Supplier'],
+        ['icon' => 'fa fa-book', 'link' => '/stock-opname', 'label' => 'Stock Opname'],
+        ['icon' => 'fa fa-user', 'link' => '/barang', 'label' => 'Master Barang'],
+        ['icon' => 'fa fa-user', 'link' => '/kategori', 'label' => 'Master Kategori']
+      ];
+
+      // pengaturan menu berdasarkan level
+      $menus = [
+        'admin'           => $admin, 
+        'dokter'          => [], 
+        'kasir'           => $kasir, 
+        'keuangan'        => $keuangan, 
+        'hrd'             => $hrd,
+        'bagian_gudang'   => $bagian_gudang
+      ];
       ?>
 
       @foreach($menus[Auth::user()->role] as $menu)
