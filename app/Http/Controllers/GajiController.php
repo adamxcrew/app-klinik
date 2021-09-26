@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use DataTables;
 use App\Models\Gaji;
 use App\Models\Pegawai;
+use App\Models\PegawaiTunjanganGaji;
 use App\Http\Requests\GajiStoreRequest;
 use Fpdf;
+use App\Models\GajiDetail;
 
 class GajiController extends Controller
 {
@@ -19,16 +21,30 @@ class GajiController extends Controller
     public function index(Request $request)
     {
         $data['periode'] = $request->periode ?? date('m/Y');
-
-
         if ($request->ajax()) {
             $gaji = Gaji::with('pegawai')->where('periode', $data['periode'])->get();
             // kalau data nya belum ada maka buat dulu
             if ($gaji->count() == 0) {
                 foreach (Pegawai::all() as $pegawai) {
-                    Gaji::create(['pegawai_id' => $pegawai->id,'periode' => $data['periode'],'status_bayar' => 0]);
+                    $createGaji = Gaji::create([
+                        'pegawai_id'    => $pegawai->id,
+                        'periode'       => $data['periode'],
+                        'status_bayar'  => 0
+                        ]);
+
+                    // insert detail komponen gaji
+                    $komponenGajiPegawai = PegawaiTunjanganGaji::where('pegawai_id', $pegawai->id)->get();
+                    foreach ($komponenGajiPegawai as $komponen) {
+                        GajiDetail::create([
+                            'pegawai_id'        =>  $pegawai->id,
+                            'komponen_gaji_id'  =>  $komponen->komponen_gaji_id,
+                            'jumlah'            =>  $komponen->jumlah,
+                            'gaji_id'           =>  $createGaji->id
+                            ]);
+                    }
                 }
             }
+            
             return DataTables::of($gaji)
                 ->addColumn('action', function ($row) {
                     $btn = '<a class="btn btn-danger btn-sm" href="/gaji/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> ';

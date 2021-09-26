@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Kelola Data Akun')
+@section('title','Kelola Data Gaji')
 @section('content')
 <div class="content-wrapper">
   <section class="content-header">
@@ -21,17 +21,19 @@
 
           <div class="box-body">
             @include('alert')
+            {!! Form::open(['url'=>'gaji','method'=>'GET']) !!}
             <table class="table table-bordered">
               <tr>
                 <td width="200">Periode Gaji</td>
                 <td width="200">
-                  <input id="NoIconDemo" class="form-control" type="text" value="{{$periode}}" />
+                  <input id="NoIconDemo" class="form-control" name="periode" type="text" value="{{$periode}}" />
                 </td>
                 <td>
                   <button type="submit" class="btn btn-danger btn btn-sm">Tampilkan</button>
                 </td>
               </tr>
             </table>
+            {!! Form::close() !!}
             <hr>
             <table class="table table-bordered table-striped" id="pegawai-table">
               <thead>
