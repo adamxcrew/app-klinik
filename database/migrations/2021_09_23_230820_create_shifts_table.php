@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateKehadiranPegawaisTable extends Migration
+class CreateShiftsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,11 @@ class CreateKehadiranPegawaisTable extends Migration
      */
     public function up()
     {
-        Schema::create('kehadiran_pegawai', function (Blueprint $table) {
+        Schema::create('shift', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pegawai_id');
-            $table->date('tanggal');
+            $table->string('nama_shift');
             $table->string('jam_masuk');
-            $table->string('jam_keluar');
-            $table->string('scan_masuk')->nullable();
-            $table->string('scan_pulang')->nullable();
-            $table->integer('status')->nullable();
+            $table->string('jam_pulang');
             $table->timestamps();
         });
     }
@@ -33,6 +29,6 @@ class CreateKehadiranPegawaisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kehadiran_pegawai');
+        Schema::dropIfExists('shifts');
     }
 }

@@ -102,9 +102,9 @@ return [
         'sabtu'     => 'Sabtu',
         'minggu'    => 'Minggu'
     ],
-    'jenis_kategori'=>[
+    'jenis_kategori'        => [
         'obat_alkes'    =>  'Obat Dan Alkes',
-        'tindakan'  =>  'Tindakan'
+        'tindakan'      =>  'Tindakan'
     ],
 
     'kelompok_pasien'=>[
