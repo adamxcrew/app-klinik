@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\DokterPoliklinik;
 use App\User;
+use App\Models\Pasien;
 
 class AjaxController extends Controller
 {
@@ -45,5 +46,11 @@ class AjaxController extends Controller
             ->limit(20)
             ->get();
         return response()->json($data);
+    }
+
+
+    public function pasien(Request $request)
+    {
+        return Pasien::findOrFail($request->pasien_id)->first();
     }
 }
