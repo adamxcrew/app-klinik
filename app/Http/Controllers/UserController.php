@@ -28,8 +28,9 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $role = $request->role == 'user' ? ['administrator', 'admin', 'kasir', 'keuangan', 'hrd'] : [$request->role];
+        $role = $request->role == 'user' ? ['administrator', 'admin', 'kasir', 'keuangan', 'hrd','bagian_gudang','admin_medis'] : [$request->role];
         if ($request->ajax()) {
+            $user_role = $this->user_role;
             return DataTables::of(User::with('poliklinik.poliklinik')->whereIn('role', $role)->get())
                 ->addColumn('action', function ($row) {
                     $btn = \Form::open(['url' => 'user/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
@@ -38,6 +39,9 @@ class UserController extends Controller
                     $btn .= '<a class="btn btn-danger btn-sm" href="/user/' . $row->id . '/edit?jabatan=' . $row->role . '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> ';
                     $btn .= '<a class="btn btn-danger btn-sm" href="/user/' . $row->id . '"><i class="fa fa-eye" aria-hidden="true"></i></a>';
                     return $btn;
+                })
+                ->addColumn('role', function ($row) use ($user_role) {
+                    return $user_role[$row->role];
                 })
                 ->rawColumns(['action', 'code'])
                 ->addIndexColumn()
@@ -72,7 +76,7 @@ class UserController extends Controller
         if ($request->role == 'dokter') {
             DokterPoliklinik::create(['user_id' => $user->id, 'poliklinik_id' => $request->poliklinik_id]);
         }
-        $role = in_array($request->role, ['administrator', 'kasir', 'hrd', 'keuangan']) ? 'user' : $request->role;
+        $role = in_array($request->role, ['administrator', 'kasir', 'hrd', 'keuangan','admin_medis','bagian_gudang']) ? 'user' : $request->role;
         return redirect(route('user.index', ['jabatan' => $role]))->with('message', 'Pengguna Bernama ' . $request->name . ' Berhasil Ditambahkan');
     }
 
