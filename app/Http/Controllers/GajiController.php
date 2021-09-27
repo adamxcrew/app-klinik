@@ -44,7 +44,7 @@ class GajiController extends Controller
                     }
                 }
             }
-            
+
             return DataTables::of($gaji)
                 ->addColumn('action', function ($row) {
                     $btn = '<a class="btn btn-danger btn-sm" href="/gaji/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> ';
