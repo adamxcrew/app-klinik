@@ -73,6 +73,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('jurnal', 'JurnalController');
     Route::resource('komponengaji', 'KomponenGajiController');
     Route::get('gaji/{id}/cetak', 'GajiController@cetak');
+    Route::get('gaji-detail/{id}/edit', 'GajiController@editGajiDetail');
+    Route::put('gaji-detail/{id}/update', 'GajiController@update')->name('gaji-detail.update');
+    Route::delete('gaji-detail/{id}', 'GajiController@destroy')->name('gaji-detail.delete');
     Route::resource('gaji', 'GajiController');
 
     Route::resource('asuransi', 'AsuransiController');
