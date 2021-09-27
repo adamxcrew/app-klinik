@@ -73,6 +73,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('poliklinik', 'PoliklinikController');
     Route::resource('gejala', 'GejalaController');
     Route::resource('kategori', 'KategoriController');
+    Route::resource('unit-stock', 'UnitStockController');
     Route::resource('satuan', 'SatuanController');
     Route::resource('harilibur', 'HariLiburController');
     Route::resource('tindakan', 'TindakanController');
