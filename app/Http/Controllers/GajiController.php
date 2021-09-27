@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Fpdf;
 use DataTables;
 use App\Models\Gaji;
 use App\Models\Pegawai;
-use App\Models\PegawaiTunjanganGaji;
-use App\Http\Requests\GajiStoreRequest;
-use Fpdf;
 use App\Models\GajiDetail;
+use App\Models\KomponenGaji;
+use Illuminate\Http\Request;
+use App\Models\PegawaiTunjanganGaji;
+use App\Http\Requests\GajiDetailStoreRequest;
 
 class GajiController extends Controller
 {
@@ -74,10 +75,10 @@ class GajiController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AkunStoreRequest $request)
+    public function store(GajiDetailStoreRequest $request)
     {
-        Akun::create($request->all());
-        return redirect(route('akun.index'));
+        $gaji = GajiDetail::create($request->all());
+        return redirect('gaji/' . $gaji->gaji_id . '/edit');
     }
 
     /**
@@ -86,10 +87,22 @@ class GajiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        $data['akun'] = Akun::findOrFail($id);
-        return view('akun.show', $data);
+        if ($request->ajax()) {
+            return DataTables::of(KomponenGaji::all())
+                ->addColumn('action', function ($row) {
+                    $btn = \Form::open(['url' => 'gaji/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
+                    $btn .= '<a class="btn btn-primary btn-sm" href="/gaji/' . $row->id . '/edit' . $row->role . '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> ';
+                    $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
+                    $btn .= \Form::close();
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+        return view('gaji.edit');
     }
 
     /**
@@ -98,10 +111,29 @@ class GajiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        $data['akun'] = Akun::findOrFail($id);
-        return view('akun.edit', $data);
+        $data['gaji'] = Gaji::findOrFail($id);
+
+        if ($request->ajax()) {
+            return DataTables::of(GajiDetail::where('gaji_id', $data['gaji']->id)->with(['komponen_gaji', 'gaji'])->get())
+                ->addColumn('action', function ($row) {
+                    $btn = \Form::open(['url' => 'gaji-detail/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
+                    $btn .= '<a class="btn btn-primary btn-sm" href="/gaji-detail/' . $row->id . '/edit' . $row->role . '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> ';
+                    $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
+                    $btn .= \Form::close();
+                    return $btn;
+                })
+                ->addColumn('gaji.status_bayar', function ($row) {
+                    return $row->gaji->status_bayar == 1 ? 'Sudah Dibayar' : 'Belum Dibayar';
+                })
+                ->rawColumns(['action'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+        $data['komponen_gaji'] = KomponenGaji::pluck('nama_komponen', 'id');
+        $data['pegawai'] = Pegawai::findOrFail($data['gaji']->pegawai_id);
+        return view('gaji.edit', $data);
     }
 
     /**
@@ -113,9 +145,9 @@ class GajiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $akun = Akun::findOrFail($id);
-        $akun->update($request->all());
-        return redirect(route('akun.index'))->with('message', 'Data Berhasil Di Update');
+        $gajiDetail = GajiDetail::findOrFail($id);
+        $gajiDetail->update($request->all());
+        return redirect('gaji/' . $gajiDetail->gaji_id . '/edit')->with('message', 'Data Berhasil Di Update');
     }
 
     /**
@@ -126,12 +158,20 @@ class GajiController extends Controller
      */
     public function destroy($id)
     {
-        $akun = akun::findOrFail($id);
-        $akun->delete();
-        return redirect(route('akun.index'))->with('message', 'Data Berhasil Dihapus');
+        $gajiDetail = GajiDetail::findOrFail($id);
+        $gajiDetail->delete();
+        return redirect('gaji/' . $gajiDetail->gaji_id . '/edit')->with('message', 'Data Berhasil Dihapus');
     }
 
+    public function editGajiDetail($id)
+    {
+        $data['gajiDetail'] = GajiDetail::findOrFail($id);
+        $data['gaji'] = Gaji::findOrFail($data['gajiDetail']->gaji_id);
+        $data['komponen_gaji'] = KomponenGaji::pluck('nama_komponen', 'id');
+        $data['pegawai'] = Pegawai::findOrFail($data['gajiDetail']->pegawai_id);
 
+        return view('gaji.edit-gaji-detail', $data);
+    }
 
 
     public function cetak($id)

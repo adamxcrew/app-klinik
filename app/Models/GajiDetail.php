@@ -12,6 +12,11 @@ class GajiDetail extends Model
 
     public function komponen_gaji()
     {
-        return $this->hasMany(KomponenGaji::class, 'id', 'komponen_gaji_id');
+        return $this->belongsTo(KomponenGaji::class);
+    }
+
+    public function gaji()
+    {
+        return $this->belongsTo(Gaji::class);
     }
 }
