@@ -87,7 +87,9 @@ return [
         'dokter'        =>  'Dokter',
         'kasir'         =>  'Kasir',
         'keuangan'      =>  'Keuangan',
-        'hrd'           =>  'HRD'
+        'hrd'           =>  'HRD',
+        'admin_medis'   =>  'Admin Medis',
+        'bagian_gudang' => 'Bagian Gudang'
     ],
     'jenis_barang'          => [
         'obat'  =>  'Obat',
@@ -111,6 +113,7 @@ return [
         'umum'      =>  'Umum',
         'non_umum'  =>  'Non Umum'
     ],
+
     'status_po'=>[
         'pengajuan_po'          =>  'Pengajuan Purchase Order',
         'approve_by_keuangan'   =>  'Approve Oleh Keuangan',
