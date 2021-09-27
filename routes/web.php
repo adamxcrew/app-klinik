@@ -71,6 +71,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('akun', 'AkunController');
     Route::resource('jurnal', 'JurnalController');
     Route::resource('komponengaji', 'KomponenGajiController');
+    Route::get('gaji/{id}/cetak', 'GajiController@cetak');
     Route::resource('gaji', 'GajiController');
 
     Route::resource('asuransi', 'AsuransiController');

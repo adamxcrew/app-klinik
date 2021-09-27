@@ -4,9 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Akun extends Model
+class Gaji extends Model
 {
     protected $table = "gaji";
 
-    protected $fillable = ['kode', 'nama'];
+    protected $fillable = ['pegawai_id', 'periode','status_bayar'];
+
+    public function pegawai()
+    {
+        return $this->belongsTo(\App\Models\Pegawai::class);
+    }
 }
