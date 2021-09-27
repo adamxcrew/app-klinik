@@ -30,7 +30,7 @@ class GajiController extends Controller
                         'pegawai_id'    => $pegawai->id,
                         'periode'       => $data['periode'],
                         'status_bayar'  => 0
-                        ]);
+                    ]);
 
                     // insert detail komponen gaji
                     $komponenGajiPegawai = PegawaiTunjanganGaji::where('pegawai_id', $pegawai->id)->get();
@@ -40,7 +40,7 @@ class GajiController extends Controller
                             'komponen_gaji_id'  =>  $komponen->komponen_gaji_id,
                             'jumlah'            =>  $komponen->jumlah,
                             'gaji_id'           =>  $createGaji->id
-                            ]);
+                        ]);
                     }
                 }
             }
@@ -136,6 +136,12 @@ class GajiController extends Controller
 
     public function cetak($id)
     {
+        $namaPerusahaan = "KLINIK NURDIN WAHID";
+        $gajiPokok = 4000000;
+        $gaji = Gaji::findOrFail($id);
+        $pegawai = Pegawai::findOrFail($gaji->pegawai_id);
+        $gajiDetail = GajiDetail::where('pegawai_id', $pegawai->id)->with('komponen_gaji')->get();
+
         Fpdf::AddPage('L', 'A5');
         Fpdf::SetFont('Arial', 'B', 14);
         Fpdf::Cell(190, 7, 'LAPORAN SLIP GAJI KARYAWAN', 1, 1, 'C');
@@ -143,19 +149,19 @@ class GajiController extends Controller
         Fpdf::SetFont('Arial', 'B', 8);
 
         Fpdf::text(12, 22, 'Nama Perusahaan');
-        Fpdf::text(38, 22, ' : PT CIPTA KARYA MANDIRI');
+        Fpdf::text(38, 22, ' : ' . $namaPerusahaan);
         Fpdf::text(12, 26, 'Periode');
-        Fpdf::text(38, 26, ' : 01/04/2019 - 01/05/2019');
+        Fpdf::text(38, 26, " : 01/$gaji->periode - 31/$gaji->periode");
         Fpdf::text(12, 30, 'Departemen');
         Fpdf::text(38, 30, ' : HRD/ Admin');
 
 
         Fpdf::text(110, 22, 'NIK');
-        Fpdf::text(136, 22, ' : TI102132');
+        Fpdf::text(136, 22, ' : ' . $pegawai->nip);
         Fpdf::text(110, 26, 'Nama Karyawan');
-        Fpdf::text(136, 26, ' : Nuris Akbar');
+        Fpdf::text(136, 26, ' : ' . $pegawai->nama);
         Fpdf::text(110, 30, 'Jabatan');
-        Fpdf::text(136, 30, ' : HRD/ Admin');
+        Fpdf::text(136, 30, ' : ' . ucfirst($pegawai->kelompok_pegawai));
 
         Fpdf::Cell(190, 90, '', 1, 1, 'C');
         // ---------------------------------------
@@ -172,53 +178,69 @@ class GajiController extends Controller
             'US' => 'Uang Service Motor',
             'UMK' => 'Uang Tunjangan Menikah'
         ];
+
         $start = 48;
-        foreach ($penerimaan as $kodeKomponen => $namaKomponen) {
-            Fpdf::text(12, $start, $kodeKomponen);
-            Fpdf::text(24, $start, $namaKomponen);
-            Fpdf::text(74, $start, ': 40.000');
-            $start = $start + 5;
+        $no_penambah = 1;
+        $jml_penambah = 0;
+
+        foreach ($gajiDetail as $detail) {
+            if ($detail->komponen_gaji->first()->jenis == 'penambah') {
+                Fpdf::text(12, $start, $no_penambah++);
+                Fpdf::text(24, $start, $detail->komponen_gaji->first()->nama_komponen);
+                Fpdf::text(74, $start, ': ' . convert_rupiah($detail->komponen_gaji->first()->jumlah));
+                $start = $start + 5;
+                $jml_penambah += $detail->komponen_gaji->first()->jumlah;
+            }
         }
 
         //////////////////////////////////////////////////////////////////////
-
         Fpdf::text(110, 40, 'Potongan ( -)');
         $potongan = [
             'PT' => 'Potogan Terlambat',
             'PA' => 'Potongan Absen',
             'PJ' => 'Potongan Jamsostek',
         ];
+
         $start = 48;
-        foreach ($potongan as $kodePotongan => $namaPotongan) {
-            Fpdf::text(110, $start, $kodePotongan);
-            Fpdf::text(124, $start, $namaPotongan);
-            Fpdf::text(174, $start, ': 30.000');
-            $start = $start + 5;
+        $no_pengurang = 1;
+        $jml_pengurang = 0;
+
+        foreach ($gajiDetail as $detail) {
+            if ($detail->komponen_gaji->first()->jenis == 'pengurang') {
+                Fpdf::text(110, $start, $no_pengurang++);
+                Fpdf::text(124, $start, $detail->komponen_gaji->first()->nama_komponen);
+                Fpdf::text(174, $start, ': ' . convert_rupiah($detail->komponen_gaji->first()->jumlah));
+                $start = $start + 5;
+                $jml_pengurang += $detail->komponen_gaji->first()->jumlah;
+            }
         }
 
+        $total = $jml_penambah - $jml_pengurang;
+        $totalGaji = $gajiPokok + $total;
+
         Fpdf::text(12, 82, 'Total Penerimaan');
-        Fpdf::text(74, 82, ': 4.000.000');
+        Fpdf::text(74, 82, ': ' . convert_rupiah($gajiPokok));
 
         Fpdf::text(12, 86, 'Gaji Yang Diterima');
-        Fpdf::text(74, 86, ': 4.000.000');
+        Fpdf::text(74, 86, ': ' . convert_rupiah($totalGaji));
 
         Fpdf::text(12, 90, '---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------');
 
 
         Fpdf::text(12, 96, 'Nama Perusahaan');
-        Fpdf::text(42, 96, ' : PT CIPTA KARYA MANDIRI');
+        Fpdf::text(42, 96, ' : ' . $namaPerusahaan);
         Fpdf::text(12, 100, 'Periode');
-        Fpdf::text(42, 100, ' : 01/04/2019 - 01/05/2019');
+        Fpdf::text(42, 100, " : 01/$gaji->periode - 31/$gaji->periode");
         Fpdf::text(12, 104, 'Departemen');
         Fpdf::text(42, 104, ' : HRD/ Admin');
 
 
         Fpdf::text(12, 108, 'NIK');
-        Fpdf::text(42, 108, ' : TI102132');
+        Fpdf::text(42, 108, ' : ' . $pegawai->nip);
         Fpdf::text(12, 112, 'Nama Karyawan');
-        Fpdf::text(42, 112, ' : Nuris Akbar');
+        Fpdf::text(42, 112, ' : ' . $pegawai->nama);
         Fpdf::text(12, 116, 'Jabatan');
-        Fpdf::text(42, 116, ' : HRD/ Admin');
+        Fpdf::text(42, 116, ' : ' . ucfirst($pegawai->kelompok_pegawai));
 
 
 
@@ -226,7 +248,7 @@ class GajiController extends Controller
         Fpdf::text(125, 116, 'Admin');
         Fpdf::text(110, 120, 'Tgl Cetak : ' . date('d/m/Y : H:i:s'));
         Fpdf::text(160, 96, 'Diterima Oleh');
-        Fpdf::text(163, 116, 'Nuris Akbar');
+        Fpdf::text(163, 116, $pegawai->nama);
 
         Fpdf::Output();
         exit;

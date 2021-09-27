@@ -8,5 +8,10 @@ class GajiDetail extends Model
 {
     protected $table = "gaji_detail";
 
-    protected $fillable = ['gaji_id','komponen_gaji_id','jumlah','pegawai_id'];
+    protected $fillable = ['gaji_id', 'komponen_gaji_id', 'jumlah', 'pegawai_id'];
+
+    public function komponen_gaji()
+    {
+        return $this->hasMany(KomponenGaji::class, 'id', 'komponen_gaji_id');
+    }
 }
