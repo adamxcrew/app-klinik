@@ -22,6 +22,7 @@ class CreateKehadiranPegawaisTable extends Migration
             $table->string('scan_masuk')->nullable();
             $table->string('scan_pulang')->nullable();
             $table->integer('status')->nullable();
+            $table->foreignId('shift_id');
             $table->timestamps();
         });
     }

@@ -3,6 +3,7 @@
         <tr>
             <th>No</th>
             <th>Nama</th>
+            <th>Jadwal Shift</th>
             <th>Jam Masuk</th>
             <th>Jam Keluar</th>
             <th>Tanggal</th>
@@ -14,10 +15,11 @@
         <tr>
             <td>{{$loop->iteration}}</td>
             <td>{{$laporan->pegawai->nama}}</td>
+            <td>{{$laporan->shift->nama_shift}}</td>
             <td>{{$laporan->jam_masuk}}</td>
             <td>{{$laporan->jam_keluar}}</td>
             <td>{{tgl_indo($laporan->tanggal)}}</td>
-            <td>{{$laporan->status}}</td>
+            <td>{{ $laporan->status == 1 ? 'Hadir' : 'Tidak Hadir'}}</td>
         </tr>
         @endforeach
     </tbody>

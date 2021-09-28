@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use DataTables;
+use App\Models\Shift;
+use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use App\Models\KehadiranPegawai;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\KehadiranPegawaiExport;
-use App\Http\Requests\KehadiranPegawaiStoreRequest;
 use App\Imports\KehadiranPegawaiImport;
-use App\Models\Pegawai;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\KehadiranPegawaiStoreRequest;
 
 class KehadiranPegawaiController extends Controller
 {
@@ -58,13 +60,14 @@ class KehadiranPegawaiController extends Controller
     public function import_excel(Request $request)
     {
         $file = $request->file('import_file');
-        $nama_file = $file->getClientOriginalName();
-        $file->move('file-excel', $nama_file);
+        $path = Storage::putFile(
+            'public/file-excel',
+            $file
+        );
 
         try {
-            Excel::import(new KehadiranPegawaiImport(), public_path('/file-excel/' . $nama_file));
+            Excel::import(new KehadiranPegawaiImport(), $path);
             return redirect(route('kehadiran-pegawai.index'))->with('message', 'Data kehadiran pegawai berhasil diimport!');
-            ;
         } catch (\Throwable $th) {
             return redirect(route('kehadiran-pegawai.index'))->with('message', 'File excel tidak valid!');
         }
@@ -77,6 +80,7 @@ class KehadiranPegawaiController extends Controller
      */
     public function create()
     {
+        $data['shift'] = Shift::pluck('nama_shift', 'id');
         $data['status'] = $this->status_kehadiran;
         $data['pegawai'] = Pegawai::pluck('nama', 'id');
         return view('kehadiran-pegawai.create', $data);
