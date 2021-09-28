@@ -78,6 +78,7 @@ class PermintaanBarangInternalController extends Controller
         $data['setting'] = Setting::find(1);
         $data['permintaan_barang_internal'] = PermintaanBarangInternal::find($id);
         $data['permintaan_barang_detail'] = PermintaanBarangInternalDetail::where('permintaan_barang_internal_id', $data['permintaan_barang_internal']->id)->get();
+        // return view('permintaan-barang-internal.cetak', $data);
         $pdf = PDF::loadView('permintaan-barang-internal.cetak', $data)->setPaper('A4');
         return $pdf->stream();
     }

@@ -9,7 +9,8 @@
         .title-header {
             font-size:25px;
             font-weight: bold;
-            text-align: right
+            text-align: center;
+            margin-bottom : 5%
         }
         .title-referensi{
             float: right;
@@ -45,7 +46,7 @@
         }
         .syarat-dan-ketentuan{
             width: 100%;
-            padding-top: 150px;
+            padding-top: 5%;
             font-size:15px
         }
     </style>
@@ -59,30 +60,30 @@
         <div class="title-referensi">
             <table style="width: 100%">
                 <tr>
-                    <td style="width: 50%">
-                        <img src="image/{{ $setting->logo }}" alt="" style="width:100%">
-                    </td>
                     <td  style="width: 50%">
                         <table  style="width: 100%">
-                            <tr align="right">
-                                <td style="width: 40%:"><strong>Unit Sumber</strong></td>
-                                <td style="width: 60%:">{{ $permintaan_barang_internal->unitSumber->nama_unit }}</td>
+                            <tr align="left">
+                                <td style="width: 40%:"><strong>Permintaan dari unit</strong></td>
+                                <td style="width: 60%:"> : {{ $permintaan_barang_internal->unitSumber->nama_unit }}</td>
                             </tr>
-                            <tr align="right">
-                                <td style="width: 40%:"><strong>Unit Tujuan</strong></td>
-                                <td style="width: 60%:">{{ $permintaan_barang_internal->unitTujuan->nama_unit }}</td>
+                            <tr align="left">
+                                <td style="width: 40%:"><strong>Unit yang diminta</strong></td>
+                                <td style="width: 60%:"> : {{ $permintaan_barang_internal->unitTujuan->nama_unit }}</td>
                             </tr>
-                            <tr align="right">
+                            <tr align="left">
                                 <td style="width: 70%:"><strong>Tanggal</strong></td>
-                                <td style="width: 30%:">{{ $permintaan_barang_internal->tanggal }}</td>
+                                <td style="width: 30%:"> : {{ $permintaan_barang_internal->tanggal }}</td>
                             </tr>
                         </table>
+                    </td>
+                    <td style="width: 50%">
+                        <!-- <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" alt="" style="width:100%"> -->
                     </td>
                 </tr>
             </table>
         </div>
 
-        <div class="table-responsive">
+        <div class="table-responsive" style="margin-top:5%">
             <table cellspacing="1" cellpadding="10" class="table-barang">
                 <tr>
                     <th>No</th>
@@ -117,12 +118,14 @@
 
         <div class="syarat-dan-ketentuan">
             <table style="width: 100%">
-                {{-- <tr>
-                    <td style="width: 100%:">Syarat dan ketentuan</td>
-                </tr> --}}
                 <tr>
-                    <td style="width: 50%:"><hr></td>
-                    <td style="width: 50%:" align="right">{{ date('d-m-Y') }}</td>
+                    <td style="width: 50%"></td>
+                    <td style="width: 30%" align="center">
+                        <div style="margin-bottom : 15%">
+                            {{ date('d F Y') }}
+                        </div> 
+                        {{ucWords($permintaan_barang_internal->unitSumber->nama_unit)}}
+                    </td>
                 </tr>
             </table>
         </div>
