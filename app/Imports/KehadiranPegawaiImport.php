@@ -26,7 +26,8 @@ class KehadiranPegawaiImport implements ToModel
                     'jam_keluar' => $row[8],
                     'scan_masuk' => $row[9],
                     'scan_pulang' => $row[10],
-                    'status' => $row[12]
+                    'status' => $row[12],
+                    'shift_id' => 1
                 ]);
             } else {
                 throw new Exception("Import failed!");

@@ -53,8 +53,8 @@ class PendaftaranController extends Controller
     {
         $pendaftaran    = Pendaftaran::find($id);
         $input          = $request->except(['_token','_method']);
-        $pendaftaran->update(['tanda_tanda_vital'=>serialize($input)]);
-        return redirect('pendaftaran/'.$id)->with('message', 'Tanda Tanda Fital Berhasil Disimpan');
+        $pendaftaran->update(['tanda_tanda_vital' => serialize($input)]);
+        return redirect('pendaftaran/' . $id)->with('message', 'Tanda Tanda Fital Berhasil Disimpan');
     }
 
     public function detailPasien(Request $request)

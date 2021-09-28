@@ -27,7 +27,7 @@
     <ul class="sidebar-menu" data-widget="tree">
       <li class="header">MENU UTAMA</li>
       <?php
-      $admin = [
+      $administrator = [
         ['icon' => 'fa fa-user', 'link' => '/home', 'label' => 'Dashboard'],
         ['icon' => 'fa fa-address-card', 'link' => '/pendaftaran', 'label' => 'Data Pasien Antri'],
         ['icon' => 'fa fa-bars', 'link' => '/home', 'label' => 'Pendaftaran Pasien', 'submenu' => [
@@ -101,14 +101,20 @@
         ['icon' => 'fa fa-user', 'link' => '/kategori', 'label' => 'Master Kategori']
       ];
 
+      $admin_medis = [
+        ['icon' => 'fa fa-user', 'link' => '/home', 'label' => 'Dashboard'],
+        ['icon' => 'fa fa-user', 'link' => '/pendaftaran', 'label' => 'Input Tanda Tanda Vital'],
+      ];
+
       // pengaturan menu berdasarkan level
       $menus = [
-        'admin'           => $admin, 
+        'administrator'   => $administrator, 
         'dokter'          => [], 
         'kasir'           => $kasir, 
         'keuangan'        => $keuangan, 
         'hrd'             => $hrd,
-        'bagian_gudang'   => $bagian_gudang
+        'bagian_gudang'   => $bagian_gudang,
+        'admin_medis'     => $admin_medis
       ];
       ?>
 

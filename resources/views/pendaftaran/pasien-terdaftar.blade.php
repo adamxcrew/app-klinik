@@ -1,10 +1,10 @@
 @extends('layouts.app')
-@section('title','Kelola Data Pasien')
+@section('title','Pendaftaran')
 @section('content')
 <div class="content-wrapper">
     <section class="content-header">
       <h1>
-        Kelola Data Pasien
+        Pendaftaran
         <small>Daftar Pasien</small>
       </h1>
       <ol class="breadcrumb">
@@ -147,11 +147,11 @@
         $(".select-pasien").bind('change', function () {
             var pasien = $(".select-pasien").val();
             $.ajax({
-                url: "{{ route('pasien.detail') }}",
-                type: "post",
+                url: "/ajax/pasien",
+                type: "get",
                 data: {
                     "_token": "{{ csrf_token() }}",
-                    "id": pasien
+                    "pasien_id": pasien
                 },
                 beforeSend: function(){
                     $('.before-select').show();

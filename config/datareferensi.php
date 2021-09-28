@@ -7,13 +7,13 @@ return [
         'dokter'                => 'Dokter',
         'perawat'               => 'Perawat',
         'administrasi'          => 'Administrasi',
-        'penunjang_medis'       => 'Penunjang Medis',
+        'penunjang medis'       => 'Penunjang Medis',
         'security'              => 'Security',
-        'non_medis'             => 'Non Medis',
+        'non medis'             => 'Non Medis',
         'bidan'                 => 'Bidan',
-        'dokter_radioterapi'    => 'Dokter Radioterapi',
+        'dokter radioterapi'    => 'Dokter Radioterapi',
         'farmasi'               => 'Farmasi',
-        'dokter_luar'           => 'Dokter Luar',
+        'dokter luar'           => 'Dokter Luar',
         'terapis'               => 'Terapis',
         'supir'                 => 'Supir',
         'radiografer'           => 'Radiografer',
@@ -87,7 +87,9 @@ return [
         'dokter'        =>  'Dokter',
         'kasir'         =>  'Kasir',
         'keuangan'      =>  'Keuangan',
-        'hrd'           =>  'HRD'
+        'hrd'           =>  'HRD',
+        'admin_medis'   =>  'Admin Medis',
+        'bagian_gudang' => 'Bagian Gudang'
     ],
     'jenis_barang'          => [
         'obat'  =>  'Obat',
@@ -107,11 +109,12 @@ return [
         'tindakan'      =>  'Tindakan'
     ],
 
-    'kelompok_pasien'=>[
+    'kelompok_pasien' => [
         'umum'      =>  'Umum',
         'non_umum'  =>  'Non Umum'
     ],
-    'status_po'=>[
+
+    'status_po' => [
         'pengajuan_po'          =>  'Pengajuan Purchase Order',
         'approve_by_keuangan'   =>  'Approve Oleh Keuangan',
         'approve_by_keuangan'   =>  'Approve Oleh Direktur',

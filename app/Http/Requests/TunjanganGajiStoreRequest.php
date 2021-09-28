@@ -24,8 +24,7 @@ class TunjanganGajiStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'jumlah'        =>  'required',
-            'keterangan'    =>  'required',
+            'jumlah'        =>  'required'
         ];
     }
 }

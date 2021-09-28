@@ -149,7 +149,6 @@ class PasienController extends Controller
         $data['penjamin']           = $this->penjamin;
 
         $data['pasien'] = Pasien::with('wilayahAdministratifIndonesia')->findOrFail($id);
-        //return $data['pasien'];
         return view('pasien.edit', $data);
     }
 

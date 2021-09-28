@@ -15,7 +15,8 @@ class PurchaseOrderDetailController extends Controller
      */
     public function index()
     {
-        //
+        $data['purchase_order_detail'] = PurchaseOrderDetail::where('purchase_order_id', null)->get();
+        return view('purchase-order.purchase-order-item', $data);
     }
 
     /**
@@ -85,7 +86,7 @@ class PurchaseOrderDetailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
         if ($request->ajax()) {
             $data = PurchaseOrderDetail::findOrFail($id);

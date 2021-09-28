@@ -31,7 +31,7 @@ class PurchaseOrderController extends Controller
                     $btn = \Form::open(['url' => 'purchase-order/delete/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
                     $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
                     $btn .= \Form::close();
-                    $btn .= '<a target="_blank" class="btn btn-danger btn-sm" href="/purchase-order/cetak/' . $row->id . '"><i class="fa fa-eye" aria-hidden="true"></i></a> ';
+                    $btn .= '<a target="_blank" class="btn btn-danger btn-sm" href="/purchase-order/' . $row->id . '/cetak"><i class="fa fa-eye" aria-hidden="true"></i></a> ';
                     return $btn;
                 })
                 ->addColumn('status_po', function ($row) use ($status_po) {
@@ -44,7 +44,7 @@ class PurchaseOrderController extends Controller
                 ->addIndexColumn()
                 ->make(true);
         }
-        
+
         return view('purchase-order.index');
     }
 
@@ -78,9 +78,9 @@ class PurchaseOrderController extends Controller
         } else {
             $request['status_po']   = 'pengajuan_po';
             $simpan_purchase_order  = PurchaseOrder::create($request->all());
-            $update_purchase_order_detail = PurchaseOrderDetail::where('purchase_order_id', null)->update(['purchase_order_id'=> $simpan_purchase_order->id]);
-            
-            return redirect('purchase-order/cetak/'.$simpan_purchase_order->id);
+            $update_purchase_order_detail = PurchaseOrderDetail::where('purchase_order_id', null)->update(['purchase_order_id' => $simpan_purchase_order->id]);
+
+            return redirect('purchase-order/' . $simpan_purchase_order->id . '/cetak');
         }
     }
 

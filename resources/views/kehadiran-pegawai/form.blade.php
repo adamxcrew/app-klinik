@@ -1,7 +1,13 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">Nama Pegawai</label>
-    <div class="col-sm-10">
+    <div class="col-sm-4">
         {!! Form::select('pegawai_id', $pegawai, null, ['class'=>'form-control']) !!}
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label">Jadwal Shift</label>
+    <div class="col-sm-4">
+        {!! Form::select('shift_id', $shift, null, ['class'=>'form-control']) !!}
     </div>
 </div>
 <div class="form-group">

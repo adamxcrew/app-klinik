@@ -48,22 +48,14 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('resume/tindakan/{id}', 'PendaftaranController@resumeHapusTindakan')->name('resume.hapus-tindakan');
 
     // purchase order (PO)
-    // Route::resource('purchase-order/detail-tambah-barang', 'PurchaseOrderController@purchase_order_detail_insert');
-    // Route::resource('purchase-order/detail-hapus-barang', 'PurchaseOrderController@purchase_order_detail_destroy');
     Route::resource('purchase-order-detail', 'PurchaseOrderDetailController');
     Route::resource('purchase-order', 'PurchaseOrderController');
-    // Route::get('purchase-order', 'PurchaseOrderController@index')->name('purchase-order.index');
-    // Route::get('purchase-order/create', 'PurchaseOrderController@create')->name('purchase-order.create');
-    // Route::post('purchase-order/insert', 'PurchaseOrderController@insertPurchaseOrder')->name('purchase-order.insert');
-    // Route::delete('purchase-order/delete/{id}', 'PurchaseOrderController@destroyPo')->name('purchase-order.destroy');
-    // Route::post('purchase-order-detail/insert', 'PurchaseOrderController@insertPurchaseOrderDetail')->name('purchase-order-detail.insert');
-    // Route::delete('purchase-order-detail/delete/{id}', 'PurchaseOrderController@destroy')->name('purchase-order-detail.destroy');
-    // Route::get('purchase-order/cetak/{id}', 'PurchaseOrderController@cetak')->name('purchase-order.cetak');
+
     
     Route::resource('permintaan-barang-internal', 'PermintaanBarangInternalController');
     Route::get('permintaan-barang-internal/cetak/{id}', 'PermintaanBarangInternalController@cetak')->name('permintaan-barang-internal.cetak');
     Route::resource('permintaan-barang-detail', 'PermintaanBarangInternalDetailController');
-    
+    Route::get('purchase-order/{id}/cetak', 'PurchaseOrderController@cetak');
     // Laporan barang excel
     Route::post('barang/export_excel', 'BarangController@export_excel')->name('barang.export_excel');
 
@@ -84,6 +76,10 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('akun', 'AkunController');
     Route::resource('jurnal', 'JurnalController');
     Route::resource('komponengaji', 'KomponenGajiController');
+    Route::get('gaji/{id}/cetak', 'GajiController@cetak');
+    Route::get('gaji-detail/{id}/edit', 'GajiController@editGajiDetail');
+    Route::put('gaji-detail/{id}/update', 'GajiController@update')->name('gaji-detail.update');
+    Route::delete('gaji-detail/{id}', 'GajiController@destroy')->name('gaji-detail.delete');
     Route::resource('gaji', 'GajiController');
 
     Route::resource('asuransi', 'AsuransiController');
@@ -149,4 +145,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('ajax/select2Desa', 'AjaxController@select2Desa');
     Route::get('ajax/select2Pasien', 'AjaxController@select2Pasien');
     Route::get('ajax/select2Barang', 'AjaxController@select2Barang');
+    Route::get('ajax/pasien', 'AjaxController@pasien');
 });
