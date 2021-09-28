@@ -50,8 +50,12 @@ Route::middleware(['auth'])->group(function () {
     // purchase order (PO)
     Route::resource('purchase-order-detail', 'PurchaseOrderDetailController');
     Route::resource('purchase-order', 'PurchaseOrderController');
-    Route::get('purchase-order/{id}/cetak', 'PurchaseOrderController@cetak');
 
+    
+    Route::resource('permintaan-barang-internal', 'PermintaanBarangInternalController');
+    Route::get('permintaan-barang-internal/cetak/{id}', 'PermintaanBarangInternalController@cetak')->name('permintaan-barang-internal.cetak');
+    Route::resource('permintaan-barang-detail', 'PermintaanBarangInternalDetailController');
+    Route::get('purchase-order/{id}/cetak', 'PurchaseOrderController@cetak');
     // Laporan barang excel
     Route::post('barang/export_excel', 'BarangController@export_excel')->name('barang.export_excel');
 
