@@ -29,6 +29,8 @@ class PegawaiStoreRequest extends FormRequest
             'tanggal_lahir' =>  'required',
             'tempat_lahir'  =>  'required',
             'alamat'        =>  'required',
+            'no_hp'         =>  'required',
+            'gaji_pokok'    =>  'required',
         ];
     }
 }

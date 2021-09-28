@@ -1,13 +1,19 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">Nama Pegawai</label>
-    <div class="col-sm-10">
+    <div class="col-sm-4">
         {!! Form::text('nama', null, ['class'=>'form-control','Placeholder'=>'Nama']) !!}
     </div>
 </div>
 <div class="form-group">
     <label class="col-sm-2 control-label">NIP Pegawai</label>
-    <div class="col-sm-10">
+    <div class="col-sm-4">
         {!! Form::text('nip', null, ['class'=>'form-control','Placeholder'=>'NIP']) !!}
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label">No HP</label>
+    <div class="col-sm-4">
+        {!! Form::number('no_hp', null, ['class'=>'form-control','Placeholder'=>'No HP']) !!}
     </div>
 </div>
 <div class="form-group">
@@ -21,13 +27,13 @@
 </div>
 <div class="form-group">
     <label class="col-sm-2 control-label">Kelompok pegawai</label>
-    <div class="col-sm-10">
+    <div class="col-sm-4">
         {!! Form::select('kelompok_pegawai', $kelompok_pegawai,null, ['class'=>'form-control']) !!}
     </div>
 </div>
 <div class="form-group">
     <label class="col-sm-2 control-label">Agama</label>
-    <div class="col-sm-10">
+    <div class="col-sm-4">
         {!! Form::select('agama', $agama, null, ['class'=>'form-control']) !!}
     </div>
 </div>
@@ -46,6 +52,15 @@
     <label class="col-sm-2 control-label">Alamat</label>
     <div class="col-sm-10">
         {!! Form::text('alamat', null, ['class'=>'form-control','Placeholder'=>'Alamat']) !!}
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label">Gaji Pokok</label>
+    <div class="col-sm-4">
+        <div class="input-group">
+            <span class="input-group-addon">Rp</span>
+            {!! Form::number('gaji_pokok', null, ['class'=>'form-control','Placeholder'=>'Gaji Pokok']) !!}
+        </div>
     </div>
 </div>
 <div class="form-group">

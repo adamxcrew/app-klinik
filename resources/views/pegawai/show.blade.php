@@ -27,8 +27,8 @@
         <div class="box">
           <div class="box-body">
             <ul class="nav nav-tabs">
-              <li role="presentation" {{ $_GET['tab']=='komponen_gaji'?'class="active"':''}}><a href="/pegawai/{{$pegawai->id}}?tab=komponen_gaji">Komponen Gaji</a></li>
-              <li role="presentation" {{ $_GET['tab']=='jadwal_kerja'?'class="active"':''}}><a href="/pegawai/{{$pegawai->id}}?tab=jadwal_kerja">Jadwal Kerja</a></li>
+              <li role="presentation" class="{{ ($_GET['tab'] == 'komponen_gaji') ? 'active':''}}"><a href="/pegawai/{{$pegawai->id}}?tab=komponen_gaji" >Komponen Gaji</a></li>
+              <li role="presentation" class="{{ ($_GET['tab'] == 'jadwal_kerja') ? 'active':''}}"><a href="/pegawai/{{$pegawai->id}}?tab=jadwal_kerja" >Jadwal Kerja</a></li>
             </ul>
             <hr>
             @if($_GET['tab']=='komponen_gaji')
@@ -69,3 +69,41 @@
   </div>
 </div>
 @endsection
+
+@push('scripts')
+<script src="{{asset('adminlte/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+<script>
+$(document).ready( function () {
+  $(function() {
+    $('#komponen-gaji-table').DataTable({
+      processing: true,
+      serverSide: true,
+      ajax: '/tunjangan-gaji?pegawai_id=' + {{ $pegawai->id }} +'',
+      columns: [{
+          data: 'DT_RowIndex',
+          orderable: false,
+          searchable: false
+        },
+        {
+          data: 'komponen_gaji.nama_komponen',
+          name: 'komponen_gaji.nama_komponen'
+        },
+        {
+          data: 'jumlah',
+          name: 'jumlah'
+        },
+        {
+          data: 'keterangan',
+          name: 'keterangan'
+        },
+        {
+          data: 'action',
+          name: 'action'
+        }
+      ]
+    });
+  });
+} );
+</script>
+@endpush
