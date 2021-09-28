@@ -21,6 +21,8 @@ class TambahColumnPegawai extends Migration
             $table->string('agama');
             $table->string('jenis_kelamin');
             $table->text('alamat');
+            $table->string('no_hp');
+            $table->integer('gaji_pokok');
             $table->timestamps();
         });
     }
