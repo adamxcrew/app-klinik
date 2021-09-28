@@ -76,7 +76,7 @@ class UserController extends Controller
         if ($request->role == 'dokter') {
             DokterPoliklinik::create(['user_id' => $user->id, 'poliklinik_id' => $request->poliklinik_id]);
         }
-        $role = in_array($request->role, ['administrator', 'kasir', 'hrd', 'keuangan','admin_medis','bagian_gudang']) ? 'user' : $request->role;
+        $role = in_array($request->role, ['administrator', 'kasir', 'hrd', 'keuangan','admin_medis','bagian_gudang','pimpinan']) ? 'user' : $request->role;
         return redirect(route('user.index', ['jabatan' => $role]))->with('message', 'Pengguna Bernama ' . $request->name . ' Berhasil Ditambahkan');
     }
 

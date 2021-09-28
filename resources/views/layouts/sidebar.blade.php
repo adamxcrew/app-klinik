@@ -103,6 +103,10 @@
         ['icon' => 'fa fa-user', 'link' => '/home', 'label' => 'Dashboard'],
         ['icon' => 'fa fa-user', 'link' => '/pendaftaran', 'label' => 'Input Tanda Tanda Vital'],
       ];
+      $pimpinan = [
+        ['icon' => 'fa fa-user', 'link' => '/home', 'label' => 'Dashboard'],
+        ['icon' => 'fa fa-user', 'link' => '/purchase-order', 'label' => 'Purchase Order'],
+      ];
 
       // pengaturan menu berdasarkan level
       $menus = [
@@ -112,7 +116,8 @@
         'keuangan'        => $keuangan, 
         'hrd'             => $hrd,
         'bagian_gudang'   => $bagian_gudang,
-        'admin_medis'     => $admin_medis
+        'admin_medis'     => $admin_medis,
+        'pimpinan'        => $pimpinan,
       ];
       ?>
 
