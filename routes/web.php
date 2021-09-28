@@ -59,7 +59,11 @@ Route::middleware(['auth'])->group(function () {
     // Route::post('purchase-order-detail/insert', 'PurchaseOrderController@insertPurchaseOrderDetail')->name('purchase-order-detail.insert');
     // Route::delete('purchase-order-detail/delete/{id}', 'PurchaseOrderController@destroy')->name('purchase-order-detail.destroy');
     // Route::get('purchase-order/cetak/{id}', 'PurchaseOrderController@cetak')->name('purchase-order.cetak');
-
+    
+    Route::resource('permintaan-barang-internal', 'PermintaanBarangInternalController');
+    Route::get('permintaan-barang-internal/cetak/{id}', 'PermintaanBarangInternalController@cetak')->name('permintaan-barang-internal.cetak');
+    Route::resource('permintaan-barang-detail', 'PermintaanBarangInternalDetailController');
+    
     // Laporan barang excel
     Route::post('barang/export_excel', 'BarangController@export_excel')->name('barang.export_excel');
 

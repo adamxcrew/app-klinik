@@ -61,6 +61,8 @@
         ['icon' => 'fa fa-bars', 'link' => '/home', 'label' => 'Transaksi Apotek', 'submenu' => [
           ['icon' => 'fa fa-cube', 'link' => '/purchase-order', 'label' => 'Purchase Order (PO)'],
           ['icon' => 'fa fa-plus-square', 'link' => '/purchase-order/create', 'label' => 'Tambah Purchase Order (PO)'],
+          ['icon' => 'fa fa-cube', 'link' => '/permintaan-barang-internal', 'label' => 'Permintaan Barang Internal'],
+          ['icon' => 'fa fa-plus-square', 'link' => '/permintaan-barang-internal/create', 'label' => 'Buat Permintaan Barang'],
         ]],
         ['icon' => 'fa fa-user-circle-o', 'link' => '/user?jabatan=user', 'label' => 'Pengguna Aplikasi'],
         ['icon' => 'fa fa-gear', 'link' => '/setting', 'label' => 'Setting Aplikasi']
