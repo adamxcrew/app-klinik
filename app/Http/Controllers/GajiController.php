@@ -224,12 +224,12 @@ class GajiController extends Controller
         $jml_penambah = 0;
 
         foreach ($gajiDetail as $detail) {
-            if ($detail->komponen_gaji->first()->jenis == 'penambah') {
+            if ($detail->komponen_gaji->jenis == 'penambah') {
                 Fpdf::text(12, $start, $no_penambah++);
-                Fpdf::text(24, $start, $detail->komponen_gaji->first()->nama_komponen);
-                Fpdf::text(74, $start, ': ' . convert_rupiah($detail->komponen_gaji->first()->jumlah));
+                Fpdf::text(24, $start, $detail->komponen_gaji->nama_komponen);
+                Fpdf::text(74, $start, ': ' . convert_rupiah($detail->komponen_gaji->jumlah));
                 $start = $start + 5;
-                $jml_penambah += $detail->komponen_gaji->first()->jumlah;
+                $jml_penambah += $detail->komponen_gaji->jumlah;
             }
         }
 
@@ -246,12 +246,12 @@ class GajiController extends Controller
         $jml_pengurang = 0;
 
         foreach ($gajiDetail as $detail) {
-            if ($detail->komponen_gaji->first()->jenis == 'pengurang') {
+            if ($detail->komponen_gaji->jenis == 'pengurang') {
                 Fpdf::text(110, $start, $no_pengurang++);
-                Fpdf::text(124, $start, $detail->komponen_gaji->first()->nama_komponen);
-                Fpdf::text(174, $start, ': ' . convert_rupiah($detail->komponen_gaji->first()->jumlah));
+                Fpdf::text(124, $start, $detail->komponen_gaji->nama_komponen);
+                Fpdf::text(174, $start, ': ' . convert_rupiah($detail->komponen_gaji->jumlah));
                 $start = $start + 5;
-                $jml_pengurang += $detail->komponen_gaji->first()->jumlah;
+                $jml_pengurang += $detail->komponen_gaji->jumlah;
             }
         }
 
@@ -283,10 +283,9 @@ class GajiController extends Controller
         Fpdf::text(42, 116, ' : ' . ucfirst($pegawai->kelompok_pegawai));
 
 
-
         Fpdf::text(120, 96, 'Diserahkan Oleh');
         Fpdf::text(125, 116, 'Admin');
-        Fpdf::text(110, 120, 'Tgl Cetak : ' . date('d/m/Y : H:i:s'));
+        Fpdf::text(110, 120, 'Tgl Cetak : ' . tgl_indo(date('Y-m-d')));
         Fpdf::text(160, 96, 'Diterima Oleh');
         Fpdf::text(163, 116, $pegawai->nama);
 
