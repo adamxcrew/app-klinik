@@ -10,10 +10,10 @@
         </tr>
     </thead>
     <tbody>
-        @php $no = 1;$jumlah_diminta=0;$jumlah_diterima=0 @endphp
+        @php $jumlah_diminta=0;$jumlah_diterima=0 @endphp
         @forelse($permintaanBarangDetail as $row)
             <tr>
-                <td>{{$no}}</td>
+                <td>{{$loop->iteration}}</td>
                 <td>{{$row->barang->kode}}</td>
                 <td>{{$row->barang->nama_barang}}</td>
                 <td style="text-align:right">{{$row->jumlah_diminta}}</td>
@@ -23,7 +23,6 @@
                 </td>
             </tr>
         @php 
-            $no++;
             $jumlah_diminta+=$row->jumlah_diminta;
             $jumlah_diterima+=$row->jumlah_diterima; 
         @endphp

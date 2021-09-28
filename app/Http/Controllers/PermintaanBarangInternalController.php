@@ -51,12 +51,9 @@ class PermintaanBarangInternalController extends Controller
     public function destroy($id)
     {
         $data = PermintaanBarangInternal::findOrFail($id);
-        $permintaan_barang_internal_detail  = PermintaanBarangInternalDetail::where('permintaan_barang_internal_id', $data->id)->get();
-        foreach ($permintaan_barang_internal_detail as $row) {
-            $model = PermintaanBarangInternalDetail::where('id', $row->id)->first();
-            $model->delete();
-        }
+        PermintaanBarangInternalDetail::where('permintaan_barang_internal_id', $data->id)->delete();
         $data->delete();
+        
         return redirect()->back();
     }
 
