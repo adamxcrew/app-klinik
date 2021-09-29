@@ -24,6 +24,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pendaftaran/{id}/input_tanda_vital', 'PendaftaranController@input_tanda_vital')->name('pendaftaran.input_tanda_vital');
     Route::put('pendaftaran/{id}/input_tanda_vital_store', 'PendaftaranController@input_tanda_vital_store')->name('pendaftaran.input_tanda_vital_store');
     Route::get('pendaftaran/{id}/print', 'PendaftaranController@print')->name('pendaftaran.print');
+    Route::get('pendaftaran/create/{pasien_id}', 'PendaftaranController@create');
     Route::resource('pendaftaran', 'PendaftaranController');
 
     // route pendaftaran pasien yang sudah pernah terdaftar
@@ -51,7 +52,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('purchase-order-detail', 'PurchaseOrderDetailController');
     Route::resource('purchase-order', 'PurchaseOrderController');
 
-    
+
     Route::resource('permintaan-barang-internal', 'PermintaanBarangInternalController');
     Route::get('permintaan-barang-internal/cetak/{id}', 'PermintaanBarangInternalController@cetak')->name('permintaan-barang-internal.cetak');
     Route::resource('permintaan-barang-detail', 'PermintaanBarangInternalDetailController');

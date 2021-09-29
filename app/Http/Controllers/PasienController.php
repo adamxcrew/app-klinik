@@ -95,8 +95,8 @@ class PasienController extends Controller
     public function store(PasienStoreRequest $request)
     {
         $wilayah_administratif = \DB::table('view_wilayah_administratif_indonesia')
-                                ->where('village_id', $request->wilayah_administratif)
-                                ->first();
+            ->where('village_id', $request->wilayah_administratif)
+            ->first();
         $data                =   $request->all();
         $data['village_id']  = $wilayah_administratif->village_id;
         $data['district_id'] = $wilayah_administratif->district_id;
@@ -105,7 +105,7 @@ class PasienController extends Controller
         $pasien              =   Pasien::create($data);
         $data['pasien_id']   =   $pasien->id;
         $pendaftaran         =   Pendaftaran::create($data);
-        return redirect('/pendaftaran/' . $pendaftaran->id . '/cetak');
+        return redirect('pendaftaran/create/' . $pasien->id);
     }
 
     /**

@@ -51,6 +51,6 @@ class AjaxController extends Controller
 
     public function pasien(Request $request)
     {
-        return Pasien::findOrFail($request->pasien_id)->first();
+        return Pasien::where('id', $request->pasien_id)->first();
     }
 }
