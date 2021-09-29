@@ -38,14 +38,14 @@ class PermintaanBarangInternalDetailController extends Controller
     {
         if ($request->ajax()) {
             $input = $request->all();
-            
+
             $isExist = PermintaanBarangInternalDetail::where('barang_id', $request->barang_id)
             ->where('permintaan_barang_internal_id', null)->first();
 
-            if(isset($isExist)){
+            if (isset($isExist)) {
                 $isExist->jumlah_diminta += $request->jumlah_diminta;
                 $isExist->save();
-            }else{
+            } else {
                 PermintaanBarangInternalDetail::create($input);
             }
 

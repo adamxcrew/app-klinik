@@ -39,14 +39,14 @@ class TindakanBHPController extends Controller
     {
         if ($request->ajax()) {
             $input = $request->all();
-            
+
             $isExist = TindakanBHP::where('barang_id', $request->barang_id)
             ->where('tindakan_id', $request->tindakan_id)->first();
 
-            if(isset($isExist)){
+            if (isset($isExist)) {
                 $isExist->jumlah += $request->jumlah;
                 $isExist->save();
-            }else{
+            } else {
                 TindakanBHP::create($input);
             }
 
