@@ -31,18 +31,9 @@
                             <th>Nama Lengkap</th>
                             <th>Email</th>
                             <th>Role</th>
-                            <th width="60">Action</th>
+                            <th width="100">Action</th>
                         </tr>
                     </thead>
-                    <tfoot>
-                      <tr>
-                          <th width="20px">Nomor</th>
-                          <th>Nama Lengkap</th>
-                          <th>Email</th>
-                          <th>Role</th>
-                          <th width="110">Action</th>
-                      </tr>
-                  </tfoot>
                 </table>
               </div>
             </div>

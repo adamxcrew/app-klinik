@@ -48,7 +48,7 @@ class PurchaseOrderController extends Controller
                 ->make(true);
         }
 
-        if (\Auth::user()->role=='pimpinan') {
+        if (\Auth::user()->role == 'pimpinan') {
             return view('purchase-order.approval_pimpinan');
         }
         return view('purchase-order.index');

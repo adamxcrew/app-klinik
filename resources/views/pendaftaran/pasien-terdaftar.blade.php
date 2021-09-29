@@ -58,7 +58,7 @@
                         </div>
                         
                         <div>
-                            <button type="submit" class="btn btn-primary btn-sm" style="width: 100%">Tambah Pasien</button>
+                            <button type="submit" class="btn btn-primary btn-sm" style="width: 100%">DAFTARKAN PASIEN</button>
                         </div>
                     </div>
                     {{ Form::close()}}

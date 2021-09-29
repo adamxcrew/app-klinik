@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class Poliklinik extends Model
 {
@@ -16,7 +17,7 @@ class Poliklinik extends Model
     {
         return $query->leftJoin('pendaftaran', function ($join) use ($tanggal_awal, $tanggal_akhir) {
             $join->on('pendaftaran.poliklinik_id', '=', 'poliklinik.id');
-            $join->whereBetween('pendaftaran.created_at', [$tanggal_awal,$tanggal_akhir]);
+            $join->whereBetween(DB::raw('DATE(pendaftaran.created_at)'), [$tanggal_awal,$tanggal_akhir]);
         })
         ->selectRaw('poliklinik.nama,poliklinik.nomor_poli, count(pendaftaran.id) as jumlah_kunjungan')
         ->groupBy('poliklinik.id');

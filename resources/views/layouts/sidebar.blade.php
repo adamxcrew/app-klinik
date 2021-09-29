@@ -102,9 +102,11 @@
       ];
 
       $bagian_pendaftaran = [
-        ['icon' => 'fa fa-plus-square', 'link' => '/pasien/create', 'label' => 'Pasien Baru'],
-          ['icon' => 'fa fa-plus-square-o', 'link' => '/pendaftaran/create', 'label' => 'Pasien Lama'],
-          ['icon' => 'fa fa-list-ul', 'link' => '/pasien', 'label' => 'Database Pasien'],
+          ['icon' => 'fa fa-address-card', 'link' => '/pendaftaran', 'label' => 'Data Pasien Antri'],
+          ['icon' => 'fa fa-plus-square', 'link' => '/pasien/create', 'label' => 'pendaftaran Pasien Baru'],
+          ['icon' => 'fa fa-plus-square-o', 'link' => '/pendaftaran/create', 'label' => 'Pendaftaran Pasien Lama'],
+          ['icon' => 'fa fa-users', 'link' => '/pasien', 'label' => 'Database Pasien'],
+          ['icon' => 'fa fa-calendar', 'link' => '/laporan/kunjungan-perpoli', 'label' => 'Kunjungan Perpoli'],
       ];
 
       $admin_medis = [
@@ -134,7 +136,7 @@
       @if(array_key_exists('submenu',$menu))
       <li class="treeview">
         <a href="#">
-          <i class="{{$menu['icon']}}"></i> <span>{{$menu['label']}}</span>
+          <i class="{{$menu['icon']}}"></i> <span>{{strtoupper($menu['label'])}}</span>
           <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
           </span>
@@ -142,13 +144,13 @@
         <ul class="treeview-menu">
           <!-- add class active to adcvivated menu -->
           @foreach ($menu['submenu'] as $submenu)
-          <li><a href="{{$submenu['link']}}"><i class="{{$submenu['icon']}}"></i> {{$submenu['label']}}</a></li>
+          <li><a href="{{$submenu['link']}}"><i class="{{$submenu['icon']}}"></i> {{ strtoupper($submenu['label'])}}</a></li>
           @endforeach
 
         </ul>
       </li>
       @else
-      <li><a href="{{$menu['link']}}"><i class="{{$menu['icon']}}"></i> <span>{{$menu['label']}}</span></a></li>
+      <li><a href="{{$menu['link']}}"><i class="{{$menu['icon']}}"></i> <span>{{strtoupper($menu['label'])}}</span></a></li>
       @endif
       @endforeach
     </ul>
