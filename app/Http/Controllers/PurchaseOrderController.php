@@ -40,11 +40,17 @@ class PurchaseOrderController extends Controller
                 ->addColumn('tanggal', function ($row) {
                     return tgl_indo($row->tanggal);
                 })
-                ->rawColumns(['action'])
+                ->addColumn('detail', function ($row) {
+                    return '<a class="btn btn-danger btn-sm" href="/purchase-order/' . $row->id . '"><i class="fa fa-eye" aria-hidden="true"></i></a>';
+                })
+                ->rawColumns(['action','detail'])
                 ->addIndexColumn()
                 ->make(true);
         }
 
+        if (\Auth::user()->role=='pimpinan') {
+            return view('purchase-order.approval_pimpinan');
+        }
         return view('purchase-order.index');
     }
 

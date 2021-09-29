@@ -84,6 +84,7 @@ return [
 
     'user_role'            => [
         'administrator' =>  'Administrator',
+        'pimpinan'      =>  'Pimpinan',
         'dokter'        =>  'Dokter',
         'kasir'         =>  'Kasir',
         'keuangan'      =>  'Keuangan',
