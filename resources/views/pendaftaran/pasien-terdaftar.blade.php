@@ -18,7 +18,6 @@
         <div class="row">
           <div class="col-xs-12">
             <div class="box">
-        
               <div class="box-body">
                   <div class="row">
                     {!! Form::open(['route'=>'pendaftaran.store']) !!}
@@ -29,7 +28,7 @@
 
                         <div class="form-group">
                             <label for="exampleFormControlInput1">Pasien</label>
-                            {{ Form::select('pasien_id', $pasien, null,['class'=>'form-control select-pasien']) }}
+                            {{ Form::select('pasien_id', $daftar_pasien, $pasien_id,['class'=>'form-control select-pasien']) }}
                         </div>
 
                         <div class="row">

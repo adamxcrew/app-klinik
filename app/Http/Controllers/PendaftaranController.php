@@ -35,10 +35,11 @@ class PendaftaranController extends Controller
         return view('pendaftaran.index');
     }
 
-    public function create()
+    public function create($pasien_id = null)
     {
         $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
-        $data['pasien'] = Pasien::pluck('nama', 'id');
+        $data['daftar_pasien'] = Pasien::pluck('nama', 'id');
+        $data['pasien_id'] = $pasien_id;
         return view('pendaftaran.pasien-terdaftar', $data);
     }
 
@@ -52,7 +53,7 @@ class PendaftaranController extends Controller
     public function input_tanda_vital_store($id, PendaftaranInputTandaVitalRequet $request)
     {
         $pendaftaran    = Pendaftaran::find($id);
-        $input          = $request->except(['_token','_method']);
+        $input          = $request->except(['_token', '_method']);
         $pendaftaran->update(['tanda_tanda_vital' => serialize($input)]);
         return redirect('pendaftaran/' . $id)->with('message', 'Tanda Tanda Fital Berhasil Disimpan');
     }
