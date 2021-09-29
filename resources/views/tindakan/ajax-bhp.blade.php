@@ -1,16 +1,16 @@
-<table class="table table-bordered">
+<table class="table table-bordered" id="datatable">
     <thead>
         <tr>
-        <th scope="col">#</th>
-        <th scope="col">Kode Barang</th>
-        <th scope="col">Nama Barang</th>
-        <th scope="col">Jumlah Dipakai</th>
-        <th scope="col">Action</th>
+            <th scope="col">#</th>
+            <th scope="col">Kode Barang</th>
+            <th scope="col">Nama Barang</th>
+            <th scope="col">Jumlah Dipakai</th>
+            <th scope="col">Action</th>
         </tr>
     </thead>
     <tbody>
         @php $jumlah=0 @endphp
-        @forelse($listBhp as $row)
+        @foreach($listBhp as $row)
             <tr>
                 <td>{{$loop->iteration}}</td>
                 <td>{{$row->barang->kode}}</td>
@@ -23,17 +23,17 @@
         @php 
             $jumlah+=$row->jumlah;
         @endphp
-        @empty
-            <tr>
-                <td colspan=6 style="text-align:center">Data kosong</td>
-            </tr>
-        @endforelse
+        @endforeach
+    </tbody>
+    <tfoot>
         <tr>
-            <td style="text-align:right" colspan="3">Total</td>
+            <td></td>
+            <td></td>
+            <td style="text-align:right">Total</td>
             <td style="text-align:right"> {{$jumlah}} </td>
             <td></td>
         </tr>
-    </tbody>
+    </tfoot>
 </table>
 
 @push('scripts')

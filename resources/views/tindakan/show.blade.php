@@ -127,6 +127,9 @@
 @endsection
 
 @push('scripts')
+<!-- DataTables -->
+<script src="{{asset('adminlte/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 <script>
 $( document ).ready(function() {
@@ -187,6 +190,7 @@ function refresh_table(hasResponse = null){
 		type : "GET",
 		success : (response)=>{
 			$('#table-detail-section').html(response)
+            $('#datatable').DataTable()
 		}
 	})
 }
@@ -211,6 +215,7 @@ function tambah_barang() {
         },
         success: function (response) {
             refresh_table(response)
+            $('#datatable').DataTable()
         },
         error: function () {
             alert("error");
@@ -223,6 +228,7 @@ function tambah_barang() {
 
 @push('css')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />   
+    <link rel="stylesheet" href="{{asset('adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
 
 	<!-- Select 2 AdminLTE 2 Style -->
 	<style>.select2-container--default .select2-selection--single,
