@@ -104,7 +104,6 @@ class PasienController extends Controller
         $data['regency_id']  = $wilayah_administratif->regency_id;
         $pasien              =   Pasien::create($data);
         $data['pasien_id']   =   $pasien->id;
-        $pendaftaran         =   Pendaftaran::create($data);
         return redirect('pendaftaran/create/' . $pasien->id);
     }
 

@@ -187,7 +187,7 @@
     </div>
 </div>
 
-@if(!isset($pasien))
+{{-- @if(!isset($pasien))
 
 <hr>
 
@@ -218,8 +218,8 @@
         </div>
     </div>
 </div>
-<div class="form-group"></div>
-@endif
+<div class="form-group"></div> --}}
+{{-- @endif  --}}
 <div class="form-group">
     <div class="col-sm-10">
         <button type="submit" class="btn btn-danger btn btn-sm"><i class="fa fa-floppy-o" aria-hidden="true"></i> Simpan</button>
