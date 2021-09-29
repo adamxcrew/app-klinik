@@ -101,6 +101,12 @@
         ['icon' => 'fa fa-user', 'link' => '/kategori', 'label' => 'Master Kategori']
       ];
 
+      $bagian_pendaftaran = [
+        ['icon' => 'fa fa-plus-square', 'link' => '/pasien/create', 'label' => 'Pasien Baru'],
+          ['icon' => 'fa fa-plus-square-o', 'link' => '/pendaftaran/create', 'label' => 'Pasien Lama'],
+          ['icon' => 'fa fa-list-ul', 'link' => '/pasien', 'label' => 'Database Pasien'],
+      ];
+
       $admin_medis = [
         ['icon' => 'fa fa-user', 'link' => '/home', 'label' => 'Dashboard'],
         ['icon' => 'fa fa-user', 'link' => '/pendaftaran', 'label' => 'Input Tanda Tanda Vital'],
@@ -120,6 +126,7 @@
         'bagian_gudang'   => $bagian_gudang,
         'admin_medis'     => $admin_medis,
         'pimpinan'        => $pimpinan,
+        'bagian_pendaftaran' => $bagian_pendaftaran
       ];
       ?>
 
