@@ -229,31 +229,4 @@ function tambah_barang() {
 @push('css')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />   
     <link rel="stylesheet" href="{{asset('adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
-
-	<!-- Select 2 AdminLTE 2 Style -->
-	<style>.select2-container--default .select2-selection--single,
-	.select2-selection .select2-selection--single {
-	    border: 1px solid #d2d6de;
-	    border-radius: 0;
-	    padding: 6px 12px;
-	    height: 34px;
-	}
-
-	.select2-container .select2-selection--single .select2-selection__rendered {
-	    padding-right: 10px;
-	}
-
-	.select2-container .select2-selection--single .select2-selection__rendered {
-	    padding-left: 0;
-	}
-
-	.select2-container--default .select2-selection--single .select2-selection__arrow b {
-	    margin-top: 0;
-	}
-
-	.select2-container--default .select2-selection--single .select2-selection__arrow {
-	    height: 28px;
-	    right: 3px;
-	}
-	</style>
 @endpush

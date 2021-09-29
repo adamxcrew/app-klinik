@@ -10,15 +10,15 @@
   }
 </style>
 <div class="content-wrapper">
-	<section class="content-header">
+    <section class="content-header">
       <h1>
-        Tambah Purchase Order 
-        <small>Buat baru Purchase Order</small>
+        Detail Purchase Order 
+        <small>Purchase Order {{$purchase_order->kode}}</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="/purchase-order"> Purchase Order</a></li>
-        <li class="active">Tambah</li>
+        <li class="active">{{$purchase_order->kode}}</li>
       </ol>
     </section>
 
@@ -39,16 +39,16 @@
                     <div class="col-md-12">
                       <div class="form-group">
                         <label>Kode PO</label>
-                        {{ Form::text('',generateKodePurchaseOrder(),['class' => 'form-control', 'required','readonly']) }}
+                        {{ Form::text('',$purchase_order->kode,['class' => 'form-control', 'required','readonly']) }}
                     </div>
                         <div class="form-group">
                             <label>Tanggal Pengajuan</label>
-                            {{ Form::date('tanggal',null,['class' => 'form-control', 'required']) }}
+                            {{ Form::date('tanggal',$purchase_order->tanggal,['class' => 'form-control', 'readonly']) }}
                         </div>
                    
                         <div class="form-group">
                             <label>Supplier</label>
-                            {{ Form::select('supplier_id', $supplier, null,['class' => 'form-control']) }}
+                            {{ Form::text('',$purchase_order->supplier->nama_supplier,['class' => 'form-control', 'required','readonly']) }}
                         </div>
                         
                     </div>
@@ -57,7 +57,6 @@
                   <div class="row" style="padding-bottom: 30px;margin: -10px;padding-top: 12px;">
                     <div class="col-md-8">
                         <a href="{{ route('purchase-order.index')}}" class="btn btn-success btn-sm">Kembali</a>
-                        <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-save"></i> Simpan</button>
                     </div>
                   </div>
                 {{ Form::close() }}
@@ -72,7 +71,7 @@
                 </div>
               <div class="box-body">
                   <div class="row" style="padding-bottom: 20px">
-				 	 <div class="col-md-4">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label>Pilih Barang</label>
                             <select name="barang" id="barang" class="barang form-control detail-section"></select>
@@ -123,6 +122,7 @@ $(document).ready(function () {
                     results: $.map(data, function (item) {
                         return {
                             text: item.nama_barang,
+                            harga: item.harga,
                             id: item.id
                         }
                     })
@@ -131,6 +131,11 @@ $(document).ready(function () {
             cache: true
         }
     });
+
+    $('#barang').on('change', ()=>{
+        let source = $("#barang :selected").data().data.harga;
+        $("#harga").val(source)
+    })
 });
 
 function ubah_baris(barang_id = null, nama_barang = null, harga = null, qty = null){
@@ -143,7 +148,7 @@ function ubah_baris(barang_id = null, nama_barang = null, harga = null, qty = nu
 
 function list_barang(){
   $.ajax({
-      url: "/purchase-order-detail",
+      url: "/purchase-order/{{$purchase_order->id}}",
       type: "GET",
       success: function (response) {
           $("#table_barang").html(response);
@@ -159,18 +164,18 @@ function tambah_barang()
 {
   var barang_id = $(".barang").val();
   var qty       = $(".qty").val();
-  var harga     = $(".harga").val();
+  var harga       = $(".harga").val();
   if(barang_id == '' || qty == '' || harga == '')
   {
     return alert('Barang , jumlah, atau harga Tidak Boleh Kosong');
   }
   $.ajax({
-      url: "/purchase-order-detail",
-      type: "POST",
+      url: "/purchase-order-detail/{{$purchase_order->id}}",
+      type: "PUT",
       data: {
           _token: $('meta[name="csrf-token"]').attr('content'),
           barang_id: barang_id,
-		  harga:harga,
+          harga : harga,
           qty: qty
       },
       success: function (response) {
@@ -207,8 +212,8 @@ function hapus_barang(id)
 @endpush
 
 @push('css')
-    <link href="{{asset('/select2/dist/css/select2.min.css')}}" rel="stylesheet" />   
-	<style>
+    <link href="{{asset('/select2/dist/css/select2.min.css')}}" rel="stylesheet" />
+    <style>
         .table tbody tr:hover {
             cursor: pointer;
             background-color: #f4f4f4;

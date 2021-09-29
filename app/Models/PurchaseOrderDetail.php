@@ -8,7 +8,7 @@ class PurchaseOrderDetail extends Model
 {
     protected $table = 'purchase_order_detail';
 
-    protected $fillable = ['barang_id', 'qty', 'harga', 'purchase_order_detail'];
+    protected $fillable = ['barang_id', 'qty', 'harga', 'purchase_order_id'];
 
     public function barang()
     {

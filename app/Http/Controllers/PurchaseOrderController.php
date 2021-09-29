@@ -31,7 +31,8 @@ class PurchaseOrderController extends Controller
                     $btn = \Form::open(['url' => 'purchase-order/delete/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
                     $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
                     $btn .= \Form::close();
-                    $btn .= '<a target="_blank" class="btn btn-danger btn-sm" href="/purchase-order/' . $row->id . '/cetak"><i class="fa fa-eye" aria-hidden="true"></i></a> ';
+                    $btn .= '<a target="_blank" class="btn btn-danger btn-sm" href="/purchase-order/' . $row->id . '/cetak" style="margin-right:7px"><i class="fa fa-print" aria-hidden="true"></i></a> ';
+                    $btn .= "<a href='/purchase-order/".$row->id."' class='btn btn-danger btn-sm '><i class='fa fa-eye'></i></a>";
                     return $btn;
                 })
                 ->addColumn('status_po', function ($row) use ($status_po) {
@@ -46,6 +47,20 @@ class PurchaseOrderController extends Controller
         }
 
         return view('purchase-order.index');
+    }
+
+    public function show(Request $request, $id)
+    {
+        $data['purchase_order_detail'] = PurchaseOrderDetail::where('purchase_order_id', $id)->get();
+        if($request->ajax()){
+            return view('purchase-order.purchase-order-item', $data);
+        }
+
+        $data['purchase_order'] = PurchaseOrder::findOrFail($id);
+        $data['barang']                = Barang::pluck('nama_barang', 'id', 'harga');
+
+
+        return view('purchase-order.show', $data);
     }
 
     public function create()
