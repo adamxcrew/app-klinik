@@ -89,6 +89,7 @@ return [
         'kasir'         =>  'Kasir',
         'keuangan'      =>  'Keuangan',
         'hrd'           =>  'HRD',
+        'bagian_pendaftaran' => 'Bagian Pendaftaran',
         'admin_medis'   =>  'Admin Medis',
         'bagian_gudang' => 'Bagian Gudang'
     ],
@@ -117,8 +118,8 @@ return [
 
     'status_po' => [
         'pengajuan_po'          =>  'Pengajuan Purchase Order',
-        'approve_by_keuangan'   =>  'Approve Oleh Keuangan',
-        'approve_by_keuangan'   =>  'Approve Oleh Direktur',
-        'approve_by_keuangan'   =>  'Pengajuan PO Diterima'
+        'approve_by_pimpinan'   =>  'Approve Oleh Pimpinan',
+        'reject_by_pimpinan'    =>  'Ditolak Oleh Pimpinan',
+        'selesai_po'            =>  'Selesai'
     ]
 ];
