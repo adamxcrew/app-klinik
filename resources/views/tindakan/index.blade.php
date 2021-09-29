@@ -31,7 +31,7 @@
                         <th>Kode</th>
                         <th>Nama Tindakan</th>
                         <th>Harga</th>
-                        <th width="60">#</th>
+                        <th width="100">#</th>
                       </tr>
                   </thead>
               </table>

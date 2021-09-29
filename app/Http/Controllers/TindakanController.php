@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DataTables;
 use App\Models\Tindakan;
+use App\Models\TindakanBHP;
+use App\Models\Barang;
 use App\Http\Requests\TindakanStoreRequest;
 
 class TindakanController extends Controller
@@ -19,7 +21,8 @@ class TindakanController extends Controller
         if ($request->ajax()) {
             return DataTables::of(Tindakan::all())
             ->addColumn('action', function ($row) {
-                $btn = \Form::open(['url' => 'tindakan/' . $row->id, 'method' => 'DELETE','style' => 'float:right;margin-right:5px']);
+                $btn = "<a href='/tindakan/".$row->id."' class='btn btn-danger btn-sm ' style='margin-right:10px'><i class='fa fa-eye'></i></a>";
+                $btn .= \Form::open(['url' => 'tindakan/' . $row->id, 'method' => 'DELETE','style' => 'float:right;margin-right:5px']);
                 $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
                 $btn .= \Form::close();
                 $btn .= '<a class="btn btn-danger btn-sm" href="/tindakan/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
@@ -63,9 +66,11 @@ class TindakanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        //
+        $data['barang'] = Barang::all();
+        $data['tindakan'] = Tindakan::findOrFail($id);
+        return view('tindakan.show', $data);
     }
 
     /**
@@ -103,6 +108,7 @@ class TindakanController extends Controller
     public function destroy($id)
     {
         $tindakan = Tindakan::findOrFail($id);
+        TindakanBHP::where('tindakan_id', $tindakan->id)->delete();
         $tindakan->delete();
         return redirect(route('tindakan.index'))->with('message', 'Data tindakan Berhasil Dihapus');
     }
