@@ -12,14 +12,27 @@ use App\Models\Pasien;
 use App\Models\PendaftaranResume;
 use DataTables;
 use PDF;
+use DB;
 use App\Http\Requests\PendaftaranInputTandaVitalRequet;
 
 class PendaftaranController extends Controller
 {
     public function index(Request $request)
     {
+        $data['tanggal_awal']   = $request->tanggal_awal ?? date('Y-m-d');
+        $data['tanggal_akhir']  = $request->tanggal_akhir ?? date('Y-m-d');
+        $data['poliklinik_id']  = $request->poliklinik_id;
+        
+        $pendaftaran = Pendaftaran::with('pasien')
+                    ->with('poliklinik')
+                    ->whereBetween(DB::raw('DATE(pendaftaran.created_at)'), [$data['tanggal_awal'],$data['tanggal_akhir']]);
+        
+        // filter berdasarkan poliklinik
+        if ($request->poliklinik_id!=null) {
+            $pendaftaran->where('poliklinik_id', $request->poliklinik_id);
+        }
         if ($request->ajax()) {
-            return DataTables::of(Pendaftaran::with('pasien')->with('poliklinik')->get())
+            return DataTables::of($pendaftaran->get())
                 ->addColumn('action', function ($row) {
                     $btn = \Form::open(['url' => 'pendaftaran/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:15px']);
                     $btn .= "<button type='submit' class='btn btn-danger btn-sm'>Hapus</button>";
@@ -32,7 +45,8 @@ class PendaftaranController extends Controller
                 ->addIndexColumn()
                 ->make(true);
         }
-        return view('pendaftaran.index');
+        $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
+        return view('pendaftaran.index', $data);
     }
 
     public function create($pasien_id = null)
