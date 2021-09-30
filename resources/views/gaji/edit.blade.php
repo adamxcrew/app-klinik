@@ -29,6 +29,8 @@
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#komponen-modal">
               <i class="fa fa-plus"></i> Tambah Komponen Gaji
             </button>
+            <a href="/gaji/{{ $gaji->id }}/cetak" target="new" class="btn btn-primary"><i class="fa fa-print" aria-hidden="true"></i>
+               Cetak SLip Gaji</a>
             <hr>
             <table class="table table-bordered table-striped" id="komponen-table">
               <thead>
