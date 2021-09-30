@@ -20,6 +20,31 @@
             <div class="box">
         
               <div class="box-body">
+                {!! Form::open(['url'=>'pendaftaran','method'=>'GET','id'=>'form']) !!}
+                      <table class="table table-bordered">
+                          <tr>
+                              <td width="140">Tanggal Mulai</td>
+                              <td>
+                                  <div class="row">
+                                      <div class="col-md-2">
+                                        {!! Form::date('tanggal_awal', $tanggal_awal, ['class'=>'form-control','placeholder'=>'Tanggal Mulai']) !!}
+                                      </div>
+                                      <div class="col-md-2">
+                                        {!! Form::date('tanggal_akhir', $tanggal_akhir, ['class'=>'form-control','placeholder'=>'Tanggal Mulai']) !!}
+                                      </div>
+                                      <div class="col-md-3">
+                                        {!! Form::select('poliklinik_id', $poliklinik, $poliklinik_id,['class'=>'form-control','placeholder'=>'- Semua Poli -']) !!}
+                                      </div>
+                                      <div class="col-md-4">
+                                          <button type="submit" name="type" value="web" class="btn btn-danger"><i class="fa fa-cogs" aria-hidden="true"></i>
+                                             Filter Laporan</button>
+                                      </div>
+                                  </div>
+                              </td>
+                          </tr>
+                      </table>
+                      {!! Form::close() !!}
+                      <hr>
                 <table class="table table-bordered table-striped" id="pendaftaran-table">
                   <thead>
                       <tr>
@@ -45,9 +70,12 @@
 <script src="{{asset('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 <script>
     $(function() {
+      var parameter = $('#form').serialize();
+      console.log(parameter);
         $('#pendaftaran-table').DataTable({
             processing: true,
             serverSide: true,
+            daata:$('#form').serialize(),
             ajax: '/pendaftaran',
             columns: [
                 {data: 'DT_RowIndex', orderable: false, searchable: false},
