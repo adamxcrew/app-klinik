@@ -110,8 +110,8 @@
       ];
 
       $admin_medis = [
-        ['icon' => 'fa fa-user', 'link' => '/home', 'label' => 'Dashboard'],
-        ['icon' => 'fa fa-user', 'link' => '/pendaftaran', 'label' => 'Input Tanda Tanda Vital'],
+        ['icon' => 'fa fa-television', 'link' => '/home', 'label' => 'Dashboard'],
+        ['icon' => 'fa fa-address-card', 'link' => '/pendaftaran', 'label' => 'daftar pasien antri'],
       ];
       $pimpinan = [
         ['icon' => 'fa fa-user', 'link' => '/home', 'label' => 'Dashboard'],
