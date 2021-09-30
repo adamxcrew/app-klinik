@@ -60,22 +60,19 @@
                       <h3>Keterangan Purchase Order</h3>
                   </div>
                   <div class="box-body">
-                      <div class="row" style="border-bottom : 1px solid #9a9a9a;margin : 2% 2px;padding-bottom:1%">
-                          <div class="col-md-6" style="font-size : 14px;font-weight: 600;">
-                              <div class="row">
-                                  <div class="col-md-4">Kode PO</div>
-                                  <div class="col-md-6">{{$purchase_order->kode}}</div>
-                              </div>
-                              <div class="row">
-                                  <div class="col-md-4">Tanggal Pengajuan</div>
-                                  <div class="col-md-6">{{$purchase_order->tanggal}}</div>
-                              </div>
-                              <div class="row">
-                                  <div class="col-md-4">Supplier</div>
-                                  <div class="col-md-6">{{$purchase_order->supplier->nama_supplier}}</div>
-                              </div>
-                          </div>
-                      </div>
+                
+
+                      <table class="table table-bordered">
+                          <tr>
+                              <td width="140">Kode PO</td><td>: {{$purchase_order->kode}}</td>
+                          </tr>
+                          <tr>
+                              <td>Tanggal Pengajuan</td><td>: {{tgl_indo($purchase_order->tanggal)}}</td>
+                          </tr>
+                          <tr>
+                              <td>Supplier</td><td>: {{$purchase_order->supplier->nama_supplier}}</td>
+                          </tr>
+                      </table>
                       <div class="table-responsive">
                           <table class="table table-bordered">
                               <thead>
