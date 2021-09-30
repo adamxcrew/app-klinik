@@ -22,29 +22,33 @@ class PendaftaranController extends Controller
         $data['tanggal_awal']   = $request->tanggal_awal ?? date('Y-m-d');
         $data['tanggal_akhir']  = $request->tanggal_akhir ?? date('Y-m-d');
         $data['poliklinik_id']  = $request->poliklinik_id;
-        
+
+        $awal = date('Y-m-d H:i:s', strtotime($data['tanggal_awal']));
+        $akhir = date('Y-m-d H:i:s', strtotime($data['tanggal_akhir']));
+
         $pendaftaran = Pendaftaran::with('pasien')
-                    ->with('poliklinik')
-                    ->whereBetween(DB::raw('DATE(pendaftaran.created_at)'), [$data['tanggal_awal'],$data['tanggal_akhir']]);
-        
+            ->with('poliklinik')
+            ->whereBetween(DB::raw('DATE(pendaftaran.created_at)'), [$awal, $akhir]);
+
         // filter berdasarkan poliklinik
-        if ($request->poliklinik_id!=null) {
+        if ($request->poliklinik_id != null) {
             $pendaftaran->where('poliklinik_id', $request->poliklinik_id);
         }
+
         if ($request->ajax()) {
             return DataTables::of($pendaftaran->get())
                 ->addColumn('action', function ($row) {
-                    $btn = \Form::open(['url' => 'pendaftaran/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:15px']);
-                    $btn .= "<button type='submit' class='btn btn-danger btn-sm'>Hapus</button>";
+                    $btn = \Form::open(['url' => 'pendaftaran/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
+                    $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-times'></i> Batal</button>";
                     $btn .= \Form::close();
-                    $btn .= '<a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '">Detail</a> ';
-                    $btn .= '<a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/input_tanda_vital">Input Tanda Vital</a> ';
+                    $btn .= '<a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/cetak"><i class="fa fa-print"></i> Cetak Antrian</a> ';
                     return $btn;
                 })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
         }
+
         $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
         return view('pendaftaran.index', $data);
     }
@@ -109,9 +113,7 @@ class PendaftaranController extends Controller
 
     public function destroy($id)
     {
-        $data = Pendaftaran::findOrFail($id);
-        $data->delete();
-
+        Pendaftaran::where('id', $id)->update(['status_pelayanan' => 'batal']);
         return redirect('/pendaftaran');
     }
 
