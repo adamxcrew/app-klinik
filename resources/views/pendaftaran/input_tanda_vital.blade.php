@@ -64,13 +64,22 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-12">
-            <div class="box">
+          <div class="box">
               <div class="box-body">
-                <h3>Pemeriksa Klinis</h3>
+            <h3>Pemeriksa Klinis</h3>
+            <hr>
+              <div class="col-md-3">
+                <div class="row">
+                  <div class="col-md-4">
+                    <input type="checkbox"> Kepala
+                  </div>
+                  <div class="col-md-8">
+                    <input type="text" readonly class="form-control">
+                  </div>
+                </div>
               </div>
-            </div>
           </div>
+        </div>
         </div>
       </section>
   </div>
