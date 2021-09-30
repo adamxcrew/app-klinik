@@ -51,6 +51,8 @@ Route::middleware(['auth'])->group(function () {
     // purchase order (PO)
     Route::resource('purchase-order-detail', 'PurchaseOrderDetailController');
     Route::resource('purchase-order', 'PurchaseOrderController');
+    Route::get('purchase-order/approval-detail/{id}', 'PurchaseOrderController@approvalDetail');
+    Route::post('purchase-order/approving/{id}', 'PurchaseOrderController@approval')->name('purchase-order.approval');
 
 
     Route::resource('permintaan-barang-internal', 'PermintaanBarangInternalController');
