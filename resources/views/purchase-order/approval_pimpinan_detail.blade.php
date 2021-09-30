@@ -47,6 +47,7 @@
                         <div class="col-md-12 pull-right">
                             <button onClick="$('#approval').val('false')" class="btn btn-danger btn-sm"><i class="fa fa-ban"></i> Tolak</button>
                             <button onClick="$('#approval').val('true')" class="btn btn-warning btn-sm"><i class="fa fa-check"></i> Setujui</button>
+                            <a href="/purchase-order" class="btn btn-danger btn-sm">Kembali</a>
                         </div>
                     </div>
                     {{ Form::close() }}
