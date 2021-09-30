@@ -41,7 +41,7 @@ class AjaxController extends Controller
     public function select2Barang(Request $request)
     {
         $data = \DB::table('barang')
-            ->select('id', 'nama_barang')
+            ->select('id', 'nama_barang', 'harga')
             ->where('nama_barang', 'like', "%" . $request->q . "%")
             ->limit(20)
             ->get();

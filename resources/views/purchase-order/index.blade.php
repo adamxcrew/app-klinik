@@ -31,7 +31,7 @@
                         <th>Tanggal Pengajuan</th>
                         <th>Supplier</th>
                         <th>Status Purchase Order</th>
-                        <th width="60">#</th>
+                        <th width="100">#</th>
                       </tr>
                   </thead>
               </table>
