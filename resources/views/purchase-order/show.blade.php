@@ -209,6 +209,50 @@ function hapus_barang(id)
   });
 }
 </script>
+
+<script>
+$(document).ready(()=>{
+
+    editor = new $.fn.dataTable.Editor( {
+        ajax: "/purchase-order/list-barang/{{$purchase_order->id}}",
+        table: "#table-detail",
+        fields: [ {
+                label: "No:",
+                name: "no"
+            }, {
+                label: "Kode Barang:",
+                name: "kode"
+            }, {
+                label: "Nama Barang:",
+                name: "nama"
+            }, {
+                label: "Jumlah:",
+                name: "jumlah"
+            }, {
+                label: "Harga:",
+                name: "harga"
+            }
+        ]
+    } );
+    // Activate an inline edit on click of a table cell
+    $('#table-detail').on( 'click', 'tbody td:not(:first-child)', function (e) {
+        editor.inline( this );
+    } );
+ 
+    $('#table-detail').DataTable( {
+        processing: true,
+        serverSide: true,
+        ajax: "/purchase-order/list-barang/{{$purchase_order->id}}",
+        columns: [
+            {data: 'DT_RowIndex', orderable: false, searchable: false},
+            { data: 'kode', name:'kode' },
+            { data: 'nama_barang', name:'nama_barang' },
+            { data: 'qty', name:'qty' },
+            { data: 'harga', name:'harga' },
+        ]
+    } );
+})
+</script>
 @endpush
 
 @push('css')

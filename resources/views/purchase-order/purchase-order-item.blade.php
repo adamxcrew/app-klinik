@@ -1,4 +1,3 @@
-<p class="text-danger">*silahkan klik pada baris table untuk mengubah data</p>
 <table class="table table-bordered" id="ajax-po-item">
     <thead>
         <tr>

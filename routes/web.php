@@ -52,6 +52,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('purchase-order-detail', 'PurchaseOrderDetailController');
     Route::resource('purchase-order', 'PurchaseOrderController');
     Route::get('purchase-order/approval-detail/{id}', 'PurchaseOrderController@approvalDetail');
+    Route::get('purchase-order/list-barang/{id}', 'PurchaseOrderController@listBarang');
     Route::post('purchase-order/approving/{id}', 'PurchaseOrderController@approval')->name('purchase-order.approval');
 
 

@@ -13,8 +13,6 @@ use PDF;
 
 class PurchaseOrderController extends Controller
 {
-    public $status_po;
-
     public function __construct()
     {
         $this->status_po    = config('datareferensi.status_po');
@@ -54,6 +52,25 @@ class PurchaseOrderController extends Controller
         return view('purchase-order.index');
     }
 
+    public function listBarang(Request $request, $id)
+    {
+        // dd(PurchaseOrderDetail::with('barang')->where('purchase_order_id', $id)->get());
+        if($request->ajax()){
+            return DataTables::of(PurchaseOrderDetail::with('barang')->where('purchase_order_id', $id)->get())
+                ->editColumn('kode', function($row){
+                    return $row->barang->kode;
+                })
+                ->editColumn('nama_barang', function($row){
+                    return $row->barang->nama_barang;
+                })
+                ->editColumn('harga', function ($row){
+                    return $row->barang->harga;
+                })
+                ->addIndexColumn()
+                ->make(true);
+        }
+    }
+
     public function show(Request $request, $id)
     {
         $data['purchase_order_detail'] = PurchaseOrderDetail::where('purchase_order_id', $id)->get();
@@ -80,15 +97,15 @@ class PurchaseOrderController extends Controller
 
     public function approval(Request $request, $id)
     {
-        $input = $request->all();
-        $input['status_po'] = "reject_by_pimpinan";
-
-        if($request->approval == "true"){
-            $input['status_po'] = 'approve_by_pimpinan';
+        $request['status_po'] = "reject_by_pimpinan";
+        
+        if($request->approval){
+            $request['status_po'] = 'approve_by_pimpinan';
         }
+        
         $po = PurchaseOrder::find($id);
-        $po->update($input);
-        return redirect(route('purchase-order.index'))->with('message', 'Update sukses! '.$po->kode.' '.$input['status_po']);
+        $po->update($request->all());
+        return redirect(route('purchase-order.index'))->with('message', 'Update sukses! '.$po->kode.' '.$this->status_po[$po->status_po]);
     }
 
     public function create()
