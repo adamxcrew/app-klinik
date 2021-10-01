@@ -53,4 +53,9 @@ class AjaxController extends Controller
     {
         return Pasien::where('id', $request->pasien_id)->first();
     }
+
+    public function purchaseOrderEditTable(Request $request)
+    {
+        return $request->all();
+    }
 }

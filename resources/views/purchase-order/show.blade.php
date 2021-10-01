@@ -97,6 +97,14 @@
                   </div>
                   <div class="table-responsive">
                     <div id="table_barang"></div>
+
+                    <table>
+                      <tr>
+                        <td>
+                          <a href="#" id="username">superuser</a>
+                        </td>
+                      </tr>
+                    </table>
                   </div>
               </div>
             </div>
@@ -108,9 +116,19 @@
 
 @push('scripts')
 <script src="{{asset('/select2/dist/js/select2.min.js')}}"></script>
+
+<script src="{{asset('bootstrap3-editable/js/bootstrap-editable.js')}}"></script>
 <script>
 $(document).ready(function () {
     list_barang();
+
+    $('#username').editable({
+        type: 'text',
+        pk: 1,
+        url: '/ajax/purchase-order-edittable',
+        title: 'Enter username'
+    });
+
     $('.barang').select2({
         placeholder: 'Cari Nama Barang',
         ajax: {
@@ -256,6 +274,7 @@ $(document).ready(()=>{
 @endpush
 
 @push('css')
+    <link href="{{asset('bootstrap3-editable/css/bootstrap-editable.css')}}" rel="stylesheet">
     <link href="{{asset('/select2/dist/css/select2.min.css')}}" rel="stylesheet" />
     <style>
         .table tbody tr:hover {
