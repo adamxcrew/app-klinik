@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Kelola Data Asuransi')
+@section('title','Kelola Data Perusahaan Asuransi')
 @section('content')
 <div class="content-wrapper">
   <section class="content-header">
@@ -20,7 +20,7 @@
         <div class="box">
 
           <div class="box-body">
-            <a href="{{route('asuransi.create')}}" class="btn btn-info btn-social btn-flat"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
+            <a href="{{route('perusahaan-asuransi.create')}}" class="btn btn-info btn-social btn-flat"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
               Tambah Data</a>
             <hr>
             @include('alert')
@@ -28,15 +28,7 @@
               <thead>
                 <tr>
                   <th width="10">Nomor</th>
-                  <th>Nama</th>
-                  <th>Alamat</th>
-                  <th>No Telp</th>
-                  <th>Contact Person</th>
-                  <th>No Telp CP</th>
-                  <th>Mulai Kontrak</th>
-                  <th>Akhir Kontrak</th>
-                  <th>Kelompok Perusahaan</th>
-                  <th>Kelompok</th>
+                  <th>Nama Penjamin</th>
                   <th width="60">#</th>
                 </tr>
               </thead>
@@ -58,47 +50,15 @@
     $('#asuransi-table').DataTable({
       processing: true,
       serverSide: true,
-      ajax: '/asuransi',
+      ajax: '/perusahaan-asuransi',
       columns: [{
           data: 'DT_RowIndex',
           orderable: false,
           searchable: false
         },
         {
-          data: 'nama',
-          name: 'nama'
-        },
-        {
-          data: 'alamat',
-          name: 'alamat'
-        },
-        {
-          data: 'no_telp',
-          name: 'no_telp'
-        },
-        {
-          data: 'contact_person',
-          name: 'contact_person'
-        },
-        {
-          data: 'no_telp_cp',
-          name: 'no_telp_cp'
-        },
-        {
-          data: 'mulai_kontrak',
-          name: 'mulai_kontrak'
-        },
-        {
-          data: 'akhir_kontrak',
-          name: 'akhir_kontrak'
-        },
-        {
-          data: 'kelompok_perusahaan',
-          name: 'kelompok_perusahaan'
-        },
-        {
-          data: 'kelompok',
-          name: 'kelompok'
+          data: 'nama_penjamin',
+          name: 'nama_penjamin'
         },
         {
           data: 'action',

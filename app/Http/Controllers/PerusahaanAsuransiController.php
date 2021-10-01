@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AsuransiStoreRequest;
-use Illuminate\Http\Request;
 use DataTables;
-use App\Models\Asuransi;
+use Illuminate\Http\Request;
+use App\Models\PerusahaanAsuransi;
+use App\Http\Requests\PerusahaanAsuransiStoreRequest;
 
-class AsuransiController extends Controller
+class PerusahaanAsuransiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,12 +17,12 @@ class AsuransiController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(Asuransi::all())
+            return DataTables::of(PerusahaanAsuransi::all())
                 ->addColumn('action', function ($row) {
-                    $btn = \Form::open(['url' => 'asuransi/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
+                    $btn = \Form::open(['url' => 'perusahaan-asuransi/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
                     $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
                     $btn .= \Form::close();
-                    $btn .= '<a class="btn btn-danger btn-sm" href="/asuransi/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> ';
+                    $btn .= '<a class="btn btn-danger btn-sm" href="/perusahaan-asuransi/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> ';
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -48,10 +48,10 @@ class AsuransiController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AsuransiStoreRequest $request)
+    public function store(PerusahaanAsuransiStoreRequest $request)
     {
-        Asuransi::create($request->all());
-        return redirect(route('asuransi.index'));
+        PerusahaanAsuransi::create($request->all());
+        return redirect(route('perusahaan-asuransi.index'));
     }
 
     /**
@@ -62,8 +62,8 @@ class AsuransiController extends Controller
      */
     public function show($id)
     {
-        $data['akun'] = Akun::findOrFail($id);
-        return view('akun.show', $data);
+        $data['perusahaan_asuransi'] = PerusahaanAsuransi::findOrFail($id);
+        return view('perusahaan-asuransi.show', $data);
     }
 
     /**
@@ -74,7 +74,7 @@ class AsuransiController extends Controller
      */
     public function edit($id)
     {
-        $data['asuransi'] = Asuransi::findOrFail($id);
+        $data['perusahaan_asuransi'] = PerusahaanAsuransi::findOrFail($id);
         return view('perusahaan-asuransi.edit', $data);
     }
 
@@ -87,9 +87,9 @@ class AsuransiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $asuransi = Asuransi::findOrFail($id);
-        $asuransi->update($request->all());
-        return redirect(route('asuransi.index'))->with('message', 'Data Berhasil Di Update');
+        $perusahaan_asuransi = PerusahaanAsuransi::findOrFail($id);
+        $perusahaan_asuransi->update($request->all());
+        return redirect(route('perusahaan-asuransi.index'))->with('message', 'Data Berhasil Di Update');
     }
 
     /**
@@ -100,8 +100,8 @@ class AsuransiController extends Controller
      */
     public function destroy($id)
     {
-        $asuransi = Asuransi::findOrFail($id);
-        $asuransi->delete();
-        return redirect(route('asuransi.index'))->with('message', 'Data Berhasil Dihapus');
+        $perusahaan_asuransi = PerusahaanAsuransi::findOrFail($id);
+        $perusahaan_asuransi->delete();
+        return redirect(route('perusahaan-asuransi.index'))->with('message', 'Data Berhasil Dihapus');
     }
 }

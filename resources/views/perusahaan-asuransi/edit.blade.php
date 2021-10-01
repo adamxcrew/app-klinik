@@ -18,7 +18,7 @@
       <div class="col-xs-12">
         <div class="box">
           <div class="box-body">
-            {!! Form::model($asuransi,['route'=>['asuransi.update',$asuransi->id],'method'=>'PUT','class'=>'form-horizontal']) !!}
+            {!! Form::model($perusahaan_asuransi,['route'=>['perusahaan-asuransi.update',$perusahaan_asuransi->id],'method'=>'PUT','class'=>'form-horizontal']) !!}
             @include('validation_error')
             @include('perusahaan-asuransi.form')
             {!! Form::close() !!}
