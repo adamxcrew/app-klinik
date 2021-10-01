@@ -17,6 +17,19 @@ use App\Http\Requests\PendaftaranInputTandaVitalRequet;
 
 class PendaftaranController extends Controller
 {
+    protected $penjamin;
+    protected $hubungan_pasien;
+    protected $jenis_pendaftaran;
+    protected $jenis_rujukan;
+
+    public function __construct()
+    {
+        $this->penjamin          = config('datareferensi.penjamin');
+        $this->hubungan_pasien   = config('datareferensi.hubungan_pasien');
+        $this->jenis_pendaftaran = config('datareferensi.jenis_pendaftaran');
+        $this->jenis_rujukan     = config('datareferensi.jenis_rujukan');
+    }
+
     public function index(Request $request)
     {
         $data['tanggal_awal']   = $request->tanggal_awal ?? date('Y-m-d');
@@ -55,6 +68,11 @@ class PendaftaranController extends Controller
 
     public function create($pasien_id = null)
     {
+        $data['penjamin']          = $this->penjamin;
+        $data['jenis_rujukan']     = $this->jenis_rujukan;
+        $data['hubungan_pasien']   = $this->hubungan_pasien;
+        $data['jenis_pendaftaran'] = $this->jenis_pendaftaran;
+
         $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
         $data['daftar_pasien'] = Pasien::pluck('nama', 'id');
         $data['pasien_id'] = $pasien_id;
@@ -106,7 +124,7 @@ class PendaftaranController extends Controller
 
     public function print($id)
     {
-        $data['pasien'] = Pendaftaran::find($id);
+        $data['pasien'] = Pendaftaran::where('id', $id)->with('dokter')->first();
         $pdf = PDF::loadView('pendaftaran.cetak', $data);
         return $pdf->stream();
     }
