@@ -65,14 +65,26 @@ return [
         'tunalaras'     => 'Tunalaras',
         'autis'         => 'Autis',
     ],
-    'hubungan_pasien'    => [
-        'ibu'         => 'Ibu',
-        'ayah'        => 'Ayah',
-        'saudara'     => 'Saudara'
+    'hubungan_pasien'   => [
+        'pasien'        => 'PASIEN',
+        'istri'         => 'ISTRI',
+        'suami'         => 'SUAMI',
+        'ayah'          => 'AYAH',
+        'ibu'           => 'IBU',
+        'anak'          => 'ANAK',
+        'saudara'       => 'SAUDARA'
     ],
     'penjamin'    => [
-        'umum'         => 'Umum',
-        'bpjs'         => 'BPJS'
+        'umum'                      => 'UMUM',
+        'PT.INKORDAN'               => 'PT.INKORDAN',
+        'PT.IWON APPAREL INDONESIA' => 'PT.IWON APPAREL INDONESIA',
+        'PT.MITRAIDA'               => 'PT.MITRAIDA',
+        'PT.OASIS'                  => 'PT.OASIS',
+        'PT.SERENA INDOPANGAN'      => 'PT.SERENA INDOPANGAN',
+        'PT.SUPER GRAHA MAKMUR'     => 'PT.SUPER GRAHA MAKMUR',
+        'PT.SUPER GRAHA MAKMUR Hj'  => 'PT.SUPER GRAHA MAKMUR Hj',
+        'PT.SUPER GRAHA MAKMUR MRH' => 'PT.SUPER GRAHA MAKMUR MRH',
+        'PT.UNIMAKMUR'              => 'PT.UNIMAKMUR',
     ],
     'status_kehadiran'    => [
         'hadir'        => 'Hadir',
@@ -121,5 +133,18 @@ return [
         'approve_by_pimpinan'   =>  'Approve Oleh Pimpinan',
         'reject_by_pimpinan'    =>  'Ditolak Oleh Pimpinan',
         'selesai_po'            =>  'Selesai'
-    ]
+    ],
+    'jenis_pendaftaran' => [
+        'daftar langsung' => 'DAFTAR LANGSUNG',
+        'via telepon'     => 'VIA TELEPON'
+    ],
+    'jenis_rujukan'     => [
+        'datang sendiri'    => 'DATANG SENDIRI',
+        'puskesmas'         => 'PUSKESMAS',
+        'rumah sakit luar'  => 'RUMAH SAKIT LUAR',
+        'dokter luar'       => 'DOKTER LUAR',
+        'bidan'             => 'BIDAN',
+        'faskes lainnya'    => 'FASKES LAINNYA',
+        'rujukan non medis' => 'RUJUKAN NON MEDIS'
+    ],
 ];
