@@ -18,7 +18,7 @@
       <div class="col-xs-12">
         <div class="box">
           <div class="box-body">
-            {!! Form::open(['route'=>'asuransi.store','class'=>'form-horizontal']) !!}
+            {!! Form::open(['route'=>'perusahaan-asuransi.store','class'=>'form-horizontal']) !!}
             @include('validation_error')
             @include('perusahaan-asuransi.form')
             {!! Form::close() !!}

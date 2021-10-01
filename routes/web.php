@@ -84,7 +84,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('gaji-detail/{id}', 'GajiController@destroy')->name('gaji-detail.delete');
     Route::resource('gaji', 'GajiController');
 
-    Route::resource('asuransi', 'AsuransiController');
+    Route::resource('perusahaan-asuransi', 'PerusahaanAsuransiController');
     Route::resource('supplier', 'SupplierController');
     Route::resource('icd', 'ICDController');
     Route::resource('shift', 'ShiftController');
