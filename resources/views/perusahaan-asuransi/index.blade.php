@@ -28,7 +28,7 @@
               <thead>
                 <tr>
                   <th width="10">Nomor</th>
-                  <th>Nama Penjamin</th>
+                  <th>Nama Perusahaan</th>
                   <th width="60">#</th>
                 </tr>
               </thead>
@@ -57,8 +57,8 @@
           searchable: false
         },
         {
-          data: 'nama_penjamin',
-          name: 'nama_penjamin'
+          data: 'nama_perusahaan',
+          name: 'nama_perusahaan'
         },
         {
           data: 'action',

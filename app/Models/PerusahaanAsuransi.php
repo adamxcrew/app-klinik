@@ -8,5 +8,5 @@ class PerusahaanAsuransi extends Model
 {
     protected $table = "perusahaan_asuransi";
 
-    protected $fillable = ['nama_penjamin'];
+    protected $fillable = ['nama_perusahaan'];
 }

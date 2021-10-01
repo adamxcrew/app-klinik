@@ -1,7 +1,7 @@
 <div class="form-group">
-    <label class="col-sm-2 control-label">Nama Penjamin</label>
+    <label class="col-sm-2 control-label">Nama Perusahaan</label>
     <div class="col-sm-10">
-        {!! Form::text('nama_penjamin', null, ['class'=>'form-control','Placeholder'=>'Nama']) !!}
+        {!! Form::text('nama_perusahaan', null, ['class'=>'form-control','Placeholder'=>'Nama']) !!}
     </div>
 </div>
 

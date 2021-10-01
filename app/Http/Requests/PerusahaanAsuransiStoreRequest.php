@@ -24,7 +24,7 @@ class PerusahaanAsuransiStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'nama_penjamin'  =>  'required',
+            'nama_perusahaan'  =>  'required',
         ];
     }
 }

@@ -15,7 +15,7 @@ class CreatePerusahaanAsuransiTable extends Migration
     {
         Schema::create('perusahaan_asuransi', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_penjamin');
+            $table->string('nama_perusahaan');
             $table->timestamps();
         });
     }
