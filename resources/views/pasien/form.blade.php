@@ -1,12 +1,6 @@
 <div class="row">
     <div class="col-md-3">
         <div class="form-group">
-            <label>Nomor Pendaftaran</label>
-            <input type="text" name="kode" value="{{generateKodePendaftaran()}}" class="form-control" readonly>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="form-group">
             <label>Nomor Rekam Medis</label>
             <input type="text" name="nomor_rekam_medis" value="{{generateKodeRekamMedis()}}" class="form-control" readonly>
         </div>
@@ -34,7 +28,14 @@
     <div class="col-md-3">
         <div class="form-group">
             <label>Tanggal Lahir</label>
-            {!! Form::date('tanggal_lahir', null, ['class'=>'form-control tanggal_lahir','Placeholder'=>'Tanggal Lahir']) !!}
+            <div class="row">
+                <div class="col-md-7">
+                    {!! Form::date('tanggal_lahir', null, ['class'=>'form-control tanggal_lahir','Placeholder'=>'Tanggal Lahir']) !!}
+                </div>
+                <div class="col-md-5">
+                    <input type="text" class="form-control umur" readonly>
+                </div>
+            </div>
         </div>
     </div>
     <div class="form-group">
@@ -186,40 +187,6 @@
         </div>
     </div>
 </div>
-
-{{-- @if(!isset($pasien))
-
-<hr>
-
-<div class="row">
-    <div class="col-md-12">
-        <div class="form-group">
-            <label class="col-sm-2 control-label">Tujuan</label>
-            <div class="col-sm-3">
-                {!! Form::select('poliklinik_id',$poliklinik, null, ['class'=>'form-control poliklinik']) !!}
-            </div>
-            <div class="col-sm-4">
-                <div id="dokter"></div>
-            </div>
-        </div>
-    </div>
-</div>
-    <div class="form-group"></div>
-<div class="row">
-    <div class="col-md-12">
-        <div class="form-group mt-4">
-            <label class="col-sm-2 control-label">Jenis Layanan</label>
-            <div class="col-sm-4">
-                {{Form::radio('jenis_layanan','umum',['class'=>'form-check-input'])}}
-                <label class="form-check-label ml-2" for="inlineRadio1">Umum</label>
-                {{Form::radio('jenis_layanan','bpjs',['class'=>'form-check-input'])}}
-                <label class="form-check-label ml-2" for="inlineRadio2">BPJS</label>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="form-group"></div> --}}
-{{-- @endif  --}}
 <div class="form-group">
     <div class="col-sm-10">
         <button type="submit" class="btn btn-danger btn btn-sm"><i class="fa fa-floppy-o" aria-hidden="true"></i> Simpan</button>
@@ -235,15 +202,33 @@ $( document ).ready(function() {
 
     $(".ktp").keyup(function() {
         var ktp = $(".ktp").val();
-        if(ktp.length>=16)
+        if(ktp.length==16)
         {
             var tanggal_lahir = ktp.substr(6, 2);
             var bulan_lahir   = ktp.substr(8, 2);
             var tahun_lahir   = '19' + ktp.substr(10, 2);
-            $(".tanggal_lahir").val(tahun_lahir+'-'+bulan_lahir+'-'+tanggal_lahir);
+            if(tanggal_lahir>31)
+            {
+                $(".tanggal_lahir").val(tahun_lahir+'-'+bulan_lahir+'-'+(tanggal_lahir-40));
+                $("[name=jenis_kelamin]").val(["wanita"]);
+            }else{
+                $(".tanggal_lahir").val(tahun_lahir+'-'+bulan_lahir+'-'+tanggal_lahir);
+                $("[name=jenis_kelamin]").val(["pria"]);
+            }
+
+            $('.tanggal_lahir').trigger('change');
         }
-        
     });
+
+    $('.tanggal_lahir').bind('change', function () {
+        var dob = new Date($(".tanggal_lahir").val());
+        var month_diff = Date.now() - dob.getTime();
+        var age_dt = new Date(month_diff);   
+        var year = age_dt.getUTCFullYear();
+        var age = Math.abs(year - 1970);
+        $(".umur").val(age+' Tahun');
+    });
+
     
 
     $('.poliklinik').bind('change', function () {
