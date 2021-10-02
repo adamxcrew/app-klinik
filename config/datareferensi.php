@@ -50,6 +50,7 @@ return [
         'WNA'         => 'WNA',
     ],
     'golongan_darah'    => [
+        '-'         => 'Belum Diperiksa',
         'A'         => 'A',
         'B'         => 'B',
         'AB'        => 'AB',
