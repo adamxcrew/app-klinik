@@ -108,6 +108,7 @@
 
 @push('scripts')
 <script src="{{asset('/select2/dist/js/select2.min.js')}}"></script>
+<script src="{{asset('bootstrap3-editable/js/bootstrap-editable.js')}}"></script>
 <script>
 $(document).ready(function () {
     list_barang();
@@ -152,6 +153,15 @@ function list_barang(){
       type: "GET",
       success: function (response) {
           $("#table_barang").html(response);
+          $('.editableRow').editable({
+              type: 'text',
+              value : '',
+              url: '/ajax/purchase-order-edittable',
+              title: 'Masukan data baru'
+          });
+          $('.editableRow').on('save', (e, editable) => {
+            list_barang()
+          })
       },
       error: function () {
           alert("error");
@@ -191,7 +201,6 @@ function tambah_barang()
 
 function hapus_barang(id)
 {
-  console.log(id);
   $.ajax({
       url: "/purchase-order-detail/"+id,
       type: "DELETE",
@@ -212,11 +221,6 @@ function hapus_barang(id)
 @endpush
 
 @push('css')
+    <link href="{{asset('bootstrap3-editable/css/bootstrap-editable.css')}}" rel="stylesheet">
     <link href="{{asset('/select2/dist/css/select2.min.css')}}" rel="stylesheet" />
-    <style>
-        .table tbody tr:hover {
-            cursor: pointer;
-            background-color: #f4f4f4;
-        }
-    </style> 
 @endpush

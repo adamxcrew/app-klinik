@@ -51,6 +51,9 @@ Route::middleware(['auth'])->group(function () {
     // purchase order (PO)
     Route::resource('purchase-order-detail', 'PurchaseOrderDetailController');
     Route::resource('purchase-order', 'PurchaseOrderController');
+    Route::get('purchase-order/approval-detail/{id}', 'PurchaseOrderController@approvalDetail');
+    Route::get('purchase-order/list-barang/{id}', 'PurchaseOrderController@listBarang');
+    Route::post('purchase-order/approving/{id}', 'PurchaseOrderController@approval')->name('purchase-order.approval');
 
 
     Route::resource('permintaan-barang-internal', 'PermintaanBarangInternalController');
@@ -148,4 +151,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('ajax/select2Pasien', 'AjaxController@select2Pasien');
     Route::get('ajax/select2Barang', 'AjaxController@select2Barang');
     Route::get('ajax/pasien', 'AjaxController@pasien');
+    Route::post('ajax/purchase-order-edittable', 'AjaxController@purchaseOrderEditTable');
 });

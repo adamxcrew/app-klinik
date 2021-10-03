@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\DokterPoliklinik;
+use App\Models\PurchaseOrderDetail;
 use App\User;
 use App\Models\Pasien;
 
@@ -52,5 +53,23 @@ class AjaxController extends Controller
     public function pasien(Request $request)
     {
         return Pasien::where('id', $request->pasien_id)->first();
+    }
+
+    public function purchaseOrderEditTable(Request $request)
+    {
+        if($request->name !== null && $request->value !== null){
+            PurchaseOrderDetail::find($request->pk)->update([$request->name => $request->value]);
+
+            if($request->name === 'harga'){
+                $request['value'] = 'Rp. '.number_format($request->value, 0, ',', '.');
+            }
+            $request['status'] = true;
+            $request['message'] = 'Data berhasil diubah';
+            return $request->all();
+        }
+
+        $request['status'] = false;
+        $request['message'] = 'Tidak ada data yg terubah';
+        return $request->all();
     }
 }

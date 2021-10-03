@@ -1,4 +1,3 @@
-<p class="text-danger">*silahkan klik pada baris table untuk mengubah data</p>
 <table class="table table-bordered" id="ajax-po-item">
     <thead>
         <tr>
@@ -13,12 +12,20 @@
     <tbody>
         <?php $total = 0; ?>
         @foreach($purchase_order_detail as $row)
-        <tr onClick="ubah_baris({{$row->barang->id}},'{{$row->barang->nama_barang}}', {{$row->harga}}, {{$row->qty}})">
+        <tr>
             <th scope="row">{{ $loop->iteration }}</th>
             <td>{{ $row->barang->kode }}</td>
             <td>{{ $row->barang->nama_barang }}</td>
-            <td>{{ $row->qty }}</td>
-            <td>@currency($row->harga)</td>
+            <td>
+                <a href="#" class="editableRow" data-pk = '{{$row->id}}' data-name = 'qty'>
+                    {{ $row->qty }}
+                </a>
+            </td>
+            <td>
+                <a href="#" class="editableRow" data-pk = '{{$row->id}}' data-name = 'harga'>
+                    @currency($row->harga)
+                </a>
+            </td>
             <td>
                 <button class="btn btn-danger btn-sm" onClick="hapus_barang({{ $row->id }})">
                     <i class="fa fa-trash"></i>
