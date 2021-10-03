@@ -54,7 +54,11 @@ class PendaftaranController extends Controller
                     $btn = \Form::open(['url' => 'pendaftaran/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
                     $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-times'></i> Batal</button>";
                     $btn .= \Form::close();
-                    $btn .= '<a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/cetak"><i class="fa fa-print"></i> Cetak Antrian</a> ';
+                    if (auth()->user()->role == 'admin_medis') {
+                        $btn .= '<a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/input_tanda_vital"><i class="fa fa-print"></i> Input Tanda Vital</a> ';
+                    } else {
+                        $btn .= '<a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/cetak"><i class="fa fa-print"></i> Cetak Antrian</a> ';
+                    }
                     return $btn;
                 })
                 ->rawColumns(['action'])

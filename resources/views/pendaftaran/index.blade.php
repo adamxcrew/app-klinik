@@ -54,7 +54,7 @@
                         <th>Poliklinik Tujuan</th>
                         <th>Jenis Layanan</th>
                         <th>Status Pelayanan</th>
-                        <th width="150">#</th>
+                        <th width="165">#</th>
                       </tr>
                   </thead>
               </table>
