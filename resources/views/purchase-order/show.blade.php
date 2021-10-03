@@ -97,14 +97,6 @@
                   </div>
                   <div class="table-responsive">
                     <div id="table_barang"></div>
-
-                    <table>
-                      <tr>
-                        <td>
-                          <a href="#" id="username">superuser</a>
-                        </td>
-                      </tr>
-                    </table>
                   </div>
               </div>
             </div>
@@ -116,19 +108,10 @@
 
 @push('scripts')
 <script src="{{asset('/select2/dist/js/select2.min.js')}}"></script>
-
 <script src="{{asset('bootstrap3-editable/js/bootstrap-editable.js')}}"></script>
 <script>
 $(document).ready(function () {
     list_barang();
-
-    $('#username').editable({
-        type: 'text',
-        pk: 1,
-        url: '/ajax/purchase-order-edittable',
-        title: 'Enter username'
-    });
-
     $('.barang').select2({
         placeholder: 'Cari Nama Barang',
         ajax: {
@@ -170,6 +153,15 @@ function list_barang(){
       type: "GET",
       success: function (response) {
           $("#table_barang").html(response);
+          $('.editableRow').editable({
+              type: 'text',
+              value : '',
+              url: '/ajax/purchase-order-edittable',
+              title: 'Masukan data baru'
+          });
+          $('.editableRow').on('save', (e, editable) => {
+            list_barang()
+          })
       },
       error: function () {
           alert("error");
@@ -209,7 +201,6 @@ function tambah_barang()
 
 function hapus_barang(id)
 {
-  console.log(id);
   $.ajax({
       url: "/purchase-order-detail/"+id,
       type: "DELETE",
@@ -227,59 +218,9 @@ function hapus_barang(id)
   });
 }
 </script>
-
-<script>
-$(document).ready(()=>{
-
-    editor = new $.fn.dataTable.Editor( {
-        ajax: "/purchase-order/list-barang/{{$purchase_order->id}}",
-        table: "#table-detail",
-        fields: [ {
-                label: "No:",
-                name: "no"
-            }, {
-                label: "Kode Barang:",
-                name: "kode"
-            }, {
-                label: "Nama Barang:",
-                name: "nama"
-            }, {
-                label: "Jumlah:",
-                name: "jumlah"
-            }, {
-                label: "Harga:",
-                name: "harga"
-            }
-        ]
-    } );
-    // Activate an inline edit on click of a table cell
-    $('#table-detail').on( 'click', 'tbody td:not(:first-child)', function (e) {
-        editor.inline( this );
-    } );
- 
-    $('#table-detail').DataTable( {
-        processing: true,
-        serverSide: true,
-        ajax: "/purchase-order/list-barang/{{$purchase_order->id}}",
-        columns: [
-            {data: 'DT_RowIndex', orderable: false, searchable: false},
-            { data: 'kode', name:'kode' },
-            { data: 'nama_barang', name:'nama_barang' },
-            { data: 'qty', name:'qty' },
-            { data: 'harga', name:'harga' },
-        ]
-    } );
-})
-</script>
 @endpush
 
 @push('css')
     <link href="{{asset('bootstrap3-editable/css/bootstrap-editable.css')}}" rel="stylesheet">
     <link href="{{asset('/select2/dist/css/select2.min.css')}}" rel="stylesheet" />
-    <style>
-        .table tbody tr:hover {
-            cursor: pointer;
-            background-color: #f4f4f4;
-        }
-    </style> 
 @endpush
