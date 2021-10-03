@@ -27,7 +27,6 @@ class KehadiranPegawaiStoreRequest extends FormRequest
             'jam_masuk'       =>  'required',
             'jam_keluar'      =>  'required',
             'tanggal'         =>  'required',
-            'status'          =>  'required',
         ];
     }
 }

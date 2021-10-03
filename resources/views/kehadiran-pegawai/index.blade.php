@@ -45,8 +45,8 @@
                             <div class="col-md-4">
                                 <button type="submit" name="type" value="web" class="btn btn-danger"><i class="fa fa-cogs" aria-hidden="true"></i>
                                    Filter Laporan</button>
-                                <button type="submit" name="type" value="excel" class="btn btn-success" style="float:right"><i class="fa fa-file-excel-o" aria-hidden="true"></i>
-                                   Download Excel</button>
+                                {{-- <button type="submit" name="type" value="excel" class="btn btn-success" style="float:right"><i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                                   Download Excel</button> --}}
                             </div>
                         </div>
                     </td>
@@ -147,7 +147,7 @@
     $('#pegawai-table').DataTable({
       processing: true,
       serverSide: true,
-      ajax: '/kehadiran-pegawai',
+      ajax: "/kehadiran-pegawai?tanggal_awal={{$tanggal_awal}}&tanggal_akhir={{$tanggal_akhir}}&type=web",
       columns: [{
           data: 'DT_RowIndex',
           orderable: false,
