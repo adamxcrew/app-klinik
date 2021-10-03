@@ -8,8 +8,7 @@ Aplikasi untuk pengelolaan proses klinik
 3. composer install
 4. cp .env-example dan sesuaikan konfigurasi database
 5. php artisan migrate --seed
-6. uncomment pada script 28 - 29 pada App\Providers\AppServiceProvider.php
-7. php artisan serve
+6. php artisan serve
 
 
 ## Login
