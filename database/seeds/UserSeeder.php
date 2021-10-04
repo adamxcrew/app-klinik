@@ -14,9 +14,48 @@ class UserSeeder extends Seeder
     public function run()
     {
         $users = [
-            ['name' => 'administrator', 'email' => 'admin@gmail.com', 'password' => Hash::make('password'), 'role' => 'admin'],
-            ['name' => 'Akutansi', 'email' => 'akutansi@gmail.com', 'password' => Hash::make('password'), 'role' => 'keuangan'],
-            ['name' => 'Hrd', 'email' => 'hrd@gmail.com', 'password' => Hash::make('password'), 'role' => 'hrd']
+            [
+                'name'      => 'administrator',
+                'email'     => 'admin@gmail.com',
+                'password'  => Hash::make('password'),
+                'role'      => 'administrator'
+            ],
+            [
+                'name'      => 'Akutansi',
+                'email'     => 'akutansi@gmail.com',
+                'password'  => Hash::make('password'),
+                'role'      => 'keuangan'
+            ],
+            [
+                'name'      => 'Hrd',
+                'email'     => 'hrd@gmail.com',
+                'password'  => Hash::make('password'),
+                'role'      => 'hrd'
+            ],
+            [
+                'name'      => 'Bagian Gudang',
+                'email'     => 'gudang@gmail.com',
+                'password'  => Hash::make('password'),
+                'role'      => 'bagian_gudang'
+            ],
+            [
+                'name'      => 'Admin Medis',
+                'email'     => 'adminmedis@gmail.com',
+                'password'  => Hash::make('password'),
+                'role'      => 'admin_medis'
+            ],
+            [
+                'name'      => 'Pimpinan',
+                'email'     => 'pimpinan@gmail.com',
+                'password'  => Hash::make('password'),
+                'role'      => 'pimpinan'
+            ],
+            [
+                'name'      => 'Bagian Pendaftaran',
+                'email'     => 'pendaftaran@gmail.com',
+                'password'  => Hash::make('password'),
+                'role'      => 'bagian_pendaftaran'
+            ]
         ];
 
         User::insert($users);

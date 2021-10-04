@@ -35,7 +35,6 @@ class PasienStoreRequest extends FormRequest
             'pekerjaan'         =>  'required',
             'pendidikan'        =>  'required',
             'nama_ibu'          =>  'required',
-            'suku_bangsa'       =>  'required',
             'wilayah_administratif' => 'required',
             'penanggung_jawab'  =>  'required',
             'alamat_penanggung_jawab'  =>  'required',

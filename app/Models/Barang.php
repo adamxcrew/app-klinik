@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Barang extends Model
 {
-    protected $table ='barang';
+    protected $table = 'barang';
 
     protected $fillable = [
         'nama_barang',
@@ -24,5 +24,10 @@ class Barang extends Model
     public function satuan()
     {
         return $this->belongsTo(\App\Models\Satuan::class);
+    }
+
+    public function kategori()
+    {
+        return $this->belongsTo(\App\Models\Kategori::class);
     }
 }

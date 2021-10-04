@@ -7,13 +7,13 @@ return [
         'dokter'                => 'Dokter',
         'perawat'               => 'Perawat',
         'administrasi'          => 'Administrasi',
-        'penunjang_medis'       => 'Penunjang Medis',
+        'penunjang medis'       => 'Penunjang Medis',
         'security'              => 'Security',
-        'non_medis'             => 'Non Medis',
+        'non medis'             => 'Non Medis',
         'bidan'                 => 'Bidan',
-        'dokter_radioterapi'    => 'Dokter Radioterapi',
+        'dokter radioterapi'    => 'Dokter Radioterapi',
         'farmasi'               => 'Farmasi',
-        'dokter_luar'           => 'Dokter Luar',
+        'dokter luar'           => 'Dokter Luar',
         'terapis'               => 'Terapis',
         'supir'                 => 'Supir',
         'radiografer'           => 'Radiografer',
@@ -50,6 +50,7 @@ return [
         'WNA'         => 'WNA',
     ],
     'golongan_darah'    => [
+        '-'         => 'Belum Diperiksa',
         'A'         => 'A',
         'B'         => 'B',
         'AB'        => 'AB',
@@ -65,29 +66,45 @@ return [
         'tunalaras'     => 'Tunalaras',
         'autis'         => 'Autis',
     ],
-    'hubungan_pasien'    => [
-        'ibu'         => 'Ibu',
-        'ayah'        => 'Ayah',
-        'saudara'     => 'Saudara'
+    'hubungan_pasien'   => [
+        'pasien'        => 'PASIEN',
+        'istri'         => 'ISTRI',
+        'suami'         => 'SUAMI',
+        'ayah'          => 'AYAH',
+        'ibu'           => 'IBU',
+        'anak'          => 'ANAK',
+        'saudara'       => 'SAUDARA'
     ],
     'penjamin'    => [
-        'umum'         => 'Umum',
-        'bpjs'         => 'BPJS'
+        'umum'                      => 'UMUM',
+        'PT.INKORDAN'               => 'PT.INKORDAN',
+        'PT.IWON APPAREL INDONESIA' => 'PT.IWON APPAREL INDONESIA',
+        'PT.MITRAIDA'               => 'PT.MITRAIDA',
+        'PT.OASIS'                  => 'PT.OASIS',
+        'PT.SERENA INDOPANGAN'      => 'PT.SERENA INDOPANGAN',
+        'PT.SUPER GRAHA MAKMUR'     => 'PT.SUPER GRAHA MAKMUR',
+        'PT.SUPER GRAHA MAKMUR Hj'  => 'PT.SUPER GRAHA MAKMUR Hj',
+        'PT.SUPER GRAHA MAKMUR MRH' => 'PT.SUPER GRAHA MAKMUR MRH',
+        'PT.UNIMAKMUR'              => 'PT.UNIMAKMUR',
     ],
     'status_kehadiran'    => [
         'hadir'        => 'Hadir',
         'tidak hadir'  => 'Tidak Hadir',
         'izin'         => 'Izin',
-        'sakit'        => 'Sakit'
+        'sakit'        => ' Sakit'
     ],
 
 
     'user_role'            => [
         'administrator' =>  'Administrator',
+        'pimpinan'      =>  'Pimpinan',
         'dokter'        =>  'Dokter',
         'kasir'         =>  'Kasir',
         'keuangan'      =>  'Keuangan',
-        'hrd'           =>  'HRD'
+        'hrd'           =>  'HRD',
+        'bagian_pendaftaran' => 'Bagian Pendaftaran',
+        'admin_medis'   =>  'Admin Medis',
+        'bagian_gudang' => 'Bagian Gudang'
     ],
     'jenis_barang'          => [
         'obat'  =>  'Obat',
@@ -102,4 +119,39 @@ return [
         'sabtu'     => 'Sabtu',
         'minggu'    => 'Minggu'
     ],
+    'jenis_kategori'        => [
+        'obat_alkes'    =>  'Obat Dan Alkes',
+        'tindakan'      =>  'Tindakan'
+    ],
+
+    'kelompok_pasien' => [
+        'umum'      =>  'Umum',
+        'non_umum'  =>  'Non Umum'
+    ],
+
+    'status_po' => [
+        'pengajuan_po'          =>  'Pengajuan Purchase Order',
+        'approve_by_pimpinan'   =>  'Approve Oleh Pimpinan',
+        'reject_by_pimpinan'    =>  'Ditolak Oleh Pimpinan',
+        'selesai_po'            =>  'Selesai'
+    ],
+    'jenis_pendaftaran' => [
+        'daftar langsung' => 'DAFTAR LANGSUNG',
+        'via telepon'     => 'VIA TELEPON'
+    ],
+    'jenis_rujukan'     => [
+        'datang sendiri'    => 'DATANG SENDIRI',
+        'puskesmas'         => 'PUSKESMAS',
+        'rumah sakit luar'  => 'RUMAH SAKIT LUAR',
+        'dokter luar'       => 'DOKTER LUAR',
+        'bidan'             => 'BIDAN',
+        'faskes lainnya'    => 'FASKES LAINNYA',
+        'rujukan non medis' => 'RUJUKAN NON MEDIS'
+    ],
+    'inisial'       => [
+        'Tn.'   => 'Tn.',
+        'Ny.'   => 'Ny.',
+        'Nn.'   => 'Nn.',
+        'Anak'  => 'Anak'
+    ]
 ];

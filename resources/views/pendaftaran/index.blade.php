@@ -20,6 +20,31 @@
             <div class="box">
         
               <div class="box-body">
+                      {!! Form::open(['url'=>'pendaftaran','method'=>'GET','id'=>'form']) !!}
+                      <table class="table table-bordered">
+                          <tr>
+                              <td width="140">Tanggal Mulai</td>
+                              <td>
+                                  <div class="row">
+                                      <div class="col-md-2">
+                                        {!! Form::date('tanggal_awal', $tanggal_awal, ['class'=>'form-control','placeholder'=>'Tanggal Mulai']) !!}
+                                      </div>
+                                      <div class="col-md-2">
+                                        {!! Form::date('tanggal_akhir', $tanggal_akhir, ['class'=>'form-control','placeholder'=>'Tanggal Mulai']) !!}
+                                      </div>
+                                      <div class="col-md-3">
+                                        {!! Form::select('poliklinik_id', $poliklinik, $poliklinik_id,['class'=>'form-control','placeholder'=>'- Semua Poli -']) !!}
+                                      </div>
+                                      <div class="col-md-4">
+                                          <button type="submit" name="type" value="web" class="btn btn-danger"><i class="fa fa-cogs" aria-hidden="true"></i>
+                                             Filter Laporan</button>
+                                      </div>
+                                  </div>
+                              </td>
+                          </tr>
+                      </table>
+                      {!! Form::close() !!}
+                      <hr>
                 <table class="table table-bordered table-striped" id="pendaftaran-table">
                   <thead>
                       <tr>
@@ -28,7 +53,8 @@
                         <th>Nama Pasien</th>
                         <th>Poliklinik Tujuan</th>
                         <th>Jenis Layanan</th>
-                        <th width="210">#</th>
+                        <th>Status Pelayanan</th>
+                        <th width="165">#</th>
                       </tr>
                   </thead>
               </table>
@@ -45,19 +71,23 @@
 <script src="{{asset('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 <script>
     $(function() {
-        $('#pendaftaran-table').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: '/pendaftaran',
-            columns: [
-                {data: 'DT_RowIndex', orderable: false, searchable: false},
-                { data: 'kode', name: 'kode' },
-                { data: 'pasien.nama', name: 'pasien.nama' },
-                { data: 'poliklinik.nama', name: 'poliklinik.nama' },
-                { data: 'jenis_layanan', name: 'jenis_layanan' },
-                { data: 'action', name: 'action' }
-            ]
-        });
+      var parameter = $('#form').serialize();
+      console.log(parameter);
+      $('#pendaftaran-table').DataTable({
+          processing: true,
+          serverSide: true,
+          daata: $('#form').serialize(),
+          ajax: "/pendaftaran?tanggal_awal={{$tanggal_awal}}&tanggal_akhir={{$tanggal_akhir}}&poliklinik_id={{$poliklinik_id}}&type=web",
+          columns: [
+            {data: 'DT_RowIndex', orderable: false, searchable: false},
+            { data: 'kode', name: 'kode' },
+            { data: 'pasien.nama', name: 'pasien.nama' },
+            { data: 'poliklinik.nama', name: 'poliklinik.nama' },
+            { data: 'jenis_layanan', name: 'jenis_layanan' },
+            { data: 'status_pelayanan', name: 'status_pelayanan' },
+            { data: 'action', name: 'action' }
+          ]
+      });
     });
 </script>
 @endpush

@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use DataTables;
 use App\Models\Barang;
 use App\Models\Satuan;
+use App\Models\Kategori;
 use App\Http\Requests\BarangStoreRequest;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\BarangExport;
 
 class BarangController extends Controller
 {
@@ -24,23 +27,23 @@ class BarangController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(Barang::with('satuan')->get())
-            ->addColumn('action', function ($row) {
-                $btn = \Form::open(['url' => 'barang/' . $row->id, 'method' => 'DELETE','style' => 'float:right;margin-right:5px']);
-                $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
-                $btn .= \Form::close();
-                $btn .= '<a class="btn btn-danger btn-sm" href="/barang/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
-                return $btn;
-            })
-            ->addColumn('aktif', function ($row) {
-                return $row->aktif == 1 ? 'Aktif' : 'Tidak Aktif';
-            })
-            ->addColumn('harga', function ($row) {
-                return convert_rupiah($row->harga);
-            })
-            ->rawColumns(['action','code'])
-            ->addIndexColumn()
-            ->make(true);
+            return DataTables::of(Barang::with('satuan', 'kategori')->get())
+                ->addColumn('action', function ($row) {
+                    $btn = \Form::open(['url' => 'barang/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
+                    $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
+                    $btn .= \Form::close();
+                    $btn .= '<a class="btn btn-danger btn-sm" href="/barang/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+                    return $btn;
+                })
+                ->addColumn('aktif', function ($row) {
+                    return $row->aktif == 1 ? 'Aktif' : 'Tidak Aktif';
+                })
+                ->addColumn('harga', function ($row) {
+                    return convert_rupiah($row->harga);
+                })
+                ->rawColumns(['action', 'code'])
+                ->addIndexColumn()
+                ->make(true);
         }
         return view('barang.index');
     }
@@ -52,8 +55,9 @@ class BarangController extends Controller
      */
     public function create()
     {
-        $data['satuan'] = Satuan::pluck('satuan', 'id');
-        $data['jenis_barang'] = $this->jenis_barang;
+        $data['satuan']         = Satuan::pluck('satuan', 'id');
+        $data['kategori']       = Kategori::pluck('nama_kategori', 'id');
+        $data['jenis_barang']   = $this->jenis_barang;
         return view('barang.create', $data);
     }
 
@@ -90,6 +94,7 @@ class BarangController extends Controller
     {
         $data['barang']         = Barang::findOrFail($id);
         $data['satuan']         = Satuan::pluck('satuan', 'id');
+        $data['kategori']       = Kategori::pluck('nama_kategori', 'id');
         $data['jenis_barang']   = $this->jenis_barang;
         return view('barang.edit', $data);
     }
@@ -119,5 +124,10 @@ class BarangController extends Controller
         $barang = Barang::findOrFail($id);
         $barang->delete();
         return redirect(route('barang.index'))->with('message', 'Data Barang Berhasil Dihapus');
+    }
+
+    public function export_excel()
+    {
+        return Excel::download(new BarangExport(), 'Barang.xlsx');
     }
 }

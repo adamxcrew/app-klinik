@@ -16,10 +16,13 @@ class CreateKehadiranPegawaisTable extends Migration
         Schema::create('kehadiran_pegawai', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pegawai_id');
+            $table->date('tanggal');
             $table->string('jam_masuk');
             $table->string('jam_keluar');
-            $table->date('tanggal');
-            $table->enum('status', ['hadir', 'tidak hadir', 'izin', 'sakit']);
+            $table->string('scan_masuk')->nullable();
+            $table->string('scan_pulang')->nullable();
+            $table->integer('status')->nullable();
+            $table->foreignId('shift_id');
             $table->timestamps();
         });
     }
@@ -31,6 +34,6 @@ class CreateKehadiranPegawaisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kehadiran_pegawais');
+        Schema::dropIfExists('kehadiran_pegawai');
     }
 }

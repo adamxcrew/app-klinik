@@ -28,14 +28,11 @@
               <thead>
                 <tr>
                   <th width="10">Nomor</th>
+                  <th>NIK</th>
                   <th>Nama</th>
-                  <th>Tempat Lahir</th>
-                  <th>Tanggal Lahir</th>
                   <th>Kelompok Pegawai</th>
-                  <th>Agama</th>
-                  <th>Jenis Kelamin</th>
-                  <th>Alamat</th>
-                  <th >#</th>
+                  <th>No HP</th>
+                  <th width="97">#</th>
                 </tr>
               </thead>
             </table>
@@ -63,32 +60,20 @@
           searchable: false
         },
         {
+          data: 'nip',
+          name: 'nip'
+        },
+        {
           data: 'nama',
           name: 'nama'
-        },
-        {
-          data: 'tempat_lahir',
-          name: 'tempat_lahir'
-        },
-        {
-          data: 'tanggal_lahir',
-          name: 'tanggal_lahir'
         },
         {
           data: 'kelompok_pegawai',
           name: 'kelompok_pegawai'
         },
         {
-          data: 'agama',
-          name: 'agama'
-        },
-        {
-          data: 'jenis_kelamin',
-          name: 'jenis_kelamin'
-        },
-        {
-          data: 'alamat',
-          name: 'alamat'
+          data: 'no_hp',
+          name: 'no_hp'
         },
         {
           data: 'action',

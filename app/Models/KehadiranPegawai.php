@@ -13,4 +13,9 @@ class KehadiranPegawai extends Model
     {
         return $this->belongsTo(Pegawai::class);
     }
+
+    public function shift()
+    {
+        return $this->belongsTo(Shift::class);
+    }
 }

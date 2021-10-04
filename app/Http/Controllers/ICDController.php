@@ -16,11 +16,7 @@ class ICDController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(Icd::all())
-                ->addColumn('action', function ($row) {
-                    $btn = '<a style="margin-left:8px" class="btn btn-danger btn-sm" href="/icd/' . $row->id . '"><i class="fa fa-eye" aria-hidden="true"></i></a> ';
-                    return $btn;
-                })
+            return DataTables::of(Icd::select('kode', 'indonesia')->get())
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);

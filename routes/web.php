@@ -24,6 +24,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pendaftaran/{id}/input_tanda_vital', 'PendaftaranController@input_tanda_vital')->name('pendaftaran.input_tanda_vital');
     Route::put('pendaftaran/{id}/input_tanda_vital_store', 'PendaftaranController@input_tanda_vital_store')->name('pendaftaran.input_tanda_vital_store');
     Route::get('pendaftaran/{id}/print', 'PendaftaranController@print')->name('pendaftaran.print');
+    Route::get('pendaftaran/create/{pasien_id}', 'PendaftaranController@create');
     Route::resource('pendaftaran', 'PendaftaranController');
 
     // route pendaftaran pasien yang sudah pernah terdaftar
@@ -47,29 +48,70 @@ Route::middleware(['auth'])->group(function () {
     Route::post('resume/tindakan/pilih', 'PendaftaranController@resumePilihTindakan')->name('resume.pilih-tindakan');
     Route::delete('resume/tindakan/{id}', 'PendaftaranController@resumeHapusTindakan')->name('resume.hapus-tindakan');
 
+    // purchase order (PO)
+    Route::resource('purchase-order-detail', 'PurchaseOrderDetailController');
+    Route::resource('purchase-order', 'PurchaseOrderController');
+    Route::get('purchase-order/list-barang/{id}', 'PurchaseOrderController@listBarang');
+    // purchase order (pimpinan)
+    Route::get('purchase-order/approval-detail/{id}', 'PurchaseOrderController@approvalDetail');
+    Route::post('purchase-order/approving/{id}', 'PurchaseOrderController@approval')->name('purchase-order.approval');
+    // purchase order (gudang)
+    Route::get('purchase-order/verifikasi/{id}', 'PurchaseOrderController@verifikasiGudang')->name('purchase-order.verifikasi');
+    Route::get('purchase-order/verify/{id}', 'PurchaseOrderController@verifyGudang')->name('purchase-order.verify');
+
+
+    Route::resource('permintaan-barang-internal', 'PermintaanBarangInternalController');
+    Route::get('permintaan-barang-internal/cetak/{id}', 'PermintaanBarangInternalController@cetak')->name('permintaan-barang-internal.cetak');
+    Route::resource('permintaan-barang-detail', 'PermintaanBarangInternalDetailController');
+    Route::get('purchase-order/{id}/cetak', 'PurchaseOrderController@cetak');
+    // Laporan barang excel
+    Route::post('barang/export_excel', 'BarangController@export_excel')->name('barang.export_excel');
+
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('obat', 'ObatController');
+    Route::get('barang/export_excel', 'BarangController@export_excel')->name('barang.export_excel');
     Route::resource('barang', 'BarangController');
     Route::resource('user', 'UserController');
     Route::resource('pasien', 'PasienController');
     Route::resource('diagnosa', 'DiagnosaController');
     Route::resource('poliklinik', 'PoliklinikController');
     Route::resource('gejala', 'GejalaController');
-    Route::resource('kategoribiaya', 'KategoriBiayaController');
+    Route::resource('kategori', 'KategoriController');
+    Route::resource('unit-stock', 'UnitStockController');
     Route::resource('satuan', 'SatuanController');
     Route::resource('harilibur', 'HariLiburController');
     Route::resource('tindakan', 'TindakanController');
+    Route::resource('tindakan-bhp', 'TindakanBHPController');
     Route::resource('akun', 'AkunController');
     Route::resource('jurnal', 'JurnalController');
     Route::resource('komponengaji', 'KomponenGajiController');
+    Route::get('gaji/{id}/cetak', 'GajiController@cetak');
+    Route::get('gaji-detail/{id}/edit', 'GajiController@editGajiDetail');
+    Route::put('gaji-detail/{id}/update', 'GajiController@update')->name('gaji-detail.update');
+    Route::delete('gaji-detail/{id}', 'GajiController@destroy')->name('gaji-detail.delete');
     Route::resource('gaji', 'GajiController');
-    Route::resource('pegawai', 'PegawaiController');
-    Route::resource('asuransi', 'AsuransiController');
+
+    Route::resource('perusahaan-asuransi', 'PerusahaanAsuransiController');
+    Route::resource('supplier', 'SupplierController');
     Route::resource('icd', 'ICDController');
+    Route::resource('shift', 'ShiftController');
+
+    Route::post('stock-opname/export_excel', 'StockOpnameController@export_excel')->name('stock-opname.export_excel');
+    Route::resource('stock-opname', 'StockOpnameController');
+
+    Route::resource('kamar', 'KamarController');
+    Route::resource('bed', 'BedController');
 
     Route::prefix('laporan')->group(function () {
         Route::get('/kunjungan-perpoli', 'LaporanController@laporanKunjunganPerPoli');
     });
+
+    /**
+     * Route pegawai & kelola kehadiran pegawai
+     */
+    Route::get('pegawai/atur-jadwal', 'PegawaiController@aturJadwal');
+    Route::post('pegawai/atur-jadwal', 'PegawaiController@aturJadwalStore')->name('pegawai.atur-jadwal.store');
+    Route::resource('pegawai', 'PegawaiController');
 
     /**
      * Jadwal Praktek Dokter
@@ -94,8 +136,13 @@ Route::middleware(['auth'])->group(function () {
 
     /** End */
 
+    /**
+     * Kehadiran Pegawai Route
+     */
     Route::post('kehadiran-pegawai/export_excel', 'KehadiranPegawaiController@export_excel')->name('kehadiran-pegawai.export_excel');
+    Route::post('kehadiran-pegawai/import_excel', 'KehadiranPegawaiController@import_excel')->name('kehadiran-pegawai.import_excel');
     Route::resource('kehadiran-pegawai', 'KehadiranPegawaiController');
+
     Route::get('buku-besar', 'BukuBesarController@index');
     Route::get('buku-besar/periode/{kode}', 'BukuBesarController@show_periode');
     Route::get('buku-besar/{kode}', 'BukuBesarController@show');
@@ -106,4 +153,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('ajax/dropdown-dokter-berdasarkan-poliklinik', 'AjaxController@dropdownDokterBerdasarkanPoliklinik');
     Route::get('ajax/select2Desa', 'AjaxController@select2Desa');
     Route::get('ajax/select2Pasien', 'AjaxController@select2Pasien');
+    Route::get('ajax/select2Barang', 'AjaxController@select2Barang');
+    Route::get('ajax/pasien', 'AjaxController@pasien');
+    Route::post('ajax/purchase-order-edittable', 'AjaxController@purchaseOrderEditTable');
 });

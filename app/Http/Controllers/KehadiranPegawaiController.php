@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use DataTables;
+use App\Models\Shift;
+use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use App\Models\KehadiranPegawai;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\KehadiranPegawaiExport;
+use App\Imports\KehadiranPegawaiImport;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\KehadiranPegawaiStoreRequest;
-use App\Models\Pegawai;
 
 class KehadiranPegawaiController extends Controller
 {
@@ -25,8 +28,13 @@ class KehadiranPegawaiController extends Controller
      */
     public function index(Request $request)
     {
+        $data['tanggal_awal']   = $request->tanggal_awal ?? date('Y-m-d');
+        $data['tanggal_akhir']  = $request->tanggal_akhir ?? date('Y-m-d');
+
+        $kehadiran_pegawai = KehadiranPegawai::with('pegawai')->whereBetween('tanggal', [$data['tanggal_awal'], $data['tanggal_akhir']])->get();
         if ($request->ajax()) {
-            return DataTables::of(KehadiranPegawai::with('pegawai')->get())
+            $status_kehadiran = $this->status_kehadiran;
+            return DataTables::of($kehadiran_pegawai)
                 ->addColumn('action', function ($row) {
                     $btn = \Form::open(['url' => 'kehadiran-pegawai/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
                     $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
@@ -37,18 +45,36 @@ class KehadiranPegawaiController extends Controller
                 ->addColumn('tanggal', function ($row) {
                     return tgl_indo($row->tanggal);
                 })
+                ->addColumn('status', function ($row) use ($status_kehadiran) {
+                    return $status_kehadiran[$row->status];
+                })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
         }
-        $data['tanggal_awal']   = $request->tanggal_awal ?? date('Y-m-d');
-        $data['tanggal_akhir']  = $request->tanggal_akhir ?? date('Y-m-d');
+
         return view('kehadiran-pegawai.index', $data);
     }
 
     public function export_excel(Request $request)
     {
         return Excel::download(new KehadiranPegawaiExport($request->tanggal_mulai, $request->tanggal_selesai), 'Kehadiran Pegawai.xlsx');
+    }
+
+    public function import_excel(Request $request)
+    {
+        $file = $request->file('import_file');
+        $path = Storage::putFile(
+            'public/file-excel',
+            $file
+        );
+
+        try {
+            Excel::import(new KehadiranPegawaiImport(), $path);
+            return redirect(route('kehadiran-pegawai.index'))->with('message', 'Data kehadiran pegawai berhasil diimport!');
+        } catch (\Throwable $th) {
+            return redirect(route('kehadiran-pegawai.index'))->with('message', 'File excel tidak valid!');
+        }
     }
 
     /**
@@ -58,6 +84,7 @@ class KehadiranPegawaiController extends Controller
      */
     public function create()
     {
+        $data['shift'] = Shift::pluck('nama_shift', 'id');
         $data['status'] = $this->status_kehadiran;
         $data['pegawai'] = Pegawai::pluck('nama', 'id');
         return view('kehadiran-pegawai.create', $data);
@@ -83,8 +110,8 @@ class KehadiranPegawaiController extends Controller
      */
     public function show($id)
     {
-        $data['akun'] = Akun::findOrFail($id);
-        return view('akun.show', $data);
+        $data['kehadiran_pegawai'] = KehadiranPegawai::findOrFail($id);
+        return view('kehadiran-pegawai.show', $data);
     }
 
     /**
@@ -95,9 +122,10 @@ class KehadiranPegawaiController extends Controller
      */
     public function edit($id)
     {
-        $data['status'] = $this->status_kehadiran;
-        $data['pegawai'] = Pegawai::pluck('nama', 'id');
-        $data['kehadiran_pegawai']            = KehadiranPegawai::findOrFail($id);
+        $data['shift']              = Shift::pluck('nama_shift', 'id');
+        $data['pegawai']            = Pegawai::pluck('nama', 'id');
+        $data['status']             = $this->status_kehadiran;
+        $data['kehadiran_pegawai']  = KehadiranPegawai::findOrFail($id);
         return view('kehadiran-pegawai.edit', $data);
     }
 

@@ -36,7 +36,7 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">Kategori</label>
     <div class="col-sm-5">
-        {!! Form::select('kategori_id',$satuan, null, ['class'=>'form-control']) !!}
+        {!! Form::select('kategori_id',$kategori, null, ['class'=>'form-control']) !!}
     </div>
 </div>
 

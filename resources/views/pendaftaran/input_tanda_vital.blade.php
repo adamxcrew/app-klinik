@@ -4,8 +4,7 @@
 <div class="content-wrapper">
     <section class="content-header">
       <h1>
-        Input Tanda Tanda Vital
-        <small>Pendaftaran Pasien Baru</small>
+        Tanda Tanda Vital Dan Pemeriksa Klinis
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -63,6 +62,24 @@
               </div>
             </div>
           </div>
+        </div>
+        <div class="row">
+          <div class="box">
+              <div class="box-body">
+            <h3>Pemeriksa Klinis</h3>
+            <hr>
+              <div class="col-md-3">
+                <div class="row">
+                  <div class="col-md-4">
+                    <input type="checkbox"> Kepala
+                  </div>
+                  <div class="col-md-8">
+                    <input type="text" readonly class="form-control">
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
         </div>
       </section>
   </div>

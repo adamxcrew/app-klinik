@@ -1,16 +1,22 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">Nama Pegawai</label>
-    <div class="col-sm-10">
+    <div class="col-sm-4">
         {!! Form::select('pegawai_id', $pegawai, null, ['class'=>'form-control']) !!}
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label">Jadwal Shift</label>
+    <div class="col-sm-4">
+        {!! Form::select('shift_id', $shift, null, ['class'=>'form-control']) !!}
     </div>
 </div>
 <div class="form-group">
     <label class="col-sm-2 control-label">Jam Masuk & Pulang</label>
     <div class="col-sm-2">
-        {!! Form::text('jam_masuk', null, ['class'=>'form-control','Placeholder'=>'Ex: 08:00']) !!}
+        {!! Form::time('jam_masuk', null, ['class'=>'form-control','Placeholder'=>'Ex: 08:00']) !!}
     </div>
     <div class="col-sm-2">
-        {!! Form::text('jam_keluar', null, ['class'=>'form-control','Placeholder'=>'Ex: 17:00']) !!}
+        {!! Form::time('jam_keluar', null, ['class'=>'form-control','Placeholder'=>'Ex: 17:00']) !!}
     </div>
 </div>
 <div class="form-group">
