@@ -19,7 +19,7 @@
             <td>{{$laporan->jam_masuk}}</td>
             <td>{{$laporan->jam_keluar}}</td>
             <td>{{tgl_indo($laporan->tanggal)}}</td>
-            <td>{{ $laporan->status == 1 ? 'Hadir' : 'Tidak Hadir'}}</td>
+            <td>{{ ($laporan->status == 1) ? 'Hadir' : (($laporan->status == 2) ? 'Izin' : 'Tidak Hadir')}}</td>
         </tr>
         @endforeach
     </tbody>

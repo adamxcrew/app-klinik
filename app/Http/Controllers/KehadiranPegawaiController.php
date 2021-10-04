@@ -28,8 +28,12 @@ class KehadiranPegawaiController extends Controller
      */
     public function index(Request $request)
     {
+        $data['tanggal_awal']   = $request->tanggal_awal ?? date('Y-m-d');
+        $data['tanggal_akhir']  = $request->tanggal_akhir ?? date('Y-m-d');
+
+        $kehadiran_pegawai = KehadiranPegawai::with('pegawai')->whereBetween('tanggal', [$data['tanggal_awal'], $data['tanggal_akhir']])->get();
         if ($request->ajax()) {
-            return DataTables::of(KehadiranPegawai::with('pegawai')->get())
+            return DataTables::of($kehadiran_pegawai)
                 ->addColumn('action', function ($row) {
                     $btn = \Form::open(['url' => 'kehadiran-pegawai/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
                     $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
@@ -41,14 +45,19 @@ class KehadiranPegawaiController extends Controller
                     return tgl_indo($row->tanggal);
                 })
                 ->addColumn('status', function ($row) {
-                    return $row->status == 1 ? 'Hadir' : 'Tidak Hadir';
+                    if ($row->status == 1) {
+                        return 'Hadir';
+                    } else if ($row->status == 2) {
+                        return 'Izin';
+                    } else {
+                        return 'Tidak Hadir';
+                    }
                 })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
         }
-        $data['tanggal_awal']   = $request->tanggal_awal ?? date('Y-m-d');
-        $data['tanggal_akhir']  = $request->tanggal_akhir ?? date('Y-m-d');
+
         return view('kehadiran-pegawai.index', $data);
     }
 
@@ -118,6 +127,7 @@ class KehadiranPegawaiController extends Controller
      */
     public function edit($id)
     {
+        $data['shift'] = Shift::pluck('nama_shift', 'id');
         $data['pegawai'] = Pegawai::pluck('nama', 'id');
         $data['kehadiran_pegawai']            = KehadiranPegawai::findOrFail($id);
         return view('kehadiran-pegawai.edit', $data);
