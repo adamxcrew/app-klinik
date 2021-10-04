@@ -22,17 +22,20 @@
                   <div class="row">
                     {!! Form::open(['route'=>'pendaftaran.store']) !!}
                     {{ Form::hidden('kode', generateKodePendaftaran()) }}
+                    @include('validation_error')
                     <div class="col-md-6">
                         <h3><strong>Tujuan</strong></h3>
+
                         <hr>
 
-                        <div class="form-group">
-                            <label for="exampleFormControlInput1">Pasien</label>
-                            {{-- <select name="pasien_id" id="pasien" class="pasien form-control" style="height: 100px;" placeholder="Masukan Nama Pasien"></select> --}}
-                            {{ Form::select('pasien_id', $daftar_pasien, $pasien_id,['class'=>'form-control select-pasien']) }}
-                        </div>
-
                         <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="exampleFormControlInput1">Pasien</label>
+                                    {{-- <select name="pasien_id" id="pasien" class="pasien form-control" style="height: 100px;" placeholder="Masukan Nama Pasien"></select> --}}
+                                    {{ Form::select('pasien_id', $daftar_pasien, $pasien_id,['class'=>'form-control select-pasien']) }}
+                                </div>
+                            </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Jenis Pendaftaran</label>
@@ -49,12 +52,6 @@
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Nama Perujuk</label>
                                     {{ Form::text('nama_perujuk', null,['class'=>'form-control']) }}
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="exampleFormControlInput1">Penjamin</label>
-                                    {{ Form::select('penjamin', $penjamin, null,['class'=>'form-control']) }}
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -77,6 +74,12 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <label for="exampleFormControlInput1">No. HP Penanggung Jawab</label>
+                                    {{ Form::text('no_hp_penanggung_jawab', null,['class'=>'form-control']) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     <label for="exampleFormControlInput1">Hubungan Dengan Pasien</label>
                                     {{ Form::select('hubungan_pasien', $hubungan_pasien, null,['class'=>'form-control']) }}
                                 </div>
@@ -85,18 +88,6 @@
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Alamat Penanggung Jawab</label>
                                     {{ Form::text('alamat_penanggung_jawab', null,['class'=>'form-control']) }}
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="exampleFormControlInput1">No. Telp Penanggung Jawab</label>
-                                    {{ Form::text('no_telp_penanggung_jawab', null,['class'=>'form-control']) }}
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="exampleFormControlInput1">No. HP Penanggung Jawab</label>
-                                    {{ Form::text('no_hp_penanggung_jawab', null,['class'=>'form-control']) }}
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -115,12 +106,9 @@
                         <hr>
 
                         <div class="form-group" style="padding-bottom: 30px;">
-                            <label class="col-sm-6 control-label">Jenis Layanan</label>
+                            <label class="col-sm-6 control-label">Perusahaan Penjamin</label>
                             <div class="col-sm-6">
-                                {{Form::radio('jenis_layanan','umum',['class'=>'form-check-input'])}}
-                                <label class="form-check-label ml-2" for="inlineRadio1" style="padding-right: 12px;">Umum</label>
-                                {{Form::radio('jenis_layanan','bpjs',['class'=>'form-check-input'])}}
-                                <label class="form-check-label ml-2" for="inlineRadio2">BPJS</label>
+                                {{ Form::select('perusahaan_asuransi_id', $perusahaan_asuransi , null,['class'=>'form-control']) }}
                             </div>
                         </div>
                         

@@ -148,4 +148,10 @@ return [
         'faskes lainnya'    => 'FASKES LAINNYA',
         'rujukan non medis' => 'RUJUKAN NON MEDIS'
     ],
+    'inisial'       => [
+        'Tn.'   => 'Tn.',
+        'Ny.'   => 'Ny.',
+        'Nn.'   => 'Nn.',
+        'Anak'  => 'Anak'
+    ]
 ];

@@ -14,6 +14,8 @@ use DataTables;
 use PDF;
 use DB;
 use App\Http\Requests\PendaftaranInputTandaVitalRequet;
+use App\Http\Requests\PendaftaranStoreRequest;
+use App\Models\PerusahaanAsuransi;
 
 class PendaftaranController extends Controller
 {
@@ -24,10 +26,10 @@ class PendaftaranController extends Controller
 
     public function __construct()
     {
-        $this->penjamin          = config('datareferensi.penjamin');
         $this->hubungan_pasien   = config('datareferensi.hubungan_pasien');
         $this->jenis_pendaftaran = config('datareferensi.jenis_pendaftaran');
         $this->jenis_rujukan     = config('datareferensi.jenis_rujukan');
+        $this->inisial           = config('datareferensi.inisial');
     }
 
     public function index(Request $request)
@@ -72,7 +74,7 @@ class PendaftaranController extends Controller
 
     public function create($pasien_id = null)
     {
-        $data['penjamin']          = $this->penjamin;
+        $data['perusahaan_asuransi'] = PerusahaanAsuransi::pluck('nama_perusahaan', 'id');
         $data['jenis_rujukan']     = $this->jenis_rujukan;
         $data['hubungan_pasien']   = $this->hubungan_pasien;
         $data['jenis_pendaftaran'] = $this->jenis_pendaftaran;
@@ -105,7 +107,7 @@ class PendaftaranController extends Controller
         return $data;
     }
 
-    public function store(Request $request)
+    public function store(PendaftaranStoreRequest $request)
     {
         $data = Pendaftaran::create($request->all());
         return redirect('/pendaftaran/' . $data->id . '/cetak');

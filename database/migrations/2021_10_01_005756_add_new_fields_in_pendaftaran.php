@@ -16,10 +16,10 @@ class AddNewFieldsInPendaftaran extends Migration
         Schema::table('pendaftaran', function (Blueprint $table) {
             $table->string('jenis_pendaftaran');
             $table->string('jenis_rujukan');
-            $table->string('nama_perujuk');
+            $table->string('nama_perujuk')->nullable();
             $table->string('penjamin');
-            $table->string('no_surat');
-            $table->date('tanggal_berlaku');
+            $table->string('no_surat')->nullable();
+            $table->date('tanggal_berlaku')->nullable();
             $table->string('penanggung_jawab');
             $table->string('hubungan_pasien');
             $table->string('alamat_penanggung_jawab');
