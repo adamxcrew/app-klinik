@@ -51,9 +51,13 @@ Route::middleware(['auth'])->group(function () {
     // purchase order (PO)
     Route::resource('purchase-order-detail', 'PurchaseOrderDetailController');
     Route::resource('purchase-order', 'PurchaseOrderController');
-    Route::get('purchase-order/approval-detail/{id}', 'PurchaseOrderController@approvalDetail');
     Route::get('purchase-order/list-barang/{id}', 'PurchaseOrderController@listBarang');
+    // purchase order (pimpinan)
+    Route::get('purchase-order/approval-detail/{id}', 'PurchaseOrderController@approvalDetail');
     Route::post('purchase-order/approving/{id}', 'PurchaseOrderController@approval')->name('purchase-order.approval');
+    // purchase order (gudang)
+    Route::get('purchase-order/verifikasi/{id}', 'PurchaseOrderController@verifikasiGudang')->name('purchase-order.verifikasi');
+    Route::get('purchase-order/verify/{id}', 'PurchaseOrderController@verifyGudang')->name('purchase-order.verify');
 
 
     Route::resource('permintaan-barang-internal', 'PermintaanBarangInternalController');

@@ -26,44 +26,12 @@
     <section class="content">
       @include('alert')
         <div class="row">
-          <div class="col-md-5">
-            <div class="box">
-                <div class="box-header text-center" style="border-bottom: 1px solid;padding-top: 0;">
-                    <h3>Persetujuan Purchase Order</h3>
-                </div>
-                <div class="box-body">
-                    {{ Form::open(['route' => ['purchase-order.approval', $purchase_order->id]]) }}
-                    {{ Form::hidden('approval',null,['id' => 'approval']) }}
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="text-sm" style ="color:#393E46">Alasan jika PO tidak disetujui (optional) </label>
-                                {{ Form::textarea('alasan',$purchase_order->alasan,['class' => 'form-control']) }}
-                            </div>
-                        </div>
-                    </div>
-                    @if($purchase_order->status_po == 'approve_by_pimpinan')
-                    <div class="row">
-                        <div class="col-md-12 pull-right">
-                            <button onClick="$('#approval').val(0)" class="btn btn-danger btn-sm"><i class="fa fa-ban"></i> Tolak</button>
-                            <button onClick="$('#approval').val(1)" class="btn btn-warning btn-sm"><i class="fa fa-check"></i> Setujui</button>
-                            <a href="/purchase-order" class="btn btn-danger btn-sm">Kembali</a>
-                        </div>
-                    </div>
-                    @endif
-                    {{ Form::close() }}
-                </div>
-            </div>
-          </div>
-
-          <div class="col-md-7">
+          <div class="col-md-12">
               <div class="box">
                   <div class="box-header text-center">
                       <h3>Keterangan Purchase Order</h3>
                   </div>
                   <div class="box-body">
-                
-
                       <table class="table table-bordered">
                           <tr>
                               <td width="140">Kode PO</td><td>: {{$purchase_order->kode}}</td>
@@ -75,26 +43,31 @@
                               <td>Supplier</td><td>: {{$purchase_order->supplier->nama_supplier}}</td>
                           </tr>
                       </table>
-                      <div class="table-responsive">
+                      <div class="table-responsive" style='margin-top : 8px'>
                           <table class="table table-bordered">
                               <thead>
                                   <tr>
                                       <th>#</th>
                                       <th>Kode Barang</th>
                                       <th>Nama Barang</th>
-                                      <th>Jumlah</th>
+                                      <th>Jumlah Diminta</th>
+                                      <th>Jumlah Diterima</th>
                                       <th>Harga PO</th>
                                   </tr>
                               </thead>
                               <tbody>
                                   <?php $total = 0; ?>
                                   @foreach($purchase_order_detail as $row)
-                                  <tr
-                                      onClick="ubah_baris({{$row->barang->id}},'{{$row->barang->nama_barang}}', {{$row->harga}}, {{$row->qty}})">
+                                  <tr>
                                       <th scope="row">{{ $loop->iteration }}</th>
                                       <td>{{ $row->barang->kode }}</td>
                                       <td>{{ $row->barang->nama_barang }}</td>
                                       <td>{{ $row->qty }}</td>
+                                      <td>
+                                          <a href="#" class="editableRow" data-pk = '{{$row->id}}' data-name='qty_diterima'>
+                                              {{$row->qty_diterima ? : 0}}
+                                          </a>
+                                      </td>
                                       <td>@currency($row->harga)</td>
                                   </tr>
                                   <?php $total += $row->harga * $row->qty;?>
@@ -108,6 +81,7 @@
                                   </tr>
                               </tfoot>
                           </table>
+                          <a href="/purchase-order/verify/{{$purchase_order->id}}" class='btn btn-success pull-right'><i class="fa fa-check"></i>Selesai</a>
                       </div>
                   </div>
               </div>
@@ -119,8 +93,21 @@
 
 @push('scripts')
 <script src="{{asset('/select2/dist/js/select2.min.js')}}"></script>
+<script src="{{asset('bootstrap3-editable/js/bootstrap-editable.js')}}"></script>
+<script>
+    $(document).ready(() => {
+        $('.editableRow').editable({
+            type: 'text',
+            value: '',
+            placeholder : '0',
+            url: '/ajax/purchase-order-edittable',
+            title: 'Jumlah yang diterima'
+        });
+    })
+</script>
 @endpush
 
 @push('css')
     <link href="{{asset('/select2/dist/css/select2.min.css')}}" rel="stylesheet" />
+    <link href="{{asset('bootstrap3-editable/css/bootstrap-editable.css')}}" rel="stylesheet">
 @endpush

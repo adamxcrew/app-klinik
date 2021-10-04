@@ -14,4 +14,9 @@ class PurchaseOrder extends Model
     {
         return $this->belongsTo('App\Models\Supplier', 'supplier_id', 'id');
     }
+
+    public function detail()
+    {
+        return $this->hasMany('App\Models\PurchaseOrderDetail', 'purchase_order_id');
+    }
 }

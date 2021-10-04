@@ -1,3 +1,9 @@
+@php
+    if(!isset($isApprove)){
+        $isApprove = 0;
+    }
+@endphp
+
 <table class="table table-bordered" id="ajax-po-item">
     <thead>
         <tr>
@@ -10,7 +16,7 @@
         </tr>
     </thead>
     <tbody>
-        <?php $total = 0; ?>
+        <?php $total = 0;  ?>
         @foreach($purchase_order_detail as $row)
         <tr>
             <th scope="row">{{ $loop->iteration }}</th>
@@ -27,9 +33,11 @@
                 </a>
             </td>
             <td>
-                <button class="btn btn-danger btn-sm" onClick="hapus_barang({{ $row->id }})">
-                    <i class="fa fa-trash"></i>
-                </button>
+                @if(!$isApprove)
+                    <button class="btn btn-danger btn-sm" onClick="hapus_barang({{ $row->id }})">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                @endif
             </td>
         </tr>
         <?php $total += $row->harga * $row->qty;?>
