@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DataTables;
 use App\Models\Tindakan;
+use App\Models\Poliklinik;
 use App\Models\TindakanBHP;
 use App\Models\Barang;
 use App\Http\Requests\TindakanStoreRequest;
@@ -45,7 +46,10 @@ class TindakanController extends Controller
      */
     public function create()
     {
-        return view('tindakan.create');
+        $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
+        $data['jenis']      = ['Umum','Perusahaan','Bbjs'];
+        $data['object']     = $this->object_fee();
+        return view('tindakan.create', $data);
     }
 
     /**
@@ -81,7 +85,9 @@ class TindakanController extends Controller
      */
     public function edit($id)
     {
-        $data['tindakan'] = Tindakan::findOrFail($id);
+        $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
+        $data['tindakan']   = Tindakan::findOrFail($id);
+        $data['object']     = $this->object_fee();
         return view('tindakan.edit', $data);
     }
 
@@ -111,5 +117,11 @@ class TindakanController extends Controller
         TindakanBHP::where('tindakan_id', $tindakan->id)->delete();
         $tindakan->delete();
         return redirect(route('tindakan.index'))->with('message', 'Data tindakan Berhasil Dihapus');
+    }
+
+
+    public function object_fee()
+    {
+        return ['klinik','dokter','perawat','asisten perawat','bidan'];
     }
 }
