@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class TambahColumnPegawai extends Migration
+class AddNoHpToPegawai extends Migration
 {
     /**
      * Run the migrations.
@@ -14,15 +14,7 @@ class TambahColumnPegawai extends Migration
     public function up()
     {
         Schema::table('pegawai', function (Blueprint $table) {
-            $table->string('nip');
-            $table->string('tempat_lahir');
-            $table->date('tanggal_lahir');
-            $table->string('kelompok_pegawai');
-            $table->string('agama');
-            $table->string('jenis_kelamin');
-            $table->text('alamat');
-            $table->integer('gaji_pokok');
-            $table->timestamps();
+            $table->string('no_hp');
         });
     }
 
