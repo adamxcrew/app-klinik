@@ -25,7 +25,7 @@
         {!! Form::date('tanggal', null, ['class'=>'form-control']) !!}
     </div>
     <div class="col-sm-2">
-        {!! Form::select('status', [null => 'Tidak Hadir','1' => 'Hadir', '2' => 'Izin'], null, ['class'=>'form-control']) !!}
+        {!! Form::select('status', $status, null, ['class'=>'form-control']) !!}
     </div>
 </div>
 <div class="form-group">

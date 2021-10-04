@@ -33,6 +33,7 @@ class KehadiranPegawaiController extends Controller
 
         $kehadiran_pegawai = KehadiranPegawai::with('pegawai')->whereBetween('tanggal', [$data['tanggal_awal'], $data['tanggal_akhir']])->get();
         if ($request->ajax()) {
+            $status_kehadiran = $this->status_kehadiran;
             return DataTables::of($kehadiran_pegawai)
                 ->addColumn('action', function ($row) {
                     $btn = \Form::open(['url' => 'kehadiran-pegawai/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
@@ -44,14 +45,8 @@ class KehadiranPegawaiController extends Controller
                 ->addColumn('tanggal', function ($row) {
                     return tgl_indo($row->tanggal);
                 })
-                ->addColumn('status', function ($row) {
-                    if ($row->status == 1) {
-                        return 'Hadir';
-                    } else if ($row->status == 2) {
-                        return 'Izin';
-                    } else {
-                        return 'Tidak Hadir';
-                    }
+                ->addColumn('status', function ($row) use ($status_kehadiran) {
+                    return $status_kehadiran[$row->status];
                 })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
@@ -127,9 +122,10 @@ class KehadiranPegawaiController extends Controller
      */
     public function edit($id)
     {
-        $data['shift'] = Shift::pluck('nama_shift', 'id');
-        $data['pegawai'] = Pegawai::pluck('nama', 'id');
-        $data['kehadiran_pegawai']            = KehadiranPegawai::findOrFail($id);
+        $data['shift']              = Shift::pluck('nama_shift', 'id');
+        $data['pegawai']            = Pegawai::pluck('nama', 'id');
+        $data['status']             = $this->status_kehadiran;
+        $data['kehadiran_pegawai']  = KehadiranPegawai::findOrFail($id);
         return view('kehadiran-pegawai.edit', $data);
     }
 
