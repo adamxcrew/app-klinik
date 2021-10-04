@@ -41,7 +41,7 @@ class PendaftaranController extends Controller
         $awal = date('Y-m-d H:i:s', strtotime($data['tanggal_awal']));
         $akhir = date('Y-m-d H:i:s', strtotime($data['tanggal_akhir']));
 
-        $pendaftaran = Pendaftaran::with('pasien')
+        $pendaftaran = Pendaftaran::with('pasien', 'perusahaanAsuransi')
             ->with('poliklinik')
             ->whereBetween(DB::raw('DATE(pendaftaran.created_at)'), [$awal, $akhir]);
 
@@ -62,6 +62,9 @@ class PendaftaranController extends Controller
                         $btn .= '<a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/cetak"><i class="fa fa-print"></i> Cetak Antrian</a> ';
                     }
                     return $btn;
+                })
+                ->addColumn('jenis_layanan', function ($row) {
+                    return $row->perusahaanAsuransi->nama_perusahaan;
                 })
                 ->rawColumns(['action'])
                 ->addIndexColumn()

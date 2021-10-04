@@ -11,19 +11,23 @@
             {!! Form::text('nomor_ktp', null, ['class'=>'form-control ktp','Placeholder'=>'Nomor KTP']) !!}
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="form-group">
-            <label for="exampleFormControlInput1">Inisial Panggilan</label>
-            {{ Form::select('inisial', $inisial, null,['class'=>'form-control']) }}
-        </div>
-    </div>
 </div>
 <div class="row">
     <div class="col-md-3">
-        <div class="form-group">
-            <label>Nama pasien</label>
-            {!! Form::text('nama', null, ['class'=>'form-control','Placeholder'=>'Nama Pasien']) !!}
-        </div>
+       <div class="row">
+           <div class="col-md-4">
+            <div class="form-group">
+                <label>Inisial</label>
+                {{ Form::select('inisial', $inisial, null,['class'=>'form-control']) }}
+            </div>
+           </div>
+           <div class="col-md-8">
+            <div class="form-group">
+                <label>Nama pasien</label>
+                {!! Form::text('nama', null, ['class'=>'form-control','Placeholder'=>'Nama Pasien']) !!}
+            </div>
+           </div>
+       </div>
     </div>
     <div class="col-md-3">
         <div class="form-group">

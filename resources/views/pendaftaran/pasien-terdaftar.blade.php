@@ -23,25 +23,23 @@
                     {!! Form::open(['route'=>'pendaftaran.store']) !!}
                     {{ Form::hidden('kode', generateKodePendaftaran()) }}
                     @include('validation_error')
-                    <div class="col-md-6">
-                        <h3><strong>Tujuan</strong></h3>
-
+                    <div class="col-md-7">
+                        <h3><strong>Tujuan Pelayanan</strong></h3>
                         <hr>
-
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="exampleFormControlInput1">Pasien</label>
-                                    {{-- <select name="pasien_id" id="pasien" class="pasien form-control" style="height: 100px;" placeholder="Masukan Nama Pasien"></select> --}}
-                                    {{ Form::select('pasien_id', $daftar_pasien, $pasien_id,['class'=>'form-control select-pasien']) }}
-                                </div>
-                            </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Jenis Pendaftaran</label>
                                     {{ Form::select('jenis_pendaftaran', $jenis_pendaftaran, null,['class'=>'form-control']) }}
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleFormControlInput1">Pasien</label>
+                                    <select name="pasien_id" class="pasien form-control" placeholder="Masukan Nama Pasien"></select>
+                                </div>
+                            </div>
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Jenis Rujukan</label>
@@ -51,43 +49,43 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Nama Perujuk</label>
-                                    {{ Form::text('nama_perujuk', null,['class'=>'form-control']) }}
+                                    {{ Form::text('nama_perujuk', null,['class'=>'form-control','placeholder'=>'Nama Perujuk']) }}
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Nomor Surat</label>
-                                    {{ Form::number('no_surat', null,['class'=>'form-control']) }}
+                                    {{ Form::number('no_surat', null,['class'=>'form-control','Placeholder'=>'Nomor Surat']) }}
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Tanggal Berlaku</label>
-                                    {{ Form::date('tanggal_berlaku', null,['class'=>'form-control']) }}
+                                    {{ Form::date('tanggal_berlaku', null,['class'=>'form-control','placeholder'=>'Tanggal Berlaku']) }}
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Penanggung Jawab</label>
-                                    {{ Form::text('penanggung_jawab', null,['class'=>'form-control']) }}
+                                    {{ Form::text('penanggung_jawab', null,['class'=>'form-control','Placeholder'=>'Penanggung Jawab']) }}
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">No. HP Penanggung Jawab</label>
-                                    {{ Form::text('no_hp_penanggung_jawab', null,['class'=>'form-control']) }}
+                                    <label for="exampleFormControlInput1">Nomor HP</label>
+                                    {{ Form::text('no_hp_penanggung_jawab', null,['class'=>'form-control','placeholder'=>'Nomor HP']) }}
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Hubungan Dengan Pasien</label>
+                                    <label for="exampleFormControlInput1">Hubungan</label>
                                     {{ Form::select('hubungan_pasien', $hubungan_pasien, null,['class'=>'form-control']) }}
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Alamat Penanggung Jawab</label>
-                                    {{ Form::text('alamat_penanggung_jawab', null,['class'=>'form-control']) }}
+                                    {{ Form::text('alamat_penanggung_jawab', null,['class'=>'form-control','Placeholder'=>'Alamat Penanggung Jawab']) }}
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -108,7 +106,7 @@
                         <div class="form-group" style="padding-bottom: 30px;">
                             <label class="col-sm-6 control-label">Perusahaan Penjamin</label>
                             <div class="col-sm-6">
-                                {{ Form::select('perusahaan_asuransi_id', $perusahaan_asuransi , null,['class'=>'form-control']) }}
+                                {{ Form::select('jenis_layanan', $perusahaan_asuransi , null,['class'=>'form-control']) }}
                             </div>
                         </div>
                         
@@ -118,7 +116,7 @@
                     </div>
                     {{ Form::close()}}
 
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                         <h3><strong>Detail Pasien</strong></h3>
                         <hr>
                         <div class="text-center before-select">
@@ -193,43 +191,46 @@
 @endsection
 
 @push('scripts')
-{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script> --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
 <script>
-    $(document).ready(function (){
-        $('.before-select').show();
-        $('.after-select').hide();
-        $(".select-pasien").bind('change', function () {
-            var pasien = $(".select-pasien").val();
+    $( document ).ready(function() {
+        // check apakah hasil redirect dari form input pasien
+        var str = window.location.href;
+        str = str.split("/");
+        if(str[5]!=undefined)
+        {
+            console.log('selected');
+            var pasien_id = str[5];
+
+            $('.pasien').select2({
+                ajax: {
+                    url: '/ajax/pasien'
+                }
+            });
+
+            // Fetch the preselected item, and add to the control
+            var studentSelect = $('.pasien');
             $.ajax({
-                url: "/ajax/pasien",
-                type: "get",
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    "pasien_id": pasien
-                },
-                beforeSend: function(){
-                    $('.before-select').show();
-                    $('.after-select').hide();
-                    $('.text-pilih').hide();
-                },
-                success: function(response) {
-                    if(response){
-                        $('#detail-pasien').text(response.nama);
-                        $('#ktp-pasien').text(response.nomor_ktp);
-                        $('#telpon-pasien').text(response.nomor_hp);
-                        $('#tempat-lahir-pasien').text(response.tempat_lahir);
-                        $('#tanggal-lahir-pasien').text(response.tanggal_lahir);
+                type: 'GET',
+                url: '/ajax/pasien',
+                data : {pasien_id:pasien_id},
+            }).then(function (data) {
+                console.log(data);
+                // create the option and append to Select2
+                var option = new Option(data.nama, data.id, true, true);
+                studentSelect.append(option).trigger('change');
 
-                        $('.before-select').hide();
-                        $('.after-select').show();
-                    }else{
-                        $('.before-select').show();
-                        $('.after-select').hide();
-                        $('.text-pilih').show();
+                // manually trigger the `select2:select` event
+                studentSelect.trigger({
+                    type: 'select2:select',
+                    params: {
+                        data: data
                     }
-            }});
-        });
+                });
+            });
 
+        }
 
         $('.poliklinik').bind('change', function () {
             var poliklinik = $(".poliklinik").val();
@@ -241,52 +242,63 @@
                     $("#dokter").html(response);
             }});
         });
-
+    
         $('.poliklinik').trigger('change');
-        $('.select-pasien').trigger('change');
+    
+        $('.pasien').select2({
+            placeholder: 'Masukan Nama Pasien',
+            ajax: {
+            url: '/ajax/select2Pasien',
+            dataType: 'json',
+            delay: 250,
+            processResults: function (data) {
+                return {
+                results:  $.map(data, function (item) {
+                    return {
+                        text: item.nama,
+                        id: item.id
+                    }
+                })
+                };
+            },
+            cache: true
+            }
+        });
 
-        // Select2 pasien
-        // $('.pasien').select2({
-        // placeholder: 'Cari Nama Pasien',
-        // ajax: {
-        // url: '/ajax/select2Pasien',
-        // dataType: 'json',
-        // delay: 250,
-        // success: function(response) {
-        //     console.log(response);
-        //     if(response){
-        //         response.map(function(val,index){
-        //             $('#detail-pasien').text(response.nama);
-        //             $('#ktp-pasien').text(response.nomor_ktp);
-        //             $('#telpon-pasien').text(response.nomor_hp);
-        //             $('#tempat-lahir-pasien').text(response.tempat_lahir);
-        //             $('#tanggal-lahir-pasien').text(response.tanggal_lahir);
-        //             })
+        $('.pasien').on("select2:select", function (e) {
+            var pasien = $('.pasien').val();
+            $.ajax({
+                url: "/ajax/pasien",
+                type: "get",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    "pasien_id": pasien
+                },
+                beforeSend: function () {
+                    $('.before-select').show();
+                    $('.after-select').hide();
+                    $('.text-pilih').hide();
+                },
+                success: function (response) {
+                    if (response) {
+                        $('#detail-pasien').text(response.nama);
+                        $('#ktp-pasien').text(response.nomor_ktp);
+                        $('#telpon-pasien').text(response.nomor_hp);
+                        $('#tempat-lahir-pasien').text(response.tempat_lahir);
+                        $('#tanggal-lahir-pasien').text(response.tanggal_lahir);
 
-        //             $('.before-select').hide();
-        //             $('.after-select').show();
-        //         }else{
-        //             $('.before-select').show();
-        //             $('.after-select').hide();
-        //             $('.text-pilih').show();
-        //         }
-        //     },
-        //     processResults: function (data) {
-        //         return {
-        //         results:  $.map(data, function (item) {
-        //             return {
-        //             text: item.nama,
-        //             id: item.id
-        //             }
-        //         })
-        //         };
-        //     },
-        //     cache: true
-        //     }
-        // });
+                        $('.before-select').hide();
+                        $('.after-select').show();
+                    } else {
+                        $('.before-select').show();
+                        $('.after-select').hide();
+                        $('.text-pilih').show();
+                    }
+                }
+            });
+        });
     });
 </script>
-
 @endpush
 
 @push('css')
