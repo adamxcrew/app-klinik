@@ -24,16 +24,21 @@ class PurchaseOrderController extends Controller
         if ($request->ajax()) {
             $status_po = $this->status_po;
             $detailUrl = '/purchase-order/approval-detail/';
-            if(\Auth::user()->role == 'bagian_gudang'){
+            if (\Auth::user()->role == 'bagian_gudang') {
                 $detailUrl = '/purchase-order/verifikasi/';
             }
             return DataTables::of(PurchaseOrder::with('supplier')->get())
                 ->addColumn('action', function ($row) {
-                    $btn = \Form::open(['url' => 'purchase-order/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
-                    $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
-                    $btn .= \Form::close();
-                    $btn .= '<a target="_blank" class="btn btn-danger btn-sm" href="/purchase-order/' . $row->id . '/cetak" style="margin-right:7px"><i class="fa fa-print" aria-hidden="true"></i></a> ';
-                    $btn .= "<a href='/purchase-order/".$row->id."' class='btn btn-danger btn-sm '><i class='fa fa-eye'></i></a>";
+                    $btn ="";
+                    if ($row->status_po!='approve_by_pimpinan') {
+                        $btn = \Form::open(['url' => 'purchase-order/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
+                        $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
+                        $btn .= \Form::close();
+                    } else {
+                        $btn .= "<a title='Verifikasi Purchase Order' href='/purchase-order/verifikasi/".$row->id."' class='btn btn-success btn-sm ' style='margin-right:5px'><i class='fa fa-list-alt'></i></a> ";
+                    }
+                    $btn .= '<a title="Cetak Purchase Order" target="_blank" class="btn btn-danger btn-sm" href="/purchase-order/' . $row->id . '/cetak" style="margin-right:7px"><i class="fa fa-print" aria-hidden="true"></i></a> ';
+                    $btn .= "<a title='Detail Purchase order' href='/purchase-order/".$row->id."' class='btn btn-danger btn-sm '><i class='fa fa-eye'></i></a>";
                     return $btn;
                 })
                 ->addColumn('status_po', function ($row) use ($status_po) {
@@ -50,7 +55,7 @@ class PurchaseOrderController extends Controller
                 ->make(true);
         }
 
-        if (\Auth::user()->role == 'pimpinan' || \Auth::user()->role == 'bagian_gudang') {
+        if (\Auth::user()->role == 'pimpinan') {
             return view('purchase-order.approval_pimpinan');
         }
         return view('purchase-order.index');
@@ -58,16 +63,15 @@ class PurchaseOrderController extends Controller
 
     public function listBarang(Request $request, $id)
     {
-        // dd(PurchaseOrderDetail::with('barang')->where('purchase_order_id', $id)->get());
-        if($request->ajax()){
+        if ($request->ajax()) {
             return DataTables::of(PurchaseOrderDetail::with('barang')->where('purchase_order_id', $id)->get())
-                ->editColumn('kode', function($row){
+                ->editColumn('kode', function ($row) {
                     return $row->barang->kode;
                 })
-                ->editColumn('nama_barang', function($row){
+                ->editColumn('nama_barang', function ($row) {
                     return $row->barang->nama_barang;
                 })
-                ->editColumn('harga', function ($row){
+                ->editColumn('harga', function ($row) {
                     return $row->barang->harga;
                 })
                 ->addIndexColumn()
@@ -78,8 +82,8 @@ class PurchaseOrderController extends Controller
     public function show(Request $request, $id)
     {
         $data['purchase_order_detail'] = PurchaseOrderDetail::where('purchase_order_id', $id)->get();
-        if($request->ajax()){
-            $data['isApprove'] = $request->isApprove;
+        if ($request->ajax()) {
+            $data['purchase_order'] = PurchaseOrder::findOrFail($id);
             return view('purchase-order.purchase-order-item', $data);
         }
 
@@ -90,7 +94,8 @@ class PurchaseOrderController extends Controller
         return view('purchase-order.show', $data);
     }
 
-    public function verifikasiGudang(Request $request, $id) {
+    public function verifikasiGudang(Request $request, $id)
+    {
         $data['purchase_order_detail'] = PurchaseOrderDetail::where('purchase_order_id', $id)->get();
         $data['purchase_order'] = PurchaseOrder::findOrFail($id);
 
@@ -101,7 +106,7 @@ class PurchaseOrderController extends Controller
     {
         $po = PurchaseOrder::find($id);
         $po->status_po = 'selesai_po';
-        foreach($po->detail as $row){
+        foreach ($po->detail as $row) {
             $barang = Barang::find($row->barang_id);
             $barang->stock += $row->qty_diterima;
             $barang->update();
@@ -124,7 +129,7 @@ class PurchaseOrderController extends Controller
     {
         $request['status_po'] = "reject_by_pimpinan";
         
-        if($request->approval){
+        if ($request->approval) {
             $request['status_po'] = 'approve_by_pimpinan';
         }
         

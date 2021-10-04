@@ -42,7 +42,7 @@
                             </div>
                         </div>
                     </div>
-                    @if($purchase_order->status_po == 'approve_by_pimpinan')
+                    @if($purchase_order->status_po != 'approve_by_pimpinan')
                     <div class="row">
                         <div class="col-md-12 pull-right">
                             <button onClick="$('#approval').val(0)" class="btn btn-danger btn-sm"><i class="fa fa-ban"></i> Tolak</button>

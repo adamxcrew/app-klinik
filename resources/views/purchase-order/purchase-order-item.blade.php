@@ -1,9 +1,3 @@
-@php
-    if(!isset($isApprove)){
-        $isApprove = 0;
-    }
-@endphp
-
 <table class="table table-bordered" id="ajax-po-item">
     <thead>
         <tr>
@@ -12,7 +6,9 @@
             <th scope="col">Nama Barang</th>
             <th scope="col">Jumlah</th>
             <th scope="col">Harga (PO)</th>
-            <th scope="col">Action</th>
+            @if(!in_array($purchase_order->status_po,['selesai_po','approve_by_pimpinan']))
+                <th scope="col">Action</th>
+            @endif
         </tr>
     </thead>
     <tbody>
@@ -32,13 +28,13 @@
                     @currency($row->harga)
                 </a>
             </td>
+            @if(!in_array($purchase_order->status_po,['selesai_po','approve_by_pimpinan']))
             <td>
-                @if(!$isApprove)
-                    <button class="btn btn-danger btn-sm" onClick="hapus_barang({{ $row->id }})">
-                        <i class="fa fa-trash"></i>
-                    </button>
-                @endif
+                <button class="btn btn-danger btn-sm" onClick="hapus_barang({{ $row->id }})">
+                    <i class="fa fa-trash"></i>
+                </button>
             </td>
+            @endif
         </tr>
         <?php $total += $row->harga * $row->qty;?>
         @endforeach
