@@ -11,6 +11,12 @@
             {!! Form::text('nomor_ktp', null, ['class'=>'form-control ktp','Placeholder'=>'Nomor KTP']) !!}
         </div>
     </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Inisial Panggilan</label>
+            {{ Form::select('inisial', $inisial, null,['class'=>'form-control']) }}
+        </div>
+    </div>
 </div>
 <div class="row">
     <div class="col-md-3">
@@ -38,13 +44,15 @@
             </div>
         </div>
     </div>
-    <div class="form-group">
-        <label>Jenis Kelamin</label>
-        <div >
-            {{Form::radio('jenis_kelamin','pria',['class'=>'form-check-input'])}}
-            <label>Pria</label>
-            {{Form::radio('jenis_kelamin','wanita',['class'=>'form-check-input'])}}
-            <label>Wanita</label>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Jenis Kelamin</label>
+            <div >
+                {{Form::radio('jenis_kelamin','pria',['class'=>'form-check-input'])}}
+                <label>Pria</label>
+                {{Form::radio('jenis_kelamin','wanita',['class'=>'form-check-input'])}}
+                <label>Wanita</label>
+            </div>
         </div>
     </div>
 </div>

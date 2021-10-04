@@ -13,6 +13,7 @@ use App\Models\Regency;
 use App\Models\Diagnosa;
 use App\Models\Tindakan;
 use App\Models\Obat;
+use App\Models\PerusahaanAsuransi;
 use PDF;
 
 class PasienController extends Controller
@@ -25,6 +26,7 @@ class PasienController extends Controller
     protected $privilage_khusus;
     protected $hubungan_pasien;
     protected $penjamin;
+    protected $inisial;
 
     public function __construct()
     {
@@ -36,6 +38,7 @@ class PasienController extends Controller
         $this->privilage_khusus   = config('datareferensi.privilage_khusus');
         $this->hubungan_pasien    = config('datareferensi.hubungan_pasien');
         $this->penjamin           = config('datareferensi.penjamin');
+        $this->inisial            = config('datareferensi.inisial');
     }
 
     /**
@@ -74,6 +77,7 @@ class PasienController extends Controller
      */
     public function create()
     {
+        $data['inisial']            = $this->inisial;
         $data['agama']              = $this->agama;
         $data['jenjang_pendidikan'] = $this->jenjang_pendidikan;
         $data['status_pernikahan']  = $this->status_pernikahan;
@@ -81,7 +85,7 @@ class PasienController extends Controller
         $data['golongan_darah']     = $this->golongan_darah;
         $data['privilage_khusus']   = $this->privilage_khusus;
         $data['hubungan_pasien']    = $this->hubungan_pasien;
-        $data['penjamin']           = $this->penjamin;
+        $data['penjamin']           = PerusahaanAsuransi::pluck('nama_perusahaan', 'id');
         $data['poliklinik']         = Poliklinik::pluck('nama', 'id');
         return view('pasien.create', $data);
     }
@@ -122,7 +126,7 @@ class PasienController extends Controller
         $data['golongan_darah']     = $this->golongan_darah;
         $data['privilage_khusus']   = $this->privilage_khusus;
         $data['hubungan_pasien']    = $this->hubungan_pasien;
-        $data['penjamin']           = $this->penjamin;
+        $data['penjamin']           = PerusahaanAsuransi::pluck('nama_perusahaan', 'id');;
 
         $data['pasien'] = Pasien::findOrFail($id);
         $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
@@ -145,7 +149,7 @@ class PasienController extends Controller
         $data['golongan_darah']     = $this->golongan_darah;
         $data['privilage_khusus']   = $this->privilage_khusus;
         $data['hubungan_pasien']    = $this->hubungan_pasien;
-        $data['penjamin']           = $this->penjamin;
+        $data['penjamin']           = PerusahaanAsuransi::pluck('nama_perusahaan', 'id');;
 
         $data['pasien'] = Pasien::with('wilayahAdministratifIndonesia')->findOrFail($id);
         return view('pasien.edit', $data);
