@@ -1,9 +1,3 @@
-@php
-    if(!isset($isApprove)){
-        $isApprove = 0;
-    }
-@endphp
-
 <table class="table table-bordered" id="ajax-po-item">
     <thead>
         <tr>
@@ -12,7 +6,9 @@
             <th scope="col">Nama Barang</th>
             <th scope="col">Jumlah</th>
             <th scope="col">Harga (PO)</th>
-            <th scope="col">Action</th>
+            @if(!in_array($purchase_order->status_po,['selesai_po','approve_by_pimpinan']))
+                <th scope="col">Action</th>
+            @endif
         </tr>
     </thead>
     <tbody>
@@ -23,22 +19,30 @@
             <td>{{ $row->barang->kode }}</td>
             <td>{{ $row->barang->nama_barang }}</td>
             <td>
-                <a href="#" class="editableRow" data-pk = '{{$row->id}}' data-name = 'qty'>
+                @if(in_array($purchase_order->status_po,['selesai_po','approve_by_pimpinan']))
                     {{ $row->qty }}
-                </a>
-            </td>
-            <td>
-                <a href="#" class="editableRow" data-pk = '{{$row->id}}' data-name = 'harga'>
-                    @currency($row->harga)
-                </a>
-            </td>
-            <td>
-                @if(!$isApprove)
-                    <button class="btn btn-danger btn-sm" onClick="hapus_barang({{ $row->id }})">
-                        <i class="fa fa-trash"></i>
-                    </button>
+                @else
+                    <a href="#" class="editableRow" data-pk = '{{$row->id}}' data-name = 'qty'>
+                        {{ $row->qty }}
+                    </a>
                 @endif
             </td>
+            <td>
+                @if(in_array($purchase_order->status_po,['selesai_po','approve_by_pimpinan']))
+                        @currency($row->harga)
+                @else
+                    <a href="#" class="editableRow" data-pk = '{{$row->id}}' data-name = 'harga'>
+                        @currency($row->harga)
+                    </a>
+                @endif
+            </td>
+            @if(!in_array($purchase_order->status_po,['selesai_po','approve_by_pimpinan']))
+            <td>
+                <button class="btn btn-danger btn-sm" onClick="hapus_barang({{ $row->id }})">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </td>
+            @endif
         </tr>
         <?php $total += $row->harga * $row->qty;?>
         @endforeach

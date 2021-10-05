@@ -99,7 +99,7 @@ class PendaftaranController extends Controller
     {
         $pendaftaran    = Pendaftaran::find($id);
         $input          = $request->except(['_token', '_method']);
-        $pendaftaran->update(['tanda_tanda_vital' => serialize($input)]);
+        $pendaftaran->update(['tanda_tanda_vital' => serialize($input),'status_pelayanan'=>'Selesai Pemeriksaan Medis']);
         return redirect('pendaftaran/' . $id)->with('message', 'Tanda Tanda Fital Berhasil Disimpan');
     }
 
