@@ -87,6 +87,7 @@ return [
         'PT.SUPER GRAHA MAKMUR MRH' => 'PT.SUPER GRAHA MAKMUR MRH',
         'PT.UNIMAKMUR'              => 'PT.UNIMAKMUR',
     ],
+    
     'status_kehadiran'    => [
         'hadir'        => 'Hadir',
         'tidak hadir'  => 'Tidak Hadir',
@@ -106,19 +107,22 @@ return [
         'admin_medis'   =>  'Admin Medis',
         'bagian_gudang' => 'Bagian Gudang'
     ],
+
     'jenis_barang'          => [
         'obat'  =>  'Obat',
         'alkes' =>  'Alkes'
     ],
+
     'hari'                  => [
-        'senin'     => 'Senin',
-        'selasa'    => 'Selasa',
-        'rabu'      => 'Rabu',
-        'kamis'     => 'kamis',
-        'jumat'     => 'Jumat',
-        'sabtu'     => 'Sabtu',
-        'minggu'    => 'Minggu'
+        'Monday'        => 'Senin',
+        'Tuesday'       => 'Selasa',
+        'Wednesday'     => 'Rabu',
+        'Thursday'      => 'kamis',
+        'Friday'        => 'Jumat',
+        'Saturday'      => 'Sabtu',
+        'Sunday'        => 'Minggu'
     ],
+
     'jenis_kategori'        => [
         'obat_alkes'    =>  'Obat Dan Alkes',
         'tindakan'      =>  'Tindakan'
@@ -135,10 +139,12 @@ return [
         'reject_by_pimpinan'    =>  'Ditolak Oleh Pimpinan',
         'selesai_po'            =>  'Selesai'
     ],
+
     'jenis_pendaftaran' => [
         'daftar langsung' => 'DAFTAR LANGSUNG',
         'via telepon'     => 'VIA TELEPON'
     ],
+
     'jenis_rujukan'     => [
         'datang sendiri'    => 'DATANG SENDIRI',
         'puskesmas'         => 'PUSKESMAS',
@@ -148,6 +154,7 @@ return [
         'faskes lainnya'    => 'FASKES LAINNYA',
         'rujukan non medis' => 'RUJUKAN NON MEDIS'
     ],
+
     'inisial'       => [
         'Tn.'   => 'Tn.',
         'Ny.'   => 'Ny.',
