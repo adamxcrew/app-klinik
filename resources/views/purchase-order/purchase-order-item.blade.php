@@ -19,14 +19,22 @@
             <td>{{ $row->barang->kode }}</td>
             <td>{{ $row->barang->nama_barang }}</td>
             <td>
-                <a href="#" class="editableRow" data-pk = '{{$row->id}}' data-name = 'qty'>
+                @if(in_array($purchase_order->status_po,['selesai_po','approve_by_pimpinan']))
                     {{ $row->qty }}
-                </a>
+                @else
+                    <a href="#" class="editableRow" data-pk = '{{$row->id}}' data-name = 'qty'>
+                        {{ $row->qty }}
+                    </a>
+                @endif
             </td>
             <td>
-                <a href="#" class="editableRow" data-pk = '{{$row->id}}' data-name = 'harga'>
-                    @currency($row->harga)
-                </a>
+                @if(in_array($purchase_order->status_po,['selesai_po','approve_by_pimpinan']))
+                        @currency($row->harga)
+                @else
+                    <a href="#" class="editableRow" data-pk = '{{$row->id}}' data-name = 'harga'>
+                        @currency($row->harga)
+                    </a>
+                @endif
             </td>
             @if(!in_array($purchase_order->status_po,['selesai_po','approve_by_pimpinan']))
             <td>
