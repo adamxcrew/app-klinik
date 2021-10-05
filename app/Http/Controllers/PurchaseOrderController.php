@@ -30,13 +30,17 @@ class PurchaseOrderController extends Controller
             return DataTables::of(PurchaseOrder::with('supplier')->get())
                 ->addColumn('action', function ($row) {
                     $btn ="";
-                    if ($row->status_po!='approve_by_pimpinan') {
+
+                    if ($row->status_po=='approve_by_pimpinan') {
+                        $btn .= "<a title='Verifikasi Purchase Order' href='/purchase-order/verifikasi/".$row->id."' class='btn btn-success btn-sm ' style='margin-right:5px'><i class='fa fa-list-alt'></i></a> ";
+                    }
+
+                    if ($row->status_po=='pengajuan_po') {
                         $btn = \Form::open(['url' => 'purchase-order/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
                         $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
                         $btn .= \Form::close();
-                    } else {
-                        $btn .= "<a title='Verifikasi Purchase Order' href='/purchase-order/verifikasi/".$row->id."' class='btn btn-success btn-sm ' style='margin-right:5px'><i class='fa fa-list-alt'></i></a> ";
                     }
+                    
                     $btn .= '<a title="Cetak Purchase Order" target="_blank" class="btn btn-danger btn-sm" href="/purchase-order/' . $row->id . '/cetak" style="margin-right:7px"><i class="fa fa-print" aria-hidden="true"></i></a> ';
                     $btn .= "<a title='Detail Purchase order' href='/purchase-order/".$row->id."' class='btn btn-danger btn-sm '><i class='fa fa-eye'></i></a>";
                     return $btn;
