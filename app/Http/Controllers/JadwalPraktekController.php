@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\JadwalPraktekStoreRequest;
 use App\Models\JadwalPraktek;
+use App\Models\Poliklinik;
 use App\User;
 use DataTables;
 
@@ -33,9 +34,9 @@ class JadwalPraktekController extends Controller
                     $btn .= \Form::close();
                     return $btn;
                 })
-                 ->addColumn('hari', function ($row) use ($hari) {
-                     return $hari[$row->hari];
-                 })
+                ->addColumn('hari', function ($row) use ($hari) {
+                    return $hari[$row->hari];
+                })
                 ->rawColumns(['action', 'code'])
                 ->addIndexColumn()
                 ->make(true);
@@ -62,6 +63,7 @@ class JadwalPraktekController extends Controller
      */
     public function edit($id)
     {
+        $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
         $data['hari']   = $this->hari;
         $data['jadwal_praktek'] = JadwalPraktek::findOrFail($id);
         $data['user'] = User::where('id', $data['jadwal_praktek']->user_id)->first();
