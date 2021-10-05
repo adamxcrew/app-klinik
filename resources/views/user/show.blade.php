@@ -20,6 +20,7 @@
                     <div class="box-body text-center">
                         <img src="https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg?size=338&ext=jpg" width="230">
                         <h4>Dokter {{ $user->name }}</h4>
+                        {{ Date('l')}}
                     </div>
                 </div>
             </div>
@@ -37,7 +38,8 @@
                                     <th width="20px">Nomor</th>
                                     <th>Hari</th>
                                     <th>Jam</th>
-                                    <th>Action</th>
+                                    <th>Poliklinik</th>
+                                    <th width="60">Action</th>
                                 </tr>
                             </thead>
                         </table>
@@ -66,8 +68,8 @@
           @include('jadwal-praktek.form')
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+          <button type="submit" class="btn btn-primary">Simpan</button>
         </div>
         {!! Form::close() !!}
       </div>
@@ -97,6 +99,10 @@ $(document).ready( function () {
         {
           data: 'jam',
           name: 'jam'
+        },
+        {
+          data: 'poliklinik.nama',
+          name: 'poliklinik.nama'
         },
         {
           data: 'action',

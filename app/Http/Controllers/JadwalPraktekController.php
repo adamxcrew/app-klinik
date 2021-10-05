@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\JadwalPraktekStoreRequest;
 use App\Models\JadwalPraktek;
+use App\Models\Poliklinik;
 use App\User;
 use DataTables;
 
@@ -24,13 +25,17 @@ class JadwalPraktekController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(JadwalPraktek::where('user_id', $request->user_id)->get())
+            $hari = $this->hari;
+            return DataTables::of(JadwalPraktek::with('poliklinik')->where('user_id', $request->user_id)->get())
                 ->addColumn('action', function ($row) {
                     $btn = \Form::open(['url' => 'jadwal-praktek/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
                     $btn .= '<a class="btn btn-primary btn-sm" href="/jadwal-praktek/' . $row->id . '/edit' . $row->role . '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> ';
                     $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
                     $btn .= \Form::close();
                     return $btn;
+                })
+                ->addColumn('hari', function ($row) use ($hari) {
+                    return $hari[$row->hari];
                 })
                 ->rawColumns(['action', 'code'])
                 ->addIndexColumn()
@@ -58,6 +63,7 @@ class JadwalPraktekController extends Controller
      */
     public function edit($id)
     {
+        $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
         $data['hari']   = $this->hari;
         $data['jadwal_praktek'] = JadwalPraktek::findOrFail($id);
         $data['user'] = User::where('id', $data['jadwal_praktek']->user_id)->first();
