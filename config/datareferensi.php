@@ -114,13 +114,13 @@ return [
     ],
 
     'hari'                  => [
-        'senin'     => 'Senin',
-        'selasa'    => 'Selasa',
-        'rabu'      => 'Rabu',
-        'kamis'     => 'kamis',
-        'jumat'     => 'Jumat',
-        'sabtu'     => 'Sabtu',
-        'minggu'    => 'Minggu'
+        'Monday'        => 'Senin',
+        'Tuesday'       => 'Selasa',
+        'Wednesday'     => 'Rabu',
+        'Thursday'      => 'kamis',
+        'Friday'        => 'Jumat',
+        'Saturday'      => 'Sabtu',
+        'Sunday'        => 'Minggu'
     ],
 
     'jenis_kategori'        => [

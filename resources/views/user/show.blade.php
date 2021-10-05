@@ -20,6 +20,7 @@
                     <div class="box-body text-center">
                         <img src="https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg?size=338&ext=jpg" width="230">
                         <h4>Dokter {{ $user->name }}</h4>
+                        {{ Date('l')}}
                     </div>
                 </div>
             </div>

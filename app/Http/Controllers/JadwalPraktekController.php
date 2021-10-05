@@ -24,6 +24,7 @@ class JadwalPraktekController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
+            $hari = $this->hari;
             return DataTables::of(JadwalPraktek::with('poliklinik')->where('user_id', $request->user_id)->get())
                 ->addColumn('action', function ($row) {
                     $btn = \Form::open(['url' => 'jadwal-praktek/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
@@ -32,6 +33,9 @@ class JadwalPraktekController extends Controller
                     $btn .= \Form::close();
                     return $btn;
                 })
+                 ->addColumn('hari', function ($row) use ($hari) {
+                     return $hari[$row->hari];
+                 })
                 ->rawColumns(['action', 'code'])
                 ->addIndexColumn()
                 ->make(true);
