@@ -1,23 +1,27 @@
-.card-header{
+.card-header {
     border-bottom: 1px solid;
     text-align: center;
 }
-.card-spac{
+.card-spac {
     padding-bottom: 30px;
 }
-.card-spac-antrian{
+.card-spac-antrian {
     padding-bottom: 50px;
 }
-.card-height{
+.card-height {
     height: 185px;
 }
-.label-nomor-antrian{
+.label-nomor-antrian {
     font-size: 20px;
     color: black;
     font-weight: bold;
 }
-.small-label-antrian{
+.small-label-antrian {
     position: absolute;
     top: 20px;
     left: 15px;
+}
+
+.my-1 {
+    margin: 10px 0;
 }
