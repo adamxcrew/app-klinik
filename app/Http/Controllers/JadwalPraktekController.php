@@ -24,7 +24,7 @@ class JadwalPraktekController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(JadwalPraktek::where('user_id', $request->user_id)->get())
+            return DataTables::of(JadwalPraktek::with('poliklinik')->where('user_id', $request->user_id)->get())
                 ->addColumn('action', function ($row) {
                     $btn = \Form::open(['url' => 'jadwal-praktek/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
                     $btn .= '<a class="btn btn-primary btn-sm" href="/jadwal-praktek/' . $row->id . '/edit' . $row->role . '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> ';

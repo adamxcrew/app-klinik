@@ -90,6 +90,7 @@ class UserController extends Controller
     {
         $data['hari']       = $this->hari;
         $data['user']       = User::findOrFail($id);
+        $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
         return view('user.show', $data);
     }
 
