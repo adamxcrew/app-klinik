@@ -15,15 +15,6 @@
     <section class="content">
       {!! Form::model($pendaftaran,['route'=>['pendaftaran.input_tanda_vital_store',$pendaftaran->id],'method'=>'PUT','class'=>'form-horizontal']) !!}
         <div class="row">
-            <div class="col-md-3">
-                <div class="box">
-                    <div class="box-body text-center">
-                        <img src="https://img.pikbest.com/png-images/qiantu/cute-cartoon-little-girl-medical-patient-in-hospital-gown_2558435.png!c1024wm0/compress/true/progressive/true/format/webp/fw/1024" width="200">
-                        <h4>{{$pendaftaran->pasien->nama}}</h4>
-                        <h4>{{$pendaftaran->pasien->nomor_rekam_medis}}</h4>
-                    </div>
-                </div>
-            </div>
           <div class="col-xs-9">
             <div class="box">
               <div class="box-body">
@@ -52,16 +43,18 @@
                         {!! Form::select('jenis_kasus',['baru'=>'Jenis Kasus Baru','lama'=>'Jenis Kasus Lama'], null, ['class'=>'form-control']) !!}
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-danger btn btn-sm"><i class="fa fa-floppy-o" aria-hidden="true"></i> Simpan</button>
-                        <a href="/pendaftaran" class="btn btn-danger btn btn-sm"><i class="fa fa-share-square-o" aria-hidden="true"></i> Kembali</a>
-                    </div>
-                </div>
-                  
               </div>
             </div>
           </div>
+          <div class="col-md-3">
+            <div class="box">
+                <div class="box-body text-center">
+                    <img src="https://img.pikbest.com/png-images/qiantu/cute-cartoon-little-girl-medical-patient-in-hospital-gown_2558435.png!c1024wm0/compress/true/progressive/true/format/webp/fw/1024" width="200">
+                    <h4>{{$pendaftaran->pasien->nama}}</h4>
+                    <h4>{{$pendaftaran->pasien->nomor_rekam_medis}}</h4>
+                </div>
+            </div>
+        </div>
         </div>
         <div class="box">
           <div class="box-body">
@@ -732,6 +725,15 @@
                     </div>
                   </div>
                 </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <div class="col-sm-offset-0 col-sm-10">
+                    <hr>
+                      <button type="submit" class="btn btn-danger btn btn-sm"><i class="fa fa-floppy-o" aria-hidden="true"></i> Simpan</button>
+                      <a href="/pendaftaran" class="btn btn-danger btn btn-sm"><i class="fa fa-share-square-o" aria-hidden="true"></i> Kembali</a>
+                  </div>
+              </div>
               </div>
           </div>
         </div>

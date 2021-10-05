@@ -19,7 +19,6 @@
         <div class="box">
           <div class="box-body">
             {!! Form::open(['route'=>'pegawai.atur-jadwal.store','class'=>'form-horizontal']) !!}
-            @for($i=0;$i<=30;$i++)
             <div class="row" style="margin: 15px 0">
               <div class="col-md-4">
                 <label for="">Tanggal Kerja</label>
@@ -29,12 +28,16 @@
                 <label for="">Shift</label>
                 {!! Form::select('shift_id[]',$shift, null, ['class'=>'form-control','Placeholder'=>'shift']) !!}
               </div>
-              <div class="col-md-4">
-                <div>#</div>
-                <button class="btn btn-primary">Terapkan</button>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-md-4" style="margin-left:10px;">
+                <label for=""></label>
+                  <a class="btn btn-danger"><i class="fa fa-plus-circle" aria-hidden="true"></i>Tambah Form</a>
+                  <a href="/pegawai/1?tab=jadwal_kerja" class="btn btn-danger"><i class="fa fa-share-square-o" aria-hidden="true"></i> Kembali</a>
+                  <button type="submit" class="btn btn-danger"><i class="fa fa-floppy-o" aria-hidden="true"></i> Simpan</button>
               </div>
             </div>
-            @endfor
             {!! Form::close() !!}
           </div>
         </div>
