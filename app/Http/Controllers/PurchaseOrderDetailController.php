@@ -39,14 +39,14 @@ class PurchaseOrderDetailController extends Controller
     {
         if ($request->ajax()) {
             $input = $request->all();
-            
+
             $isExist = PurchaseOrderDetail::where('barang_id', $request->barang_id)
             ->where('purchase_order_id', null)->first();
 
-            if(isset($isExist)){
+            if (isset($isExist)) {
                 $isExist->update($input);
-            }else{
-              PurchaseOrderDetail::create($input);
+            } else {
+                PurchaseOrderDetail::create($input);
             }
 
             return response()->json(['success' => true]);
@@ -86,16 +86,16 @@ class PurchaseOrderDetailController extends Controller
     {
         if ($request->ajax()) {
             $input = $request->all();
-            
+
             $isExist = PurchaseOrderDetail::where('barang_id', $request->barang_id)
             ->where('purchase_order_id', $id)->first();
 
             $input['purchase_order_id'] = $id;
 
-            if(isset($isExist)){
+            if (isset($isExist)) {
                 $isExist->update($input);
-            }else{
-              PurchaseOrderDetail::create($input);
+            } else {
+                PurchaseOrderDetail::create($input);
             }
 
             return response()->json(['success' => true]);

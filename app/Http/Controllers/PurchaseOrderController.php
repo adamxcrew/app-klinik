@@ -29,20 +29,20 @@ class PurchaseOrderController extends Controller
             }
             return DataTables::of(PurchaseOrder::with('supplier')->get())
                 ->addColumn('action', function ($row) {
-                    $btn ="";
+                    $btn = "";
 
-                    if ($row->status_po=='approve_by_pimpinan') {
-                        $btn .= "<a title='Verifikasi Purchase Order' href='/purchase-order/verifikasi/".$row->id."' class='btn btn-success btn-sm ' style='margin-right:5px'><i class='fa fa-list-alt'></i></a> ";
+                    if ($row->status_po == 'approve_by_pimpinan') {
+                        $btn .= "<a title='Verifikasi Purchase Order' href='/purchase-order/verifikasi/" . $row->id . "' class='btn btn-success btn-sm ' style='margin-right:5px'><i class='fa fa-list-alt'></i></a> ";
                     }
 
-                    if ($row->status_po=='pengajuan_po') {
+                    if ($row->status_po == 'pengajuan_po') {
                         $btn = \Form::open(['url' => 'purchase-order/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
                         $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
                         $btn .= \Form::close();
                     }
-                    
+
                     $btn .= '<a title="Cetak Purchase Order" target="_blank" class="btn btn-danger btn-sm" href="/purchase-order/' . $row->id . '/cetak" style="margin-right:7px"><i class="fa fa-print" aria-hidden="true"></i></a> ';
-                    $btn .= "<a title='Detail Purchase order' href='/purchase-order/".$row->id."' class='btn btn-danger btn-sm '><i class='fa fa-eye'></i></a>";
+                    $btn .= "<a title='Detail Purchase order' href='/purchase-order/" . $row->id . "' class='btn btn-danger btn-sm '><i class='fa fa-eye'></i></a>";
                     return $btn;
                 })
                 ->addColumn('status_po', function ($row) use ($status_po) {
@@ -52,7 +52,7 @@ class PurchaseOrderController extends Controller
                     return tgl_indo($row->tanggal);
                 })
                 ->addColumn('detail', function ($row) use ($detailUrl) {
-                    return '<a class="btn btn-danger btn-sm" href="'.$detailUrl.$row->id . '"><i class="fa fa-eye" aria-hidden="true"></i></a>';
+                    return '<a class="btn btn-danger btn-sm" href="' . $detailUrl . $row->id . '"><i class="fa fa-eye" aria-hidden="true"></i></a>';
                 })
                 ->rawColumns(['action','detail'])
                 ->addIndexColumn()
@@ -132,14 +132,14 @@ class PurchaseOrderController extends Controller
     public function approval(Request $request, $id)
     {
         $request['status_po'] = "reject_by_pimpinan";
-        
+
         if ($request->approval) {
             $request['status_po'] = 'approve_by_pimpinan';
         }
-        
+
         $po = PurchaseOrder::find($id);
         $po->update($request->all());
-        return redirect(route('purchase-order.index'))->with('message', 'Update sukses! '.$po->kode.' '.$this->status_po[$po->status_po]);
+        return redirect(route('purchase-order.index'))->with('message', 'Update sukses! ' . $po->kode . ' ' . $this->status_po[$po->status_po]);
     }
 
     public function create()
