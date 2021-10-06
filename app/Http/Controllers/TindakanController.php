@@ -47,7 +47,7 @@ class TindakanController extends Controller
     public function create()
     {
         $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
-        $data['jenis']      = ['Umum','Perusahaan','Bbjs'];
+        $data['jenis']      = ['Umum','Perusahaan','Bpjs'];
         $data['object']     = $this->object_fee();
         return view('tindakan.create', $data);
     }
@@ -88,7 +88,7 @@ class TindakanController extends Controller
         $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
         $data['tindakan']   = Tindakan::findOrFail($id);
         $data['object']     = $this->object_fee();
-        $data['jenis']      = ['Umum','Perusahaan','Bbjs'];
+        $data['jenis']      = ['Umum','Perusahaan','BPjs'];
         return view('tindakan.edit', $data);
     }
 
