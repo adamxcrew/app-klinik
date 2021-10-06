@@ -12,7 +12,7 @@
 <div class="content-wrapper">
     <section class="content-header">
       <h1>
-        Detail Purchase Order 
+        Verifikasi Terima Barang Purchase Order
         <small>Purchase Order {{$purchase_order->kode}}</small>
       </h1>
       <ol class="breadcrumb">
@@ -28,9 +28,7 @@
         <div class="row">
           <div class="col-md-12">
               <div class="box">
-                  <div class="box-header text-center">
-                      <h3>Keterangan Purchase Order</h3>
-                  </div>
+               
                   <div class="box-body">
                       <table class="table table-bordered">
                           <tr>
@@ -43,6 +41,10 @@
                               <td>Supplier</td><td>: {{$purchase_order->supplier->nama_supplier}}</td>
                           </tr>
                       </table>
+                    <br>
+                      <div class="callout callout-info" role="alert">
+                        <b>Informasi</b> : Silahkan verifikasi jumlah barang yang diterima dari vendor, ketika button selesai diklik maka akan melakukan update stock secara otomatis.
+                      </div>
                       <div class="table-responsive" style='margin-top : 8px'>
                           <table class="table table-bordered">
                               <thead>

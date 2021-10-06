@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\DokterPoliklinik;
+use App\Models\JadwalPraktek;
 use App\Models\PurchaseOrderDetail;
 use App\User;
 use App\Models\Pasien;
@@ -12,8 +13,10 @@ class AjaxController extends Controller
 {
     public function dropdownDokterBerdasarkanPoliklinik(Request $request)
     {
-        $poliklinik = DokterPoliklinik::where('poliklinik_id', $request->poliklinik)->pluck('user_id');
-        $user       = User::where('role', 'dokter')->whereIn('id', $poliklinik)->pluck('name', 'id');
+        $user = JadwalPraktek::with('user')->where('poliklinik_id', $request->poliklinik)
+            ->where('hari', date('l'))
+            ->get()
+            ->pluck('user.name', 'user.id');
         return \Form::select('dokter_id', $user, null, ['class' => 'form-control']);
     }
 
@@ -57,11 +60,11 @@ class AjaxController extends Controller
 
     public function purchaseOrderEditTable(Request $request)
     {
-        if($request->name !== null && $request->value !== null){
+        if ($request->name !== null && $request->value !== null) {
             PurchaseOrderDetail::find($request->pk)->update([$request->name => $request->value]);
 
-            if($request->name === 'harga'){
-                $request['value'] = 'Rp. '.number_format($request->value, 0, ',', '.');
+            if ($request->name === 'harga') {
+                $request['value'] = 'Rp. ' . number_format($request->value, 0, ',', '.');
             }
             $request['status'] = true;
             $request['message'] = 'Data berhasil diubah';

@@ -36,8 +36,12 @@
             @endif
             <hr>
             {!! Form::open(['route'=>'pegawai.atur-jadwal.store','class'=>'form-horizontal']) !!}
+<<<<<<< HEAD
             <h4>Tambah Jadwal Kerja</h4>
             <div class="row input-form" style="margin: 15px 0">
+=======
+            <div class="row" style="margin: 15px 0">
+>>>>>>> e422d4cde9334a68ad72f7241230fce7cb0e54a2
               <div class="col-md-4">
                 <label for="">Tanggal Kerja</label>
                 <input type="hidden" name="pegawai_id" value="{{ $_GET['pegawai'] }}">
@@ -60,7 +64,6 @@
                 </table>
               </div>
             </div>
-                
             {!! Form::close() !!}
           </div>
         </div>

@@ -95,12 +95,17 @@ class PendaftaranController extends Controller
         return view('pendaftaran.input_tanda_vital', $data);
     }
 
-    public function input_tanda_vital_store($id, PendaftaranInputTandaVitalRequet $request)
+    public function input_tanda_vital_store($id, Request $request)
     {
         $pendaftaran    = Pendaftaran::find($id);
         $input          = $request->except(['_token', '_method']);
-        $pendaftaran->update(['tanda_tanda_vital' => serialize($input)]);
-        return redirect('pendaftaran/' . $id)->with('message', 'Tanda Tanda Fital Berhasil Disimpan');
+        $data           = [
+            'tanda_tanda_vital'     => serialize($request->only('berat_badan', 'tekanan_darah', 'jenis_kasus', 'suhu_tubuh')),
+            'pemeriksaan_klinis'    =>  serialize($request->pemeriksaan_klinis),
+            'status_pelayanan'      =>  'Selesai Pemeriksaan Medis'
+        ];
+        $pendaftaran->update($data);
+        return redirect('pendaftaran/')->with('message', 'Tanda Tanda Vital Berhasil Disimpan');
     }
 
     public function detailPasien(Request $request)

@@ -67,10 +67,10 @@
             <div class="col-md-7">
                 <div class="box">
                     <div class="box-header text-center" style="border-bottom: 1px solid;padding-top: 0;">
-                        <h3>Tambah Barang</h3>
+                        <h3>Data Barang</h3>
                     </div>
                     <div class="box-body">
-						@if($purchase_order->status_po != 'approve_by_pimpinan')
+                        @if(!in_array($purchase_order->status_po,['selesai_po','approve_by_pimpinan']))
 							<div class="row " style="padding-bottom: 20px">
 								<div class="col-md-4">
 									<div class="form-group">
