@@ -28,7 +28,9 @@ class TindakanStoreRequest extends FormRequest
             'tindakan'          =>  'required',
             'tarif_umum'        =>  'required|integer',
             'tarif_bpjs'        =>  'required|integer',
-            'tarif_perusahaan'  =>  'required|integer'
+            'tarif_perusahaan'  =>  'required|integer',
+            'tarif_bpjs'        =>  'required|integer',
+            'pembagian_tarif'   =>  'required',
         ];
     }
 }

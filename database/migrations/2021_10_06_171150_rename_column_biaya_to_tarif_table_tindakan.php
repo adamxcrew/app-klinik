@@ -17,6 +17,7 @@ class RenameColumnBiayaToTarifTableTindakan extends Migration
             $table->renameColumn('biaya_umum', 'tarif_umum');
             $table->renameColumn('biaya_pbjs', 'tarif_bpjs');
             $table->renameColumn('biaya_perusahaan', 'tarif_perusahaan');
+            $table->text('pembagian_tarif');
         });
     }
 

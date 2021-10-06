@@ -47,15 +47,16 @@
     <div class="row">
         @foreach($jenis as $j)
             <div class="col-md-3">
-                @foreach($object as $row)
+                @foreach($object as $row => $key)
                 <div class="form-group">
-                    <label>Fee {{ $row }}</label>
+                    <label>Fee {{ $key }} untuk Tarif {{ $j }}</label>
                     <div class="row">
-                        <div class="col-md-5">
-                            <input type="text" class="form-control" placeholder="Enter ...">
-                        </div>
-                        <div class="col-md-5">
-                            <input type="text" class="form-control" placeholder="Enter ...">
+                        <div class="col-md-10">
+                            @if(isset($tindakan))
+                                {!! Form::text('pembagian_tarif['.$row.'-'.$j.']', null, ['class'=>'form-control','Placeholder'=>'Masukan Tarif ...']) !!}
+                            @else
+                                <input name="pembagian_tarif[{{ $row.'-'.$j }}]" value="0" type="text" class="form-control" placeholder="Masukan Tarif ...">
+                            @endif
                         </div>
                     </div>
                 </div>
