@@ -92,7 +92,6 @@ class PendaftaranController extends Controller
     public function input_tanda_vital($id)
     {
         $data['pendaftaran'] = Pendaftaran::with('pasien')->find($id);
-        return $data;
         return view('pendaftaran.input_tanda_vital', $data);
     }
 
