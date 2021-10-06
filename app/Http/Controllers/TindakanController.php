@@ -88,6 +88,7 @@ class TindakanController extends Controller
         $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
         $data['tindakan']   = Tindakan::findOrFail($id);
         $data['object']     = $this->object_fee();
+        $data['jenis']      = ['Umum','Perusahaan','Bbjs'];
         return view('tindakan.edit', $data);
     }
 

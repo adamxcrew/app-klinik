@@ -24,9 +24,11 @@ class TindakanStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'kode'      =>  'required',
-            'tindakan'  =>  'required',
-            'harga'     =>  'required|integer'
+            'kode'              =>  'required',
+            'tindakan'          =>  'required',
+            'tarif_umum'        =>  'required|integer',
+            'tarif_bpjs'        =>  'required|integer',
+            'tarif_perusahaan'  =>  'required|integer'
         ];
     }
 }

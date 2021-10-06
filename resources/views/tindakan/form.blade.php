@@ -19,26 +19,26 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">Tarif</label>
     <div class="col-sm-3">
-        {!! Form::text('umum', null, ['class'=>'form-control','Placeholder'=>'Tarif Umum']) !!}
+        {!! Form::text('tarif_umum', null, ['class'=>'form-control','Placeholder'=>'Tarif Umum']) !!}
     </div>
     <div class="col-sm-3">
-        {!! Form::text('perusahaan', null, ['class'=>'form-control','Placeholder'=>'Tarif Perusahaan']) !!}
+        {!! Form::text('tarif_perusahaan', null, ['class'=>'form-control','Placeholder'=>'Tarif Perusahaan']) !!}
     </div>
     <div class="col-sm-3">
-        {!! Form::text('bpjs', null, ['class'=>'form-control','Placeholder'=>'Trafi BPJS']) !!}
+        {!! Form::text('tarif_bpjs', null, ['class'=>'form-control','Placeholder'=>'Tarif BPJS']) !!}
     </div>
 </div>
 
 <div class="form-group">
     <label class="col-sm-2 control-label">Tindakan Iterasi</label>
     <div class="col-sm-2">
-        {!! Form::select('iterasi',['ya'=>'Ya','tidak'=>'Tidak'], null, ['class'=>'form-control']) !!}
+        {!! Form::select('iterasi',[1=>'Ya',0=>'Tidak'], null, ['class'=>'form-control']) !!}
     </div>
 </div>
 <div class="form-group">
     <label class="col-sm-2 control-label">Penunjang</label>
     <div class="col-sm-2">
-        {!! Form::select('penunjang',['ya'=>'Ya','tidak'=>'Tidak'], null, ['class'=>'form-control']) !!}
+        {!! Form::select('penunjang',[1=>'Ya',0=>'Tidak'], null, ['class'=>'form-control']) !!}
     </div>
 </div>
 <hr>
@@ -67,6 +67,6 @@
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
         <button type="submit" class="btn btn-danger btn btn-sm"><i class="fa fa-floppy-o" aria-hidden="true"></i> Simpan</button>
-        <a href="/obat" class="btn btn-danger btn btn-sm"><i class="fa fa-share-square-o" aria-hidden="true"></i> Kembali</a>
+        <a href="/tindakan" class="btn btn-danger btn btn-sm"><i class="fa fa-share-square-o" aria-hidden="true"></i> Kembali</a>
     </div>
 </div>
