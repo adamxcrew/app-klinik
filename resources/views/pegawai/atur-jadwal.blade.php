@@ -36,6 +36,7 @@
             @endif
             <hr>
             {!! Form::open(['route'=>'pegawai.atur-jadwal.store','class'=>'form-horizontal']) !!}
+
             <h4>Tambah Jadwal Kerja</h4>
             <div class="row input-form" style="margin: 15px 0">
               <div class="col-md-4">
@@ -60,7 +61,6 @@
                 </table>
               </div>
             </div>
-                
             {!! Form::close() !!}
           </div>
         </div>

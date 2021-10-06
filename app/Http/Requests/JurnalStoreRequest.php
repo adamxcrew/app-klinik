@@ -25,8 +25,7 @@ class JurnalStoreRequest extends FormRequest
     {
         return [
             'tanggal'    =>  'required',
-            'nominal'    =>  'required',
-            'keterangan' =>  'required',
+            'nominal'    =>  'required'
         ];
     }
 }

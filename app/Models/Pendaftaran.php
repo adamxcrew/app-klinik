@@ -24,7 +24,8 @@ class Pendaftaran extends Model
         'penanggung_jawab',
         'hubungan_pasien',
         'alamat_penanggung_jawab',
-        'no_hp_penanggung_jawab'
+        'no_hp_penanggung_jawab',
+        'pemeriksaan_klinis'
     ];
 
     public function pasien()
@@ -48,6 +49,10 @@ class Pendaftaran extends Model
     }
 
     public function getTandaTandaVitalAttribute($value)
+    {
+        return unserialize($value);
+    }
+    public function getPemeriksaanKlinisAttribute($value)
     {
         return unserialize($value);
     }

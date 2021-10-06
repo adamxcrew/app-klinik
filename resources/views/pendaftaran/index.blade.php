@@ -45,6 +45,7 @@
                       </table>
                       {!! Form::close() !!}
                       <hr>
+                @include('alert')
                 <table class="table table-bordered table-striped" id="pendaftaran-table">
                   <thead>
                       <tr>

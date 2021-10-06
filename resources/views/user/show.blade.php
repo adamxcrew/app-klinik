@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Setting Aplikasi')
+@section('title','Jadwal Praktek Dokter')
 @section('content')
 <div class="content-wrapper">
     <section class="content-header">
