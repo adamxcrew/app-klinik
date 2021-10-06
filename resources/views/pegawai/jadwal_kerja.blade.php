@@ -14,7 +14,7 @@
     </tr>
 </table>
 <hr>
-<a href="{{ url("pegawai/atur-jadwal?pegawai=$pegawai->id") }}" class="btn btn-primary" style="margin-bottom:20px">Atur Waktu Kerja</a>
+<a href="{{ url("pegawai/atur-jadwal?pegawai=$pegawai->id") }}" class="btn btn-primary" style="margin-bottom:20px">Atur Jadwal Kerja</a>
 <table class="table table-bordered table-striped" id="myTable">
     <thead>
         <tr>
@@ -23,16 +23,16 @@
         </tr>
     </thead>
     <tbody>
-        @for($i=1;$i<=30;$i++)
+        @foreach($pegawai_shift as $shift)
         <tr>
             <td>
-                {!! Form::date('tanggal', '2021-10-'.$i, ['class'=>'form-control']) !!}
+                <span>{{ tgl_indo($shift->tanggal) }}</span>
             </td>
             <td>
-                {!! Form::select('shift_id',['1'=>'Shift 1'], null, ['class'=>'form-control','Placeholder'=>'shift']) !!}
+                <span>{{ $shift->shift->nama_shift }}</span>
             </td>
         </tr>
-        @endfor
+        @endforeach
     </tbody>
 </table>
 @push('scripts')

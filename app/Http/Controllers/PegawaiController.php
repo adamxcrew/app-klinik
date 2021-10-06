@@ -7,6 +7,7 @@ use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use App\Models\KomponenGaji;
 use App\Http\Requests\PegawaiStoreRequest;
+use App\Models\PegawaiShift;
 use App\Models\Shift;
 
 class PegawaiController extends Controller
@@ -76,6 +77,7 @@ class PegawaiController extends Controller
      */
     public function show($id)
     {
+        $data['pegawai_shift'] = PegawaiShift::where('pegawai_id', $id)->get();
         $data['pegawai'] = Pegawai::findOrFail($id);
         $data['komponen_gaji'] = KomponenGaji::pluck('nama_komponen', 'id');
         return view('pegawai.show', $data);
@@ -124,12 +126,21 @@ class PegawaiController extends Controller
 
     public function aturJadwal()
     {
+        $data['pegawai_shift'] = PegawaiShift::with('pegawai')->where('pegawai_id', $_GET['pegawai'])->get();
         $data['shift']   = Shift::pluck('nama_shift', 'id');
         return view('pegawai.atur-jadwal', $data);
     }
 
     public function aturJadwalStore(Request $request)
     {
-        dd($request->all());
+        $loop = count($request->tanggal);
+        for ($i = 0; $i < $loop; $i++) {
+            PegawaiShift::create([
+                'tanggal' => $request->tanggal[$i],
+                'pegawai_id' => $request->pegawai_id,
+                'shift_id' => $request->shift_id[$i]
+            ]);
+        }
+        return redirect('pegawai/' . $request->pegawai_id . '?tab=jadwal_kerja');
     }
 }
