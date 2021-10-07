@@ -27,7 +27,7 @@ class KehadiranPegawaiExport implements FromView, ShouldAutoSize
                     ->whereBetween('tanggal', [$this->tanggal_mulai, $this->tanggal_selesai])
                     ->get();
 
-        $data['status_kehadiran'] =$this->status_kehadiran;
+        $data['status_kehadiran'] = $this->status_kehadiran;
         return view('kehadiran-pegawai.laporan-kehadiran-excel', $data);
     }
 }
