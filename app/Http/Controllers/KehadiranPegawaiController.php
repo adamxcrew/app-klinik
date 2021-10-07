@@ -30,8 +30,17 @@ class KehadiranPegawaiController extends Controller
     {
         $data['tanggal_awal']   = $request->tanggal_awal ?? date('Y-m-d');
         $data['tanggal_akhir']  = $request->tanggal_akhir ?? date('Y-m-d');
+        $data['pegawai']        = Pegawai::pluck('nama', 'id');
+        $data['pegawai_id']     = $request->pegawai_id;
 
-        $kehadiran_pegawai = KehadiranPegawai::with('pegawai')->whereBetween('tanggal', [$data['tanggal_awal'], $data['tanggal_akhir']])->get();
+        $kehadiran_pegawai = KehadiranPegawai::with(['pegawai', 'shift'])->whereBetween('tanggal', [$data['tanggal_awal'], $data['tanggal_akhir']]);
+
+        if ($data['pegawai_id']) {
+            $kehadiran_pegawai = $kehadiran_pegawai->where('pegawai_id', $data['pegawai_id'])->get();
+        } else {
+            $kehadiran_pegawai = $kehadiran_pegawai->get();
+        }
+
         if ($request->ajax()) {
             $status_kehadiran = $this->status_kehadiran;
             return DataTables::of($kehadiran_pegawai)
