@@ -54,8 +54,8 @@ class TunjanganGajiController extends Controller
     public function edit($id)
     {
         $data['tunjangan_gaji'] = PegawaiTunjanganGaji::findOrFail($id);
-        $data['komponen_gaji'] = KomponenGaji::pluck('nama_komponen', 'id');
-        $data['pegawai'] = Pegawai::where('id', $data['tunjangan_gaji']->pegawai_id)->first();
+        $data['komponen_gaji']  = KomponenGaji::pluck('nama_komponen', 'id');
+        $data['pegawai']        = Pegawai::where('id', $data['tunjangan_gaji']->pegawai_id)->first();
         return view('tunjangan-gaji-pegawai.edit', $data);
     }
 
@@ -70,7 +70,7 @@ class TunjanganGajiController extends Controller
     {
         $tunjangan_gaji = PegawaiTunjanganGaji::findOrFail($id);
         $tunjangan_gaji->update($request->all());
-        return redirect('pegawai/' . $tunjangan_gaji->pegawai_id)->with('message', 'Data Berhasil Di Update');
+        return redirect('pegawai/' . $tunjangan_gaji->pegawai_id . '?tab=komponen_gaji')->with('message', 'Data Berhasil Di Update');
     }
 
     /**
@@ -83,6 +83,6 @@ class TunjanganGajiController extends Controller
     {
         $tunjangan_gaji = PegawaiTunjanganGaji::findOrFail($id);
         $tunjangan_gaji->delete();
-        return redirect('pegawai/' . $tunjangan_gaji->pegawai_id)->with('message', 'Data Berhasil Dihapus');
+        return redirect('pegawai/' . $tunjangan_gaji->pegawai_id . '?tab=komponen_gaji')->with('message', 'Data Berhasil Dihapus');
     }
 }
