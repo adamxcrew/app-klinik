@@ -45,10 +45,6 @@
                                     <label>Nama Tindakan</label>
                                     {{ Form::text('tindakan',$tindakan->tindakan,['class' => 'form-control', 'required']) }}
                                 </div>
-                                <div class="form-group">
-                                    <label>Harga</label>
-                                    {{ Form::text('harga',$tindakan->harga,['class' => 'form-control', 'required']) }}
-                                </div>
                             </div>
                         </div>
 
@@ -56,8 +52,6 @@
                             <div class="col-md-8">
                                 <a href="{{ route('tindakan.index')}}" class="btn btn-success btn-sm">
                                     <i class="fa fa-arrow-left"></i> Kembali</a>
-                                <button type="reset" class="btn btn-warning btn-sm"><i class="fa fa-refresh"></i>
-                                    Reset</button>
                                 <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-save"></i>
                                     Update</button>
                             </div>
@@ -75,7 +69,7 @@
                     </div>
                     <div class="box-body">
                         <div class="row" style="padding-bottom: 20px">
-                            <div class="col-md-6">
+                            <div class="col-md-7">
                                 <div class="form-group">
                                     <label>Pilih Barang</label>
                                     <select name="barang" class="barang form-control detail-section"></select>
@@ -83,19 +77,16 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label>Qty</label>
+                                    <label>Jumlah</label>
                                     {{ Form::text('qty', null, ['class' => 'form-control qty detail-section', 'placeholder' => 'qty', 'required']) }}
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <button id="tambah_barang_detail" type="button" onClick="tambah_barang()"
                                         class="btn btn-primary detail-section" style="margin-top: 25px;">
                                         <i class="fa fa-plus"></i> Tambah
                                     </button>
-									<button onClick="refresh_table()" class="btn btn-primary" style="margin-top: 25px;">
-										<i class="fa fa-refresh"></i> Table
-									</button>
                                 </div>
                             </div>
                         </div>
