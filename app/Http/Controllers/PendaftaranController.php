@@ -13,7 +13,7 @@ use App\Models\PendaftaranResume;
 use DataTables;
 use PDF;
 use DB;
-use App\Http\Requests\PendaftaranInputTandaVitalRequet;
+use App\Http\Requests\PendaftaranInputTandaVitalRequest;
 use App\Http\Requests\PendaftaranStoreRequest;
 use App\Models\PerusahaanAsuransi;
 
@@ -95,12 +95,23 @@ class PendaftaranController extends Controller
         return view('pendaftaran.input_tanda_vital', $data);
     }
 
-    public function input_tanda_vital_store($id, Request $request)
+    public function input_tanda_vital_store($id, PendaftaranInputTandaVitalRequest $request)
     {
         $pendaftaran    = Pendaftaran::find($id);
         $input          = $request->except(['_token', '_method']);
         $data           = [
-            'tanda_tanda_vital'     => serialize($request->only('berat_badan', 'tekanan_darah', 'jenis_kasus', 'suhu_tubuh')),
+            'tanda_tanda_vital'     => serialize($request->only(
+                'berat_badan',
+                'tekanan_darah',
+                'jenis_kasus',
+                'suhu_tubuh',
+                'tinggi_badan',
+                'nadi',
+                'rr',
+                'saturasi_o2',
+                'fungsi_penciuman',
+                'status_alergi'
+            )),
             'pemeriksaan_klinis'    =>  serialize($request->pemeriksaan_klinis),
             'status_pelayanan'      =>  'Selesai Pemeriksaan Medis'
         ];

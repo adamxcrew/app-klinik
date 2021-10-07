@@ -47,7 +47,7 @@ class TindakanController extends Controller
     public function create()
     {
         $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
-        $data['jenis']      = ['Umum','Perusahaan','Bbjs'];
+        $data['jenis']      = ['Umum','Perusahaan','Bpjs'];
         $data['object']     = $this->object_fee();
         return view('tindakan.create', $data);
     }
@@ -60,6 +60,7 @@ class TindakanController extends Controller
      */
     public function store(TindakanStoreRequest $request)
     {
+        $request['pembagian_tarif'] = serialize($request->pembagian_tarif);
         Tindakan::create($request->all());
         return redirect(route('tindakan.index'))->with('message', 'Data Tindakan Berhasil Disimpan');
     }
@@ -88,6 +89,7 @@ class TindakanController extends Controller
         $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
         $data['tindakan']   = Tindakan::findOrFail($id);
         $data['object']     = $this->object_fee();
+        $data['jenis']      = ['Umum','Perusahaan','Bpjs'];
         return view('tindakan.edit', $data);
     }
 
@@ -101,6 +103,7 @@ class TindakanController extends Controller
     public function update(Request $request, $id)
     {
         $tindakan = Tindakan::findOrFail($id);
+        $request['pembagian_tarif'] = serialize($request->pembagian_tarif);
         $tindakan->update($request->all());
         return redirect(route('tindakan.index'))->with('message', 'Data tindakan Berhasil Di Update');
     }
@@ -122,6 +125,12 @@ class TindakanController extends Controller
 
     public function object_fee()
     {
-        return ['klinik','dokter','perawat','asisten perawat','bidan'];
+        return [
+            'klinik'            =>  'Klinik',
+            'dokter'            =>  'Dokter',
+            'perawat'           =>  'Perawat',
+            'asisten_perawat'   =>  'Asisten Perawat',
+            'bidan'             =>  'Bidan'
+        ];
     }
 }

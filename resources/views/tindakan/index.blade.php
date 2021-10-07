@@ -30,7 +30,9 @@
                         <th width="10">Nomor</th>
                         <th>Kode</th>
                         <th>Nama Tindakan</th>
-                        <th>Harga</th>
+                        <th>Tarif Umum</th>
+                        <th>Tarif BPJS</th>
+                        <th>Tarif Perusahaan</th>
                         <th width="100">#</th>
                       </tr>
                   </thead>
@@ -57,7 +59,9 @@
                 {data: 'DT_RowIndex', orderable: false, searchable: false},
                 { data: 'kode', name: 'kode' },
                 { data: 'tindakan', name: 'tindakan' },
-                { data: 'harga', name: 'harga' },
+                { data: 'tarif_umum', name: 'harga' },
+                { data: 'tarif_bpjs', name: 'tarif_bpjs' },
+                { data: 'tarif_perusahaan', name: 'tarif_perusahaan' },
                 { data: 'action', name: 'action' }
             ]
         });
