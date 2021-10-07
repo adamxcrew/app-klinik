@@ -77,6 +77,7 @@
 $(document).ready( function () {
   $(function() {
     $('#komponen-gaji-table').DataTable({
+      destroy: true
       processing: true,
       serverSide: true,
       ajax: '/tunjangan-gaji?pegawai_id=' + {{ $pegawai->id }} +'',
