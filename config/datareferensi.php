@@ -103,6 +103,7 @@ return [
         'kasir'         =>  'Kasir',
         'keuangan'      =>  'Keuangan',
         'hrd'           =>  'HRD',
+        'poliklinik'      =>  'Poliklinik',
         'bagian_pendaftaran' => 'Bagian Pendaftaran',
         'admin_medis'   =>  'Admin Medis',
         'bagian_gudang' => 'Bagian Gudang'

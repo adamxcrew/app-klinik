@@ -116,6 +116,9 @@
         ['icon' => 'fa fa-user', 'link' => '/home', 'label' => 'Dashboard'],
         ['icon' => 'fa fa-user', 'link' => '/purchase-order', 'label' => 'Purchase Order'],
       ];
+      $poliklinik = [
+        ['icon' => 'fa fa-address-card', 'link' => '/pendaftaran', 'label' => 'Data Pasien Antri'],
+      ];
 
       // pengaturan menu berdasarkan level
       $menus = [
@@ -127,7 +130,8 @@
         'bagian_gudang'   => $bagian_gudang,
         'admin_medis'     => $admin_medis,
         'pimpinan'        => $pimpinan,
-        'bagian_pendaftaran' => $bagian_pendaftaran
+        'bagian_pendaftaran' => $bagian_pendaftaran,
+        'poliklinik' => $poliklinik
       ];
       ?>
 
