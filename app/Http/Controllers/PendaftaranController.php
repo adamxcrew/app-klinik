@@ -58,6 +58,8 @@ class PendaftaranController extends Controller
                     $btn .= \Form::close();
                     if (auth()->user()->role == 'admin_medis') {
                         $btn .= '<a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/input_tanda_vital"><i class="fa fa-print"></i> Input Tanda Vital</a> ';
+                    } else if (auth()->user()->role == 'poliklinik') {
+                        $btn .= '<a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/pemeriksaan/tindakan"><i class="fa fa-edit"></i> Input tindakan</a> ';
                     } else {
                         $btn .= '<a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/cetak"><i class="fa fa-print"></i> Cetak Antrian</a> ';
                     }
@@ -88,6 +90,14 @@ class PendaftaranController extends Controller
         return view('pendaftaran.pasien-terdaftar', $data);
     }
 
+    public function pemeriksaan_tindakan(Request $request, $id)
+    {
+        $data['diagnosa'] = Diagnosa::all();
+        $data['obat']     = Obat::all();
+        $data['tindakan'] = Tindakan::all();
+        $data['pasien']   = Pendaftaran::find($id);
+        return view('pendaftaran.pemeriksaan_tindakan', $data);
+    }
 
     public function input_tanda_vital($id)
     {
@@ -231,9 +241,7 @@ class PendaftaranController extends Controller
         if ($request->ajax()) {
             return DataTables::of(PendaftaranResume::where('jenis', 'tindakan')->with('tindakan')->get())
                 ->addColumn('action', function ($row) {
-                    $btn = \Form::open(['url' => 'resume/tindakan/' . $row->id, 'method' => 'DELETE']);
-                    $btn .= "<button type='submit' class='btn btn-danger btn-sm'>Hapus</button>";
-                    $btn .= \Form::close();
+                    $btn = "<div class='btn btn-danger btn-sm' data-id = '".$row->id."' data-jenis='tindakan' onClick='removeItem(this)'>Hapus</div>";
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -242,8 +250,22 @@ class PendaftaranController extends Controller
         }
     }
 
+    public function addItem(Request $request, $id)
+    {
+        if(isset($request->item[0])){
+            foreach($request->item as $jenis_resume_id){
+                $data['jenis_resume_id'] = $jenis_resume_id;
+                $data['pendaftaran_id'] = $id;
+                $data['jenis'] = $request->jenis;
+                PendaftaranResume::create($data);
+            }
+        }
+        return view('pendaftaran.ajax-table-'. $request->jenis);
+    }
+
     public function resumePilihTindakan(Request $request)
     {
+        dd($request->all());
         $data = PendaftaranResume::create($request->all());
         return $data;
     }
@@ -253,6 +275,6 @@ class PendaftaranController extends Controller
         $data = PendaftaranResume::findOrFail($id);
         $data->delete();
 
-        return redirect()->back();
+        return view('pendaftaran.ajax-table-tindakan');
     }
 }

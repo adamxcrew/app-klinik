@@ -52,6 +52,16 @@ class AjaxController extends Controller
         return response()->json($data);
     }
 
+    public function select2Tindakan(Request $request)
+    {
+        $data = \DB::table('tindakan')
+            ->select('id', 'kode', 'tindakan')
+            ->where('tindakan', 'like', "%" . $request->q . "%")
+            ->orWhere('kode', 'like', '%' . $request->q . '%')
+            ->limit(20)
+            ->get();
+        return response()->json($data);
+    }
 
     public function pasien(Request $request)
     {
