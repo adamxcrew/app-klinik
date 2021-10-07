@@ -42,7 +42,10 @@
                             <div class="col-md-3">
                               {!! Form::date('tanggal_akhir', $tanggal_akhir, ['class'=>'form-control','placeholder'=>'Tanggal Mulai']) !!}
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
+                              {!! Form::select('pegawai_id', $pegawai, null, ['class'=>'form-control','placeholder'=>'--SEMUA PEGAWAI--']) !!}
+                            </div>
+                            <div class="col-md-3">
                                 <button type="submit" name="type" value="web" class="btn btn-danger"><i class="fa fa-cogs" aria-hidden="true"></i>
                                    Filter Laporan</button>
                                 {{-- <button type="submit" name="type" value="excel" class="btn btn-success" style="float:right"><i class="fa fa-file-excel-o" aria-hidden="true"></i>
@@ -59,6 +62,7 @@
                   <th width="10">Nomor</th>
                   <th>NIP</th>
                   <th>Nama</th>
+                  <th>Shift</th>
                   <th>Jam Masuk</th>
                   <th>Jam Keluar</th>
                   <th>Tanggal</th>
@@ -147,7 +151,7 @@
     $('#pegawai-table').DataTable({
       processing: true,
       serverSide: true,
-      ajax: "/kehadiran-pegawai?tanggal_awal={{$tanggal_awal}}&tanggal_akhir={{$tanggal_akhir}}&type=web",
+      ajax: "/kehadiran-pegawai?tanggal_awal={{$tanggal_awal}}&tanggal_akhir={{$tanggal_akhir}}&pegawai_id={{$pegawai_id}}&type=web",
       columns: [{
           data: 'DT_RowIndex',
           orderable: false,
@@ -160,6 +164,10 @@
         {
           data: 'pegawai.nama',
           name: 'pegawai.nama'
+        },
+        {
+          data: 'shift.nama_shift',
+          name: 'shift.nama_shift'
         },
         {
           data: 'jam_masuk',
