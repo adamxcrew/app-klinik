@@ -90,6 +90,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('gaji-detail/{id}/update', 'GajiController@update')->name('gaji-detail.update');
     Route::delete('gaji-detail/{id}', 'GajiController@destroy')->name('gaji-detail.delete');
     Route::resource('gaji', 'GajiController');
+    Route::resource('neraca-saldo', 'NeracaSaldoController');
 
     Route::resource('perusahaan-asuransi', 'PerusahaanAsuransiController');
     Route::resource('supplier', 'SupplierController');
