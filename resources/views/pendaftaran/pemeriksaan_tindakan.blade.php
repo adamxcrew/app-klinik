@@ -13,227 +13,62 @@
         </ol>
     </section>
 
-    <section class="content">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="box card-height">
-                    <div class="box-header card-header">
-                        <strong>Informasi Pasien</strong>
-
-                    </div>
-                    <div class="box-body">
-                        <div class="row">
-
-                            <div class="card-spac">
-                                <div class="col-md-5">
-                                    <strong>Nomor Pendaftaran</strong>
-                                </div>
-                                <div class="col-md-7">
-                                    : {{ $pendaftaran->pasien->kode }}
-                                </div>
-                            </div>
-
-                            <div class="card-spac">
-                                <div class="col-md-5">
-                                    <strong>Nama</strong>
-                                </div>
-                                <div class="col-md-7">
-                                    : {{ $pendaftaran->pasien->nama }}
-                                </div>
-                            </div>
-
-                            <div class="card-spac">
-                                <div class="col-md-5">
-                                    <strong>Tempat tgl lahir</strong>
-                                </div>
-                                <div class="col-md-7">
-                                    : {{ $pendaftaran->pasien->tempat_lahir }},
-                                    {{ tgl_indo($pendaftaran->pasien->tanggal_lahir) }}
-                                </div>
-                            </div>
-
-                            <div class="card-spac">
-                                <div class="col-md-5">
-                                    <strong>Umur</strong>
-                                </div>
-                                <div class="col-md-7">
-                                    : {{ hitung_umur($pendaftaran->pasien->tanggal_lahir) }} tahun
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="box card-height">
-                    <div class="box-header card-header">
-                        <strong>Informasi Terkait</strong>
-
-                    </div>
-                    <div class="box-body">
-                        <div class="row">
-
-                            <div class="card-spac">
-                                <div class="col-md-5">
-                                    <strong>Tujuan Poliklinik</strong>
-                                </div>
-                                <div class="col-md-7">
-                                    : {{ $pendaftaran->poliklinik->nama }}
-                                </div>
-                            </div>
-
-                            <div class="card-spac">
-                                <div class="col-md-5">
-                                    <strong>Tanggal Sekarang</strong>
-                                </div>
-                                <div class="col-md-7">
-                                    : {{ tgl_indo(date('Y-m-d')) }}
-                                </div>
-                            </div>
-
-                            <div class="card-spac">
-                                <div class="col-md-5">
-                                    <strong>Jenis Layanan</strong>
-                                </div>
-                                <div class="col-md-7">
-                                    : {{ $pendaftaran->jenis_layanan }}
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    @include('pendaftaran._informasi_umum')
 
     <section class="content" style="margin-top: -30px;">
         <div class="row">
             <div class="col-md-12">
                 <div class="box">
-                    <div class="box-header">
-                        <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
-                            <li class="nav-item active">
-                                <a class="nav-link" id="custom-tabs-two-messages-tab" data-toggle="pill"
-                                    href="/pendaftaran/{{ $pendaftaran->id }}/pemeriksaan/tindakan" role="tab" aria-controls="custom-tabs-two-messages"
-                                    aria-selected="false">Tindakan</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="custom-tabs-two-home-tab" data-toggle="pill"
-                                    href="/pendaftaran/{{ $pendaftaran->id }}/pemeriksaan/diagnosa" role="tab" aria-controls="custom-tabs-two-home"
-                                    aria-selected="false">Diagnosa</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="custom-tabs-two-profile-tab" data-toggle="pill"
-                                    href="/pendaftaran/{{ $pendaftaran->id }}/pemeriksaan/resep" role="tab" aria-controls="custom-tabs-two-profile"
-                                    aria-selected="false">Resep</a>
-                            </li>
-                            <li style="float: inline-end;">
-                                <button class="btn btn-success btn-sm button-select">Biling Poli Selesai</button>
-                            </li>
-                        </ul>
-                    </div>
+                    
+
                     <div class="box-body">
-                        <div class="tab-content" id="custom-tabs-two-tabContent">
-                            <div class="tab-pane fade " id="custom-tabs-two-home" role="tabpanel"
-                                aria-labelledby="custom-tabs-two-home-tab">
-                                <div class="box">
-                                    <div class="box-header card-header">
-                                        <div class="row">
-                                            <div class="col-md-6 text-left">
-                                                Daftar diagnosa pasien
-                                            </div>
-                                            <div class="col-md-6 text-right">
-                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                                    data-target="#modalDiagnosa">Tambah</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="box-body">
-                                        <table class="table table-bordered table-striped" width="100%"
-                                            id="diagnosa-resume-table">
-                                            <thead>
-                                                <tr>
-                                                    <th width="10">Nomor</th>
-                                                    <th>Kode</th>
-                                                    <th>Nama Diagnosa</th>
-                                                    <th>#</th>
-                                                </tr>
-                                            </thead>
-                                        </table>
-                                    </div>
-                                </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                @include('pendaftaran._tab')
                             </div>
-                            <div class="tab-pane fade" id="custom-tabs-two-profile" role="tabpanel"
-                                aria-labelledby="custom-tabs-two-profile-tab">
-                                <div class="box">
-                                    <div class="box-header card-header">
-                                        <div class="row">
-                                            <div class="col-md-6 text-left">
-                                                Daftar resep pasien
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4>Form Input Tindakan</h4>
+                                <hr>
+                                <table class="table table-bordered table-bordered">
+                                    <tr>
+                                        <th colspan="2">FORM INPUT TINDAKAN</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Pilih Tindakan</td>
+                                        <td>
+                                            <select name="tindakan_id" id="tindakan_id" class='select2 form-control'>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <div class="btn btn-primary add-item" onClick="addItem(this)"
+                                                data-jenis='tindakan'>
+                                                <i class="fa fa-plus"></i>
+                                                Tambah
                                             </div>
-                                            <div class="col-md-6 text-right">
-                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                                    data-target="#modalResep">Tambah</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="box-body">
-                                        <table class="table table-bordered table-striped" width="100%"
-                                            id="resep-resume-table">
-                                            <thead>
-                                                <tr>
-                                                    <th width="10">Nomor</th>
-                                                    <th>Kode</th>
-                                                    <th>Nama Obat</th>
-                                                    <th>Jumlah</th>
-                                                    <th>Keterangan</th>
-                                                    <th>#</th>
-                                                </tr>
-                                            </thead>
-                                        </table>
-                                    </div>
-                                </div>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
-                            <div class="tab-pane fade in active" id="custom-tabs-two-messages" role="tabpanel"
-                                aria-labelledby="custom-tabs-two-messages-tab">
-                                <div class="box">
-                                    <div class="box-header card-header">
-                                        <div class="row">
-                                            <div class="col-md-10">
-                                                <select name="tindakan_id" id="tindakan_id" class='select2 multiple form-control'>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-1">
-                                                <div class="btn btn-primary add-item" onClick="addItem(this)" data-jenis = 'tindakan'>
-                                                    <i class="fa fa-plus"></i>
-                                                    Tambah
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6 text-left">
-                                                <h3>Daftar tindakan pasien</h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="box-body">
-                                        <div id="table-tindakan">
-                                            <table class="table table-bordered table-striped" width="100%"
-                                                id="tindakan-resume-table">
-                                                <thead>
-                                                    <tr>
-                                                        <th width="10">Nomor</th>
-                                                        <th>Kode</th>
-                                                        <th>Nama Tindakan</th>
-                                                        <th width="100">#</th>
-                                                    </tr>
-                                                </thead>
-                                            </table>
-                                        </div>
-                                    </div>
+                            <div class="col-md-6">
+                                <h4>Daftar Tindakan</h4>
+                                <hr>
+                                <div id="table-tindakan">
+                                    <table class="table table-bordered table-striped" width="100%"
+                                        id="tindakan-resume-table">
+                                        <thead>
+                                            <tr>
+                                                <th width="10">Nomor</th>
+                                                <th>Kode</th>
+                                                <th>Nama Tindakan</th>
+                                                <th width="70">#</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -241,9 +76,8 @@
                 </div>
             </div>
         </div>
-    </section>
-
-</div>
+        </div>
+</section>
 
 @include('pendaftaran._modal')
 @include('loading')

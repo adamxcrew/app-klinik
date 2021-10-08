@@ -102,14 +102,21 @@ class PendaftaranController extends Controller
         return view('pendaftaran.pasien-terdaftar', $data);
     }
 
-    public function pemeriksaan_tindakan(Request $request, $id)
+    public function pemeriksaan(Request $request, $id)
     {
-        $data['diagnosa'] = Diagnosa::all();
-        $data['obat']     = Obat::all();
-        $data['tindakan'] = Tindakan::all();
-        $data['pendaftaran']   = Pendaftaran::with('pasien')->find($id);
-        return view('pendaftaran.pemeriksaan_tindakan', $data);
+        $jenis          = $request->segment(4);
+        $data['pendaftaran']   = Pendaftaran::with('pasien', 'perusahaanAsuransi')->find($id);
+        if ($jenis=='tindakan') {
+            $data['tindakan'] = Tindakan::all();
+            $data['diagnosa'] = Diagnosa::all();
+            $data['obat']     = Obat::all();
+            return view('pendaftaran.pemeriksaan_tindakan', $data);
+        }
+
+        return view('pendaftaran.pemeriksaan_'.$jenis, $data);
     }
+
+
 
     public function input_tanda_vital($id)
     {

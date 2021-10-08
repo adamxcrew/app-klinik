@@ -23,7 +23,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pendaftaran/{id}/cetak', 'PendaftaranController@cetak')->name('pendaftaran.cetak');
     Route::get('pendaftaran/{id}/input_tanda_vital', 'PendaftaranController@input_tanda_vital')->name('pendaftaran.input_tanda_vital');
     Route::put('pendaftaran/{id}/input_tanda_vital_store', 'PendaftaranController@input_tanda_vital_store')->name('pendaftaran.input_tanda_vital_store');
-    Route::get('pendaftaran/{id}/pemeriksaan/tindakan', 'PendaftaranController@pemeriksaan_tindakan')->name('pendaftaran.pemeriksaan_tindakan');
+    Route::get('pendaftaran/{id}/pemeriksaan/{jenis}', 'PendaftaranController@pemeriksaan')->name('pendaftaran.pemeriksaan_tindakan');
     Route::get('pendaftaran/{id}/print', 'PendaftaranController@print')->name('pendaftaran.print');
     Route::get('pendaftaran/create/{pasien_id}', 'PendaftaranController@create');
     // route untuk tab pada pendaftaran
