@@ -36,14 +36,19 @@ class KehadiranPegawaiImport implements ToModel
             PegawaiShift::firstOrCreate(['tanggal'=>date('Y-m-d', strtotime($row[5])),'pegawai_id'=>$pegawai->id], ['tanggal'=>$row[6],'pegawai_id'=>$pegawai->id,'shift_id'=>$shift->id]);
 
             if ($pegawai) {
-                KehadiranPegawai::create([
+                KehadiranPegawai::updateOrCreate(
+                    [
+                    'pegawai_id'    => $pegawai->id,
+                    'tanggal'       => date('Y-m-d', strtotime($row[5])),],
+                    [
                     'pegawai_id'    => $pegawai->id,
                     'tanggal'       => date('Y-m-d', strtotime($row[5])),
                     'jam_masuk'     => $row[7],
                     'jam_keluar'    => $row[8],
                     'status'        => $row[13]==null?'hadir':'terlambat',
                     'shift_id'      => $shift->id
-                ]);
+                    ]
+                );
             } else {
                 throw new Exception("Import failed!");
             }

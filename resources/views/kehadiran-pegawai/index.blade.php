@@ -89,11 +89,14 @@
           </button>
         </div>
         <div class="modal-body">
+          <div class="callout callout-info" role="alert">
+            Extension File Excel Harus .XLSX
+          </div>
           <table class="table table-bordered">
               <tr>
                   <td>Pilih File</td>
                   <td>
-                      {!! Form::file('import_file', ['class' => 'form-control']) !!}
+                      {!! Form::file('import_file', ['class' => 'form-control','accept'=>'.xlsx']) !!}
                   </td>
               </tr>
           </table>
