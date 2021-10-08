@@ -27,6 +27,8 @@ class ShiftStoreRequest extends FormRequest
             'nama_shift'   => 'required',
             'jam_masuk'    => 'required',
             'jam_pulang'   => 'required',
+            'toleransi_terlambat_masuk'     => 'required',
+            'toleransi_terlambat_pulang'    => 'required',
         ];
     }
 }
