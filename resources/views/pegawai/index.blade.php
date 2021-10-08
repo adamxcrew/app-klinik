@@ -28,7 +28,7 @@
               <thead>
                 <tr>
                   <th width="10">Nomor</th>
-                  <th>NIK</th>
+                  <th>NIP</th>
                   <th>Nama</th>
                   <th>Kelompok Pegawai</th>
                   <th>No HP</th>

@@ -59,7 +59,6 @@
             <table class="table table-bordered table-striped" id="pegawai-table">
               <thead>
                 <tr>
-                  <th width="10">Nomor</th>
                   <th>NIP</th>
                   <th>Nama</th>
                   <th>Shift</th>
@@ -90,9 +89,12 @@
           </button>
         </div>
         <div class="modal-body">
+          <div class="callout callout-info" role="alert">
+            Extension File Excel Harus .XLSX 
+          </div>
           <table class="table table-bordered">
               <tr>
-                  <td>Pilih File</td>
+                  <td>Pilih File Excel</td>
                   <td>
                       {!! Form::file('import_file', ['class' => 'form-control']) !!}
                   </td>
@@ -101,7 +103,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-          <button type="submit" class="btn btn-primary">Upload Stock Opname</button>
+          <button type="submit" class="btn btn-primary">Upload</button>
         </div>
       </div>
     </div>
@@ -152,11 +154,7 @@
       processing: true,
       serverSide: true,
       ajax: "/kehadiran-pegawai?tanggal_awal={{$tanggal_awal}}&tanggal_akhir={{$tanggal_akhir}}&pegawai_id={{$pegawai_id}}&type=web",
-      columns: [{
-          data: 'DT_RowIndex',
-          orderable: false,
-          searchable: false
-        },
+      columns: [
         {
           data: 'pegawai.nip',
           name: 'pegawai.nip'

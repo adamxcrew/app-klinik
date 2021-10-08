@@ -30,7 +30,8 @@
               <i class="fa fa-plus"></i> Tambah Komponen Gaji
             </button>
             <a href="/gaji/{{ $gaji->id }}/cetak" target="new" class="btn btn-primary"><i class="fa fa-print" aria-hidden="true"></i>
-               Cetak SLip Gaji</a>
+               Cetak Slip Gaji</a>
+               <a href="/gaji" class="btn btn-primary"><i class="fa fa-share-square-o" aria-hidden="true"></i> Kembali</a>
             <hr>
             <table class="table table-bordered table-striped" id="komponen-table">
               <thead>
@@ -38,7 +39,6 @@
                   <th width="20px">Nomor</th>
                   <th>Komponen Gaji</th>
                   <th>Jumlah</th>
-                  <th>Status Bayar</th>
                   <th width="60">Action</th>
                 </tr>
               </thead>
@@ -66,8 +66,8 @@
         @include('gaji.komponen-gaji-form')
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+        <button type="submit" class="btn btn-primary">Simpan</button>
       </div>
       {!! Form::close() !!}
     </div>
@@ -98,10 +98,6 @@
         {
           data: 'jumlah',
           name: 'jumlah'
-        },
-        {
-          data: 'gaji.status_bayar',
-          name: 'gaji.status_bayar'
         },
         {
           data: 'action',
