@@ -158,8 +158,8 @@ function list_barang(){
             list_barang()
           })
       },
-      error: function () {
-          alert("error");
+      error: function (err) {
+        console.log('error', err)
       }
 
   });

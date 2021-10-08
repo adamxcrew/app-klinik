@@ -30,7 +30,7 @@
                         <th>Permintaan Dari Unit</th>
                         <th>Ke Unit</th>
                         <th>Tanggal</th>
-                        <th width="60">#</th>
+                        <th width="100">#</th>
                       </tr>
                   </thead>
               </table>

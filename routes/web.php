@@ -62,6 +62,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('permintaan-barang-internal', 'PermintaanBarangInternalController');
     Route::get('permintaan-barang-internal/cetak/{id}', 'PermintaanBarangInternalController@cetak')->name('permintaan-barang-internal.cetak');
+    Route::get('permintaan-barang-internal/verifikasi/{id}', 'PermintaanBarangInternalController@verifikasi')->name('permintaan-barang-internal.verifikasi');
+    Route::post('permintaan-barang-internal/verifikasi/{id}', 'PermintaanBarangInternalController@verify')->name('permintaan-barang-internal.verify');
     Route::resource('permintaan-barang-detail', 'PermintaanBarangInternalDetailController');
     Route::get('purchase-order/{id}/cetak', 'PurchaseOrderController@cetak');
     // Laporan barang excel
@@ -158,4 +160,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('ajax/select2User', 'AjaxController@select2User');
     Route::get('ajax/pasien', 'AjaxController@pasien');
     Route::post('ajax/purchase-order-edittable', 'AjaxController@purchaseOrderEditTable');
+    Route::post('ajax/permintaan-barang-detail-editable', 'AjaxController@permintaanBarangDetailEditable');
 });
