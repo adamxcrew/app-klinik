@@ -30,7 +30,9 @@
                         <th width="10">Nomor</th>
                         <th>Nama Shift</th>
                         <th>Jam Masuk</th>
+                        <th>Batas Telat Masuk</th>
                         <th>Jam Pulang</th>
+                        <th>Batas Telat Pulang</th>
                         <th width="60">#</th>
                       </tr>
                   </thead>
@@ -57,7 +59,9 @@
                 {data: 'DT_RowIndex', orderable: false, searchable: false},
                 { data: 'nama_shift', name: 'nama_shift' },
                 { data: 'jam_masuk', name: 'jam_masuk' },
+                { data: 'toleransi_terlambat_masuk', name: 'toleransi_terlambat_masuk' },
                 { data: 'jam_pulang', name: 'jam_pulang' },
+                { data: 'toleransi_terlambat_pulang', name: 'toleransi_terlambat_pulang' },
                 { data: 'action', name: 'action' }
             ]
         });

@@ -6,14 +6,26 @@
 </div>
 <div class="form-group">
     <label class="col-sm-2 control-label">Jam Masuk</label>
-    <div class="col-sm-4">
+    <div class="col-sm-2">
         {!! Form::time('jam_masuk', null, ['class'=>'form-control']) !!}
     </div>
 </div>
 <div class="form-group">
+    <label class="col-sm-2 control-label">Batas Telat Masuk</label>
+    <div class="col-sm-2">
+        {!! Form::time('toleransi_terlambat_masuk', null, ['class'=>'form-control','Placeholder'=>'Batas Toleransi Terlambat Masuk']) !!}
+    </div>
+</div>
+<div class="form-group">
     <label class="col-sm-2 control-label">Jam Pulang</label>
-    <div class="col-sm-4">
+    <div class="col-sm-2">
         {!! Form::time('jam_pulang', null, ['class'=>'form-control']) !!}
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label">Batas Telat Pulang</label>
+    <div class="col-sm-2">
+        {!! Form::time('toleransi_terlambat_pulang', null, ['class'=>'form-control','Placeholder'=>'Batas Toleransi Terlambat Pulang']) !!}
     </div>
 </div>
 
