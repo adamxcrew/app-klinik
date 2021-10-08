@@ -20,6 +20,8 @@
         <tr>
             <th>Tanggal</th>
             <th>Shift Kerja</th>
+            <th>Jam Masuk</th>
+            <th>Jam Pulang</th>
         </tr>
     </thead>
     <tbody>
@@ -30,6 +32,12 @@
             </td>
             <td>
                 <span>{{ $shift->shift->nama_shift }}</span>
+            </td>
+            <td>
+                {{ $shift->shift->jam_masuk }}
+            </td>
+            <td>
+                {{ $shift->shift->jam_pulang }}
             </td>
         </tr>
         @endforeach
