@@ -23,7 +23,7 @@ class PermintaanBarangInternalController extends Controller
                     $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
                     $btn .= \Form::close();
                     $btn .= '<a target="_blank" class="btn btn-danger btn-sm" href="/permintaan-barang-internal/cetak/' . $row->id . '" style="margin-right:5%;float:right"><i class="fa fa-print" aria-hidden="true"></i></a> ';
-                    if($row->status == 'Menunggu verifikasi'){
+                    if($row->status != 'Selesai'){
                         $btn .= '<a class="btn btn-danger btn-sm" href="/permintaan-barang-internal/verifikasi/' . $row->id . '" style="margin-right:5%;float:right"><i class="fa fa-eye" aria-hidden="true"></i></a> '; 
                     }
                     return $btn;

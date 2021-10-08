@@ -49,6 +49,11 @@
                                     <input type="text" class="form-control" disabled
                                         value="{{$permintaan_barang->unitTujuan->nama_unit}}">
                                 </div>
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <input type="text" class="form-control" disabled
+                                        value="{{$permintaan_barang->status}}">
+                                </div>
                                 @if($permintaan_barang->status != 'Selesai')
                                     <div class="form-group">
                                         {{ Form::open(['route'=>['permintaan-barang-internal.verify', $permintaan_barang->id], 'method' => 'POST']) }}
