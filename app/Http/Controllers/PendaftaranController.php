@@ -107,7 +107,7 @@ class PendaftaranController extends Controller
         $data['diagnosa'] = Diagnosa::all();
         $data['obat']     = Obat::all();
         $data['tindakan'] = Tindakan::all();
-        $data['pasien']   = Pendaftaran::find($id);
+        $data['pendaftaran']   = Pendaftaran::with('pasien')->find($id);
         return view('pendaftaran.pemeriksaan_tindakan', $data);
     }
 

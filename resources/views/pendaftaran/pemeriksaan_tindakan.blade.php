@@ -29,7 +29,7 @@
                                     <strong>Nomor Pendaftaran</strong>
                                 </div>
                                 <div class="col-md-7">
-                                    : {{ $pasien->kode }}
+                                    : {{ $pendaftaran->pasien->kode }}
                                 </div>
                             </div>
 
@@ -38,7 +38,7 @@
                                     <strong>Nama</strong>
                                 </div>
                                 <div class="col-md-7">
-                                    : {{ $pasien->pasien->nama }}
+                                    : {{ $pendaftaran->pasien->nama }}
                                 </div>
                             </div>
 
@@ -47,8 +47,8 @@
                                     <strong>Tempat tgl lahir</strong>
                                 </div>
                                 <div class="col-md-7">
-                                    : {{ $pasien->pasien->tempat_lahir }},
-                                    {{ tgl_indo($pasien->pasien->tanggal_lahir) }}
+                                    : {{ $pendaftaran->pasien->tempat_lahir }},
+                                    {{ tgl_indo($pendaftaran->pasien->tanggal_lahir) }}
                                 </div>
                             </div>
 
@@ -57,7 +57,7 @@
                                     <strong>Umur</strong>
                                 </div>
                                 <div class="col-md-7">
-                                    : {{ hitung_umur($pasien->pasien->tanggal_lahir) }} tahun
+                                    : {{ hitung_umur($pendaftaran->pasien->tanggal_lahir) }} tahun
                                 </div>
                             </div>
 
@@ -80,7 +80,7 @@
                                     <strong>Tujuan Poliklinik</strong>
                                 </div>
                                 <div class="col-md-7">
-                                    : {{ $pasien->poliklinik->nama }}
+                                    : {{ $pendaftaran->poliklinik->nama }}
                                 </div>
                             </div>
 
@@ -98,7 +98,7 @@
                                     <strong>Jenis Layanan</strong>
                                 </div>
                                 <div class="col-md-7">
-                                    : {{ $pasien->jenis_layanan }}
+                                    : {{ $pendaftaran->jenis_layanan }}
                                 </div>
                             </div>
 
@@ -117,22 +117,22 @@
                         <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
                             <li class="nav-item active">
                                 <a class="nav-link" id="custom-tabs-two-messages-tab" data-toggle="pill"
-                                    href="#custom-tabs-two-messages" role="tab" aria-controls="custom-tabs-two-messages"
+                                    href="/pendaftaran/{{ $pendaftaran->id }}/pemeriksaan/tindakan" role="tab" aria-controls="custom-tabs-two-messages"
                                     aria-selected="false">Tindakan</a>
                             </li>
-                            <!-- <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link" id="custom-tabs-two-home-tab" data-toggle="pill"
-                                    href="#custom-tabs-two-home" role="tab" aria-controls="custom-tabs-two-home"
+                                    href="/pendaftaran/{{ $pendaftaran->id }}/pemeriksaan/diagnosa" role="tab" aria-controls="custom-tabs-two-home"
                                     aria-selected="false">Diagnosa</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="custom-tabs-two-profile-tab" data-toggle="pill"
-                                    href="#custom-tabs-two-profile" role="tab" aria-controls="custom-tabs-two-profile"
+                                    href="/pendaftaran/{{ $pendaftaran->id }}/pemeriksaan/resep" role="tab" aria-controls="custom-tabs-two-profile"
                                     aria-selected="false">Resep</a>
                             </li>
                             <li style="float: inline-end;">
                                 <button class="btn btn-success btn-sm button-select">Biling Poli Selesai</button>
-                            </li> -->
+                            </li>
                         </ul>
                     </div>
                     <div class="box-body">
@@ -264,7 +264,7 @@
             data.push(element.id)
         });
         $.ajax({
-            url : '/pendaftaran-add-item/{{$pasien->id}}',
+            url : '/pendaftaran-add-item/{{$pendaftaran->id}}',
             method : 'GET',
             data : {
                 jenis :jenis,
@@ -328,7 +328,7 @@
 
         $('#tindakan_id').select2({
             placeholder: 'Cari tindakan',
-            multiple : 'false',
+            multiple : false,
             ajax: {
                 url: '/ajax/select2Tindakan',
                 dataType: 'json',
@@ -411,7 +411,7 @@
 
         $('.pilih-diagnosa').click(function () {
             var jenis_resume_id = $(this).data('id');
-            var pendaftaran_id = "{{ $pasien->id }}";
+            var pendaftaran_id = "{{ $pendaftaran->id }}";
             var jenis = "diagnosa";
             $.ajax({
                 url: '{{ route("resume.pilih-diagnosa") }}',
@@ -455,7 +455,7 @@
         });
 
         $('.tambah-obat').click(function () {
-            var pendaftaran_id = "{{ $pasien->id }}";
+            var pendaftaran_id = "{{ $pendaftaran->id }}";
             var jenis_resume_id = $("#data-jenis-resume-id").val();
             var jumlah = $("#jumlah-obat").val();
             var aturan_pakai = $("#aturan-pakai").val();
@@ -494,7 +494,7 @@
 
         $('.pilih-tindakan').click(function () {
             var jenis_resume_id = $(this).data('id');
-            var pendaftaran_id = "{{ $pasien->id }}";
+            var pendaftaran_id = "{{ $pendaftaran->id }}";
             var jenis = "tindakan";
             $.ajax({
                 url: '{{ route("resume.pilih-tindakan") }}',
