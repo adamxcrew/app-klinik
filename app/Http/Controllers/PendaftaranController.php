@@ -45,6 +45,10 @@ class PendaftaranController extends Controller
             ->with('poliklinik')
             ->whereBetween(DB::raw('DATE(pendaftaran.created_at)'), [$awal, $akhir]);
 
+        if(auth()->user()->role == 'poliklinik'){
+            $pendaftaran->where('status_pelayanan', 'Selesai pemeriksaan medis');
+        }
+
         // filter berdasarkan poliklinik
         if ($request->poliklinik_id != null) {
             $pendaftaran->where('poliklinik_id', $request->poliklinik_id);
@@ -59,7 +63,9 @@ class PendaftaranController extends Controller
                     if (auth()->user()->role == 'admin_medis') {
                         $btn .= '<a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/input_tanda_vital"><i class="fa fa-print"></i> Input Tanda Vital</a> ';
                     } else if (auth()->user()->role == 'poliklinik') {
-                        $btn .= '<a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/pemeriksaan/tindakan"><i class="fa fa-edit"></i> Input tindakan</a> ';
+                        if($row->status_pelayanan == 'Selesai pemeriksaan medis'){
+                            $btn .= '<a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/pemeriksaan/tindakan"><i class="fa fa-edit"></i> Input tindakan</a> ';
+                        }
                     } else {
                         $btn .= '<a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/cetak"><i class="fa fa-print"></i> Cetak Antrian</a> ';
                     }

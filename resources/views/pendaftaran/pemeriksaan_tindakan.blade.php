@@ -129,7 +129,7 @@
                                     href="#custom-tabs-two-messages" role="tab" aria-controls="custom-tabs-two-messages"
                                     aria-selected="false">Tindakan</a>
                             </li>
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" id="custom-tabs-two-home-tab" data-toggle="pill"
                                     href="#custom-tabs-two-home" role="tab" aria-controls="custom-tabs-two-home"
                                     aria-selected="false">Diagnosa</a>
@@ -141,7 +141,7 @@
                             </li>
                             <li style="float: inline-end;">
                                 <button class="btn btn-success btn-sm button-select">Biling Poli Selesai</button>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                     <div class="box-body">
