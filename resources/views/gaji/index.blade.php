@@ -65,10 +65,13 @@
 <script>
   $(function() {
     $('#NoIconDemo').MonthPicker({ Button: false });
+    $("#NoIconDemo").MonthPicker('option', 'MonthFormat','yy-mm');
+
+    
     $('#pegawai-table').DataTable({
       processing: true,
       serverSide: true,
-      ajax: '/gaji',
+      ajax: "/gaji?periode={{$periode}}",
       columns: [{
           data: 'DT_RowIndex',
           orderable: false,

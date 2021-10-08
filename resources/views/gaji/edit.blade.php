@@ -30,7 +30,8 @@
               <i class="fa fa-plus"></i> Tambah Komponen Gaji
             </button>
             <a href="/gaji/{{ $gaji->id }}/cetak" target="new" class="btn btn-primary"><i class="fa fa-print" aria-hidden="true"></i>
-               Cetak SLip Gaji</a>
+               Cetak Slip Gaji</a>
+               <a href="/gaji" class="btn btn-primary"><i class="fa fa-share-square-o" aria-hidden="true"></i> Kembali</a>
             <hr>
             <table class="table table-bordered table-striped" id="komponen-table">
               <thead>
