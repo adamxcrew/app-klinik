@@ -92,7 +92,8 @@ return [
         'hadir'        => 'Hadir',
         'tidak hadir'  => 'Tidak Hadir',
         'izin'         => 'Izin',
-        'sakit'        => ' Sakit'
+        'sakit'        => ' Sakit',
+        'terlambat'    => 'Terlambat'
     ],
 
 

@@ -34,7 +34,6 @@ class KehadiranPegawaiController extends Controller
         $data['pegawai_id']     = $request->pegawai_id;
 
         if ($request->ajax()) {
-
             $start = date('Y-m-d', strtotime($request->tanggal_awal));
             $end = date('Y-m-d', strtotime($request->tanggal_akhir));
 
@@ -75,14 +74,14 @@ class KehadiranPegawaiController extends Controller
 
     public function import_excel(Request $request)
     {
-        $file = $request->file('import_file');
-        $path = Storage::putFile(
-            'public/file-excel',
-            $file
-        );
-
+        $file               = $request->file('import_file');
+        $filenameWithExt    = $request->file('import_file')->getClientOriginalName();
+        $filename           = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+        $extension          = $request->file('import_file')->getClientOriginalExtension();
+        $fileNameToStore    = $filename.'_'.time().'.'.$extension;
+        $path = $request->file('import_file')->storeAs('public/file-excel', $fileNameToStore);
         try {
-            Excel::import(new KehadiranPegawaiImport(), $path);
+            Excel::import(new KehadiranPegawaiImport, $path);
             return redirect(route('kehadiran-pegawai.index'))->with('message', 'Data kehadiran pegawai berhasil diimport!');
         } catch (\Throwable $th) {
             return redirect(route('kehadiran-pegawai.index'))->with('message', 'File excel tidak valid!');
