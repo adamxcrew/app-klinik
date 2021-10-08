@@ -96,6 +96,11 @@ return [
         'terlambat'    => 'Terlambat'
     ],
 
+    'status_pelayanan' => [
+        'pendaftaran'=>'Pendaftaran',
+        'selesai_pemeriksaan_medis'=>'Selesai Pemeriksaan Medis'
+    ],
+
 
     'user_role'            => [
         'administrator' =>  'Administrator',

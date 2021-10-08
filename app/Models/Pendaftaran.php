@@ -14,6 +14,7 @@ class Pendaftaran extends Model
         'dokter_id',
         'jenis_layanan',
         'status_pembayaran',
+        'status_pelayanan',
         'poliklinik_id',
         'tanda_tanda_vital',
         'jenis_pendaftaran',

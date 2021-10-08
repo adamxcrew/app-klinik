@@ -1,15 +1,6 @@
 @extends('layouts.app')
 @section('title','Kelola Data Pasien Diagnosa')
 @section('content')
-<style>
-    .dataTables_scrollHeadInner {
-        width: 100% !important;
-    }
-
-    table.dataTable {
-        width: 100% !important;
-    }
-</style>
 <div class="content-wrapper">
     <section class="content-header">
         <h1>
@@ -211,7 +202,7 @@
                                 <div class="box">
                                     <div class="box-header card-header">
                                         <div class="row">
-                                            <div class="col-md-3">
+                                            <div class="col-md-10">
                                                 <select name="tindakan_id" id="tindakan_id" class='select2 multiple form-control'>
                                                 </select>
                                             </div>
@@ -237,7 +228,7 @@
                                                         <th width="10">Nomor</th>
                                                         <th>Kode</th>
                                                         <th>Nama Tindakan</th>
-                                                        <th>#</th>
+                                                        <th width="100">#</th>
                                                     </tr>
                                                 </thead>
                                             </table>
@@ -337,12 +328,12 @@
 
         $('#tindakan_id').select2({
             placeholder: 'Cari tindakan',
-            multiple : 'true',
+            multiple : 'false',
             ajax: {
                 url: '/ajax/select2Tindakan',
                 dataType: 'json',
                 delay: 250,
-                multiple: true,
+                multiple: false,
                 processResults: function (data) {
                     return {
                         results: $.map(data, function (item) {
@@ -544,4 +535,13 @@
 @push('css')
 <link rel="stylesheet" href="{{asset('adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
 <link href="{{asset('/select2/dist/css/select2.min.css')}}" rel="stylesheet" />
+<style>
+    .dataTables_scrollHeadInner {
+        width: 100% !important;
+    }
+
+    table.dataTable {
+        width: 100% !important;
+    }
+</style>
 @endpush
