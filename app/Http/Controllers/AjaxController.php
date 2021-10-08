@@ -75,4 +75,14 @@ class AjaxController extends Controller
         $request['message'] = 'Tidak ada data yg terubah';
         return $request->all();
     }
+
+    public function select2User(Request $request)
+    {
+        $data = \DB::table('users')
+            ->select('id', 'name')
+            ->where('name', 'like', "%" . $request->q . "%")
+            ->limit(20)
+            ->get();
+        return response()->json($data);
+    }
 }

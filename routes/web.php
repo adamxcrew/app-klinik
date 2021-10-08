@@ -90,6 +90,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('gaji-detail/{id}/update', 'GajiController@update')->name('gaji-detail.update');
     Route::delete('gaji-detail/{id}', 'GajiController@destroy')->name('gaji-detail.delete');
     Route::resource('gaji', 'GajiController');
+    Route::resource('neraca-saldo', 'NeracaSaldoController');
 
     Route::resource('perusahaan-asuransi', 'PerusahaanAsuransiController');
     Route::resource('supplier', 'SupplierController');
@@ -154,6 +155,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('ajax/select2Desa', 'AjaxController@select2Desa');
     Route::get('ajax/select2Pasien', 'AjaxController@select2Pasien');
     Route::get('ajax/select2Barang', 'AjaxController@select2Barang');
+    Route::get('ajax/select2User', 'AjaxController@select2User');
     Route::get('ajax/pasien', 'AjaxController@pasien');
     Route::post('ajax/purchase-order-edittable', 'AjaxController@purchaseOrderEditTable');
 });

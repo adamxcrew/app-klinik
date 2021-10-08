@@ -11,6 +11,12 @@
     </div>
 </div>
 <div class="form-group">
+    <label class="col-sm-2 control-label">User</label>
+    <div class="col-sm-4">
+        <select name="user_id" id="user" class="user form-control" style="height: 100px;" placeholder="Masukan Nama User"></select>
+    </div>
+</div>
+<div class="form-group">
     <label class="col-sm-2 control-label">No HP</label>
     <div class="col-sm-4">
         {!! Form::number('no_hp', null, ['class'=>'form-control','Placeholder'=>'No HP']) !!}
@@ -69,3 +75,35 @@
         <a href="/pegawai" class="btn btn-danger btn btn-sm"><i class="fa fa-share-square-o" aria-hidden="true"></i> Kembali</a>
     </div>
 </div>
+
+@push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<script>
+$( document ).ready(function() {
+    $('.user').select2({
+        placeholder: 'Cari Nama User',
+        ajax: {
+        url: '/ajax/select2User',
+        dataType: 'json',
+        delay: 250,
+        processResults: function (data) {
+            return {
+            results:  $.map(data, function (item) {
+                console.log(item);
+                return {
+                text: item.name,
+                id: item.id
+                }
+            })
+            };
+        },
+        cache: true
+        }
+    });
+});
+</script>
+@endpush
+
+@push('css')
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />   
+@endpush
