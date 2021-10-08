@@ -28,22 +28,25 @@ class KehadiranPegawaiController extends Controller
      */
     public function index(Request $request)
     {
+        $data['pegawai']        = Pegawai::pluck('nama', 'id');
         $data['tanggal_awal']   = $request->tanggal_awal ?? date('Y-m-d');
         $data['tanggal_akhir']  = $request->tanggal_akhir ?? date('Y-m-d');
-        $data['pegawai']        = Pegawai::pluck('nama', 'id');
         $data['pegawai_id']     = $request->pegawai_id;
 
-        $kehadiran_pegawai = KehadiranPegawai::with(['pegawai', 'shift'])->whereBetween('tanggal', [$data['tanggal_awal'], $data['tanggal_akhir']]);
-
-        if ($data['pegawai_id']) {
-            $kehadiran_pegawai = $kehadiran_pegawai->where('pegawai_id', $data['pegawai_id'])->get();
-        } else {
-            $kehadiran_pegawai = $kehadiran_pegawai->get();
-        }
-
         if ($request->ajax()) {
+
+            $start = date('Y-m-d', strtotime($request->tanggal_awal));
+            $end = date('Y-m-d', strtotime($request->tanggal_akhir));
+
+            $kehadiran_pegawai = KehadiranPegawai::with(['pegawai', 'shift'])->whereBetween('tanggal', [$start, $end]);
+
+            if ($request->pegawai_id) {
+                $kehadiran_pegawai = $kehadiran_pegawai->where('pegawai_id', $_GET['pegawai_id']);
+            }
+
             $status_kehadiran = $this->status_kehadiran;
-            return DataTables::of($kehadiran_pegawai)
+
+            return DataTables::of($kehadiran_pegawai->get())
                 ->addColumn('action', function ($row) {
                     $btn = \Form::open(['url' => 'kehadiran-pegawai/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
                     $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
