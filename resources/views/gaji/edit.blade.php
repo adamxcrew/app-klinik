@@ -39,7 +39,6 @@
                   <th width="20px">Nomor</th>
                   <th>Komponen Gaji</th>
                   <th>Jumlah</th>
-                  <th>Status Bayar</th>
                   <th width="60">Action</th>
                 </tr>
               </thead>
@@ -67,8 +66,8 @@
         @include('gaji.komponen-gaji-form')
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+        <button type="submit" class="btn btn-primary">Simpan</button>
       </div>
       {!! Form::close() !!}
     </div>
@@ -99,10 +98,6 @@
         {
           data: 'jumlah',
           name: 'jumlah'
-        },
-        {
-          data: 'gaji.status_bayar',
-          name: 'gaji.status_bayar'
         },
         {
           data: 'action',
