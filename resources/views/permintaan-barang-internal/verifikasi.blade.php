@@ -1,15 +1,6 @@
 @extends('layouts.app')
 @section('title','Verifikasi permintaan barang internal')
 @section('content')
-<style>
-    .dataTables_scrollHeadInner {
-        width: 100% !important;
-    }
-
-    table.dataTable {
-        width: 100% !important;
-    }
-</style>
 <div class="content-wrapper">
     <section class="content-header">
         <h1>
@@ -238,4 +229,13 @@ function tambah_barang() {
 @push('css')
     <link href="{{asset('bootstrap3-editable/css/bootstrap-editable.css')}}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />  
+    <style>
+        .dataTables_scrollHeadInner {
+            width: 100% !important;
+        }
+
+        table.dataTable {
+            width: 100% !important;
+        }
+    </style>
 @endpush
