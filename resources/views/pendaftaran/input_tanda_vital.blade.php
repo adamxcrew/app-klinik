@@ -20,67 +20,65 @@
               <div class="box-body">
                   @include('validation_error')
                   <div class="form-group">
-                    <label class="col-sm-2 control-label">Berat Badan</label>
+                    <label class="col-sm-3 control-label">Berat Badan</label>
                     <div class="col-sm-3">
                         {!! Form::text('berat_badan', null, ['class'=>'form-control','Placeholder'=>'Berat Badan']) !!}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Tinggi Badan</label>
+                    <label class="col-sm-3 control-label">Tinggi Badan</label>
                     <div class="col-sm-3">
                         {!! Form::text('tinggi_badan', null, ['class'=>'form-control','Placeholder'=>'Tekanan Darah']) !!}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Tekanan Darah</label>
+                    <label class="col-sm-3 control-label">Tekanan Darah</label>
                     <div class="col-sm-3">
                         {!! Form::text('tekanan_darah', null, ['class'=>'form-control','Placeholder'=>'Tekanan Darah']) !!}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Suhu Tubuh</label>
+                    <label class="col-sm-3 control-label">Suhu Tubuh</label>
                     <div class="col-sm-3">
                         {!! Form::text('suhu_tubuh', null, ['class'=>'form-control','Placeholder'=>'Suhu Tubuh']) !!}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Nadi</label>
+                    <label class="col-sm-3 control-label">Nadi</label>
                     <div class="col-sm-3">
                         {!! Form::text('nadi', null, ['class'=>'form-control','Placeholder'=>'Nadi']) !!}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">RR</label>
+                    <label class="col-sm-3 control-label">RR</label>
                     <div class="col-sm-3">
                         {!! Form::text('rr', null, ['class'=>'form-control','Placeholder'=>'RR']) !!}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Saturasi O2</label>
+                    <label class="col-sm-3 control-label">Saturasi O2</label>
                     <div class="col-sm-3">
                         {!! Form::text('saturasi_o2', null, ['class'=>'form-control','Placeholder'=>'Saturasi O2']) !!}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Fungsi Penciuman</label>
+                    <label class="col-sm-3 control-label">Fungsi Penciuman</label>
                     <div class="col-sm-3">
-                        {!! Form::text('fungsi_penciuman', null, ['class'=>'form-control','Placeholder'=>'Fungsi Penciuman']) !!}
+                        {!! Form::select('fungsi_penciuman',['Normal'=>'Normal','Tidak Normal'=>'Tidak Normal'], null, ['class'=>'form-control','Placeholder'=>'Fungsi Penciuman']) !!}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Status Alergi</label>
-                    <div class="col-sm-3">
-                        {!! Form::text('status_alergi', null, ['class'=>'form-control','Placeholder'=>'Status Alergi']) !!}
+                    <label class="col-sm-3 control-label">Status Alergi</label>
+                    <div class="col-sm-1" style="width:10px;">
+                      <input type="checkbox" name="status_alergi">
+                    </div>
+                    <div class="col-sm-6">
+                        {!! Form::text('status_alergi_value', null, ['class'=>'form-control','Placeholder'=>'Status Alergi','disabled']) !!}
                     </div>
                 </div>
+                
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Penyakit Infeksi</label>
-                    <div class="col-sm-3">
-                        {!! Form::checkbox('penyakit_infeksi', true) !!}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Jenis Kasus</label>
+                    <label class="col-sm-3 control-label">Jenis Kasus</label>
                     <div class="col-sm-4">
                         {!! Form::select('jenis_kasus',['baru'=>'Jenis Kasus Baru','lama'=>'Jenis Kasus Lama'], null, ['class'=>'form-control']) !!}
                     </div>
@@ -97,6 +95,21 @@
                 </div>
             </div>
         </div>
+        </div>
+        <div class="box">
+          <div class="box-body">
+            <h3>Riwayat Penyakit</h3>
+            <hr>
+            <div class="row">
+              <div class="col-md-6">
+
+              </div>
+              <div class="col-md-6">
+
+              </div>
+
+            </div>
+          </div>
         </div>
         <div class="box">
           <div class="box-body">
