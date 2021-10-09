@@ -7,6 +7,7 @@ use App\Models\Barang;
 use App\Models\UnitStock;
 use App\Models\PermintaanBarangInternal;
 use App\Models\PermintaanBarangInternalDetail;
+use App\Models\DistribusiStock;
 use App\Models\Setting;
 use DataTables;
 use PDF;
@@ -21,7 +22,10 @@ class PermintaanBarangInternalController extends Controller
                     $btn = \Form::open(['route' => ['permintaan-barang-internal.destroy' , $row->id], 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
                     $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
                     $btn .= \Form::close();
-                    $btn .= '<a target="_blank" class="btn btn-danger btn-sm" href="/permintaan-barang-internal/cetak/' . $row->id . '"><i class="fa fa-eye" aria-hidden="true"></i></a> ';
+                    $btn .= '<a target="_blank" class="btn btn-danger btn-sm" href="/permintaan-barang-internal/cetak/' . $row->id . '" style="margin-right:5%;float:right"><i class="fa fa-print" aria-hidden="true"></i></a> ';
+                    if($row->status != 'Selesai'){
+                        $btn .= '<a class="btn btn-danger btn-sm" href="/permintaan-barang-internal/verifikasi/' . $row->id . '" style="margin-right:5%;float:right"><i class="fa fa-eye" aria-hidden="true"></i></a> '; 
+                    }
                     return $btn;
                 })
                 ->editColumn('unit_stock_id_sumber', function ($row) {
@@ -81,5 +85,33 @@ class PermintaanBarangInternalController extends Controller
         // return view('permintaan-barang-internal.cetak', $data);
         $pdf = PDF::loadView('permintaan-barang-internal.cetak', $data)->setPaper('A4');
         return $pdf->stream();
+    }
+
+    public function verifikasi($id)
+    {
+        $data['permintaan_barang'] = PermintaanBarangInternal::find($id);
+        $data['barang'] = Barang::pluck('nama_barang', 'id');
+        $data['unitStock'] = UnitStock::pluck('nama_unit', 'id');
+        return view('permintaan-barang-internal.verifikasi', $data);
+    }
+
+    public function verify(Request $request, $id)
+    {
+        $permintaanBarang = PermintaanBarangInternal::find($id);
+        foreach($permintaanBarang->detail as $row){
+            $distribusiStock = DistribusiStock::where('unit_stock_id', $permintaanBarang->unitTujuan->id)
+                ->where('barang_id', $row->barang_id)->first();
+            if(!$distribusiStock){
+                $distribusiStock = new DistribusiStock();
+            }
+            $distribusiStock->unit_stock_id = $permintaanBarang->unitTujuan->id;
+            $distribusiStock->barang_id = $row->barang_id;
+            $distribusiStock->jumlah_stock += $row->jumlah_diterima;
+            $distribusiStock->save();
+        }
+        $permintaanBarang->status = 'Selesai';
+        $permintaanBarang->save();
+        
+        return redirect('permintaan-barang-internal');
     }
 }

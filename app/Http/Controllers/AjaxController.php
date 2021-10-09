@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\DokterPoliklinik;
 use App\Models\JadwalPraktek;
 use App\Models\PurchaseOrderDetail;
+use App\Models\PermintaanBarangInternalDetail;
 use App\User;
 use App\Models\Pasien;
 
@@ -83,6 +84,15 @@ class AjaxController extends Controller
 
         $request['status'] = false;
         $request['message'] = 'Tidak ada data yg terubah';
+        return $request->all();
+    }
+
+    public function permintaanBarangDetailEditable(Request $request)
+    {
+        $permintaanBarangDetail = PermintaanBarangInternalDetail::find($request->pk);
+        $request['oldValue'] = $permintaanBarangDetail->jumlah_diterima;
+        $permintaanBarangDetail->update([$request->name => $request->value]);
+        
         return $request->all();
     }
 

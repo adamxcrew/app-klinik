@@ -30,7 +30,8 @@
                         <th>Permintaan Dari Unit</th>
                         <th>Ke Unit</th>
                         <th>Tanggal</th>
-                        <th width="60">#</th>
+                        <th>Status</th>
+                        <th width="100">#</th>
                       </tr>
                   </thead>
               </table>
@@ -57,6 +58,7 @@
                 { data: 'unit_stock_id_sumber', name: 'unit_stock_id_sumber' },
                 { data: 'unit_stock_id_tujuan', name: 'unit_stock_id_tujuan' },
                 { data: 'tanggal', name: 'tanggal' },
+                { data: 'status', name: 'status' },
                 { data: 'action', name: 'action' }
             ]
         });

@@ -19,4 +19,9 @@ class PermintaanBarangInternal extends Model
     {
         return $this->belongsTo('App\Models\UnitStock', 'unit_stock_id_tujuan');
     }
+
+    public function detail()
+    {
+        return $this->hasMany('App\Models\PermintaanBarangInternalDetail', 'permintaan_barang_internal_id');
+    }
 }
