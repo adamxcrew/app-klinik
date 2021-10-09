@@ -23,6 +23,7 @@ class PendaftaranController extends Controller
     protected $hubungan_pasien;
     protected $jenis_pendaftaran;
     protected $jenis_rujukan;
+    protected $status_pelayanan;
 
     public function __construct()
     {
@@ -30,6 +31,7 @@ class PendaftaranController extends Controller
         $this->jenis_pendaftaran = config('datareferensi.jenis_pendaftaran');
         $this->jenis_rujukan     = config('datareferensi.jenis_rujukan');
         $this->inisial           = config('datareferensi.inisial');
+        $this->status_pelayanan  = config('datareferensi.status_pelayanan');
     }
 
     public function index(Request $request)
@@ -45,12 +47,17 @@ class PendaftaranController extends Controller
             ->with('poliklinik')
             ->whereBetween(DB::raw('DATE(pendaftaran.created_at)'), [$awal, $akhir]);
 
+        if (auth()->user()->role == 'poliklinik') {
+            $pendaftaran->where('status_pelayanan', 'selesai_pemeriksaan_medis');
+        }
+
         // filter berdasarkan poliklinik
         if ($request->poliklinik_id != null) {
             $pendaftaran->where('poliklinik_id', $request->poliklinik_id);
         }
 
         if ($request->ajax()) {
+            $status_pelayanan = $this->status_pelayanan;
             return DataTables::of($pendaftaran->get())
                 ->addColumn('action', function ($row) {
                     $btn = \Form::open(['url' => 'pendaftaran/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
@@ -58,6 +65,10 @@ class PendaftaranController extends Controller
                     $btn .= \Form::close();
                     if (auth()->user()->role == 'admin_medis') {
                         $btn .= '<a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/input_tanda_vital"><i class="fa fa-print"></i> Input Tanda Vital</a> ';
+                    } elseif (auth()->user()->role == 'poliklinik') {
+                        if ($row->status_pelayanan == 'selesai_pemeriksaan_medis') {
+                            $btn .= '<a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/pemeriksaan/tindakan"><i class="fa fa-edit"></i> Input tindakan</a> ';
+                        }
                     } else {
                         $btn .= '<a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/cetak"><i class="fa fa-print"></i> Cetak Antrian</a> ';
                     }
@@ -65,6 +76,9 @@ class PendaftaranController extends Controller
                 })
                 ->addColumn('jenis_layanan', function ($row) {
                     return $row->perusahaanAsuransi->nama_perusahaan;
+                })
+                ->addColumn('status_pelayanan', function ($row) use ($status_pelayanan) {
+                    return $status_pelayanan[$row->status_pelayanan];
                 })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
@@ -87,6 +101,21 @@ class PendaftaranController extends Controller
         $data['pasien_id'] = $pasien_id;
         return view('pendaftaran.pasien-terdaftar', $data);
     }
+
+    public function pemeriksaan(Request $request, $id)
+    {
+        $jenis          = $request->segment(4);
+        $data['pendaftaran']   = Pendaftaran::with('pasien', 'perusahaanAsuransi')->find($id);
+        if ($jenis=='tindakan') {
+            $data['tindakan'] = Tindakan::all();
+            $data['diagnosa'] = Diagnosa::all();
+            $data['obat']     = Obat::all();
+            return view('pendaftaran.pemeriksaan_tindakan', $data);
+        }
+
+        return view('pendaftaran.pemeriksaan_'.$jenis, $data);
+    }
+
 
 
     public function input_tanda_vital($id)
@@ -113,7 +142,7 @@ class PendaftaranController extends Controller
                 'status_alergi'
             )),
             'pemeriksaan_klinis'    =>  serialize($request->pemeriksaan_klinis),
-            'status_pelayanan'      =>  'Selesai Pemeriksaan Medis'
+            'status_pelayanan'      =>  'selesai_pemeriksaan_medis'
         ];
         $pendaftaran->update($data);
         return redirect('pendaftaran/')->with('message', 'Tanda Tanda Vital Berhasil Disimpan');
@@ -231,9 +260,7 @@ class PendaftaranController extends Controller
         if ($request->ajax()) {
             return DataTables::of(PendaftaranResume::where('jenis', 'tindakan')->with('tindakan')->get())
                 ->addColumn('action', function ($row) {
-                    $btn = \Form::open(['url' => 'resume/tindakan/' . $row->id, 'method' => 'DELETE']);
-                    $btn .= "<button type='submit' class='btn btn-danger btn-sm'>Hapus</button>";
-                    $btn .= \Form::close();
+                    $btn = "<div class='btn btn-danger btn-sm' data-id = '".$row->id."' data-jenis='tindakan' onClick='removeItem(this)'>Hapus</div>";
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -242,8 +269,22 @@ class PendaftaranController extends Controller
         }
     }
 
+    public function addItem(Request $request, $id)
+    {
+        if (isset($request->item[0])) {
+            foreach ($request->item as $jenis_resume_id) {
+                $data['jenis_resume_id'] = $jenis_resume_id;
+                $data['pendaftaran_id'] = $id;
+                $data['jenis'] = $request->jenis;
+                PendaftaranResume::create($data);
+            }
+        }
+        return view('pendaftaran.ajax-table-'. $request->jenis);
+    }
+
     public function resumePilihTindakan(Request $request)
     {
+        dd($request->all());
         $data = PendaftaranResume::create($request->all());
         return $data;
     }
@@ -253,6 +294,6 @@ class PendaftaranController extends Controller
         $data = PendaftaranResume::findOrFail($id);
         $data->delete();
 
-        return redirect()->back();
+        return view('pendaftaran.ajax-table-tindakan');
     }
 }

@@ -96,6 +96,11 @@ return [
         'terlambat'    => 'Terlambat'
     ],
 
+    'status_pelayanan' => [
+        'pendaftaran'=>'Pendaftaran',
+        'selesai_pemeriksaan_medis'=>'Selesai Pemeriksaan Medis'
+    ],
+
 
     'user_role'            => [
         'administrator' =>  'Administrator',
@@ -104,6 +109,7 @@ return [
         'kasir'         =>  'Kasir',
         'keuangan'      =>  'Keuangan',
         'hrd'           =>  'HRD',
+        'poliklinik'      =>  'Poliklinik',
         'bagian_pendaftaran' => 'Bagian Pendaftaran',
         'admin_medis'   =>  'Admin Medis',
         'bagian_gudang' => 'Bagian Gudang'

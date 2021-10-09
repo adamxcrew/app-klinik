@@ -23,8 +23,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pendaftaran/{id}/cetak', 'PendaftaranController@cetak')->name('pendaftaran.cetak');
     Route::get('pendaftaran/{id}/input_tanda_vital', 'PendaftaranController@input_tanda_vital')->name('pendaftaran.input_tanda_vital');
     Route::put('pendaftaran/{id}/input_tanda_vital_store', 'PendaftaranController@input_tanda_vital_store')->name('pendaftaran.input_tanda_vital_store');
+    Route::get('pendaftaran/{id}/pemeriksaan/{jenis}', 'PendaftaranController@pemeriksaan')->name('pendaftaran.pemeriksaan_tindakan');
     Route::get('pendaftaran/{id}/print', 'PendaftaranController@print')->name('pendaftaran.print');
     Route::get('pendaftaran/create/{pasien_id}', 'PendaftaranController@create');
+    // route untuk tab pada pendaftaran
+    Route::get('pendaftaran-add-item/{id}', 'PendaftaranController@addItem');
     Route::resource('pendaftaran', 'PendaftaranController');
 
     // route pendaftaran pasien yang sudah pernah terdaftar
@@ -155,6 +158,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('ajax/select2Desa', 'AjaxController@select2Desa');
     Route::get('ajax/select2Pasien', 'AjaxController@select2Pasien');
     Route::get('ajax/select2Barang', 'AjaxController@select2Barang');
+    Route::get('ajax/select2Tindakan', 'AjaxController@select2Tindakan');
     Route::get('ajax/select2User', 'AjaxController@select2User');
     Route::get('ajax/pasien', 'AjaxController@pasien');
     Route::post('ajax/purchase-order-edittable', 'AjaxController@purchaseOrderEditTable');
