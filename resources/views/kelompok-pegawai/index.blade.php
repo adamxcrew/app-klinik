@@ -1,11 +1,11 @@
 @extends('layouts.app')
-@section('title','Kelola Data Pegawai')
+@section('title','Kelola Data Kelompok Pegawai')
 @section('content')
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
-      Kelola Data Pegawai
-      <small>Daftar Pegawai</small>
+      Kelola Data Kelompok Pegawai
+      <small>Daftar Kelompok Pegawai</small>
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -20,19 +20,16 @@
         <div class="box">
 
           <div class="box-body">
-            <a href="{{route('pegawai.create')}}" class="btn btn-info btn-social btn-flat"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
+            <a href="{{route('kelompok-pegawai.create')}}" class="btn btn-info btn-social btn-flat"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
               Tambah Data</a>
             <hr>
             @include('alert')
-            <table class="table table-bordered table-striped" id="pegawai-table">
+            <table class="table table-bordered table-striped" id="kelompok-pegawai-table">
               <thead>
                 <tr>
                   <th width="10">Nomor</th>
-                  <th>NIP</th>
-                  <th>Nama</th>
-                  <th>Kelompok Pegawai</th>
-                  <th>No HP</th>
-                  <th width="97">#</th>
+                  <th>Nama Kelompok</th>
+                  <th width="60">#</th>
                 </tr>
               </thead>
             </table>
@@ -50,30 +47,18 @@
 <script src="{{asset('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 <script>
   $(function() {
-    $('#pegawai-table').DataTable({
+    $('#kelompok-pegawai-table').DataTable({
       processing: true,
       serverSide: true,
-      ajax: '/pegawai',
+      ajax: '/kelompok-pegawai',
       columns: [{
           data: 'DT_RowIndex',
           orderable: false,
           searchable: false
         },
         {
-          data: 'nip',
-          name: 'nip'
-        },
-        {
-          data: 'nama',
-          name: 'nama'
-        },
-        {
-          data: 'kelompok_pegawai.nama_kelompok',
-          name: 'kelompok_pegawai.nama_kelompok'
-        },
-        {
-          data: 'no_hp',
-          name: 'no_hp'
+          data: 'nama_kelompok',
+          name: 'nama_kelompok'
         },
         {
           data: 'action',

@@ -34,7 +34,7 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">Kelompok pegawai</label>
     <div class="col-sm-4">
-        {!! Form::select('kelompok_pegawai', $kelompok_pegawai,null, ['class'=>'form-control']) !!}
+        {!! Form::select('kelompok_pegawai_id', $kelompok_pegawai,null, ['class'=>'form-control']) !!}
     </div>
 </div>
 <div class="form-group">
