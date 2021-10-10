@@ -7,18 +7,17 @@ use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use App\Models\KomponenGaji;
 use App\Http\Requests\PegawaiStoreRequest;
+use App\Models\KelompokPegawai;
 use App\Models\PegawaiShift;
 use App\Models\Shift;
 
 class PegawaiController extends Controller
 {
-    protected $kelompokPegawai;
     protected $agama;
 
     public function __construct()
     {
-        $this->kelompokPegawai = config('datareferensi.kelompok_pegawai');
-        $this->agama           = config('datareferensi.agama');
+        $this->agama = config('datareferensi.agama');
     }
     /**
      * Display a listing of the resource.
@@ -28,7 +27,7 @@ class PegawaiController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(Pegawai::all())
+            return DataTables::of(Pegawai::with('kelompok_pegawai')->get())
                 ->addColumn('action', function ($row) {
                     $btn = \Form::open(['url' => 'pegawai/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:15px']);
                     $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash'></i></button>";
@@ -52,7 +51,7 @@ class PegawaiController extends Controller
      */
     public function create()
     {
-        $data['kelompok_pegawai']   = $this->kelompokPegawai;
+        $data['kelompok_pegawai']   = KelompokPegawai::pluck('nama_kelompok', 'id');
         $data['agama']              = $this->agama;
         return view('pegawai.create', $data);
     }
@@ -91,7 +90,7 @@ class PegawaiController extends Controller
      */
     public function edit($id)
     {
-        $data['kelompok_pegawai']   = $this->kelompokPegawai;
+        $data['kelompok_pegawai']   = KelompokPegawai::pluck('nama_kelompok', 'id');
         $data['agama']              = $this->agama;
         $data['pegawai']            = Pegawai::findOrFail($id);
         return view('pegawai.edit', $data);

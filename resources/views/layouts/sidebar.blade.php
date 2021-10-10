@@ -80,6 +80,7 @@
         ['icon' => 'fa fa-calendar-check-o', 'link' => '/harilibur', 'label' => 'Setting Hari Libur'],
         ['icon' => 'fa fa-id-card', 'link' => '/kehadiran-pegawai', 'label' => 'Kehadiran Pegawai'],
         ['icon' => 'fa fa-list-alt', 'link' => '/komponengaji', 'label' => 'Komponen Gaji'],
+        ['icon' => 'fa fa-list-alt', 'link' => '/kelompok-pegawai', 'label' => 'Kelompok Pegawai'],
       ];
 
       $keuangan = [
