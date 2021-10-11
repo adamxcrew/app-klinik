@@ -24,15 +24,15 @@ class BarangStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'kode'          =>  'required',
-            'nama_barang'   =>  'required',
-            'harga'         =>  'required|integer',
-            'satuan_id'     =>  'required',
-            'kategori_id'   =>  'required',
-            'keterangan'    =>  'required',
-            'stock'         =>  'required',
-            'jenis_barang'  =>  'required',
-            'aktif'         =>  'required'
+            'kode'                  =>  'required',
+            'nama_barang'           =>  'required',
+            'harga'                 =>  'required|integer',
+            'satuan_terbesar_id'    =>  'required',
+            'kategori_id'           =>  'required',
+            'keterangan'            =>  'required',
+            'satuan_terkecil_id'    =>  'required',
+            'jenis_barang'          =>  'required',
+            'aktif'                 =>  'required'
         ];
     }
 }

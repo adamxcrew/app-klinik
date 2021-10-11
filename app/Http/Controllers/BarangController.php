@@ -27,7 +27,7 @@ class BarangController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(Barang::with('satuan', 'kategori')->get())
+            return DataTables::of(Barang::with('satuanTerbesar', 'satuanTerkecil', 'kategori')->get())
                 ->addColumn('action', function ($row) {
                     $btn = \Form::open(['url' => 'barang/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
                     $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
