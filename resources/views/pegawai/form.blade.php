@@ -13,7 +13,7 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">User</label>
     <div class="col-sm-4">
-        <select name="user_id" id="user" class="user form-control" style="height: 100px;" placeholder="Masukan Nama User"></select>
+        <select name="user_id" id="user" class="users form-control" style="height: 100px;" placeholder="Masukan Nama User"></select>
     </div>
 </div>
 <div class="form-group">
@@ -56,7 +56,7 @@
 </div>
 <div class="form-group">
     <label class="col-sm-2 control-label">Alamat</label>
-    <div class="col-sm-10">
+    <div class="col-sm-4">
         {!! Form::text('alamat', null, ['class'=>'form-control','Placeholder'=>'Alamat']) !!}
     </div>
 </div>
@@ -70,6 +70,15 @@
     </div>
 </div>
 <div class="form-group">
+    <label class="col-sm-2 control-label">Tanggal masuk & Keluar</label>
+    <div class="col-sm-4">
+        {!! Form::date('tanggal_masuk', null, ['class'=>'form-control','Placeholder'=>'Tanggal masuk']) !!}
+    </div>
+    <div class="col-sm-3">
+        {!! Form::date('tanggal_keluar', null, ['class'=>'form-control','Placeholder'=>'Tanggal keluar']) !!}
+    </div>
+</div>
+<div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
         <button type="submit" class="btn btn-danger btn btn-sm"><i class="fa fa-floppy-o" aria-hidden="true"></i> Simpan</button>
         <a href="/pegawai" class="btn btn-danger btn btn-sm"><i class="fa fa-share-square-o" aria-hidden="true"></i> Kembali</a>
@@ -80,7 +89,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 <script>
 $( document ).ready(function() {
-    $('.user').select2({
+    $('.users').select2({
         placeholder: 'Cari Nama User',
         ajax: {
         url: '/ajax/select2User',
@@ -100,6 +109,41 @@ $( document ).ready(function() {
         cache: true
         }
     });
+
+    var str = window.location.href;
+    str = str.split("/");
+    if(str[5]!=undefined)
+    {
+        var pegawai_id = str[4];
+
+        $('.users').select2({
+            ajax: {
+                url: '/ajax/user'
+            }
+        });
+
+        // Fetch the preselected item, and add to the control
+        var usersSelect = $('.users');
+        $.ajax({
+            type: 'GET',
+            url: '/ajax/user',
+            data : {pegawai_id:pegawai_id},
+        }).then(function (data) {
+            // create the option and append to Select2
+            var option = new Option(data.name, data.id, true, true);
+            usersSelect.append(option).trigger('change');
+
+            // manually trigger the `select2:select` event
+            usersSelect.trigger({
+                type: 'select2:select',
+                params: {
+                    data: data
+                }
+            });
+        });
+
+    }
+
 });
 </script>
 @endpush

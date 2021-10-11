@@ -14,16 +14,21 @@ class Barang extends Model
         'jenis',
         'aktif',
         'harga',
-        'stock',
         'keterangan',
         'jenis_barang',
         'kategori_id',
-        'satuan_id'
+        'satuan_terbesar_id',
+        'satuan_terkecil_id'
     ];
 
-    public function satuan()
+    public function satuanTerbesar()
     {
-        return $this->belongsTo(\App\Models\Satuan::class);
+        return $this->belongsTo(\App\Models\Satuan::class, 'satuan_terbesar_id', 'id');
+    }
+
+    public function satuanTerkecil()
+    {
+        return $this->belongsTo(\App\Models\Satuan::class, 'satuan_terkecil_id', 'id');
     }
 
     public function kategori()

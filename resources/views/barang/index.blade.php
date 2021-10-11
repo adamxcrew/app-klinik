@@ -38,7 +38,8 @@
                         <th width="10">Nomor</th>
                         <th>Kode Barang</th>
                         <th>Nama Barang</th>
-                        <th>Satuan</th>
+                        <th>Satuan Terbesar</th>
+                        <th>Satuan Terkecil</th>
                         <th>Kategori</th>
                         <th>Jenis</th>
                         <th>Harga</th>
@@ -70,7 +71,8 @@
                 {data: 'DT_RowIndex', orderable: false, searchable: false},
                 { data: 'kode', name: 'kode' },
                 { data: 'nama_barang', name: 'nama_barang' },
-                { data: 'satuan.satuan', name: 'satuan.satuan' },
+                { data: 'satuan_terbesar.satuan', name: 'satuan_terbesar.satuan' },
+                { data: 'satuan_terkecil.satuan', name: 'satuan_terkecil.satuan' },
                 { data: 'kategori.nama_kategori', name: 'kategori.nama_kategori' },
                 { data: 'jenis_barang', name: 'jenis_barang' },
                 { data: 'harga', name: 'harga' },
