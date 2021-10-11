@@ -179,7 +179,7 @@ class GajiController extends Controller
         $namaPerusahaan = "KLINIK NURDIN WAHID";
         $gaji = Gaji::findOrFail($id);
         $pegawai = Pegawai::with('kelompok_pegawai')->findOrFail($gaji->pegawai_id);
-        $gaji_detail = GajiDetail::with('komponen_gaji')->where('pegawai_id', $pegawai->id)->get();
+        $gaji_detail = GajiDetail::with('komponen_gaji')->where('pegawai_id', $pegawai->id)->where('gaji_id', $id)->get();
 
         Fpdf::AddPage('L', 'A5');
         Fpdf::SetFont('Arial', 'B', 14);
