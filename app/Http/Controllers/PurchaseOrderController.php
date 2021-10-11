@@ -35,7 +35,7 @@ class PurchaseOrderController extends Controller
                         $btn .= "<a title='Verifikasi Purchase Order' href='/purchase-order/verifikasi/" . $row->id . "' class='btn btn-success btn-sm ' style='margin-right:5px'><i class='fa fa-list-alt'></i></a> ";
                     }
 
-                    if ($row->status_po == 'pengajuan_po') {
+                    if ($row->status_po == 'menunggu_persetujuan') {
                         $btn = \Form::open(['url' => 'purchase-order/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
                         $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
                         $btn .= \Form::close();
@@ -100,7 +100,7 @@ class PurchaseOrderController extends Controller
 
     public function verifikasiGudang(Request $request, $id)
     {
-        $data['purchase_order_detail'] = PurchaseOrderDetail::where('purchase_order_id', $id)->get();
+        $data['purchase_order_detail'] = PurchaseOrderDetail::where('purchase_order_id', $id)->where('approval', 1)->get();
         $data['purchase_order'] = PurchaseOrder::findOrFail($id);
 
         return view('purchase-order.verifikasi_gudang', $data);
@@ -170,11 +170,11 @@ class PurchaseOrderController extends Controller
         if (count($data) == 0) {
             return redirect()->back()->with('message', 'Mohon pilih barang terlebih dahulu');
         } else {
-            $request['status_po']   = 'pengajuan_po';
+            $request['status_po']   = 'menunggu_persetujuan';
             $simpan_purchase_order  = PurchaseOrder::create($request->all());
             $update_purchase_order_detail = PurchaseOrderDetail::where('purchase_order_id', null)->update(['purchase_order_id' => $simpan_purchase_order->id]);
 
-            return redirect('purchase-order/' . $simpan_purchase_order->id . '/cetak');
+            return redirect('purchase-order/')->with('message', 'Purchase Order Berhasil Disimpan Dan Menunggu Persetujuan');
         }
     }
 
@@ -182,7 +182,7 @@ class PurchaseOrderController extends Controller
     {
         $data['setting']               = Setting::find(1);
         $data['purchase_order']        = PurchaseOrder::find($id);
-        $data['purchase_order_detail'] = PurchaseOrderDetail::where('purchase_order_id', $data['purchase_order']->id)->get();
+        $data['purchase_order_detail'] = PurchaseOrderDetail::where('purchase_order_id', $data['purchase_order']->id)->where('approval', 1)->get();
         $pdf = PDF::loadView('purchase-order.cetak', $data)->setPaper('A4');
         return $pdf->stream();
     }

@@ -142,6 +142,7 @@ return [
 
     'status_po' => [
         'pengajuan_po'          =>  'Pengajuan Purchase Order',
+        'menunggu_persetujuan'  =>  'Menunggu Persetujuan',
         'approve_by_pimpinan'   =>  'Approve Oleh Pimpinan',
         'reject_by_pimpinan'    =>  'Ditolak Oleh Pimpinan',
         'selesai_po'            =>  'Selesai'

@@ -27,7 +27,7 @@
     <section class="content">
         @include('alert')
         <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-4">
                 <div class="box">
                     <div class="box-header text-center" style="border-bottom: 1px solid;padding-top: 0;">
                         <h3>Purchase Order (PO)</h3>
@@ -58,13 +58,14 @@
                         <div class="row" style="padding-bottom: 30px;margin: -10px;padding-top: 12px;">
                             <div class="col-md-8">
                                 <a href="{{ route('purchase-order.index')}}" class="btn btn-success btn-sm">Kembali</a>
+                                <a href="/purchase-order/{{ $purchase_order->id}}/cetak" class="btn btn-danger btn-sm" target="new">Cetak</a>
                             </div>
                         </div>
                         {{ Form::close() }}
                     </div>
                 </div>
             </div>
-            <div class="col-md-7">
+            <div class="col-md-8">
                 <div class="box">
                     <div class="box-header text-center" style="border-bottom: 1px solid;padding-top: 0;">
                         <h3>Data Barang</h3>

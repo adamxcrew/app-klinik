@@ -166,4 +166,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('ajax/pasien', 'AjaxController@pasien');
     Route::post('ajax/purchase-order-edittable', 'AjaxController@purchaseOrderEditTable');
     Route::post('ajax/permintaan-barang-detail-editable', 'AjaxController@permintaanBarangDetailEditable');
+    Route::get('ajax/approval-item-purchase-order', 'AjaxController@approvalItemPurchaseOrder');
 });

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\DokterPoliklinik;
 use App\Models\JadwalPraktek;
 use App\Models\PurchaseOrderDetail;
+use Ap\Models\PurchaseOrder;
 use App\Models\PermintaanBarangInternalDetail;
 use App\User;
 use App\Models\Pasien;
@@ -104,5 +105,20 @@ class AjaxController extends Controller
             ->limit(20)
             ->get();
         return response()->json($data);
+    }
+
+    public function approvalItemPurchaseOrder(Request $request)
+    {
+        $item = PurchaseOrderDetail::findOrFail($request->id);
+        $item->update($request->only('catatan', 'approval'));
+        $purchase_order = \DB::select("select sum(harga*qty) as total from purchase_order_detail where approval=1
+        and purchase_order_id=".$item->purchase_order_id);
+
+        return response()->json(
+            [
+                'message'   =>  'update sukses',
+                'total'     =>  convert_rupiah($purchase_order[0]->total)
+            ]
+        );
     }
 }

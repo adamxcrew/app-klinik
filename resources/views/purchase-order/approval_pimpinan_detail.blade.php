@@ -26,7 +26,7 @@
     <section class="content">
       @include('alert')
         <div class="row">
-          <div class="col-md-5">
+          <div class="col-md-4">
             <div class="box">
                 <div class="box-header text-center" style="border-bottom: 1px solid;padding-top: 0;">
                     <h3>Persetujuan Purchase Order</h3>
@@ -37,7 +37,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="text-sm" style ="color:#393E46">Alasan jika PO tidak disetujui (optional) </label>
+                                <label class="text-sm" style ="color:#393E46">Catatan Umum (optional) </label>
                                 {{ Form::textarea('alasan',$purchase_order->alasan,['class' => 'form-control']) }}
                             </div>
                         </div>
@@ -56,7 +56,7 @@
             </div>
           </div>
 
-          <div class="col-md-7">
+          <div class="col-md-8">
               <div class="box">
                   <div class="box-header text-center">
                       <h3>Keterangan Purchase Order</h3>
@@ -80,22 +80,29 @@
                               <thead>
                                   <tr>
                                       <th>#</th>
-                                      <th>Kode Barang</th>
                                       <th>Nama Barang</th>
                                       <th>Jumlah</th>
                                       <th>Harga PO</th>
+                                      <th width="200">Catatan ( Opsional )</th>
+                                      <th width="80">Action</th>
                                   </tr>
                               </thead>
                               <tbody>
                                   <?php $total = 0; ?>
                                   @foreach($purchase_order_detail as $row)
-                                  <tr
-                                      onClick="ubah_baris({{$row->barang->id}},'{{$row->barang->nama_barang}}', {{$row->harga}}, {{$row->qty}})">
+                                  <tr class="table-danger" id="baris-{{$row->id}}">
                                       <th scope="row">{{ $loop->iteration }}</th>
-                                      <td>{{ $row->barang->kode }}</td>
                                       <td>{{ $row->barang->nama_barang }}</td>
                                       <td>{{ $row->qty }}</td>
                                       <td>@currency($row->harga)</td>
+                                      <td>
+                                          {!! Form::text('catatan', null, ['class'=>'form-control catatan-'.$row->id,'Placeholder'=>'Keterangan']) !!}
+                                      </td>
+                                      <td>
+                                        <i class="fa fa-check-square-o fa-2x" aria-hidden="true" onClick="approval({{$row->id}},1)"></i>
+                                        <i class="fa fa-times fa-2x" aria-hidden="true" onClick="approval({{$row->id}},0)"></i>
+
+                                      </td>
                                   </tr>
                                   <?php $total += $row->harga * $row->qty;?>
                                   @endforeach
@@ -103,8 +110,12 @@
                               <tfoot>
                                   <tr>
                                       <td></td>
-                                      <td colspan="3">Total</td>
-                                      <td colspan="2">@currency($total)</td>
+                                      <td colspan="2" style="text-align:right"><b>Total</b></td>
+                                      <td colspan="2">
+                                          <span id="total">
+                                            @currency($total)
+                                          </span>
+                                      </td>
                                   </tr>
                               </tfoot>
                           </table>
@@ -119,6 +130,31 @@
 
 @push('scripts')
 <script src="{{asset('/select2/dist/js/select2.min.js')}}"></script>
+<script>
+    function approval(id,approval)
+    {
+        if(approval==1)
+        {
+            $("#baris-"+id).removeClass("danger").addClass("success");
+            
+        }else{
+            $("#baris-"+id).removeClass("success").addClass("danger");
+        }
+
+        $.ajax({
+            url: "/ajax/approval-item-purchase-order",
+            data: {
+                id: id,
+                approval: approval,
+                catatan: $(".catatan-"+id).val()
+            },
+            success: function (response) {
+                console.log(response.total);
+                $('#total').html(response.total);
+            }
+        });
+    }
+</script>
 @endpush
 
 @push('css')
