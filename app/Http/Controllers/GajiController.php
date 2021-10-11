@@ -177,10 +177,9 @@ class GajiController extends Controller
     public function cetak($id)
     {
         $namaPerusahaan = "KLINIK NURDIN WAHID";
-        $gajiPokok = 4000000;
         $gaji = Gaji::findOrFail($id);
-        $pegawai = Pegawai::findOrFail($gaji->pegawai_id);
-        $gajiDetail = GajiDetail::where('pegawai_id', $pegawai->id)->with('komponen_gaji')->get();
+        $pegawai = Pegawai::with('kelompok_pegawai')->findOrFail($gaji->pegawai_id);
+        $gaji_detail = GajiDetail::with('komponen_gaji')->where('pegawai_id', $pegawai->id)->get();
 
         Fpdf::AddPage('L', 'A5');
         Fpdf::SetFont('Arial', 'B', 14);
@@ -201,7 +200,7 @@ class GajiController extends Controller
         Fpdf::text(110, 26, 'Nama Karyawan');
         Fpdf::text(136, 26, ' : ' . $pegawai->nama);
         Fpdf::text(110, 30, 'Jabatan');
-        Fpdf::text(136, 30, ' : ' . ucfirst($pegawai->kelompok_pegawai));
+        Fpdf::text(136, 30, ' : ' . ucfirst($pegawai->kelompok_pegawai->nama_kelompok));
 
         Fpdf::Cell(190, 90, '', 1, 1, 'C');
         // ---------------------------------------
@@ -223,13 +222,29 @@ class GajiController extends Controller
         $no_penambah = 1;
         $jml_penambah = 0;
 
-        foreach ($gajiDetail as $detail) {
+        $penambah = [];
+        $penambah[0]['nama_komponen'] = 'gaji pokok';
+        $penambah[0]['jumlah'] = $pegawai->gaji_pokok;
+        $penambah[0]['jenis'] = 'penambah';
+
+        $i = 1;
+
+        foreach ($gaji_detail as $detail) {
             if ($detail->komponen_gaji->jenis == 'penambah') {
+                $penambah[$i]['nama_komponen'] = $detail->komponen_gaji->nama_komponen;
+                $penambah[$i]['jumlah'] = $detail->jumlah;
+                $penambah[$i]['jenis'] = 'penambah';
+                $i++;
+            }
+        }
+
+        foreach ($penambah as $p) {
+            if ($p['jenis'] == 'penambah') {
                 Fpdf::text(12, $start, $no_penambah++);
-                Fpdf::text(24, $start, $detail->komponen_gaji->nama_komponen);
-                Fpdf::text(74, $start, ': ' . convert_rupiah($detail->komponen_gaji->jumlah));
+                Fpdf::text(24, $start, $p['nama_komponen']);
+                Fpdf::text(74, $start, ': ' . convert_rupiah($p['jumlah']));
                 $start = $start + 5;
-                $jml_penambah += $detail->komponen_gaji->jumlah;
+                $jml_penambah += $p['jumlah'];
             }
         }
 
@@ -245,24 +260,22 @@ class GajiController extends Controller
         $no_pengurang = 1;
         $jml_pengurang = 0;
 
-        foreach ($gajiDetail as $detail) {
+        foreach ($gaji_detail as $detail) {
             if ($detail->komponen_gaji->jenis == 'pengurang') {
                 Fpdf::text(110, $start, $no_pengurang++);
                 Fpdf::text(124, $start, $detail->komponen_gaji->nama_komponen);
-                Fpdf::text(174, $start, ': ' . convert_rupiah($detail->komponen_gaji->jumlah));
+                Fpdf::text(174, $start, ': ' . convert_rupiah($detail->jumlah));
                 $start = $start + 5;
-                $jml_pengurang += $detail->komponen_gaji->jumlah;
+                $jml_pengurang += $detail->jumlah;
             }
         }
-
         $total = $jml_penambah - $jml_pengurang;
-        $totalGaji = $gajiPokok + $total;
 
         Fpdf::text(12, 82, 'Total Penerimaan');
-        Fpdf::text(74, 82, ': ' . convert_rupiah($gajiPokok));
+        Fpdf::text(74, 82, ': ' . convert_rupiah($pegawai->gaji_pokok));
 
         Fpdf::text(12, 86, 'Gaji Yang Diterima');
-        Fpdf::text(74, 86, ': ' . convert_rupiah($totalGaji));
+        Fpdf::text(74, 86, ': ' . convert_rupiah($total));
 
         Fpdf::text(12, 90, '---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------');
 
@@ -280,7 +293,7 @@ class GajiController extends Controller
         Fpdf::text(12, 112, 'Nama Karyawan');
         Fpdf::text(42, 112, ' : ' . $pegawai->nama);
         Fpdf::text(12, 116, 'Jabatan');
-        Fpdf::text(42, 116, ' : ' . ucfirst($pegawai->kelompok_pegawai));
+        Fpdf::text(42, 116, ' : ' . ucfirst($pegawai->kelompok_pegawai->nama_kelompok));
 
 
         Fpdf::text(120, 96, 'Diserahkan Oleh');
