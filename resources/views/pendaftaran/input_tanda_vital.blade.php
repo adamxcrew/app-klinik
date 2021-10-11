@@ -101,13 +101,51 @@
             <h3>Riwayat Penyakit</h3>
             <hr>
             <div class="row">
-              <div class="col-md-6">
-
-              </div>
-              <div class="col-md-6">
-
-              </div>
-
+                <div class="col-md-6">
+                    <h4>Form Input Riwayat Penyakit</h4>
+                    <hr>
+                    <table class="table table-bordered table-bordered">
+                        <tr>
+                            <th colspan="2">FORM INPUT RIWAYAT PENYAKIT</th>
+                        </tr>
+                        <tr>
+                            <td>Pilih Riwayat</td>
+                            <td>
+                                <select name="riwayat_penyakit_id" id="riwayat_penyakit_id" class='select2 form-control'>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <div class="btn btn-primary add-item" onClick="addRiwayatPenyakit(this)" >
+                                    <i class="fa fa-plus"></i>
+                                    Tambah
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <h4>Daftar Riwayat Penyakit</h4>
+                    <hr>
+					<div id="table-riwayat-penyakit">
+						<table class="table table-bordered table-striped" width="100%" id="riwayat-penyakit-table">
+                            <thead>
+                                <tr>
+                                    <th width="10">Nomor</th>
+                                    <th>Riwayat Penyakit</th>
+                                    <th width="70">#</th>
+                                </tr>
+                            </thead>
+							<tbody>
+								<tr>
+									<td colspan=3 style="text-align:center">Tidak ada riwayat penyakit</td>
+								</tr>
+							</tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
           </div>
         </div>
@@ -797,26 +835,115 @@
   </div>
 @endsection
 
+
+
+@push('css')
+<link rel="stylesheet" href="{{asset('adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
+<link href="{{asset('/select2/dist/css/select2.min.css')}}" rel="stylesheet" />
+@endpush
+
 @push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<script src="{{asset('adminlte/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
 <script>
-    $(document).ready(function (){
-      $('.input').attr('disabled', 'disabled')
+    $(document).ready(function () {
+		getRiwayatPenyakit()
+        $('#riwayat_penyakit_id').select2({
+            placeholder: 'Cari Riwayat Penyakit',
+            multiple: false,
+            ajax: {
+                url: '/ajax/select2RiwayatPenyakit',
+                dataType: 'json',
+                delay: 250,
+                multiple: false,
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {
+                                text: item.indonesia,
+                                id: item.id
+                            }
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+        $('.input').attr('disabled', 'disabled')
 
-      $(".check").click(function () {
-        let name = $(this).attr('data-name'); 
-        let status = $('.input-' + name).attr('disabled');
-        
-        if (status === undefined) {
-          $('.input-' + name).attr('disabled', 'disabled');
-        }
-        
-        if (status == "disabled") {
-          $('.input-' + name).removeAttr('disabled'); 
-        }
+        $(".check").click(function () {
+            let name = $(this).attr('data-name');
+            let status = $('.input-' + name).attr('disabled');
 
-        return true;
-      });
+            if (status === undefined) {
+                $('.input-' + name).attr('disabled', 'disabled');
+            }
+
+            if (status == "disabled") {
+                $('.input-' + name).removeAttr('disabled');
+            }
+
+            return true;
+        });
     });
+
+	function getRiwayatPenyakit() {
+        $('#riwayat-penyakit-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+				url : '{{ route("resume.riwayatPenyakit") }}',
+				data : {
+					id : '{{$pendaftaran->id}}'
+				}
+			},
+            columns: [{
+                    data: 'DT_RowIndex',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'tbm_icd',
+                    name: 'tbm_icd'
+                },
+                {
+                    data: 'action',
+                    name: 'action'
+                }
+            ]
+        });
+    }
+	
+	function addRiwayatPenyakit(btn) {
+        let riwayatPenyakit = $('#riwayat_penyakit_id').find(':selected').text()
+        $.ajax({
+            url : '/riwayat-penyakit-add-item/{{$pendaftaran->id}}',
+            method : 'POST',
+            data : {
+				_token : '{{csrf_token()}}',
+                tbm_icd : riwayatPenyakit,
+            },
+            success : (response)=>{
+                $('#table-riwayat-penyakit').html(response)
+				getRiwayatPenyakit()
+            }
+        })
+	}
+
+	function removeRiwayatPenyakit(btn) {
+        let id = btn.getAttribute('data-id')
+        $.ajax({
+            url :'/riwayat-penyakit-remove-item/'+id,
+            method : 'DELETE',
+            data : {
+                _token : '{{csrf_token()}}'
+            },
+            success : (response)=>{
+                $('#table-riwayat-penyakit').html(response)
+				getRiwayatPenyakit()
+            }
+        })
+    }
 </script>
 
 @endpush

@@ -66,6 +66,16 @@ class AjaxController extends Controller
         return response()->json($data);
     }
 
+    public function select2RiwayatPenyakit(Request $request)
+    {
+        $data = \DB::table('tbm_icd')
+            ->select('id', 'indonesia')
+            ->where('indonesia', 'like', "%" . $request->q . "%")
+            ->limit(20)
+            ->get();
+        return response()->json($data);
+    }
+
     public function pasien(Request $request)
     {
         return Pasien::where('id', $request->pasien_id)->first();

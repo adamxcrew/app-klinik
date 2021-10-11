@@ -9,6 +9,7 @@ use App\Models\Tindakan;
 use App\Models\Obat;
 use App\Models\Poliklinik;
 use App\Models\Pasien;
+use App\Models\RiwayatPenyakit;
 use App\Models\PendaftaranResume;
 use DataTables;
 use PDF;
@@ -284,7 +285,6 @@ class PendaftaranController extends Controller
 
     public function resumePilihTindakan(Request $request)
     {
-        dd($request->all());
         $data = PendaftaranResume::create($request->all());
         return $data;
     }
@@ -295,5 +295,34 @@ class PendaftaranController extends Controller
         $data->delete();
 
         return view('pendaftaran.ajax-table-tindakan');
+    }
+
+    public function pemeriksaanRiwayatPenyakit(Request $request, $id)
+    {
+        $request['pendaftaran_id'] = $id;
+        RiwayatPenyakit::create($request->all());
+        return view('pendaftaran.ajax-table-riwayat-penyakit');
+    }
+    
+    public function pemeriksaanRiwayatPenyakitHapus($id)
+    {
+        $data = RiwayatPenyakit::findOrFail($id);
+        $data->delete();
+
+        return view('pendaftaran.ajax-table-riwayat-penyakit');
+    }
+
+    public function resumeRiwayatPenyakit(Request $request)
+    {
+        if ($request->ajax()) {
+            return DataTables::of(RiwayatPenyakit::where('pendaftaran_id', $request->id)->get())
+                ->addColumn('action', function ($row) {
+                    $btn = "<div class='btn btn-danger btn-sm' data-id = '".$row->id."' onClick='removeRiwayatPenyakit(this)'>Hapus</div>";
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->addIndexColumn()
+                ->make(true);
+        }
     }
 }
