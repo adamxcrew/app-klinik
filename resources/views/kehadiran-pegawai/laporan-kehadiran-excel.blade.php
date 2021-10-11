@@ -14,8 +14,8 @@
         @foreach($laporan_kehadiran as $laporan)
         <tr>
             <td>{{$loop->iteration}}</td>
-            <td>{{$laporan->pegawai->nama}}</td>
-            <td>{{$laporan->shift->nama_shift}}</td>
+            <td>{{$laporan->nama}}</td>
+            <td>{{$laporan->nama_shift}}</td>
             <td>{{$laporan->jam_masuk}}</td>
             <td>{{$laporan->jam_keluar}}</td>
             <td>{{tgl_indo($laporan->tanggal)}}</td>

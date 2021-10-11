@@ -43,7 +43,7 @@
                               {!! Form::date('tanggal_akhir', $tanggal_akhir, ['class'=>'form-control','placeholder'=>'Tanggal Mulai']) !!}
                             </div>
                             <div class="col-md-3">
-                              {!! Form::select('pegawai_id', $pegawai, null, ['class'=>'form-control','placeholder'=>'--SEMUA PEGAWAI--']) !!}
+                              {!! Form::select('kelompok_pegawai_id', $kelompok_pegawai, null, ['class'=>'form-control','placeholder'=>'--SEMUA KELOMPOK PEGAWAI--']) !!}
                             </div>
                             <div class="col-md-3">
                                 <button type="submit" name="type" value="web" class="btn btn-danger"><i class="fa fa-cogs" aria-hidden="true"></i>
@@ -131,6 +131,10 @@
             <th>Tanggal Selesai</th>
             <td><input type="date" name="tanggal_selesai" class="form-control"></td>
           </tr>
+          <tr>
+            <th>Kelompok Pegawai</th>
+            <td>{!! Form::select('kelompok_pegawai_id', $kelompok_pegawai, null, ['class'=>'form-control','placeholder'=>'--SEMUA KELOMPOK PEGAWAI--']) !!}</td>
+          </tr>
         </table>
       </div>
       <div class="modal-footer">
@@ -153,7 +157,7 @@
     $('#pegawai-table').DataTable({
       processing: true,
       serverSide: true,
-      ajax: "/kehadiran-pegawai?tanggal_awal={{$tanggal_awal}}&tanggal_akhir={{$tanggal_akhir}}&pegawai_id={{$pegawai_id}}&type=web",
+      ajax: "/kehadiran-pegawai?tanggal_awal={{$tanggal_awal}}&tanggal_akhir={{$tanggal_akhir}}&kelompok_pegawai_id={{$kelompok_pegawai_id}}&type=web",
       columns: [
         {
           data: 'pegawai.nip',

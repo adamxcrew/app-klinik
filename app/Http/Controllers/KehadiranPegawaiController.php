@@ -12,6 +12,7 @@ use App\Exports\KehadiranPegawaiExport;
 use App\Imports\KehadiranPegawaiImport;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\KehadiranPegawaiStoreRequest;
+use App\Models\KelompokPegawai;
 
 class KehadiranPegawaiController extends Controller
 {
@@ -28,10 +29,10 @@ class KehadiranPegawaiController extends Controller
      */
     public function index(Request $request)
     {
-        $data['pegawai']        = Pegawai::pluck('nama', 'id');
+        $data['kelompok_pegawai']  = KelompokPegawai::pluck('nama_kelompok', 'id');
         $data['tanggal_awal']   = $request->tanggal_awal ?? date('Y-m-d');
         $data['tanggal_akhir']  = $request->tanggal_akhir ?? date('Y-m-d');
-        $data['pegawai_id']     = $request->pegawai_id;
+        $data['kelompok_pegawai_id'] = $request->kelompok_pegawai_id;
 
         if ($request->ajax()) {
             $start = date('Y-m-d', strtotime($request->tanggal_awal));
@@ -39,8 +40,9 @@ class KehadiranPegawaiController extends Controller
 
             $kehadiran_pegawai = KehadiranPegawai::with(['pegawai', 'shift'])->whereBetween('tanggal', [$start, $end]);
 
-            if ($request->pegawai_id) {
-                $kehadiran_pegawai = $kehadiran_pegawai->where('pegawai_id', $_GET['pegawai_id']);
+            if ($request->kelompok_pegawai_id) {
+                $pegawai = Pegawai::where('kelompok_pegawai_id', $request->kelompok_pegawai_id)->first();
+                $kehadiran_pegawai = $kehadiran_pegawai->where('pegawai_id', $pegawai->id);
             }
 
             $status_kehadiran = $this->status_kehadiran;
@@ -69,7 +71,7 @@ class KehadiranPegawaiController extends Controller
 
     public function export_excel(Request $request)
     {
-        return Excel::download(new KehadiranPegawaiExport($request->tanggal_mulai, $request->tanggal_selesai), 'Kehadiran Pegawai.xlsx');
+        return Excel::download(new KehadiranPegawaiExport($request->tanggal_mulai, $request->tanggal_selesai, $request->kelompok_pegawai_id), 'Kehadiran Pegawai.xlsx');
     }
 
     public function import_excel(Request $request)
@@ -78,7 +80,7 @@ class KehadiranPegawaiController extends Controller
         $filenameWithExt    = $request->file('import_file')->getClientOriginalName();
         $filename           = pathinfo($filenameWithExt, PATHINFO_FILENAME);
         $extension          = $request->file('import_file')->getClientOriginalExtension();
-        $fileNameToStore    = $filename.'_'.time().'.'.$extension;
+        $fileNameToStore    = $filename . '_' . time() . '.' . $extension;
         $path = $request->file('import_file')->storeAs('public/file-excel', $fileNameToStore);
         try {
             Excel::import(new KehadiranPegawaiImport, $path);
