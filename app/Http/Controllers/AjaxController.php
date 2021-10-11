@@ -9,6 +9,7 @@ use App\Models\PurchaseOrderDetail;
 use App\Models\PermintaanBarangInternalDetail;
 use App\User;
 use App\Models\Pasien;
+use App\Models\Pegawai;
 
 class AjaxController extends Controller
 {
@@ -69,6 +70,12 @@ class AjaxController extends Controller
         return Pasien::where('id', $request->pasien_id)->first();
     }
 
+    public function user(Request $request)
+    {
+        $pegawai = Pegawai::findOrFail($request->pegawai_id);
+        return User::where('id', $pegawai->user_id)->first();
+    }
+
     public function purchaseOrderEditTable(Request $request)
     {
         if ($request->name !== null && $request->value !== null) {
@@ -92,7 +99,7 @@ class AjaxController extends Controller
         $permintaanBarangDetail = PermintaanBarangInternalDetail::find($request->pk);
         $request['oldValue'] = $permintaanBarangDetail->jumlah_diterima;
         $permintaanBarangDetail->update([$request->name => $request->value]);
-        
+
         return $request->all();
     }
 
