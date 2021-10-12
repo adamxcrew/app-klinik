@@ -20,6 +20,7 @@
         <div class="box">
 
           <div class="box-body">
+            @include('validation_error')
             <hr>
             @include('alert')
             {!! Form::open(['url'=>'neraca-saldo','method'=>'GET']) !!}

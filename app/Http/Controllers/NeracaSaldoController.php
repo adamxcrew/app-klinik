@@ -8,6 +8,7 @@ use App\Models\Jurnal;
 use Illuminate\Http\Request;
 use App\Exports\NeracaSaldoExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Requests\NeracaSaldoStoreRequest;
 
 class NeracaSaldoController extends Controller
 {
@@ -61,7 +62,7 @@ class NeracaSaldoController extends Controller
         return view('neraca-saldo.index', $data);
     }
 
-    public function export_excel(Request $request)
+    public function export_excel(NeracaSaldoStoreRequest $request)
     {
         return Excel::download(new NeracaSaldoExport($request->periode), 'Neraca Saldo.xlsx');
     }
