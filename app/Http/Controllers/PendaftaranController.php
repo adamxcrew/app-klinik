@@ -332,7 +332,6 @@ class PendaftaranController extends Controller
     {
         $pendaftaran = Pendaftaran::findOrFail($id);
         $pendaftaran->update(['status_pelayanan'=>'selesai_pelayanan']);
-        return redirect('/pendaftaran')->with('message','Selesai Melakukan Pelayanan');
-
+        return redirect('/pendaftaran')->with('message', 'Selesai Melakukan Pelayanan');
     }
 }
