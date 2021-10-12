@@ -100,7 +100,6 @@ Route::middleware(['auth'])->group(function () {
     Route::put('gaji-detail/{id}/update', 'GajiController@update')->name('gaji-detail.update');
     Route::delete('gaji-detail/{id}', 'GajiController@destroy')->name('gaji-detail.delete');
     Route::resource('gaji', 'GajiController');
-    Route::resource('neraca-saldo', 'NeracaSaldoController');
     Route::resource('kelompok-pegawai', 'KelompokPegawaiController');
 
     Route::resource('perusahaan-asuransi', 'PerusahaanAsuransiController');
@@ -117,6 +116,13 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('laporan')->group(function () {
         Route::get('/kunjungan-perpoli', 'LaporanController@laporanKunjunganPerPoli');
     });
+
+    /**
+     * Route neraca saldo
+     */
+    Route::post('neraca-saldo/export_excel', 'NeracaSaldoController@export_excel')->name('neraca-saldo.export_excel');
+    Route::resource('neraca-saldo', 'NeracaSaldoController');
+    /** End */
 
     /**
      * Route pegawai & kelola kehadiran pegawai

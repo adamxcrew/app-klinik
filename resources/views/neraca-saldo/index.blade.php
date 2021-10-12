@@ -20,27 +20,25 @@
         <div class="box">
 
           <div class="box-body">
+            @include('validation_error')
             <hr>
             @include('alert')
             {!! Form::open(['url'=>'neraca-saldo','method'=>'GET']) !!}
             <table class="table table-bordered">
-                <tr>
-                    <td width="200">Tanggal Mulai</td>
-                    <td>
-                        <div class="row">
-                            <div class="col-md-3">
-                              {!! Form::date('tanggal_awal', $tanggal_awal, ['class'=>'form-control','placeholder'=>'Tanggal Mulai']) !!}
-                            </div>
-                            <div class="col-md-3">
-                              {!! Form::date('tanggal_akhir', $tanggal_akhir, ['class'=>'form-control','placeholder'=>'Tanggal Mulai']) !!}
-                            </div>
-                            <div class="col-md-4">
-                                <button type="submit" name="type" value="web" class="btn btn-danger"><i class="fa fa-cogs" aria-hidden="true"></i>
-                                   Filter Neraca Saldo</button>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
+              <tr>
+                <td width="200">Periode</td>
+                <td width="200">
+                  <input class="form-control" name="periode" type="month" value="{{$periode}}" />
+                </td>
+                <td width="130">
+                  <button type="submit" class="btn btn-danger btn btn-sm">Tampilkan</button>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-export">
+                    <i class="fa fa-download"></i> Export Excel
+                  </button>
+                </td>
+              </tr>
             </table>
             {!! Form::close() !!}
             <table class="table table-bordered table-striped" id="users-table">
@@ -60,6 +58,33 @@
     </div>
   </section>
 </div>
+<!-- Modal Export Excel-->
+<div class="modal fade" id="modal-export" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Export data neraca saldo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {{ Form::open(['route' => 'neraca-saldo.export_excel', 'method' => 'post']) }}
+      <div class="modal-body">
+        <table class="table table-bordered">
+          <tr>
+            <th>Periode</th>
+            <td><input type="month" name="periode" class="form-control"></td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+        <button type="submit" class="btn btn-primary">Download</button>
+      </div>
+      {{ Form::close() }}
+    </div>
+  </div>
+</div>
 @endsection
 
 @push('scripts')
@@ -71,7 +96,7 @@
     $('#users-table').DataTable({
       processing: true,
       serverSide: true,
-      ajax: '/neraca-saldo?tanggal_awal={{$tanggal_awal}}&tanggal_akhir={{$tanggal_akhir}}',
+      ajax: '/neraca-saldo?periode={{$periode}}',
       columns: [{
           data: 'DT_RowIndex',
           orderable: false,

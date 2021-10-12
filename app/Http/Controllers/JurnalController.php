@@ -40,6 +40,7 @@ class JurnalController extends Controller
      */
     public function create()
     {
+        $data['periode'] = date('Y-m');
         $data['akunList'] = Akun::pluck('nama', 'id');
         return view('jurnal.create', $data);
     }
