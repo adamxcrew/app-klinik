@@ -843,8 +843,9 @@
 @endpush
 
 @push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<script src="{{asset('/select2/dist/js/select2.min.js')}}"></script>
 <script src="{{asset('adminlte/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 <script>
     $(document).ready(function () {
 		getRiwayatPenyakit()
@@ -852,7 +853,7 @@
             placeholder: 'Cari Riwayat Penyakit',
             multiple: false,
             ajax: {
-                url: '/ajax/select2RiwayatPenyakit',
+                url: '/ajax/select2ICD',
                 dataType: 'json',
                 delay: 250,
                 multiple: false,

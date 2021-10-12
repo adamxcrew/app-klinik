@@ -167,7 +167,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('ajax/select2Pasien', 'AjaxController@select2Pasien');
     Route::get('ajax/select2Barang', 'AjaxController@select2Barang');
     Route::get('ajax/select2Tindakan', 'AjaxController@select2Tindakan');
-    Route::get('ajax/select2RiwayatPenyakit', 'AjaxController@select2RiwayatPenyakit');
+    Route::get('ajax/select2ICD', 'AjaxController@select2ICD');
     Route::get('ajax/select2User', 'AjaxController@select2User');
     Route::get('ajax/pasien', 'AjaxController@pasien');
     Route::get('ajax/user', 'AjaxController@user');

@@ -66,7 +66,7 @@ class AjaxController extends Controller
         return response()->json($data);
     }
 
-    public function select2RiwayatPenyakit(Request $request)
+    public function select2ICD(Request $request)
     {
         $data = \DB::table('tbm_icd')
             ->select('id', 'indonesia')
