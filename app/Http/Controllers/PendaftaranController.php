@@ -17,6 +17,7 @@ use DB;
 use App\Http\Requests\PendaftaranInputTandaVitalRequest;
 use App\Http\Requests\PendaftaranStoreRequest;
 use App\Models\PerusahaanAsuransi;
+use App\Models\Pegawai;
 
 class PendaftaranController extends Controller
 {
@@ -111,6 +112,7 @@ class PendaftaranController extends Controller
             $data['tindakan'] = Tindakan::all();
             $data['diagnosa'] = Diagnosa::all();
             $data['obat']     = Obat::all();
+            $data['dokter']   = Pegawai::pluck('nama', 'id');
             return view('pendaftaran.pemeriksaan_tindakan', $data);
         }
 
@@ -324,5 +326,13 @@ class PendaftaranController extends Controller
                 ->addIndexColumn()
                 ->make(true);
         }
+    }
+
+    public function selesai($id)
+    {
+        $pendaftaran = Pendaftaran::findOrFail($id);
+        $pendaftaran->update(['status_pelayanan'=>'selesai_pelayanan']);
+        return redirect('/pendaftaran')->with('message','Selesai Melakukan Pelayanan');
+
     }
 }

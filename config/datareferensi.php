@@ -49,6 +49,7 @@ return [
         'WNI'         => 'WNI',
         'WNA'         => 'WNA',
     ],
+
     'golongan_darah'    => [
         '-'         => 'Belum Diperiksa',
         'A'         => 'A',
@@ -56,6 +57,7 @@ return [
         'AB'        => 'AB',
         'O'         => 'O',
     ],
+
     'privilage_khusus'    => [
         'tidak'         => 'TIDAK',
         'tunanetra'     => 'Tunanetra',
@@ -66,6 +68,7 @@ return [
         'tunalaras'     => 'Tunalaras',
         'autis'         => 'Autis',
     ],
+
     'hubungan_pasien'   => [
         'pasien'        => 'PASIEN',
         'istri'         => 'ISTRI',
@@ -74,18 +77,6 @@ return [
         'ibu'           => 'IBU',
         'anak'          => 'ANAK',
         'saudara'       => 'SAUDARA'
-    ],
-    'penjamin'    => [
-        'umum'                      => 'UMUM',
-        'PT.INKORDAN'               => 'PT.INKORDAN',
-        'PT.IWON APPAREL INDONESIA' => 'PT.IWON APPAREL INDONESIA',
-        'PT.MITRAIDA'               => 'PT.MITRAIDA',
-        'PT.OASIS'                  => 'PT.OASIS',
-        'PT.SERENA INDOPANGAN'      => 'PT.SERENA INDOPANGAN',
-        'PT.SUPER GRAHA MAKMUR'     => 'PT.SUPER GRAHA MAKMUR',
-        'PT.SUPER GRAHA MAKMUR Hj'  => 'PT.SUPER GRAHA MAKMUR Hj',
-        'PT.SUPER GRAHA MAKMUR MRH' => 'PT.SUPER GRAHA MAKMUR MRH',
-        'PT.UNIMAKMUR'              => 'PT.UNIMAKMUR',
     ],
     
     'status_kehadiran'    => [
@@ -98,7 +89,8 @@ return [
 
     'status_pelayanan' => [
         'pendaftaran'=>'Pendaftaran',
-        'selesai_pemeriksaan_medis'=>'Selesai Pemeriksaan Medis'
+        'selesai_pemeriksaan_medis'=>'Selesai Pemeriksaan Medis',
+        'selesai_pelayanan'=>'Selesai Pelayanan'
     ],
 
 
