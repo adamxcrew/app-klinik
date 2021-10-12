@@ -352,18 +352,19 @@ class PendaftaranController extends Controller
                     $btn = "<div class='btn btn-danger btn-sm' data-id = '" . $row->id . "' onClick='removeDiagnosa(this)'>Hapus</div>";
                     return $btn;
                 })
-                ->editColumn('tbm_icd', function($row){
+                ->editColumn('tbm_icd', function ($row) {
                     return $row->icd->indonesia;
                 })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
         }
+    }
 
     public function selesai($id)
     {
         $pendaftaran = Pendaftaran::findOrFail($id);
         $pendaftaran->update(['status_pelayanan'=>'selesai_pelayanan']);
-        return redirect('/pendaftaran')->with('message','Selesai Melakukan Pelayanan');
+        return redirect('/pendaftaran')->with('message', 'Selesai Melakukan Pelayanan');
     }
 }
