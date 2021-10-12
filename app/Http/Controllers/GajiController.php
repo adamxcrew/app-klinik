@@ -11,6 +11,7 @@ use App\Models\KomponenGaji;
 use Illuminate\Http\Request;
 use App\Models\PegawaiTunjanganGaji;
 use App\Http\Requests\GajiDetailStoreRequest;
+use App\Models\KehadiranPegawai;
 
 class GajiController extends Controller
 {
@@ -181,6 +182,18 @@ class GajiController extends Controller
         $pegawai = Pegawai::with('kelompok_pegawai')->findOrFail($gaji->pegawai_id);
         $gaji_detail = GajiDetail::with('komponen_gaji')->where('pegawai_id', $pegawai->id)->get();
 
+        // Handle tunjangan gaji
+        $status_kehadiran = [];
+        $kehadiran = KehadiranPegawai::where('pegawai_id', $pegawai->id);
+
+        foreach ($kehadiran->get() as $k) {
+            array_push($status_kehadiran, ['status' => $k->status]);
+        }
+
+        $tanggal_mulai = $kehadiran->first();
+        $tanggal_akhir = $kehadiran->latest()->first();
+        $total_kehadiran = hitung_kehadiran($pegawai->id, $tanggal_mulai->tanggal, $tanggal_akhir->tanggal, $status_kehadiran);
+
         Fpdf::AddPage('L', 'A5');
         Fpdf::SetFont('Arial', 'B', 14);
         Fpdf::Cell(190, 7, 'LAPORAN SLIP GAJI KARYAWAN', 1, 1, 'C');
@@ -223,9 +236,15 @@ class GajiController extends Controller
         $jml_penambah = 0;
 
         $penambah = [];
+        // Gaji pokok
         $penambah[0]['nama_komponen'] = 'gaji pokok';
         $penambah[0]['jumlah'] = $pegawai->gaji_pokok;
         $penambah[0]['jenis'] = 'penambah';
+
+        // Tunjangan kehadiran
+        $penambah[1]['nama_komponen'] = 'Tunjangan Kehadiran';
+        $penambah[1]['jumlah'] = $total_kehadiran * $pegawai->gaji_pokok;
+        $penambah[1]['jenis'] = 'penambah';
 
         $i = 1;
 
