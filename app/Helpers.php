@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\KehadiranPegawai;
+
 function generateUniqNumber($table, $field, $prefix)
 {
     $latestValue = \DB::table($table)->max($field);
@@ -115,5 +117,18 @@ function tgl_indo($tanggal)
         'Desember'
     );
     $pecahkan = explode('-', $tanggal);
-    return $pecahkan[2] . ' ' . $bulan[ (int)$pecahkan[1] ] . ' ' . $pecahkan[0];
+    return $pecahkan[2] . ' ' . $bulan[(int)$pecahkan[1]] . ' ' . $pecahkan[0];
+}
+
+function hitung_kehadiran($pegawai_id, $tanggal_mulai, $tanggal_akhir, $status_kehadiran)
+{
+    $kehadiran_pegawai = KehadiranPegawai::with('pegawai')
+        ->where('pegawai_id', $pegawai_id)
+        ->where('status', $status_kehadiran[0])
+        ->orWhere('status', $status_kehadiran[1])
+        ->whereBetween('tanggal', [$tanggal_mulai, $tanggal_akhir])
+        ->get()
+        ->count();
+
+    return $kehadiran_pegawai;
 }
