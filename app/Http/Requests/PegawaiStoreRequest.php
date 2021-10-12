@@ -32,6 +32,7 @@ class PegawaiStoreRequest extends FormRequest
             'no_hp'         =>  'required',
             'gaji_pokok'    =>  'required',
             'tanggal_masuk' =>  'required',
+            'tunjangan_kehadiran' =>  'required',
         ];
     }
 }

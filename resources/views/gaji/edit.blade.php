@@ -26,9 +26,11 @@
       <div class="col-md-9">
         <div class="box">
           <div class="box-body">
+            @if (auth()->user()->role != 'pimpinan')
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#komponen-modal">
               <i class="fa fa-plus"></i> Tambah Komponen Gaji
             </button>
+            @endif
             <a href="/gaji/{{ $gaji->id }}/cetak" target="new" class="btn btn-primary"><i class="fa fa-print" aria-hidden="true"></i>
                Cetak Slip Gaji</a>
                <a href="/gaji" class="btn btn-primary"><i class="fa fa-share-square-o" aria-hidden="true"></i> Kembali</a>
