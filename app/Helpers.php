@@ -124,8 +124,7 @@ function hitung_kehadiran($pegawai_id, $tanggal_mulai, $tanggal_akhir, $status_k
 {
     $kehadiran_pegawai = KehadiranPegawai::with('pegawai')
         ->where('pegawai_id', $pegawai_id)
-        ->where('status', $status_kehadiran[0])
-        ->orWhere('status', $status_kehadiran[1])
+        ->whereIn('status', $status_kehadiran)
         ->whereBetween('tanggal', [$tanggal_mulai, $tanggal_akhir])
         ->get()
         ->count();
