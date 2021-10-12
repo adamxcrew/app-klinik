@@ -45,6 +45,8 @@ class GajiController extends Controller
                         ]);
                     }
                 }
+
+                return redirect('/gaji?periode='.$periode);
             }
 
             return DataTables::of($gaji)

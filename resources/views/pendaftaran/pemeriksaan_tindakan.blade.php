@@ -43,6 +43,18 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td>Dokter</td>
+                                        <td>
+                                            {!! Form::select('dokter', $dokter, null, ['class'=>'form-control']) !!}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Asistensi</td>
+                                        <td>
+                                            {!! Form::select('asisten', $dokter, null, ['class'=>'form-control']) !!}
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td></td>
                                         <td>
                                             <div class="btn btn-primary add-item" onClick="addItem(this)"
