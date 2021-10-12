@@ -30,6 +30,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pendaftaran-add-item/{id}', 'PendaftaranController@addItem');
     Route::resource('pendaftaran', 'PendaftaranController');
 
+    // route pendaftaran riwayat penyakit
+    Route::post('riwayat-penyakit-add-item/{id}', 'PendaftaranController@pemeriksaanRiwayatPenyakit');
+    Route::get('resume/riwayat_penyakit', 'PendaftaranController@resumeRiwayatPenyakit')->name('resume.riwayatPenyakit');
+    Route::delete('riwayat-penyakit-remove-item/{id}', 'PendaftaranController@pemeriksaanRiwayatPenyakitHapus');
+
     // route pendaftaran pasien yang sudah pernah terdaftar
     Route::post('pendaftaran/insert', 'PendaftaranController@pendaftaranInsert')->name('pendaftaran.insert');
 
@@ -162,6 +167,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('ajax/select2Pasien', 'AjaxController@select2Pasien');
     Route::get('ajax/select2Barang', 'AjaxController@select2Barang');
     Route::get('ajax/select2Tindakan', 'AjaxController@select2Tindakan');
+    Route::get('ajax/select2ICD', 'AjaxController@select2ICD');
     Route::get('ajax/select2User', 'AjaxController@select2User');
     Route::get('ajax/pasien', 'AjaxController@pasien');
     Route::get('ajax/user', 'AjaxController@user');
