@@ -129,7 +129,7 @@ class AjaxController extends Controller
         $item = PurchaseOrderDetail::findOrFail($request->id);
         $item->update($request->only('catatan', 'approval'));
         $purchase_order = \DB::select("select sum(harga*qty) as total from purchase_order_detail where approval=1
-        and purchase_order_id=".$item->purchase_order_id);
+        and purchase_order_id=" . $item->purchase_order_id);
 
         return response()->json(
             [

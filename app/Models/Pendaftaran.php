@@ -53,7 +53,7 @@ class Pendaftaran extends Model
     {
         return unserialize($value);
     }
-    
+
     public function getPemeriksaanKlinisAttribute($value)
     {
         return unserialize($value);

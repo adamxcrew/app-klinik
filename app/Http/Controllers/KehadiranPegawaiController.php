@@ -83,7 +83,7 @@ class KehadiranPegawaiController extends Controller
         $fileNameToStore    = $filename . '_' . time() . '.' . $extension;
         $path = $request->file('import_file')->storeAs('public/file-excel', $fileNameToStore);
         try {
-            Excel::import(new KehadiranPegawaiImport, $path);
+            Excel::import(new KehadiranPegawaiImport(), $path);
             return redirect(route('kehadiran-pegawai.index'))->with('message', 'Data kehadiran pegawai berhasil diimport!');
         } catch (\Throwable $th) {
             return redirect(route('kehadiran-pegawai.index'))->with('message', 'File excel tidak valid!');

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Kelola Data Obat')
+@section('title','Buku Besar')
 @section('content')
 <div class="content-wrapper">
     <section class="content-header">
@@ -20,9 +20,6 @@
             <div class="box">
         
               <div class="box-body">
-                  {{-- <a href="{{route('obat.create')}}" class="btn btn-info btn-social btn-flat"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
-                     Tambah Data</a> --}}
-                  <hr>
                 @include('alert')
                 <table class="table table-bordered table-striped text-center" id="akun-table">
                   <thead>

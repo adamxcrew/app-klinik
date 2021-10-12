@@ -107,14 +107,14 @@ class PendaftaranController extends Controller
     {
         $jenis          = $request->segment(4);
         $data['pendaftaran']   = Pendaftaran::with('pasien', 'perusahaanAsuransi')->find($id);
-        if ($jenis=='tindakan') {
+        if ($jenis == 'tindakan') {
             $data['tindakan'] = Tindakan::all();
             $data['diagnosa'] = Diagnosa::all();
             $data['obat']     = Obat::all();
             return view('pendaftaran.pemeriksaan_tindakan', $data);
         }
 
-        return view('pendaftaran.pemeriksaan_'.$jenis, $data);
+        return view('pendaftaran.pemeriksaan_' . $jenis, $data);
     }
 
 
@@ -261,7 +261,7 @@ class PendaftaranController extends Controller
         if ($request->ajax()) {
             return DataTables::of(PendaftaranResume::where('jenis', 'tindakan')->with('tindakan')->get())
                 ->addColumn('action', function ($row) {
-                    $btn = "<div class='btn btn-danger btn-sm' data-id = '".$row->id."' data-jenis='tindakan' onClick='removeItem(this)'>Hapus</div>";
+                    $btn = "<div class='btn btn-danger btn-sm' data-id = '" . $row->id . "' data-jenis='tindakan' onClick='removeItem(this)'>Hapus</div>";
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -280,7 +280,7 @@ class PendaftaranController extends Controller
                 PendaftaranResume::create($data);
             }
         }
-        return view('pendaftaran.ajax-table-'. $request->jenis);
+        return view('pendaftaran.ajax-table-' . $request->jenis);
     }
 
     public function resumePilihTindakan(Request $request)
@@ -303,7 +303,7 @@ class PendaftaranController extends Controller
         RiwayatPenyakit::create($request->all());
         return view('pendaftaran.ajax-table-riwayat-penyakit');
     }
-    
+
     public function pemeriksaanRiwayatPenyakitHapus($id)
     {
         $data = RiwayatPenyakit::findOrFail($id);
@@ -317,7 +317,7 @@ class PendaftaranController extends Controller
         if ($request->ajax()) {
             return DataTables::of(RiwayatPenyakit::where('pendaftaran_id', $request->id)->get())
                 ->addColumn('action', function ($row) {
-                    $btn = "<div class='btn btn-danger btn-sm' data-id = '".$row->id."' onClick='removeRiwayatPenyakit(this)'>Hapus</div>";
+                    $btn = "<div class='btn btn-danger btn-sm' data-id = '" . $row->id . "' onClick='removeRiwayatPenyakit(this)'>Hapus</div>";
                     return $btn;
                 })
                 ->rawColumns(['action'])

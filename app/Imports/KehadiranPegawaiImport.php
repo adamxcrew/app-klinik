@@ -30,10 +30,10 @@ class KehadiranPegawaiImport implements ToModel
             ];
 
             // otomatis membuat data shift jika belum ada
-            $shift = Shift::firstOrCreate(['nama_shift'=>$row[6]], $shiftData);
+            $shift = Shift::firstOrCreate(['nama_shift' => $row[6]], $shiftData);
 
             // otomatis membuat jadwal shift karyawan jika belum ada
-            PegawaiShift::firstOrCreate(['tanggal'=>date('Y-m-d', strtotime($row[5])),'pegawai_id'=>$pegawai->id], ['tanggal'=>$row[6],'pegawai_id'=>$pegawai->id,'shift_id'=>$shift->id]);
+            PegawaiShift::firstOrCreate(['tanggal' => date('Y-m-d', strtotime($row[5])),'pegawai_id' => $pegawai->id], ['tanggal' => $row[6],'pegawai_id' => $pegawai->id,'shift_id' => $shift->id]);
 
             if ($pegawai) {
                 KehadiranPegawai::create(
@@ -42,7 +42,7 @@ class KehadiranPegawaiImport implements ToModel
                     'tanggal'       => date('Y-m-d', strtotime($row[5])),
                     'jam_masuk'     => $row[7],
                     'jam_keluar'    => $row[8],
-                    'status'        => $row[13]==null?'hadir':'terlambat',
+                    'status'        => $row[13] == null ? 'hadir' : 'terlambat',
                     'shift_id'      => $shift->id]
                 );
             } else {

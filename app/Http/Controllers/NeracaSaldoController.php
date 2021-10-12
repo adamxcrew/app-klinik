@@ -27,7 +27,6 @@ class NeracaSaldoController extends Controller
             $i = 0;
 
             foreach ($jurnal as $j) {
-
                 $debet = DB::table('jurnal')->select(DB::raw('SUM(nominal) as total'))
                     ->where('akun_id', $j->akun_id)
                     ->where('tipe', 'debet')
@@ -59,11 +58,12 @@ class NeracaSaldoController extends Controller
                 ->addIndexColumn()
                 ->make(true);
         }
-        return view('neraca-saldo.index', $data);
-    }
 
-    public function export_excel(NeracaSaldoStoreRequest $request)
-    {
-        return Excel::download(new NeracaSaldoExport($request->periode), 'Laporan Neraca Saldo ' . date('F Y', strtotime($request->periode)) . '.xlsx');
+        if ($request->has('action')) {
+            if ($request->action == 'download') {
+                return Excel::download(new NeracaSaldoExport($request->periode), 'Laporan Neraca Saldo ' . date('F Y', strtotime($request->periode)) . '.xlsx');
+            }
+        }
+        return view('neraca-saldo.index', $data);
     }
 }

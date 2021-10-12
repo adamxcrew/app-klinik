@@ -26,17 +26,16 @@
             {!! Form::open(['url'=>'neraca-saldo','method'=>'GET']) !!}
             <table class="table table-bordered">
               <tr>
-                <td width="200">Periode</td>
-                <td width="200">
-                  <input class="form-control" name="periode" type="month" value="{{$periode}}" />
-                </td>
-                <td width="130">
-                  <button type="submit" class="btn btn-danger btn btn-sm">Tampilkan</button>
-                </td>
+                <td width="290">Periode</td>
                 <td>
-                  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-export">
-                    <i class="fa fa-download"></i> Export Excel
-                  </button>
+                  <input class="form-control" id="NoIconDemo" name="periode" type="month" value="{{$periode}}" />
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>
+                  <button type="submit" name="action" value="filter" class="btn btn-danger btn btn-sm">Tampilkan</button>
+                  <button type="submit" name="action" value="download" class="btn btn-success btn btn-sm"><i class="fa fa-download"></i> Download Excel</button>
                 </td>
               </tr>
             </table>
@@ -58,41 +57,21 @@
     </div>
   </section>
 </div>
-<!-- Modal Export Excel-->
-<div class="modal fade" id="modal-export" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Export data neraca saldo</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      {{ Form::open(['route' => 'neraca-saldo.export_excel', 'method' => 'post']) }}
-      <div class="modal-body">
-        <table class="table table-bordered">
-          <tr>
-            <th>Periode</th>
-            <td><input type="month" name="periode" class="form-control"></td>
-          </tr>
-        </table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-        <button type="submit" class="btn btn-primary">Download</button>
-      </div>
-      {{ Form::close() }}
-    </div>
-  </div>
-</div>
 @endsection
 
 @push('scripts')
 <!-- DataTables -->
+<script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
 <script src="{{asset('adminlte/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+<script src="{{asset('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<script src="{{asset('jquery-ui-month-picker-master/src/MonthPicker.js')}}"></script>
 <script>
   $(function() {
+    $('#NoIconDemo').MonthPicker({ Button: false });
+    $("#NoIconDemo").MonthPicker('option', 'MonthFormat','yy-mm');
+
     $('#users-table').DataTable({
       processing: true,
       serverSide: true,
@@ -126,4 +105,6 @@
 
 @push('css')
 <link rel="stylesheet" href="{{asset('adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
+<link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="{{asset('jquery-ui-month-picker-master/src/MonthPicker.css')}}">
 @endpush

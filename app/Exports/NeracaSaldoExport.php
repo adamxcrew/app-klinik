@@ -25,7 +25,6 @@ class NeracaSaldoExport implements FromView, ShouldAutoSize
         $i = 0;
 
         foreach ($jurnal as $j) {
-
             $debet = DB::table('jurnal')->select(DB::raw('SUM(nominal) as total'))
                 ->where('akun_id', $j->akun_id)
                 ->where('tipe', 'debet')

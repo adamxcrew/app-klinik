@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Kelola Data Akun')
+@section('title','Kelola Jurnal Umum')
 @section('content')
 <div class="content-wrapper">
   <section class="content-header">
