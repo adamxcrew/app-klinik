@@ -848,7 +848,7 @@
 <script src="{{asset('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 <script>
     $(document).ready(function () {
-		getRiwayatPenyakit()
+		    getRiwayatPenyakit()
         $('#riwayat_penyakit_id').select2({
             placeholder: 'Cari Riwayat Penyakit',
             multiple: false,

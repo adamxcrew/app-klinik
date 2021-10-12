@@ -35,6 +35,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('resume/riwayat_penyakit', 'PendaftaranController@resumeRiwayatPenyakit')->name('resume.riwayatPenyakit');
     Route::delete('riwayat-penyakit-remove-item/{id}', 'PendaftaranController@pemeriksaanRiwayatPenyakitHapus');
 
+    // route input diagnosa
+    Route::post('diagnosa-add-item/{id}', 'PendaftaranController@pemeriksaanDiagnosa');
+    Route::get('resume/diagnosaICD', 'PendaftaranController@resumeDiagnosaICD')->name('resume.diagnosaICD');
+    Route::delete('diagnosa-remove-item/{id}', 'PendaftaranController@pemeriksaanDiagnosaHapus');
+
     // route pendaftaran pasien yang sudah pernah terdaftar
     Route::post('pendaftaran/insert', 'PendaftaranController@pendaftaranInsert')->name('pendaftaran.insert');
 
