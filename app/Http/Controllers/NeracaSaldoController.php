@@ -64,6 +64,6 @@ class NeracaSaldoController extends Controller
 
     public function export_excel(NeracaSaldoStoreRequest $request)
     {
-        return Excel::download(new NeracaSaldoExport($request->periode), 'Neraca Saldo.xlsx');
+        return Excel::download(new NeracaSaldoExport($request->periode), 'Laporan Neraca Saldo ' . date('F Y', strtotime($request->periode)) . '.xlsx');
     }
 }
