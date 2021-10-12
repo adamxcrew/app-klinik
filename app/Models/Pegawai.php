@@ -19,7 +19,8 @@ class Pegawai extends Model
         'gaji_pokok',
         'user_id',
         'tanggal_masuk',
-        'tanggal_keluar'
+        'tanggal_keluar',
+        'tunjangan_kehadiran'
     ];
 
     public function kelompok_pegawai()

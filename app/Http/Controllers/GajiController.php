@@ -49,12 +49,14 @@ class GajiController extends Controller
 
             return DataTables::of($gaji)
                 ->addColumn('action', function ($row) {
+                    $btn = '<a class="btn btn-danger btn-sm" href="/gaji/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> ';
                     if (auth()->user()->role != 'pimpinan') {
                         $btn = '<a class="btn btn-danger btn-sm" href="/gaji/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> ';
                         $btn .= '<a class="btn btn-danger btn-sm" href="/gaji/' . $row->id . '/cetak"><i class="fa fa-print" aria-hidden="true"></i></a> ';
                     } else {
-                        $btn = \Form::open(['url' => 'gaji/approve/' . $row->id, 'method' => 'POST', 'style' => 'float:right;margin-right:5px']);
-                        $btn .= "<button type='submit' class='btn btn-danger btn-sm'>Approve</button>";
+                        $btn .= \Form::open(['url' => 'gaji/approve/' . $row->id, 'method' => 'POST', 'style' => 'float:right;margin-right:5px']);
+                        $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-check-square' aria-hidden='true'></i>
+                        </button>";
                         $btn .= \Form::close();
                     }
                     return $btn;
@@ -143,10 +145,13 @@ class GajiController extends Controller
         if ($request->ajax()) {
             return DataTables::of(GajiDetail::where('gaji_id', $data['gaji']->id)->with(['komponen_gaji', 'gaji'])->get())
                 ->addColumn('action', function ($row) {
-                    $btn = \Form::open(['url' => 'gaji-detail/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
+                    $btn = "";
+                    if (auth()->user()->role != 'pimpinan') {
+                        $btn = \Form::open(['url' => 'gaji-detail/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
+                        $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
+                        $btn .= \Form::close();
+                    }
                     $btn .= '<a class="btn btn-primary btn-sm" href="/gaji-detail/' . $row->id . '/edit' . $row->role . '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> ';
-                    $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
-                    $btn .= \Form::close();
                     return $btn;
                 })
                 ->addColumn('gaji.status_bayar', function ($row) {
@@ -202,9 +207,9 @@ class GajiController extends Controller
     public function cetak($id)
     {
         $namaPerusahaan = "KLINIK NURDIN WAHID";
-        $gaji = Gaji::findOrFail($id);
-        $pegawai = Pegawai::with('kelompok_pegawai')->findOrFail($gaji->pegawai_id);
-        $gaji_detail = GajiDetail::with('komponen_gaji')->where('pegawai_id', $pegawai->id)->where('gaji_id', $id)->get();
+        $gaji           = Gaji::findOrFail($id);
+        $pegawai        = Pegawai::with('kelompok_pegawai')->findOrFail($gaji->pegawai_id);
+        $gaji_detail    = GajiDetail::with('komponen_gaji')->where('pegawai_id', $pegawai->id)->where('gaji_id', $id)->get();
 
         // Handle tunjangan gaji
         $status_kehadiran = [];
@@ -267,7 +272,7 @@ class GajiController extends Controller
 
         // Tunjangan kehadiran
         $penambah[1]['nama_komponen'] = 'Tunjangan Kehadiran';
-        $penambah[1]['jumlah'] = $total_kehadiran * $pegawai->gaji_pokok;
+        $penambah[1]['jumlah'] = $total_kehadiran * $pegawai->tunjangan_kehadiran;
         $penambah[1]['jenis'] = 'penambah';
 
         $i = 1;

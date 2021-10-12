@@ -70,6 +70,15 @@
     </div>
 </div>
 <div class="form-group">
+    <label class="col-sm-2 control-label">Tunjangan Kehadiran</label>
+    <div class="col-sm-4">
+        <div class="input-group">
+            <span class="input-group-addon">Rp</span>
+            {!! Form::number('tunjangan_kehadiran', null, ['class'=>'form-control','Placeholder'=>'Tunjangan Kehadiran']) !!}
+        </div>
+    </div>
+</div>
+<div class="form-group">
     <label class="col-sm-2 control-label">Tanggal masuk & Keluar</label>
     <div class="col-sm-4">
         {!! Form::date('tanggal_masuk', null, ['class'=>'form-control','Placeholder'=>'Tanggal masuk']) !!}
