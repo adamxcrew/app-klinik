@@ -94,6 +94,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('gaji-detail/{id}/edit', 'GajiController@editGajiDetail');
     Route::put('gaji-detail/{id}/update', 'GajiController@update')->name('gaji-detail.update');
     Route::delete('gaji-detail/{id}', 'GajiController@destroy')->name('gaji-detail.delete');
+    Route::post('gaji/approve/{id}', 'GajiController@approve');
     Route::resource('gaji', 'GajiController');
     Route::resource('kelompok-pegawai', 'KelompokPegawaiController');
 

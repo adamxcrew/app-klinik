@@ -49,15 +49,39 @@ class GajiController extends Controller
 
             return DataTables::of($gaji)
                 ->addColumn('action', function ($row) {
-                    $btn = '<a class="btn btn-danger btn-sm" href="/gaji/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> ';
-                    $btn .= '<a class="btn btn-danger btn-sm" href="/gaji/' . $row->id . '/cetak"><i class="fa fa-print" aria-hidden="true"></i></a> ';
+                    if (auth()->user()->role != 'pimpinan') {
+                        $btn = '<a class="btn btn-danger btn-sm" href="/gaji/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> ';
+                        $btn .= '<a class="btn btn-danger btn-sm" href="/gaji/' . $row->id . '/cetak"><i class="fa fa-print" aria-hidden="true"></i></a> ';
+                    } else {
+                        $btn = \Form::open(['url' => 'gaji/approve/' . $row->id, 'method' => 'POST', 'style' => 'float:right;margin-right:5px']);
+                        $btn .= "<button type='submit' class='btn btn-danger btn-sm'>Approve</button>";
+                        $btn .= \Form::close();
+                    }
                     return $btn;
                 })
-                ->rawColumns(['action'])
+                ->addColumn('status_approve', function ($row) {
+                    $btn = "";
+                    if ($row->approval == 1) {
+                        $btn = "<span class='label label-success'>Approved <span class='label label-success'><i class='fa fa-check'></i></span></span>";
+                    } else {
+                        $btn = "<span class='label label-danger'>Approved <span class='label label-danger'><i class='fa fa-times'></i></span></span>";
+                    }
+                    return $btn;
+                })
+                ->rawColumns(['action', 'status_approve'])
                 ->addIndexColumn()
                 ->make(true);
         }
         return view('gaji.index', $data);
+    }
+
+    public function approve($id)
+    {
+        $gaji = Gaji::findOrFail($id);
+        $gaji->update([
+            'approval' => 1
+        ]);
+        return redirect('/gaji')->with('message', 'Data Gaji Pegawai Berhasil Di Approve');
     }
 
     /**

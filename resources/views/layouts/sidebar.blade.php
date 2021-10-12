@@ -116,6 +116,7 @@
       $pimpinan = [
         ['icon' => 'fa fa-user', 'link' => '/home', 'label' => 'Dashboard'],
         ['icon' => 'fa fa-user', 'link' => '/purchase-order', 'label' => 'Purchase Order'],
+        ['icon' => 'fa fa-money', 'link' => '/gaji', 'label' => 'Laporan Gaji'],
       ];
       $poliklinik = [
         ['icon' => 'fa fa-address-card', 'link' => '/pendaftaran', 'label' => 'Data Pasien Antri'],

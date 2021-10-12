@@ -42,6 +42,7 @@
                   <th>NIP</th>
                   <th>Nama Lengkap</th>
                   <th>Periode</th>
+                  <th>Status approve</th>
                   <th width="60">#</th>
                 </tr>
               </thead>
@@ -88,6 +89,10 @@
         {
           data: 'periode',
           name: 'periode'
+        },
+        {
+          data: 'status_approve',
+          name: 'status_approve'
         },
         {
           data: 'action',
