@@ -6,6 +6,8 @@ use DB;
 use DataTables;
 use App\Models\Jurnal;
 use Illuminate\Http\Request;
+use App\Exports\NeracaSaldoExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class NeracaSaldoController extends Controller
 {
@@ -16,12 +18,11 @@ class NeracaSaldoController extends Controller
      */
     public function index(Request $request)
     {
-        $data['tanggal_awal']   = $request->tanggal_awal ?? date('Y-m-d');
-        $data['tanggal_akhir']  = $request->tanggal_akhir ?? date('Y-m-d');
-        $jurnal = Jurnal::with('akun')->groupBy('akun_id')->whereBetween('tanggal', [$data['tanggal_awal'], $data['tanggal_akhir']])->get();
+        $data['periode'] = $request->periode ?? date('Y-m');
+
+        $jurnal = Jurnal::with('akun')->groupBy('akun_id')->where('periode', $data['periode'])->get();
         if ($request->ajax()) {
             $collection = [];
-
             $i = 0;
 
             foreach ($jurnal as $j) {
@@ -58,5 +59,10 @@ class NeracaSaldoController extends Controller
                 ->make(true);
         }
         return view('neraca-saldo.index', $data);
+    }
+
+    public function export_excel(Request $request)
+    {
+        return Excel::download(new NeracaSaldoExport($request->periode), 'Neraca Saldo.xlsx');
     }
 }

@@ -28,6 +28,7 @@
         {!! Form::select('tipe', ['debet' => 'DEBET', 'kredit' => 'KREDIT'],null, ['class' => 'form-control']); !!}
     </div>
 </div>
+<input type="hidden" name="periode" class="form-control" value="{{$periode}}">
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
         <button type="submit" class="btn btn-danger btn btn-sm"><i class="fa fa-floppy-o" aria-hidden="true"></i> Simpan</button>
