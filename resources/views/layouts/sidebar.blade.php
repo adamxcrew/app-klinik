@@ -69,7 +69,7 @@
 
       $kasir = [
         ['icon' => 'fa fa-user', 'link' => '/home', 'label' => 'Dashboard'],
-        ['icon' => 'fa fa-user-circle-o', 'link' => '/pasien', 'label' => 'Pembayaran']
+        ['icon' => 'fa fa-user-circle-o', 'link' => '/pendaftaran', 'label' => 'Data Pasien Antri']
       ];
 
       $hrd = [

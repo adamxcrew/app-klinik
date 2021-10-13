@@ -3,10 +3,17 @@
 @section('content')
 <div class="content-wrapper">
     <section class="content-header">
-      <h1>
-        Daftar Pasien Menunggu Pelayanan
-        <small></small>
-      </h1>
+      @if(auth()->user()->role == 'kasir') 
+        <h1>
+          Daftar Pasien Selesai Pelayanan
+          <small></small>
+        </h1>
+      @else
+        <h1>
+          Daftar Pasien Menunggu Pelayanan
+          <small></small>
+        </h1>
+      @endif
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li class="active">Dashboard</li>

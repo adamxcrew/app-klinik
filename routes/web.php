@@ -124,6 +124,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/kunjungan-perpoli', 'LaporanController@laporanKunjunganPerPoli');
     });
 
+    /** Route pembayaran */
+    Route::get('pembayaran/{id}', 'PembayaranController@index');
+    Route::post('pembayaran/store', 'PembayaranController@store')->name('pembayaran.store');
+    /** End */
+
     /**
      * Route neraca saldo
      */
