@@ -22,7 +22,7 @@ class GajiController extends Controller
      */
     public function index(Request $request)
     {
-        $data['periode'] = $request->periode ?? date('m/Y');
+        $data['periode'] = $request->periode ?? date('Y-m');
         if ($request->ajax()) {
             $gaji = Gaji::with('pegawai')->where('periode', $data['periode'])->get();
             // kalau data nya belum ada maka buat dulu
@@ -46,7 +46,7 @@ class GajiController extends Controller
                     }
                 }
 
-                return redirect('/gaji?periode='.$periode);
+                return redirect('/gaji?periode=' . $data['periode']);
             }
 
             return DataTables::of($gaji)
@@ -210,8 +210,13 @@ class GajiController extends Controller
     {
         $namaPerusahaan = "KLINIK NURDIN WAHID";
         $gaji           = Gaji::findOrFail($id);
+
+        // Hitung end dan start, bulan ini plus tanggal 25.
+        $periodeEnd = $gaji->periode . '-25';
+        $periodeStart = date('Y-m-d', strtotime('-29 day', strtotime($periodeEnd)));
+
         $pegawai        = Pegawai::with('kelompok_pegawai')->findOrFail($gaji->pegawai_id);
-        $gaji_detail    = GajiDetail::with('komponen_gaji')->where('pegawai_id', $pegawai->id)->where('gaji_id', $id)->get();
+        $gaji_detail    = PegawaiTunjanganGaji::with('komponen_gaji')->whereBetween('created_at', [$periodeStart, $periodeEnd])->where('pegawai_id', $pegawai->id)->get();
 
         // Handle tunjangan gaji
         $status_kehadiran = [];
@@ -221,9 +226,7 @@ class GajiController extends Controller
             array_push($status_kehadiran, ['status' => $k->status]);
         }
 
-        $tanggal_mulai = $kehadiran->first();
-        $tanggal_akhir = $kehadiran->latest()->first();
-        $total_kehadiran = hitung_kehadiran($pegawai->id, $tanggal_mulai->tanggal, $tanggal_akhir->tanggal, $status_kehadiran);
+        $total_kehadiran = hitung_kehadiran($pegawai->id, $periodeStart, $periodeEnd, $status_kehadiran);
 
         Fpdf::AddPage('L', 'A5');
         Fpdf::SetFont('Arial', 'B', 14);
@@ -234,7 +237,7 @@ class GajiController extends Controller
         Fpdf::text(12, 22, 'Nama Perusahaan');
         Fpdf::text(38, 22, ' : ' . $namaPerusahaan);
         Fpdf::text(12, 26, 'Periode');
-        Fpdf::text(38, 26, " : 01/$gaji->periode - 31/$gaji->periode");
+        Fpdf::text(38, 26, " : $periodeStart - $periodeEnd");
         Fpdf::text(12, 30, 'Departemen');
         Fpdf::text(38, 30, ' : HRD/ Admin');
 
@@ -259,7 +262,7 @@ class GajiController extends Controller
             'UT' => 'Uang Transport / Bensi',
             'UM' => 'Uang Makan',
             'US' => 'Uang Service Motor',
-            'UMK' => 'Uang Tunjangan Menikah'
+            'UMK' => 'Uang   Menikah'
         ];
 
         $start = 48;
@@ -276,8 +279,7 @@ class GajiController extends Controller
         $penambah[1]['nama_komponen'] = 'Tunjangan Kehadiran';
         $penambah[1]['jumlah'] = $total_kehadiran * $pegawai->tunjangan_kehadiran;
         $penambah[1]['jenis'] = 'penambah';
-
-        $i = 1;
+        $i = 2;
 
         foreach ($gaji_detail as $detail) {
             if ($detail->komponen_gaji->jenis == 'penambah') {
@@ -333,7 +335,7 @@ class GajiController extends Controller
         Fpdf::text(12, 96, 'Nama Perusahaan');
         Fpdf::text(42, 96, ' : ' . $namaPerusahaan);
         Fpdf::text(12, 100, 'Periode');
-        Fpdf::text(42, 100, " : 01/$gaji->periode - 31/$gaji->periode");
+        Fpdf::text(42, 100, " : $periodeStart - $periodeEnd");
         Fpdf::text(12, 104, 'Departemen');
         Fpdf::text(42, 104, ' : HRD/ Admin');
 
