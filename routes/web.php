@@ -36,31 +36,30 @@ Route::middleware(['auth'])->group(function () {
     Route::get('resume/riwayat_penyakit', 'PendaftaranController@resumeRiwayatPenyakit')->name('resume.riwayatPenyakit');
     Route::delete('riwayat-penyakit-remove-item/{id}', 'PendaftaranController@pemeriksaanRiwayatPenyakitHapus');
 
-    // route input diagnosa
-    Route::post('diagnosa-add-item/{id}', 'PendaftaranController@pemeriksaanDiagnosa');
-    Route::get('resume/diagnosaICD', 'PendaftaranController@resumeDiagnosaICD')->name('resume.diagnosaICD');
-    Route::delete('diagnosa-remove-item/{id}', 'PendaftaranController@pemeriksaanDiagnosaHapus');
-
+    // Pendaftaran Diagnosa Controller's Routes
+    Route::post('diagnosa-add-item/{id}', 'PendaftaranDiagnosaController@pemeriksaanDiagnosa');
+    Route::get('resume/diagnosaICD', 'PendaftaranDiagnosaController@resumeDiagnosaICD')->name('resume.diagnosaICD');
+    Route::delete('diagnosa-remove-item/{id}', 'PendaftaranDiagnosaController@pemeriksaanDiagnosaHapus');
+    // route menampilkan data diagnosa
+    Route::get('resume/diagnosa', 'PendaftaranDiagnosaController@resumeDiagnosa')->name('resume.diagnosa');
+    // pilih dan hapus pendaftaran resume diagnosa
+    Route::post('resume/diagnosa/pilih', 'PendaftaranDiagnosaController@resumePilihDiagnosa')->name('resume.pilih-diagnosa');
+    Route::delete('resume/diagnosa/{id}', 'PendaftaranDiagnosaController@resumeHapusDiagnosa')->name('resume.hapus-diagnosa');
+    
+    // Pendaftaran Tindakan Controller's Routes 
+    Route::get('resume/tindakan', 'PendaftaranTindakanController@resumeTindakan')->name('resume.tindakan');
+    // pilih dan hapus pendaftaran resume tindakan
+    Route::post('resume/tindakan/pilih', 'PendaftaranTindakanController@resumePilihTindakan')->name('resume.pilih-tindakan');
+    Route::delete('resume/tindakan/{id}', 'PendaftaranTindakanController@resumeHapusTindakan')->name('resume.hapus-tindakan');
+    
+    // PendaftaranResepController
+    Route::get('resume/resep', 'PendaftaranResepController@resumeResep')->name('resume.resep');
+    Route::post('resume/resep/pilih', 'PendaftaranResepController@resumePilihResep')->name('resume.pilih-resep');
+    Route::post('resume/resep/tambah', 'PendaftaranResepController@resumeTambahResep')->name('resume.tambah-resep');
+    Route::delete('resume/resep/{id}', 'PendaftaranResepController@resumeHapusResep')->name('resume.hapus-resep');
+    
     // route pendaftaran pasien yang sudah pernah terdaftar
     Route::post('pendaftaran/insert', 'PendaftaranController@pendaftaranInsert')->name('pendaftaran.insert');
-
-    // route menampilkan data diagnosa, resep dan tindakan yang dipilih
-    Route::get('resume/diagnosa', 'PendaftaranController@resumeDiagnosa')->name('resume.diagnosa');
-    Route::get('resume/resep', 'PendaftaranController@resumeResep')->name('resume.resep');
-    Route::get('resume/tindakan', 'PendaftaranController@resumeTindakan')->name('resume.tindakan');
-
-    // pilih dan hapus pendaftaran resume diagnosa
-    Route::post('resume/diagnosa/pilih', 'PendaftaranController@resumePilihDiagnosa')->name('resume.pilih-diagnosa');
-    Route::delete('resume/diagnosa/{id}', 'PendaftaranController@resumeHapusDiagnosa')->name('resume.hapus-diagnosa');
-
-    // pilih dan hapus pendaftaran resume obat
-    Route::post('resume/resep/pilih', 'PendaftaranController@resumePilihResep')->name('resume.pilih-resep');
-    Route::post('resume/resep/tambah', 'PendaftaranController@resumeTambahResep')->name('resume.tambah-resep');
-    Route::delete('resume/resep/{id}', 'PendaftaranController@resumeHapusResep')->name('resume.hapus-resep');
-
-    // pilih dan hapus pendaftaran resume tindakan
-    Route::post('resume/tindakan/pilih', 'PendaftaranController@resumePilihTindakan')->name('resume.pilih-tindakan');
-    Route::delete('resume/tindakan/{id}', 'PendaftaranController@resumeHapusTindakan')->name('resume.hapus-tindakan');
 
     // purchase order (PO)
     Route::resource('purchase-order-detail', 'PurchaseOrderDetailController');
@@ -72,7 +71,6 @@ Route::middleware(['auth'])->group(function () {
     // purchase order (gudang)
     Route::get('purchase-order/verifikasi/{id}', 'PurchaseOrderController@verifikasiGudang')->name('purchase-order.verifikasi');
     Route::get('purchase-order/verify/{id}', 'PurchaseOrderController@verifyGudang')->name('purchase-order.verify');
-
 
     Route::resource('permintaan-barang-internal', 'PermintaanBarangInternalController');
     Route::get('permintaan-barang-internal/cetak/{id}', 'PermintaanBarangInternalController@cetak')->name('permintaan-barang-internal.cetak');

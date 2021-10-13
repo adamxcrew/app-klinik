@@ -200,86 +200,6 @@ class PendaftaranController extends Controller
         return redirect('/pendaftaran');
     }
 
-    public function resumeDiagnosa(Request $request)
-    {
-        if ($request->ajax()) {
-            return DataTables::of(PendaftaranResume::where('jenis', 'diagnosa')->with('diagnosa')->get())
-                ->addColumn('action', function ($row) {
-                    $btn = \Form::open(['url' => 'resume/diagnosa/' . $row->id, 'method' => 'DELETE']);
-                    $btn .= "<button type='submit' class='btn btn-danger btn-sm'>Hapus</button>";
-                    $btn .= \Form::close();
-                    return $btn;
-                })
-                ->rawColumns(['action'])
-                ->addIndexColumn()
-                ->make(true);
-        }
-    }
-
-    public function resumePilihDiagnosa(Request $request)
-    {
-        $data = PendaftaranResume::create($request->all());
-        return $data;
-    }
-
-    public function resumeHapusDiagnosa($id)
-    {
-        $data = PendaftaranResume::findOrFail($id);
-        $data->delete();
-
-        return redirect()->back();
-    }
-
-    public function resumeResep(Request $request)
-    {
-        if ($request->ajax()) {
-            return DataTables::of(PendaftaranResume::where('jenis', 'obat')->with('obat')->get())
-                ->addColumn('action', function ($row) {
-                    $btn = \Form::open(['url' => 'resume/resep/' . $row->id, 'method' => 'DELETE']);
-                    $btn .= "<button type='submit' class='btn btn-danger btn-sm'>Hapus</button>";
-                    $btn .= \Form::close();
-                    return $btn;
-                })
-                ->rawColumns(['action'])
-                ->addIndexColumn()
-                ->make(true);
-        }
-    }
-
-    public function resumePilihResep(Request $request)
-    {
-        $data = Obat::where('id', $request->id)->first();
-        return $data;
-    }
-
-    public function resumeTambahResep(Request $request)
-    {
-        $data = PendaftaranResume::create($request->all());
-        return $data;
-    }
-
-    public function resumeHapusResep($id)
-    {
-        $data = PendaftaranResume::findOrFail($id);
-        $data->delete();
-
-        return redirect()->back();
-    }
-
-    public function resumeTindakan(Request $request)
-    {
-        if ($request->ajax()) {
-            return DataTables::of(PendaftaranResume::where('jenis', 'tindakan')->with('tindakan')->get())
-                ->addColumn('action', function ($row) {
-                    $btn = "<div class='btn btn-danger btn-sm' data-id = '" . $row->id . "' data-jenis='tindakan' onClick='removeItem(this)'>Hapus</div>";
-                    return $btn;
-                })
-                ->rawColumns(['action'])
-                ->addIndexColumn()
-                ->make(true);
-        }
-    }
-
     public function addItem(Request $request, $id)
     {
         if (isset($request->item[0])) {
@@ -291,20 +211,6 @@ class PendaftaranController extends Controller
             }
         }
         return view('pendaftaran.ajax-table-' . $request->jenis);
-    }
-
-    public function resumePilihTindakan(Request $request)
-    {
-        $data = PendaftaranResume::create($request->all());
-        return $data;
-    }
-
-    public function resumeHapusTindakan($id)
-    {
-        $data = PendaftaranResume::findOrFail($id);
-        $data->delete();
-
-        return view('pendaftaran.ajax-table-tindakan');
     }
 
     public function pemeriksaanRiwayatPenyakit(Request $request, $id)
@@ -329,38 +235,6 @@ class PendaftaranController extends Controller
                 ->addColumn('action', function ($row) {
                     $btn = "<div class='btn btn-danger btn-sm' data-id = '" . $row->id . "' onClick='removeRiwayatPenyakit(this)'>Hapus</div>";
                     return $btn;
-                })
-                ->rawColumns(['action'])
-                ->addIndexColumn()
-                ->make(true);
-        }
-    }
-
-    public function pemeriksaanDiagnosa(Request $request, $id)
-    {
-        $request['pendaftaran_id'] = $id;
-        PendaftaranDiagnosa::create($request->all());
-        return view('pendaftaran.ajax-table-diagnosa');
-    }
-
-    public function pemeriksaanDiagnosaHapus($id)
-    {
-        $data = PendaftaranDiagnosa::findOrFail($id);
-        $data->delete();
-
-        return view('pendaftaran.ajax-table-diagnosa');
-    }
-
-    public function resumeDiagnosaICD(Request $request)
-    {
-        if ($request->ajax()) {
-            return DataTables::of(PendaftaranDiagnosa::where('pendaftaran_id', $request->id)->get())
-                ->addColumn('action', function ($row) {
-                    $btn = "<div class='btn btn-danger btn-sm' data-id = '" . $row->id . "' onClick='removeDiagnosa(this)'>Hapus</div>";
-                    return $btn;
-                })
-                ->editColumn('tbm_icd', function ($row) {
-                    return $row->icd->indonesia;
                 })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
