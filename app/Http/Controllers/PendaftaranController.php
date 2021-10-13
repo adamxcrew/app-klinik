@@ -54,6 +54,10 @@ class PendaftaranController extends Controller
             $pendaftaran->where('status_pelayanan', 'selesai_pemeriksaan_medis');
         }
 
+        if (auth()->user()->role == 'kasir') {
+            $pendaftaran->where('status_pelayanan', 'selesai_pelayanan');
+        }
+
         // filter berdasarkan poliklinik
         if ($request->poliklinik_id != null) {
             $pendaftaran->where('poliklinik_id', $request->poliklinik_id);
@@ -72,6 +76,8 @@ class PendaftaranController extends Controller
                         if ($row->status_pelayanan == 'selesai_pemeriksaan_medis') {
                             $btn .= '<a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/pemeriksaan/tindakan"><i class="fa fa-edit"></i> Input tindakan</a> ';
                         }
+                    } elseif (auth()->user()->role == 'kasir') {
+                        $btn = '<a class="btn btn-danger btn-sm" href="/pembayaran/' . $row->id . '"><i class="fa fa-money"></i> Pembayaran</a> ';
                     } else {
                         $btn .= '<a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/cetak"><i class="fa fa-print"></i> Cetak Antrian</a> ';
                     }
@@ -364,7 +370,7 @@ class PendaftaranController extends Controller
     public function selesai($id)
     {
         $pendaftaran = Pendaftaran::findOrFail($id);
-        $pendaftaran->update(['status_pelayanan'=>'selesai_pelayanan']);
+        $pendaftaran->update(['status_pelayanan' => 'selesai_pelayanan']);
         return redirect('/pendaftaran')->with('message', 'Selesai Melakukan Pelayanan');
     }
 }
