@@ -74,7 +74,7 @@
                                 </table>
                             </div>
                             <div class="col-md-6">
-                                <h4>Daftar ObatRacik</h4>
+                                <h4>Daftar Obat Racik</h4>
                                 <hr>
                                 <div id="table-section">
                                     <table class="table table-bordered table-striped" width="100%" id="obat-racik-table">

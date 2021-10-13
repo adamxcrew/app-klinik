@@ -27,11 +27,11 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <h4>Form Input Obat Racik</h4>
+                                <h4>Form Input Obat Non Racik</h4>
                                 <hr>
                                 <table class="table table-bordered table-bordered">
                                     <tr>
-                                        <th colspan="2">FORM INPUT OBAT RACIK</th>
+                                        <th colspan="2">FORM INPUT OBAT NON RACIK</th>
                                     </tr>
                                     <tr>
                                         <td>Pilih Barang</td>
@@ -74,7 +74,7 @@
                                 </table>
                             </div>
                             <div class="col-md-6">
-                                <h4>Daftar ObatRacik</h4>
+                                <h4>Daftar Obat Non Racik</h4>
                                 <hr>
                                 <div id="table-section">
                                     <table class="table table-bordered table-striped" width="100%" id="obat-racik-table">
