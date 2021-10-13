@@ -161,6 +161,7 @@ class PendaftaranController extends Controller
 
     public function store(PendaftaranStoreRequest $request)
     {
+        $request['dokter_id'] = $request->dokter_id==0?$request->dokter_pengganti:$request->dokter_id;
         $data = Pendaftaran::create($request->all());
         return redirect('/pendaftaran/' . $data->id . '/cetak');
     }
