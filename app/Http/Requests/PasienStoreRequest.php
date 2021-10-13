@@ -38,7 +38,7 @@ class PasienStoreRequest extends FormRequest
             'wilayah_administratif' => 'required',
             'penanggung_jawab'  =>  'required',
             'alamat_penanggung_jawab'  =>  'required',
-            'no_telp_penanggung_jawab'  =>  'required',
+            'nomor_hp_penanggung_jawab'  =>  'required',
         ];
     }
 }

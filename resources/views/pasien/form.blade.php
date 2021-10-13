@@ -174,8 +174,8 @@
     </div>
     <div class="col-md-3">
         <div class="form-group">
-            <label>No. Telepon Penanggung Jawab</label>
-            {!! Form::text('no_telp_penanggung_jawab', null, ['class'=>'form-control','Placeholder'=>'Nomor telepon penanggung jawab']) !!}
+            <label>Nomor HP Penanggung Jawab</label>
+            {!! Form::text('nomor_hp_penanggung_jawab', null, ['class'=>'form-control','Placeholder'=>'Nomor HP penanggung jawab']) !!}
         </div>
     </div>
 </div>

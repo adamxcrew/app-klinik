@@ -18,9 +18,14 @@ class AjaxController extends Controller
     {
         $user = JadwalPraktek::with('user')->where('poliklinik_id', $request->poliklinik)
             ->where('hari', date('l'))
-            ->get()
-            ->pluck('user.name', 'user.id');
-        return \Form::select('dokter_id', $user, null, ['class' => 'form-control']);
+            ->get();
+
+        $dokter = [];
+        foreach ($user as $row) {
+            $dokter[$row->user_id] = $row->user->name;
+        }
+        $dokter[0] = 'Dokter Pegganti';
+        return \Form::select('dokter_id', $dokter, null, ['class' => 'form-control dokter','onChange'=>'dokterPegganti()']);
     }
 
     // pencarian nama desa dengan element select2
@@ -137,5 +142,11 @@ class AjaxController extends Controller
                 'total'     =>  convert_rupiah($purchase_order[0]->total)
             ]
         );
+    }
+
+    public function dropdownDokter(Request $request)
+    {
+        $dokter = User::where('role', 'dokter')->pluck('name', 'id');
+        return \Form::select('dokter_pengganti', $dokter, null, ['class' => 'form-control']);
     }
 }
