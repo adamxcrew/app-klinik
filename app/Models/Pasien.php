@@ -30,7 +30,7 @@ class Pasien extends Model
         'suku_bangsa',
         'hubungan_pasien',
         'alamat_penanggung_jawab',
-        'no_telp_penanggung_jawab',
+        'nomor_hp_penanggung_jawab',
         'nomor_rekam_medis',
         'penjamin',
         'village_id',

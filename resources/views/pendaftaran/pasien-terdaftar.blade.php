@@ -48,64 +48,72 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Nama Perujuk</label>
+                                    <label for="exampleFormControlInput1">Nama Perujuk ( opsional)</label>
                                     {{ Form::text('nama_perujuk', null,['class'=>'form-control','placeholder'=>'Nama Perujuk']) }}
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Nomor Surat</label>
+                                    <label for="exampleFormControlInput1">Nomor Surat ( opsional)</label>
                                     {{ Form::number('no_surat', null,['class'=>'form-control','Placeholder'=>'Nomor Surat']) }}
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Tanggal Berlaku</label>
+                                    <label for="exampleFormControlInput1">Tanggal Berlaku ( opsional)</label>
                                     {{ Form::date('tanggal_berlaku', null,['class'=>'form-control','placeholder'=>'Tanggal Berlaku']) }}
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Penanggung Jawab</label>
-                                    {{ Form::text('penanggung_jawab', null,['class'=>'form-control','Placeholder'=>'Penanggung Jawab']) }}
+                                    {{ Form::text('penanggung_jawab', null,['class'=>'form-control penanggung_jawab','Placeholder'=>'Penanggung Jawab']) }}
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Nomor HP</label>
-                                    {{ Form::text('no_hp_penanggung_jawab', null,['class'=>'form-control','placeholder'=>'Nomor HP']) }}
+                                    {{ Form::text('no_hp_penanggung_jawab', null,['class'=>'form-control nomor_hp_penanggung_jawab','placeholder'=>'Nomor HP']) }}
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Hubungan</label>
-                                    {{ Form::select('hubungan_pasien', $hubungan_pasien, null,['class'=>'form-control']) }}
+                                    {{ Form::select('hubungan_pasien', $hubungan_pasien, null,['class'=>'form-control hubungan_pasien']) }}
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Alamat Penanggung Jawab</label>
-                                    {{ Form::text('alamat_penanggung_jawab', null,['class'=>'form-control','Placeholder'=>'Alamat Penanggung Jawab']) }}
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="exampleFormControlInput1">Poliklinik</label>
-                                    {{ Form::select('poliklinik_id', $poliklinik, null,['class'=>'form-control poliklinik']) }}
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="exampleFormControlInput1">Dokter</label>
-                                    <div id="dokter"></div>
+                                    {{ Form::text('alamat_penanggung_jawab', null,['class'=>'form-control alamat_penanggung_jawab','Placeholder'=>'Alamat Penanggung Jawab']) }}
                                 </div>
                             </div>
                         </div>
                         <hr>
 
-                        <div class="form-group" style="padding-bottom: 30px;">
-                            <label class="col-sm-6 control-label">Perusahaan Penjamin</label>
-                            <div class="col-sm-6">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="exampleFormControlInput1">Poliklinik</label>
+                                {{ Form::select('poliklinik_id', $poliklinik, null,['class'=>'form-control poliklinik']) }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="exampleFormControlInput1">Dokter</label>
+                                <div id="dokter"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 pengganti">
+                            <div class="form-group">
+                                <label for="exampleFormControlInput1">Dokter Pengganti</label>
+                                <div id="dokter_pengganti"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="exampleFormControlInput1">Perusahaan Penjamin</label>
                                 {{ Form::select('jenis_layanan', $perusahaan_asuransi , null,['class'=>'form-control']) }}
                             </div>
                         </div>
@@ -195,6 +203,8 @@
 
 <script>
     $( document ).ready(function() {
+
+        dokterPegganti();
         // check apakah hasil redirect dari form input pasien
         var str = window.location.href;
         str = str.split("/");
@@ -240,8 +250,10 @@
                 data: {poliklinik:poliklinik},
                 success: function(response) {
                     $("#dokter").html(response);
+                    dokterPegganti();
             }});
         });
+        
     
         $('.poliklinik').trigger('change');
     
@@ -280,12 +292,17 @@
                     $('.text-pilih').hide();
                 },
                 success: function (response) {
+                    console.log(response);
                     if (response) {
                         $('#detail-pasien').text(response.nama);
                         $('#ktp-pasien').text(response.nomor_ktp);
                         $('#telpon-pasien').text(response.nomor_hp);
                         $('#tempat-lahir-pasien').text(response.tempat_lahir);
                         $('#tanggal-lahir-pasien').text(response.tanggal_lahir);
+                        $('.penanggung_jawab').val(response.penanggung_jawab);
+                        $('.alamat_penanggung_jawab ').val(response.alamat_penanggung_jawab);
+                        $('.hubungan_pasien').val(response.hubungan_pasien);
+                        $('.nomor_hp_penanggung_jawab').val(response.nomor_hp_penanggung_jawab);
 
                         $('.before-select').hide();
                         $('.after-select').show();
@@ -298,6 +315,23 @@
             });
         });
     });
+
+
+    function dokterPegganti() {
+        var dokter = $(".dokter").val();
+        if (dokter == 0) {
+            $(".pengganti").show();
+            $.ajax({
+                url: "/ajax/dropdown-dokter",
+                type: "get",
+                success: function (response) {
+                    $("#dokter_pengganti").html(response);
+                }
+            });
+        } else {
+            $(".pengganti").hide();
+        }
+    }
 </script>
 @endpush
 
