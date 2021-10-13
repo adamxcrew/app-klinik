@@ -57,6 +57,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('resume/resep/pilih', 'PendaftaranResepController@resumePilihResep')->name('resume.pilih-resep');
     Route::post('resume/resep/tambah', 'PendaftaranResepController@resumeTambahResep')->name('resume.tambah-resep');
     Route::delete('resume/resep/{id}', 'PendaftaranResepController@resumeHapusResep')->name('resume.hapus-resep');
+    // obat racik ajax routes
+    Route::get('resume/obatRacik', 'PendaftaranResepController@dataPemeriksaanResep');
+    Route::post('obat-racik-add-item/{id}', 'PendaftaranResepController@storePemeriksaanResep');
+    Route::delete('obat-racik-remove-item/{id}', 'PendaftaranResepController@hapusPemeriksaanResep');
     
     // route pendaftaran pasien yang sudah pernah terdaftar
     Route::post('pendaftaran/insert', 'PendaftaranController@pendaftaranInsert')->name('pendaftaran.insert');
