@@ -160,5 +160,15 @@ return [
         'Ny.'   => 'Ny.',
         'Nn.'   => 'Nn.',
         'Anak'  => 'Anak'
+    ],
+
+    
+    // digunakan pada module tindakan
+    'object_fee' => [
+        'klinik'            =>  'Klinik',
+        'dokter'            =>  'Dokter',
+        'perawat'           =>  'Perawat',
+        'asisten_perawat'   =>  'Asisten Perawat',
+        'bidan'             =>  'Bidan'
     ]
 ];
