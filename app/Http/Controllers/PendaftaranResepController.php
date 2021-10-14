@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\PendaftaranResume;
 use App\Models\PendaftaranResep;
 use DataTables;
 use App\Models\Obat;
@@ -47,6 +46,10 @@ class PendaftaranResepController extends Controller
         return view('pendaftaran.ajax-table-obat-racik');
     }
 
+    
+
+    /* Delete it later
+
     public function resumeResep(Request $request)
     {
         if ($request->ajax()) {
@@ -68,7 +71,6 @@ class PendaftaranResepController extends Controller
         $data = Obat::where('id', $request->id)->first();
         return $data;
     }
-
     public function resumeTambahResep(Request $request)
     {
         $data = PendaftaranResume::create($request->all());
@@ -82,4 +84,5 @@ class PendaftaranResepController extends Controller
 
         return redirect()->back();
     }
+    */
 }

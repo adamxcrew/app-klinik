@@ -43,6 +43,9 @@ class PendaftaranDiagnosaController extends Controller
         }
     }
 
+    /*
+    Delete me later
+
     public function resumeDiagnosa(Request $request)
     {
         if ($request->ajax()) {
@@ -72,4 +75,5 @@ class PendaftaranDiagnosaController extends Controller
 
         return redirect()->back();
     }
+    */
 }

@@ -11,7 +11,6 @@ use App\Models\Obat;
 use App\Models\Poliklinik;
 use App\Models\Pasien;
 use App\Models\RiwayatPenyakit;
-use App\Models\PendaftaranResume;
 use DataTables;
 use PDF;
 use DB;
@@ -198,19 +197,6 @@ class PendaftaranController extends Controller
     {
         Pendaftaran::where('id', $id)->update(['status_pelayanan' => 'batal']);
         return redirect('/pendaftaran');
-    }
-
-    public function addItem(Request $request, $id)
-    {
-        if (isset($request->item[0])) {
-            foreach ($request->item as $jenis_resume_id) {
-                $data['jenis_resume_id'] = $jenis_resume_id;
-                $data['pendaftaran_id'] = $id;
-                $data['jenis'] = $request->jenis;
-                PendaftaranResume::create($data);
-            }
-        }
-        return view('pendaftaran.ajax-table-' . $request->jenis);
     }
 
     public function pemeriksaanRiwayatPenyakit(Request $request, $id)
