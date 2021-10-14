@@ -38,14 +38,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('diagnosa-add-item/{id}', 'PendaftaranDiagnosaController@pemeriksaanDiagnosa');
     Route::get('resume/diagnosaICD', 'PendaftaranDiagnosaController@resumeDiagnosaICD')->name('resume.diagnosaICD');
     Route::delete('diagnosa-remove-item/{id}', 'PendaftaranDiagnosaController@pemeriksaanDiagnosaHapus');
-
-    /* delete us later
-        // route menampilkan data diagnosa
-        Route::get('resume/diagnosa', 'PendaftaranDiagnosaController@resumeDiagnosa')->name('resume.diagnosa');
-        // pilih dan hapus pendaftaran resume diagnosa
-        Route::post('resume/diagnosa/pilih', 'PendaftaranDiagnosaController@resumePilihDiagnosa')->name('resume.pilih-diagnosa');
-        Route::delete('resume/diagnosa/{id}', 'PendaftaranDiagnosaController@resumeHapusDiagnosa')->name('resume.hapus-diagnosa');
-    */
     
     // Pendaftaran Tindakan Controller's Routes 
     Route::get('resume/tindakan', 'PendaftaranTindakanController@resumeTindakan')->name('resume.tindakan');
@@ -59,13 +51,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('resume/obatRacik', 'PendaftaranResepController@dataPemeriksaanResep');
     Route::post('obat-racik-add-item/{id}', 'PendaftaranResepController@storePemeriksaanResep');
     Route::delete('obat-racik-remove-item/{id}', 'PendaftaranResepController@hapusPemeriksaanResep');
-
-    /* delete us later
-        Route::get('resume/resep', 'PendaftaranResepController@resumeResep')->name('resume.resep');
-        Route::post('resume/resep/pilih', 'PendaftaranResepController@resumePilihResep')->name('resume.pilih-resep');
-        Route::post('resume/resep/tambah', 'PendaftaranResepController@resumeTambahResep')->name('resume.tambah-resep');
-        Route::delete('resume/resep/{id}', 'PendaftaranResepController@resumeHapusResep')->name('resume.hapus-resep');
-    */
     
     // route pendaftaran pasien yang sudah pernah terdaftar
     Route::post('pendaftaran/insert', 'PendaftaranController@pendaftaranInsert')->name('pendaftaran.insert');
