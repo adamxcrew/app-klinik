@@ -35,8 +35,6 @@ class KehadiranPegawaiController extends Controller
         $data['kelompok_pegawai_id'] = $request->kelompok_pegawai_id;
 
         if ($request->ajax()) {
-            $start = date('Y-m-d', strtotime($request->tanggal_awal));
-            $end = date('Y-m-d', strtotime($request->tanggal_akhir));
 
             $kehadiran_pegawai = Pegawai::leftJoin('kehadiran_pegawai', function ($join) {
                 $start   = $_GET['tanggal_awal'] ?? date('Y-m-d');
