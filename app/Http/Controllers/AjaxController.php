@@ -25,7 +25,7 @@ class AjaxController extends Controller
             $dokter[$row->user_id] = $row->user->name;
         }
         $dokter[0] = 'Dokter Pegganti';
-        return \Form::select('dokter_id', $dokter, null, ['class' => 'form-control dokter','onChange'=>'dokterPegganti()']);
+        return \Form::select('dokter_id', $dokter, null, ['class' => 'form-control dokter', 'onChange' => 'dokterPegganti()']);
     }
 
     // pencarian nama desa dengan element select2
@@ -148,5 +148,16 @@ class AjaxController extends Controller
     {
         $dokter = User::where('role', 'dokter')->pluck('name', 'id');
         return \Form::select('dokter_pengganti', $dokter, null, ['class' => 'form-control']);
+    }
+
+    // pencarian nama desa dengan element select2
+    public function select2Perusahaan(Request $request)
+    {
+        $data = \DB::table('perusahaan_asuransi')
+            ->select('id', 'nama_perusahaan')
+            ->where('nama_perusahaan', 'like', "%" . $request->q . "%")
+            ->limit(20)
+            ->get();
+        return response()->json($data);
     }
 }

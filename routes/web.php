@@ -38,20 +38,20 @@ Route::middleware(['auth'])->group(function () {
     Route::post('diagnosa-add-item/{id}', 'PendaftaranDiagnosaController@pemeriksaanDiagnosa');
     Route::get('resume/diagnosaICD', 'PendaftaranDiagnosaController@resumeDiagnosaICD')->name('resume.diagnosaICD');
     Route::delete('diagnosa-remove-item/{id}', 'PendaftaranDiagnosaController@pemeriksaanDiagnosaHapus');
-    
+
     // Pendaftaran Tindakan Controller's Routes 
     Route::get('resume/tindakan', 'PendaftaranTindakanController@resumeTindakan')->name('resume.tindakan');
     // pilih dan hapus pendaftaran resume tindakan
     Route::get('tindakan-add-item', 'PendaftaranTindakanController@resumeTambahTindakan');
     Route::post('resume/tindakan/pilih', 'PendaftaranTindakanController@resumePilihTindakan')->name('resume.pilih-tindakan');
     Route::delete('resume/tindakan/{id}', 'PendaftaranTindakanController@resumeHapusTindakan')->name('resume.hapus-tindakan');
-    
+
     // PendaftaranResepController
     // obat racik ajax routes
     Route::get('resume/obatRacik', 'PendaftaranResepController@dataPemeriksaanResep');
     Route::post('obat-racik-add-item/{id}', 'PendaftaranResepController@storePemeriksaanResep');
     Route::delete('obat-racik-remove-item/{id}', 'PendaftaranResepController@hapusPemeriksaanResep');
-    
+
     // route pendaftaran pasien yang sudah pernah terdaftar
     Route::post('pendaftaran/insert', 'PendaftaranController@pendaftaranInsert')->name('pendaftaran.insert');
 
@@ -116,6 +116,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/kunjungan-perpoli', 'LaporanController@laporanKunjunganPerPoli');
     });
 
+    Route::get('laporan-tagihan', 'LaporanTagihanController@index');
+
     /** Route pembayaran */
     Route::get('pembayaran/{id}', 'PembayaranController@index');
     Route::post('pembayaran/store', 'PembayaranController@store')->name('pembayaran.store');
@@ -179,6 +181,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('ajax/select2Tindakan', 'AjaxController@select2Tindakan');
     Route::get('ajax/select2ICD', 'AjaxController@select2ICD');
     Route::get('ajax/select2User', 'AjaxController@select2User');
+    Route::get('ajax/select2Perusahaan', 'AjaxController@select2Perusahaan');
     Route::get('ajax/pasien', 'AjaxController@pasien');
     Route::get('ajax/user', 'AjaxController@user');
     Route::post('ajax/purchase-order-edittable', 'AjaxController@purchaseOrderEditTable');
