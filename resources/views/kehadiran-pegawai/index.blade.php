@@ -56,7 +56,7 @@
                 </tr>
             </table>
             {!! Form::close() !!}
-            <table class="table table-bordered table-striped" id="pegawai-table">
+            <table class="table table-bordered table-striped" id="kehadiran-pegawai-table">
               <thead>
                 <tr>
                   <th>NIP</th>
@@ -154,22 +154,22 @@
 <script>
   
   $(function() {
-    $('#pegawai-table').DataTable({
+    $('#kehadiran-pegawai-table').DataTable({
       processing: true,
       serverSide: true,
       ajax: "/kehadiran-pegawai?tanggal_awal={{$tanggal_awal}}&tanggal_akhir={{$tanggal_akhir}}&kelompok_pegawai_id={{$kelompok_pegawai_id}}&type=web",
       columns: [
         {
-          data: 'pegawai.nip',
-          name: 'pegawai.nip'
+          data: 'nip',
+          name: 'nip'
         },
         {
-          data: 'pegawai.nama',
-          name: 'pegawai.nama'
+          data: 'nama',
+          name: 'nama'
         },
         {
-          data: 'shift.nama_shift',
-          name: 'shift.nama_shift'
+          data: 'nama_shift',
+          name: 'nama_shift'
         },
         {
           data: 'jam_masuk',
