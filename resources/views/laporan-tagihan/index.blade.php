@@ -28,13 +28,13 @@
                     <td>
                         <div class="row">
                           <div class="col-md-3">
-                            {!! Form::month('periode', date('Y-m'), ['class'=>'form-control','placeholder'=>'Tanggal Mulai']) !!}
+                            {!! Form::month('periode', $periode, ['class'=>'form-control','placeholder'=>'Tanggal Mulai']) !!}
                           </div>
                           <div class="col-md-3">
                             <select name="nama_perusahaan" id="nama-perusahaan" class="perusahaan form-control" style="height: 100px;" placeholder="Masukan Nama Desa"></select>
                           </div>
                           <div class="col-md-5">
-                              <button type="submit" name="action" value="filter" class="btn btn-danger" style="margin-right: 10px"><i class="fa fa-cogs" aria-hidden="true"></i>Filter Laporan</button>
+                              <button type="submit" class="btn btn-danger" style="margin-right: 10px"><i class="fa fa-cogs" aria-hidden="true"></i>Filter Laporan</button>
                               <button type="submit" name="action" value="download" class="btn btn-success btn btn-sm"><i class="fa fa-download"></i> Download Excel</button>
                           </div>
                         </div>
@@ -52,8 +52,8 @@
                   <th>Nama Pasien</th>
                   <th>Nama Tindakan</th>
                   <th>Tarif Tindakan</th>
-                  <th>Kode ICD</th>
-                  <th>Indonesia</th>
+                  {{-- <th>Kode ICD</th>
+                  <th>Indonesia</th> --}}
                   <th>Dokter</th>
                   <th>Poliklinik</th>
                   <th>Perusahaan</th>
@@ -76,7 +76,51 @@
 <script src="{{asset('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 <script>
   $(function() {
-    $('#laporan-tagihan-table').DataTable();
+    $('#laporan-tagihan-table').DataTable({
+      processing: true,
+      serverSide: true,
+      ajax: '/laporan-tagihan?periode={{$periode}}',
+      columns: 
+      [
+        {
+          data: 'DT_RowIndex',
+          orderable: false,
+          searchable: false
+        },
+        {
+          data: 'created_at',
+          name: 'created_at'
+        },
+        {
+          data: 'nomor_rekam_medis',
+          name: 'nomor_rekam_medis'
+        },
+        {
+          data: 'nama_pasien',
+          name: 'nama_pasien'
+        },
+        {
+          data: 'tindakan.tindakan',
+          name: 'tindakan.tindakan'
+        },
+        {
+          data: 'tarif_tindakan',
+          name: 'tarif_tindakan'
+        },
+        {
+          data: 'dokter',
+          name: 'dokter'
+        },
+        {
+          data: 'poliklinik',
+          name: 'poliklinik'
+        },
+        {
+          data: 'nama_perusahaan',
+          name: 'nama_perusahaan'
+        },
+      ]
+    });
 
     $('.perusahaan').select2({
         placeholder: 'Cari Nama Perusahaan',

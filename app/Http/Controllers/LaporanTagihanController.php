@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\LaporanTagihanExport;
 use Illuminate\Http\Request;
 use DataTables;
-use App\Http\Requests\AkunStoreRequest;
+use App\Models\PendaftaranTindakan;
+use Maatwebsite\Excel\Facades\Excel;
 
 class LaporanTagihanController extends Controller
 {
@@ -15,14 +17,46 @@ class LaporanTagihanController extends Controller
      */
     public function index(Request $request)
     {
+        $data['periode'] = $request->periode ?? date('Y-m');
+        $laporanTagihan = PendaftaranTindakan::with(['pendaftaran', 'tindakan']);
+
+        if ($request->periode) {
+            $start = $request->periode . '-01';
+            $end = $request->periode . '-31';
+            $laporanTagihan = $laporanTagihan->whereBetween('created_at', [$start, $end]);
+        }
+
         if ($request->ajax()) {
-            return DataTables::of(Akun::all())
-                ->addColumn('action', function ($row) {
-                    $btn = \Form::open(['url' => 'akun/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
-                    $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
-                    $btn .= \Form::close();
-                    $btn .= '<a class="btn btn-danger btn-sm" href="/akun/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> ';
-                    return $btn;
+            return DataTables::of($laporanTagihan->get())
+                ->addColumn('created_at', function ($row) {
+                    return tgl_indo(substr($row->created_at, 0, 10));
+                })
+                ->addColumn('nomor_rekam_medis', function ($row) {
+                    return $row->pendaftaran->pasien->nomor_rekam_medis;
+                })
+                ->addColumn('nama_pasien', function ($row) {
+                    return $row->pendaftaran->pasien->nama;
+                })
+                ->addColumn('tarif_tindakan', function ($row) {
+                    $tarif = null;
+
+                    if ($row->pendaftaran->perusahaanAsuransi->nama_perusahaan == 'UMUM') {
+                        $tarif = $row->tindakan->tarif_umum;
+                    } elseif ($row->pendaftaran->perusahaanAsuransi->nama_perusahaan == 'BPJS') {
+                        $tarif = $row->tindakan->tarif_bpjs;
+                    } else {
+                        $tarif = $row->tindakan->tarif_perusahaan;
+                    }
+                    return $tarif;
+                })
+                ->addColumn('dokter', function ($row) {
+                    return $row->pendaftaran->dokter->name;
+                })
+                ->addColumn('poliklinik', function ($row) {
+                    return $row->pendaftaran->poliklinik->nama;
+                })
+                ->addColumn('nama_perusahaan', function ($row) {
+                    return $row->pendaftaran->perusahaanAsuransi->nama_perusahaan;
                 })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
@@ -31,15 +65,10 @@ class LaporanTagihanController extends Controller
 
         if ($request->has('action')) {
             if ($request->action == 'download') {
-                dd('download action');
-                return Excel::download(new NeracaSaldoExport($request->periode), 'Laporan Neraca Saldo ' . date('F Y', strtotime($request->periode)) . '.xlsx');
-            }
-            if ($request->action == 'filter') {
-                dd('filter action');
-                return Excel::download(new NeracaSaldoExport($request->periode), 'Laporan Neraca Saldo ' . date('F Y', strtotime($request->periode)) . '.xlsx');
+                return Excel::download(new LaporanTagihanExport($request->periode), 'Laporan Tagihan Perusahaan ' . date('F Y', strtotime($request->periode)) . '.xlsx');
             }
         }
 
-        return view('laporan-tagihan.index');
+        return view('laporan-tagihan.index', $data);
     }
 }
