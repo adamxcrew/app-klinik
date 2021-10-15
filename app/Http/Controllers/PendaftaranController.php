@@ -167,7 +167,7 @@ class PendaftaranController extends Controller
 
     public function store(PendaftaranStoreRequest $request)
     {
-        $request['dokter_id'] = $request->dokter_id==0?$request->dokter_pengganti:$request->dokter_id;
+        $request['dokter_id'] = $request->dokter_id == 0 ? $request->dokter_pengganti : $request->dokter_id;
         $data = Pendaftaran::create($request->all());
         return redirect('/pendaftaran/' . $data->id . '/cetak');
     }
@@ -247,5 +247,19 @@ class PendaftaranController extends Controller
         $pendaftaran = Pendaftaran::findOrFail($id);
         $pendaftaran->update(['status_pelayanan' => 'selesai_pelayanan']);
         return redirect('/pendaftaran')->with('message', 'Selesai Melakukan Pelayanan');
+    }
+
+    public function riwayatRawatJalan(Request $request)
+    {
+        $riwayatRawatJalan = Pendaftaran::with(['poliklinik', 'dokter', 'perusahaanAsuransi'])->where('id', $request->id)->get();
+
+        if ($request->ajax()) {
+            return DataTables::of($riwayatRawatJalan)
+                ->addColumn('created_at', function ($row) {
+                    return substr($row->created_at, 0, 10);
+                })
+                ->addIndexColumn()
+                ->make(true);
+        }
     }
 }
