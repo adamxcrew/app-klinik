@@ -27,8 +27,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pendaftaran/{id}/pemeriksaan/{jenis}', 'PendaftaranController@pemeriksaan')->name('pendaftaran.pemeriksaan_tindakan');
     Route::get('pendaftaran/{id}/print', 'PendaftaranController@print')->name('pendaftaran.print');
     Route::get('pendaftaran/create/{pasien_id}', 'PendaftaranController@create');
-    // route untuk tab pada pendaftaran
-    Route::get('pendaftaran-add-item/{id}', 'PendaftaranController@addItem');
     Route::resource('pendaftaran', 'PendaftaranController');
 
     // route pendaftaran riwayat penyakit
@@ -40,6 +38,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('diagnosa-add-item/{id}', 'PendaftaranDiagnosaController@pemeriksaanDiagnosa');
     Route::get('resume/diagnosaICD', 'PendaftaranDiagnosaController@resumeDiagnosaICD')->name('resume.diagnosaICD');
     Route::delete('diagnosa-remove-item/{id}', 'PendaftaranDiagnosaController@pemeriksaanDiagnosaHapus');
+
     // route menampilkan data diagnosa
     Route::get('resume/diagnosa', 'PendaftaranDiagnosaController@resumeDiagnosa')->name('resume.diagnosa');
     // pilih dan hapus pendaftaran resume diagnosa
@@ -49,6 +48,7 @@ Route::middleware(['auth'])->group(function () {
     // Pendaftaran Tindakan Controller's Routes 
     Route::get('resume/tindakan', 'PendaftaranTindakanController@resumeTindakan')->name('resume.tindakan');
     // pilih dan hapus pendaftaran resume tindakan
+    Route::get('tindakan-add-item', 'PendaftaranTindakanController@resumeTambahTindakan');
     Route::post('resume/tindakan/pilih', 'PendaftaranTindakanController@resumePilihTindakan')->name('resume.pilih-tindakan');
     Route::delete('resume/tindakan/{id}', 'PendaftaranTindakanController@resumeHapusTindakan')->name('resume.hapus-tindakan');
 
@@ -133,6 +133,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/kunjungan-perpoli', 'LaporanController@laporanKunjunganPerPoli');
     });
 
+    Route::get('laporan-tagihan', 'LaporanTagihanController@index');
+
     /** Route pembayaran */
     Route::get('pembayaran/{id}', 'PembayaranController@index');
     Route::post('pembayaran/store', 'PembayaranController@store')->name('pembayaran.store');
@@ -196,6 +198,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('ajax/select2Tindakan', 'AjaxController@select2Tindakan');
     Route::get('ajax/select2ICD', 'AjaxController@select2ICD');
     Route::get('ajax/select2User', 'AjaxController@select2User');
+    Route::get('ajax/select2Perusahaan', 'AjaxController@select2Perusahaan');
     Route::get('ajax/pasien', 'AjaxController@pasien');
     Route::get('ajax/user', 'AjaxController@user');
     Route::post('ajax/purchase-order-edittable', 'AjaxController@purchaseOrderEditTable');
