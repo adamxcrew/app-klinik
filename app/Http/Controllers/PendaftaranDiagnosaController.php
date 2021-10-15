@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Diagnosa;
 use App\Models\PendaftaranDiagnosa;
-use App\Models\PendaftaranResume;
 use DataTables;
 
 class PendaftaranDiagnosaController extends Controller
@@ -41,35 +40,5 @@ class PendaftaranDiagnosaController extends Controller
                 ->addIndexColumn()
                 ->make(true);
         }
-    }
-
-    public function resumeDiagnosa(Request $request)
-    {
-        if ($request->ajax()) {
-            return DataTables::of(PendaftaranResume::where('jenis', 'diagnosa')->with('diagnosa')->get())
-                ->addColumn('action', function ($row) {
-                    $btn = \Form::open(['url' => 'resume/diagnosa/' . $row->id, 'method' => 'DELETE']);
-                    $btn .= "<button type='submit' class='btn btn-danger btn-sm'>Hapus</button>";
-                    $btn .= \Form::close();
-                    return $btn;
-                })
-                ->rawColumns(['action'])
-                ->addIndexColumn()
-                ->make(true);
-        }
-    }
-
-    public function resumePilihDiagnosa(Request $request)
-    {
-        $data = PendaftaranResume::create($request->all());
-        return $data;
-    }
-
-    public function resumeHapusDiagnosa($id)
-    {
-        $data = PendaftaranResume::findOrFail($id);
-        $data->delete();
-
-        return redirect()->back();
     }
 }

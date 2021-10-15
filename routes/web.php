@@ -27,8 +27,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pendaftaran/{id}/pemeriksaan/{jenis}', 'PendaftaranController@pemeriksaan')->name('pendaftaran.pemeriksaan_tindakan');
     Route::get('pendaftaran/{id}/print', 'PendaftaranController@print')->name('pendaftaran.print');
     Route::get('pendaftaran/create/{pasien_id}', 'PendaftaranController@create');
-    // route untuk tab pada pendaftaran
-    Route::get('pendaftaran-add-item/{id}', 'PendaftaranController@addItem');
     Route::resource('pendaftaran', 'PendaftaranController');
 
     // route pendaftaran riwayat penyakit
@@ -40,23 +38,15 @@ Route::middleware(['auth'])->group(function () {
     Route::post('diagnosa-add-item/{id}', 'PendaftaranDiagnosaController@pemeriksaanDiagnosa');
     Route::get('resume/diagnosaICD', 'PendaftaranDiagnosaController@resumeDiagnosaICD')->name('resume.diagnosaICD');
     Route::delete('diagnosa-remove-item/{id}', 'PendaftaranDiagnosaController@pemeriksaanDiagnosaHapus');
-    // route menampilkan data diagnosa
-    Route::get('resume/diagnosa', 'PendaftaranDiagnosaController@resumeDiagnosa')->name('resume.diagnosa');
-    // pilih dan hapus pendaftaran resume diagnosa
-    Route::post('resume/diagnosa/pilih', 'PendaftaranDiagnosaController@resumePilihDiagnosa')->name('resume.pilih-diagnosa');
-    Route::delete('resume/diagnosa/{id}', 'PendaftaranDiagnosaController@resumeHapusDiagnosa')->name('resume.hapus-diagnosa');
 
     // Pendaftaran Tindakan Controller's Routes 
     Route::get('resume/tindakan', 'PendaftaranTindakanController@resumeTindakan')->name('resume.tindakan');
     // pilih dan hapus pendaftaran resume tindakan
+    Route::get('tindakan-add-item', 'PendaftaranTindakanController@resumeTambahTindakan');
     Route::post('resume/tindakan/pilih', 'PendaftaranTindakanController@resumePilihTindakan')->name('resume.pilih-tindakan');
     Route::delete('resume/tindakan/{id}', 'PendaftaranTindakanController@resumeHapusTindakan')->name('resume.hapus-tindakan');
 
     // PendaftaranResepController
-    Route::get('resume/resep', 'PendaftaranResepController@resumeResep')->name('resume.resep');
-    Route::post('resume/resep/pilih', 'PendaftaranResepController@resumePilihResep')->name('resume.pilih-resep');
-    Route::post('resume/resep/tambah', 'PendaftaranResepController@resumeTambahResep')->name('resume.tambah-resep');
-    Route::delete('resume/resep/{id}', 'PendaftaranResepController@resumeHapusResep')->name('resume.hapus-resep');
     // obat racik ajax routes
     Route::get('resume/obatRacik', 'PendaftaranResepController@dataPemeriksaanResep');
     Route::post('obat-racik-add-item/{id}', 'PendaftaranResepController@storePemeriksaanResep');

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePendaftaranResumesTable extends Migration
+class CreatePendaftaranTindakan extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreatePendaftaranResumesTable extends Migration
      */
     public function up()
     {
-        Schema::create('pendaftaran_resume', function (Blueprint $table) {
+        Schema::create('pendaftaran_tindakan', function (Blueprint $table) {
             $table->id();
             $table->integer('pendaftaran_id');
-            $table->string('jenis')->comment('Diagnosa, Resep ,Tindakan');
-            $table->integer('jenis_resume_id');
-            $table->integer('jumlah')->nullable();
-            $table->string('keterangan')->nullable();
+            $table->integer('tindakan_id');
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ class CreatePendaftaranResumesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pendaftaran_resume');
+        Schema::dropIfExists('pendaftaran_tindakan');
     }
 }

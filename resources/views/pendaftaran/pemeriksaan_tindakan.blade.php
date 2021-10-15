@@ -103,30 +103,22 @@
 <script src="{{ asset('datatables/datatables.min.js') }}"></script>
 <script>
     function addItem(btn){
-        let jenis = btn.getAttribute('data-jenis')
-        let input = $('#tindakan_id').select2('data'); //return array object
-        let data = []
-        input.forEach(element => {
-            data.push(element.id)
-        });
+        let tindakan_id = $('#tindakan_id').select2('data')[0].id
         $.ajax({
-            url : '/pendaftaran-add-item/{{$pendaftaran->id}}',
+            url : '/tindakan-add-item',
             method : 'GET',
             data : {
-                jenis :jenis,
-                item : data
+                tindakan_id : tindakan_id,
+                pendaftaran_id : '{{$pendaftaran->id}}'
             },
             success : (response)=>{
-                $('#table-'+jenis).html(response)
-                if(jenis == 'tindakan'){
-                    getResumeTindakan()
-                }
+                $('#table-tindakan').html(response)
+                getResumeTindakan()
             }
         })
     }
 
     function removeItem(btn) {
-        let jenis = btn.getAttribute('data-jenis')
         let id = btn.getAttribute('data-id')
         $.ajax({
             url :'/resume/tindakan/'+id,
@@ -135,10 +127,8 @@
                 _token : '{{csrf_token()}}'
             },
             success : (response)=>{
-                $('#table-'+jenis).html(response)
-                if(jenis == 'tindakan'){
-                    getResumeTindakan()
-                }
+                $('#table-tindakan').html(response)
+                getResumeTindakan()
             }
         })
     }
@@ -147,7 +137,12 @@
         $('#tindakan-resume-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '{{ route("resume.tindakan") }}',
+            ajax: {
+                url : '{{ route("resume.tindakan") }}',
+                data : {
+                    pendaftaran_id : '{{$pendaftaran->id}}'
+                }
+            }, 
             columns: [{
                     data: 'DT_RowIndex',
                     orderable: false,
