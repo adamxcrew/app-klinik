@@ -16,30 +16,30 @@ class LaporanFeeTindakanController extends Controller
         $awal = date('Y-m-d H:i:s', strtotime($start));
         $akhir = date('Y-m-d H:i:s', strtotime($end));
         $data = PendaftaranFeeTindakan::with(['tindakan', 'pendaftaran', 'user']);
-        if($start != null && $end != null){
+        if ($start != null && $end != null) {
             $data->whereBetween(DB::raw('DATE(pendaftaran_fee_tindakan.created_at)'), [$awal, $akhir]);
         }
 
         return DataTables::of($data->get())
-            ->editColumn('tanggal', function($row){
+            ->editColumn('tanggal', function ($row) {
                 return tgl_indo(date('Y-m-d', strtotime($row->created_at)));
             })
-            ->editColumn('jumlah_fee', function($row){
+            ->editColumn('jumlah_fee', function ($row) {
                 return convert_rupiah($row->jumlah_fee);
             })
-            ->editColumn('jenis_pelayanan', function($row){
+            ->editColumn('jenis_pelayanan', function ($row) {
                 return $row->pendaftaran->perusahaanAsuransi->nama_perusahaan;
             })
-            ->editColumn('nomor_pendaftaran', function($row){
+            ->editColumn('nomor_pendaftaran', function ($row) {
                 return $row->pendaftaran->kode;
             })
-            ->editColumn('nama_tindakan', function($row){
+            ->editColumn('nama_tindakan', function ($row) {
                 return $row->tindakan->tindakan;
             })
-            ->editColumn('nama_pelaksana', function($row){
+            ->editColumn('nama_pelaksana', function ($row) {
                 return $row->user->nama;
             })
-            ->editColumn('unit', function($row){
+            ->editColumn('unit', function ($row) {
                 return $row->pendaftaran->poliklinik->nama;
             })
             ->addIndexColumn()
@@ -48,10 +48,10 @@ class LaporanFeeTindakanController extends Controller
 
     public function index(Request $request)
     {
-        if($request->ajax()){
+        if ($request->ajax()) {
             return $this->dataLaporan($request->startDate, $request->endDate);
         }
-        
+
         return view('laporan-fee-tindakan.index');
     }
 
