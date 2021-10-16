@@ -10,20 +10,25 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 class LaporanTagihanExport implements FromView, ShouldAutoSize
 {
     public $periode;
+    public $perusahaan;
 
-    public function __construct($periode)
+    public function __construct($periode, $perusahaan = null)
     {
         $this->periode = $periode;
     }
 
     public function view(): View
     {
-        $start = $this->periode . '-01';
-        $end = $this->periode . '-30';
-
         $laporanTagihan = PendaftaranTindakan::with(['pendaftaran', 'tindakan'])
-            ->whereBetween('created_at', [$start, $end])
-            ->get();
+            ->whereRaw("left(created_at,7)='" . $this->periode . "'");
+
+        if ($this->perusahaan != null) {
+            $jenis_layanan = $this->nama_perusahaan;
+            $laporanTagihan->whereHas('pendaftaran', function ($query) use ($jenis_layanan) {
+                return $query->where('pendaftaran.jenis_layanan', '=', $jenis_layanan);
+            });
+        }
+        $laporanTagihan = $laporanTagihan->get();
 
         return view('laporan-tagihan.laporan-tagihan-perusahaan-excel', compact('laporanTagihan'));
     }

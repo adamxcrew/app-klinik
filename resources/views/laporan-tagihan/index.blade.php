@@ -28,10 +28,10 @@
                     <td>
                         <div class="row">
                           <div class="col-md-3">
-                            {!! Form::month('periode', $periode, ['class'=>'form-control','placeholder'=>'Tanggal Mulai']) !!}
+                            {!! Form::month('periode', $periode, ['class'=>'form-control periode','id'=>'NoIconDemo','placeholder'=>'Tanggal Mulai']) !!}
                           </div>
                           <div class="col-md-3">
-                            <select name="nama_perusahaan" id="nama-perusahaan" class="perusahaan form-control" style="height: 100px;" placeholder="Masukan Nama Desa"></select>
+                            {!! Form::select('nama_perusahaan', $perusahaan, request()->has('nama_perusahaan') ? request()->get('nama_perusahaan') : '', ['class'=>'form-control']) !!}
                           </div>
                           <div class="col-md-5">
                               <button type="submit" class="btn btn-danger" style="margin-right: 10px"><i class="fa fa-cogs" aria-hidden="true"></i>Filter Laporan</button>
@@ -48,7 +48,7 @@
                 <tr>
                   <th width="10">No</th>
                   <th>Tanggal</th>
-                  <th>CM</th>
+                  <th>Nomor RM</th>
                   <th>Nama Pasien</th>
                   <th>Nama Tindakan</th>
                   <th>Tarif Tindakan</th>
@@ -69,17 +69,30 @@
 @endsection
 
 @push('scripts')
-<!-- Select2 Perusahaan -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
 <!-- DataTables -->
 <script src="{{asset('adminlte/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<script src="{{asset('jquery-ui-month-picker-master/src/MonthPicker.js')}}"></script>
 <script>
   $(function() {
+    $('#NoIconDemo').MonthPicker({ Button: false });
+    $("#NoIconDemo").MonthPicker('option', 'MonthFormat','yy-mm');
+
+    var queryString = window.location.search;
+    if(queryString=='')
+    {
+      var periode = '?'+$(".periode").val();
+    }else{
+      var periode = queryString;
+      
+    }
+
     $('#laporan-tagihan-table').DataTable({
       processing: true,
       serverSide: true,
-      ajax: '/laporan-tagihan?periode={{$periode}}',
+      ajax: '/laporan-tagihan'+periode,
       columns: 
       [
         {
@@ -121,31 +134,12 @@
         },
       ]
     });
-
-    $('.perusahaan').select2({
-        placeholder: 'Cari Nama Perusahaan',
-        ajax: {
-        url: '/ajax/select2Perusahaan',
-        dataType: 'json',
-        delay: 250,
-        processResults: function (data) {
-            return {
-            results:  $.map(data, function (item) {
-                return {
-                text: item.nama_perusahaan,
-                id: item.id
-                }
-            })
-            };
-        },
-        cache: true
-        }
-    });
   });
 </script>
 @endpush
 
 @push('css')
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />   
 <link rel="stylesheet" href="{{asset('adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
+<link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="{{asset('jquery-ui-month-picker-master/src/MonthPicker.css')}}">
 @endpush

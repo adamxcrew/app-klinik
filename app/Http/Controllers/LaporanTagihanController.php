@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use DataTables;
 use App\Models\PendaftaranTindakan;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\PerusahaanAsuransi;
 
 class LaporanTagihanController extends Controller
 {
@@ -21,9 +22,14 @@ class LaporanTagihanController extends Controller
         $laporanTagihan = PendaftaranTindakan::with(['pendaftaran', 'tindakan']);
 
         if ($request->periode) {
-            $start = $request->periode . '-01';
-            $end = $request->periode . '-31';
-            $laporanTagihan = $laporanTagihan->whereBetween('created_at', [$start, $end]);
+            $laporanTagihan->whereRaw("left(created_at,7)='" . $request->periode . "'");
+        }
+
+        if ($request->has('nama_perusahaan')) {
+            $jenis_layanan = $request->nama_perusahaan;
+            $laporanTagihan->whereHas('pendaftaran', function ($query) use ($jenis_layanan) {
+                return $query->where('pendaftaran.jenis_layanan', '=', $jenis_layanan);
+            });
         }
 
         if ($request->ajax()) {
@@ -65,10 +71,11 @@ class LaporanTagihanController extends Controller
 
         if ($request->has('action')) {
             if ($request->action == 'download') {
-                return Excel::download(new LaporanTagihanExport($request->periode), 'Laporan Tagihan Perusahaan ' . date('F Y', strtotime($request->periode)) . '.xlsx');
+                return Excel::download(new LaporanTagihanExport($request->periode, $request->nama_perusahaan ?? null), 'Laporan Tagihan Perusahaan ' . date('F Y', strtotime($request->periode)) . '.xlsx');
             }
         }
 
+        $data['perusahaan'] = PerusahaanAsuransi::pluck('nama_perusahaan', 'id');
         return view('laporan-tagihan.index', $data);
     }
 }
