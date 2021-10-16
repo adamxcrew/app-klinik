@@ -24,7 +24,6 @@ class PasienStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'nomor_ktp'         =>  'required|integer|min:16',
             'nama'              =>  'required',
             'nomor_hp'          =>  'required',
             'tanggal_lahir'     =>  'required',

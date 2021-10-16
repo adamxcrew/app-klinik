@@ -91,6 +91,7 @@
         ['icon' => 'fa fa-user', 'link' => '/neraca-saldo', 'label' => 'Neraca Saldo'],
         ['icon' => 'fa fa-paste', 'link' => '/akun', 'label' => 'Laporan'],
         ['icon' => 'fa fa-paste', 'link' => '/laporan-fee-tindakan', 'label' => 'Laporan Fee Tindakan'],
+        ['icon' => 'fa fa-user', 'link' => '/laporan-tagihan', 'label' => 'Laporan Tagihan Perusahaan']
       ];
 
       $bagian_gudang = [

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DataTables;
 use App\Models\Diagnosa;
 use App\Http\Requests\DiagnosaStoreRequest;
+use App\Models\PendaftaranDiagnosa;
 
 class DiagnosaController extends Controller
 {
@@ -18,19 +19,19 @@ class DiagnosaController extends Controller
     {
         if ($request->ajax()) {
             return DataTables::of(Diagnosa::all())
-            ->addColumn('action', function ($row) {
-                $btn = \Form::open(['url' => 'diagnosa/' . $row->id, 'method' => 'DELETE','style' => 'float:right;margin-right:5px']);
-                $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
-                $btn .= \Form::close();
-                $btn .= '<a class="btn btn-danger btn-sm" href="/diagnosa/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
-                return $btn;
-            })
-            ->addColumn('aktif', function ($row) {
-                return $row->aktif == 1 ? 'Aktif' : 'Tidak Aktif';
-            })
-            ->rawColumns(['action','code'])
-            ->addIndexColumn()
-            ->make(true);
+                ->addColumn('action', function ($row) {
+                    $btn = \Form::open(['url' => 'diagnosa/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
+                    $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
+                    $btn .= \Form::close();
+                    $btn .= '<a class="btn btn-danger btn-sm" href="/diagnosa/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+                    return $btn;
+                })
+                ->addColumn('aktif', function ($row) {
+                    return $row->aktif == 1 ? 'Aktif' : 'Tidak Aktif';
+                })
+                ->rawColumns(['action', 'code'])
+                ->addIndexColumn()
+                ->make(true);
         }
         return view('diagnosa.index');
     }
@@ -105,5 +106,16 @@ class DiagnosaController extends Controller
         $diagnosa = Diagnosa::findOrFail($id);
         $diagnosa->delete();
         return redirect(route('diagnosa.index'))->with('message', 'Data Diagnosa Berhasil Dihapus');
+    }
+
+    public function riwayatDiagnosa(Request $request)
+    {
+        $riwayatDiagnosa = PendaftaranDiagnosa::with('icd')->where('pendaftaran_id', $request->id)->get();
+
+        if ($request->ajax()) {
+            return DataTables::of($riwayatDiagnosa)
+                ->addIndexColumn()
+                ->make(true);
+        }
     }
 }

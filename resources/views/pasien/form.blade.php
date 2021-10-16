@@ -7,7 +7,7 @@
     </div>
     <div class="col-md-3">
         <div class="form-group">
-            <label>Nomor KTP</label>
+            <label>Nomor Identitas</label>
             {!! Form::text('nomor_ktp', null, ['class'=>'form-control ktp','Placeholder'=>'Nomor KTP']) !!}
         </div>
     </div>

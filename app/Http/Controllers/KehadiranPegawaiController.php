@@ -35,10 +35,16 @@ class KehadiranPegawaiController extends Controller
         $data['kelompok_pegawai_id'] = $request->kelompok_pegawai_id;
 
         if ($request->ajax()) {
-            $start = date('Y-m-d', strtotime($request->tanggal_awal));
-            $end = date('Y-m-d', strtotime($request->tanggal_akhir));
+            $kehadiran_pegawai = Pegawai::leftJoin('kehadiran_pegawai', function ($join) {
+                $start   = $_GET['tanggal_awal'] ?? date('Y-m-d');
+                $end   = $_GET['tanggal_akhir'] ?? date('Y-m-d');
 
-            $kehadiran_pegawai = KehadiranPegawai::with(['pegawai', 'shift'])->whereBetween('tanggal', [$start, $end]);
+                $join->on('pegawai.id', '=', 'kehadiran_pegawai.pegawai_id');
+                $join->whereBetween('kehadiran_pegawai.tanggal', [$start, $end]);
+            })
+                ->leftJoin('shift', function ($join) {
+                    $join->on('shift.id', '=', 'kehadiran_pegawai.shift_id');
+                })->get();
 
             if ($request->kelompok_pegawai_id) {
                 $pegawai = Pegawai::where('kelompok_pegawai_id', $request->kelompok_pegawai_id)->first();
@@ -47,19 +53,30 @@ class KehadiranPegawaiController extends Controller
 
             $status_kehadiran = $this->status_kehadiran;
 
-            return DataTables::of($kehadiran_pegawai->get())
+            return DataTables::of($kehadiran_pegawai)
                 ->addColumn('action', function ($row) {
-                    $btn = \Form::open(['url' => 'kehadiran-pegawai/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
+                    $id = (isset($row->id)) ? $row->id : '';
+                    $btn = \Form::open(['url' => 'kehadiran-pegawai/' . $id . '', 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
                     $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
                     $btn .= \Form::close();
-                    $btn .= '<a class="btn btn-danger btn-sm" href="/kehadiran-pegawai/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> ';
+                    $btn .= '<a class="btn btn-danger btn-sm" href="/kehadiran-pegawai/' . $id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> ';
                     return $btn;
                 })
+                ->addColumn('jam_masuk', function ($row) {
+                    return (isset($row->jam_masuk)) ? $row->jam_masuk : '-';
+                })
+                ->addColumn('nama_shift', function ($row) {
+                    return (isset($row->nama_shift)) ? $row->nama_shift : '-';
+                })
+                ->addColumn('jam_keluar', function ($row) {
+                    return (isset($row->jam_keluar)) ? $row->jam_keluar : '-';
+                })
                 ->addColumn('tanggal', function ($row) {
-                    return tgl_indo($row->tanggal);
+                    return (isset($row->tanggal)) ? $row->tanggal : '-';
                 })
                 ->addColumn('status', function ($row) use ($status_kehadiran) {
-                    return $status_kehadiran[$row->status];
+                    return (isset($status_kehadiran[$row->status])) ? $status_kehadiran[$row->status] : '-';
+                    ;
                 })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
