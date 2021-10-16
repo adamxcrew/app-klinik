@@ -35,15 +35,14 @@
                 <table class="table table-bordered table-striped" id="users-table">
                   <thead>
                       <tr>
-                        <th width="10">Nomor</th>
                         <th>Kode Barang</th>
                         <th>Nama Barang</th>
                         <th>Satuan Terbesar</th>
                         <th>Satuan Terkecil</th>
                         <th>Kategori</th>
-                        <th>Jenis</th>
                         <th>Harga</th>
-                        <th>Aktif</th>
+                        <th>Harga + PPN</th>
+                        <th>Harga Jual</th>
                         <th width="60">#</th>
                       </tr>
                   </thead>
@@ -68,15 +67,14 @@
             serverSide: true,
             ajax: '/barang',
             columns: [
-                {data: 'DT_RowIndex', orderable: false, searchable: false},
                 { data: 'kode', name: 'kode' },
                 { data: 'nama_barang', name: 'nama_barang' },
-                { data: 'satuan_terbesar.satuan', name: 'satuan_terbesar.satuan' },
-                { data: 'satuan_terkecil.satuan', name: 'satuan_terkecil.satuan' },
+                { data: 'satuan_terbesar', name: 'satuan_terbesar' },
+                { data: 'satuan_terkecil', name: 'satuan_terkecil' },
                 { data: 'kategori.nama_kategori', name: 'kategori.nama_kategori' },
-                { data: 'jenis_barang', name: 'jenis_barang' },
                 { data: 'harga', name: 'harga' },
-                { data: 'aktif', name: 'aktif' },
+                { data: 'harga_ppn', name: 'harga_ppn' },
+                { data: 'harga_jual', name: 'harga_jual' },
                 { data: 'action', name: 'action' }
             ]
         });

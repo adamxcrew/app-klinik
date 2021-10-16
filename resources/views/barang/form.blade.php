@@ -28,14 +28,20 @@
 
 <div class="form-group">
     <label class="col-sm-2 control-label">Satuan Terbesar</label>
-    <div class="col-sm-5">
+    <div class="col-sm-3">
+        {!! Form::text('jumlah_satuan_terbesar', null, ['class'=>'form-control','Placeholder'=>'Jumlah Satuan Terbesar']) !!}
+    </div>
+    <div class="col-sm-3">
         {!! Form::select('satuan_terbesar_id',$satuan, null, ['class'=>'form-control']) !!}
     </div>
 </div>
 
 <div class="form-group">
     <label class="col-sm-2 control-label">Satuan Terkecil</label>
-    <div class="col-sm-5">
+    <div class="col-sm-3">
+        {!! Form::text('jumlah_satuan_terkecil', null, ['class'=>'form-control','Placeholder'=>'Jumlah Satuan Terkecil']) !!}
+    </div>
+    <div class="col-sm-3">
         {!! Form::select('satuan_terkecil_id',$satuan, null, ['class'=>'form-control']) !!}
     </div>
 </div>
@@ -49,14 +55,26 @@
 
 
 <div class="form-group">
-    <label class="col-sm-2 control-label">Harga</label>
+    <label class="col-sm-2 control-label">Harga & Margin</label>
     <div class="col-sm-2">
         {!! Form::text('harga', null, ['class'=>'form-control','Placeholder'=>'Harga']) !!}
     </div>
+    <div class="col-sm-2">
+        <div class="input-group">
+            {!! Form::text('margin', null, ['class'=>'form-control','Placeholder'=>'margin']) !!}
+            <span class="input-group-addon">%</span>
+          </div>
+        
+    </div>
 </div>
-
 <div class="form-group">
-    <label class="col-sm-2 control-label">Status</label>
+    <label class="col-sm-2 control-label">Pelayanan</label>
+    <div class="col-sm-2">
+        {!! Form::select('aktif',['umum'=>'Umum','ppjs'=>'BPJS'], null, ['class'=>'form-control']) !!}
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label">Status Aktif</label>
     <div class="col-sm-2">
         {!! Form::select('aktif',[1=>'Aktif',0=>'Tidak Aktif'], null, ['class'=>'form-control']) !!}
     </div>

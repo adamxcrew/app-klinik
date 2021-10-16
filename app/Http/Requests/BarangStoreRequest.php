@@ -32,7 +32,9 @@ class BarangStoreRequest extends FormRequest
             'keterangan'            =>  'required',
             'satuan_terkecil_id'    =>  'required',
             'jenis_barang'          =>  'required',
-            'aktif'                 =>  'required'
+            'aktif'                 =>  'required',
+            'jumlah_satuan_terbesar'=>  'required',
+            'jumlah_satuan_terkecil'=>  'required'
         ];
     }
 }
