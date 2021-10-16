@@ -22,7 +22,7 @@ class LaporanTagihanController extends Controller
         $laporanTagihan = PendaftaranTindakan::with(['pendaftaran', 'tindakan']);
 
         if ($request->periode) {
-            $laporanTagihan->whereRaw("left(created_at,7)='".$request->periode."'");
+            $laporanTagihan->whereRaw("left(created_at,7)='" . $request->periode . "'");
         }
 
         if ($request->has('nama_perusahaan')) {
@@ -71,7 +71,7 @@ class LaporanTagihanController extends Controller
 
         if ($request->has('action')) {
             if ($request->action == 'download') {
-                return Excel::download(new LaporanTagihanExport($request->periode, $request->nama_perusahaan??null), 'Laporan Tagihan Perusahaan ' . date('F Y', strtotime($request->periode)) . '.xlsx');
+                return Excel::download(new LaporanTagihanExport($request->periode, $request->nama_perusahaan ?? null), 'Laporan Tagihan Perusahaan ' . date('F Y', strtotime($request->periode)) . '.xlsx');
             }
         }
 

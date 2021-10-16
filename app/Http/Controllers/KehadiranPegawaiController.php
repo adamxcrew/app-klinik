@@ -35,7 +35,6 @@ class KehadiranPegawaiController extends Controller
         $data['kelompok_pegawai_id'] = $request->kelompok_pegawai_id;
 
         if ($request->ajax()) {
-
             $kehadiran_pegawai = Pegawai::leftJoin('kehadiran_pegawai', function ($join) {
                 $start   = $_GET['tanggal_awal'] ?? date('Y-m-d');
                 $end   = $_GET['tanggal_akhir'] ?? date('Y-m-d');
@@ -76,7 +75,8 @@ class KehadiranPegawaiController extends Controller
                     return (isset($row->tanggal)) ? $row->tanggal : '-';
                 })
                 ->addColumn('status', function ($row) use ($status_kehadiran) {
-                    return (isset($status_kehadiran[$row->status])) ? $status_kehadiran[$row->status] : '-';;
+                    return (isset($status_kehadiran[$row->status])) ? $status_kehadiran[$row->status] : '-';
+                    ;
                 })
                 ->rawColumns(['action'])
                 ->addIndexColumn()

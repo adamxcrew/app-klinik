@@ -17,21 +17,21 @@ class PendaftaranResepController extends Controller
                     $btn = "<div class='btn btn-danger btn-sm' data-id = '" . $row->id . "' onClick='removeObatRacik(this)'>Hapus</div>";
                     return $btn;
                 })
-                ->editColumn('kode', function($row){
+                ->editColumn('kode', function ($row) {
                     return $row->barang->kode;
                 })
-                ->editColumn('nama', function($row){
+                ->editColumn('nama', function ($row) {
                     return $row->barang->nama_barang;
                 })
-                ->editColumn('jumlah', function($row){
-                    return $row->jumlah.' '.$row->satuan;
+                ->editColumn('jumlah', function ($row) {
+                    return $row->jumlah . ' ' . $row->satuan;
                 })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
         }
     }
-    
+
     public function storePemeriksaanResep(Request $request, $id)
     {
         $request['pendaftaran_id'] = $id;
