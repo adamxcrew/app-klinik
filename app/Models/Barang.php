@@ -18,7 +18,11 @@ class Barang extends Model
         'jenis_barang',
         'kategori_id',
         'satuan_terbesar_id',
-        'satuan_terkecil_id'
+        'satuan_terkecil_id',
+        'margin',
+        'pelayanan',
+        'jumlah_satuan_terbesar',
+        'jumlah_satuan_terkecil'
     ];
 
     public function satuanTerbesar()
