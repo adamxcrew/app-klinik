@@ -45,13 +45,13 @@
                                     <tr>
                                         <td>Dokter</td>
                                         <td>
-                                            {!! Form::select('dokter', $dokter, null, ['class'=>'form-control']) !!}
+                                            {!! Form::select('dokter', $dokter, null, ['class'=>'form-control', 'id' => 'dokter']) !!}
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Asistensi</td>
                                         <td>
-                                            {!! Form::select('asisten', $dokter, null, ['class'=>'form-control']) !!}
+                                            {!! Form::select('asisten', $dokter, null, ['class'=>'form-control', 'id' => 'asisten']) !!}
                                         </td>
                                     </tr>
                                     <tr>
@@ -104,11 +104,15 @@
 <script>
     function addItem(btn){
         let tindakan_id = $('#tindakan_id').select2('data')[0].id
+        let dokter = $('#dokter').find(":selected").val();
+        let asisten = $('#asisten').find(":selected").val();
         $.ajax({
             url : '/tindakan-add-item',
             method : 'GET',
             data : {
                 tindakan_id : tindakan_id,
+                dokter : dokter,
+                asisten : asisten,
                 pendaftaran_id : '{{$pendaftaran->id}}'
             },
             success : (response)=>{

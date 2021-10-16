@@ -92,6 +92,10 @@ Route::middleware(['auth'])->group(function () {
     // Laporan barang excel
     Route::post('barang/export_excel', 'BarangController@export_excel')->name('barang.export_excel');
 
+    // Laporan Fee Tindakan
+    Route::get('laporan-fee-tindakan', 'LaporanFeeTindakanController@index');
+    Route::get('laporan-fee-tindakan/export_excel', 'LaporanFeeTindakanController@export_excel')->name('laporan-fee-tindakan.export_excel');
+
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('obat', 'ObatController');
     Route::get('barang/export_excel', 'BarangController@export_excel')->name('barang.export_excel');
