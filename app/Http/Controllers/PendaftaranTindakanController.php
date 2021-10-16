@@ -32,7 +32,14 @@ class PendaftaranTindakanController extends Controller
     public function resumeTambahTindakan(Request $request)
     {
         $pendaftaran = Pendaftaran::find($request->pendaftaran_id);
-        $jenisPendaftaran = 'Umum'; //perlu ditanyakan jenis pendaftaran merefer kemana.
+        $jenisPendaftaran = $pendaftaran->perusahaanAsuransi->nama_perusahaan;
+        if($jenisPendaftaran != 'Umum' && $jenisPendaftaran != 'umum' ){
+            if($jenisPendaftaran == 'BPJS' || $jenisPendaftaran == 'bpjs' || $jenisPendaftaran == 'Bpjs'  ){
+                $jenisPendaftaran = 'Bpjs';
+            }else{
+                $jenisPendaftaran = 'Perusahaan';
+            }
+        }
 
         $tindakan = Tindakan::find($request->tindakan_id);
         $listTarif = $tindakan->pembagian_tarif;
@@ -75,9 +82,10 @@ class PendaftaranTindakanController extends Controller
     {
         $data = PendaftaranTindakan::findOrFail($id);
         $pendaftaran_id = $data->pendaftaran_id;
+        $tindakan_id = $data->tindakan_id;
         $data->delete();
 
-        PendaftaranFeeTindakan::where('pendaftaran_id', $pendaftaran_id)->where('tindakan_id', $id)->delete();
+        PendaftaranFeeTindakan::where('pendaftaran_id', $pendaftaran_id)->where('tindakan_id', $tindakan_id)->delete();
 
         return view('pendaftaran.ajax-table-tindakan');
     }

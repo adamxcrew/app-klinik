@@ -23,7 +23,7 @@
                 <td>{{$row->tindakan->tindakan}}</td>
                 <td>{{convert_rupiah($row->jumlah_fee)}}</td>
                 <td>{{$row->pendaftaran->kode}}</td>
-                <td>{{'Umum'}}</td>
+                <td>{{$row->pendaftaran->perusahaanAsuransi->nama_perusahaan}}</td>
             </tr>
         @endforeach
     </tbody>

@@ -28,7 +28,7 @@ class LaporanFeeTindakanController extends Controller
                 return convert_rupiah($row->jumlah_fee);
             })
             ->editColumn('jenis_pelayanan', function($row){
-                return 'Umum';
+                return $row->pendaftaran->perusahaanAsuransi->nama_perusahaan;
             })
             ->editColumn('nomor_pendaftaran', function($row){
                 return $row->pendaftaran->kode;
