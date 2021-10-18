@@ -14,10 +14,12 @@ use App\Models\Shift;
 class PegawaiController extends Controller
 {
     protected $agama;
+    protected $bank;
 
     public function __construct()
     {
         $this->agama = config('datareferensi.agama');
+        $this->bank = config('datareferensi.bank');
     }
     /**
      * Display a listing of the resource.
@@ -51,6 +53,7 @@ class PegawaiController extends Controller
      */
     public function create()
     {
+        $data['bank']               = $this->bank;
         $data['kelompok_pegawai']   = KelompokPegawai::pluck('nama_kelompok', 'id');
         $data['agama']              = $this->agama;
         return view('pegawai.create', $data);
@@ -90,6 +93,7 @@ class PegawaiController extends Controller
      */
     public function edit($id)
     {
+        $data['bank']               = $this->bank;
         $data['kelompok_pegawai']   = KelompokPegawai::pluck('nama_kelompok', 'id');
         $data['agama']              = $this->agama;
         $data['pegawai']            = Pegawai::findOrFail($id);
@@ -103,7 +107,7 @@ class PegawaiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PegawaiStoreRequest $request, $id)
     {
         $pegawai = Pegawai::findOrFail($id);
         $pegawai->update($request->all());

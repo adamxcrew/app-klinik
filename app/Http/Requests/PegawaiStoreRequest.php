@@ -33,6 +33,8 @@ class PegawaiStoreRequest extends FormRequest
             'gaji_pokok'    =>  'required',
             'tanggal_masuk' =>  'required',
             'tunjangan_kehadiran' =>  'required',
+            'nama_bank'           =>  'required',
+            'nomor_rekening'      =>  'required',
         ];
     }
 }
