@@ -40,6 +40,10 @@ class AntrianController extends Controller
     public function lastAntrian()
     {
         $lastAntrian = Antrian::whereDate('created_at', date('Y-m-d'))->orderBy('nomor_antrian', 'DESC')->first();
+        if($lastAntrian == null ){
+            return 0;
+        }
+        
         return $lastAntrian->nomor_antrian;
     }
 

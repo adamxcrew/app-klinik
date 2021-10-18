@@ -17,7 +17,7 @@
         <!-- small box -->
         <div class="small-box bg-green">
             <div class="inner">
-                <h3>{{$detail->antrian_sekarang}}<sup style="font-size: 20px"></sup></h3>
+                <h3>{{$detail->antrian_sekarang ? $detail->antrian_sekarang : 'Belum ada '}}<sup style="font-size: 20px"></sup></h3>
 
                 <p>Antrian Saat ini</p>
             </div>
