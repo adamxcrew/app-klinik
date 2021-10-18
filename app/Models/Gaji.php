@@ -8,7 +8,7 @@ class Gaji extends Model
 {
     protected $table = "gaji";
 
-    protected $fillable = ['pegawai_id', 'periode', 'status_bayar', 'approval'];
+    protected $fillable = ['pegawai_id', 'periode', 'status_bayar', 'approval', 'take_home_pay'];
 
     public function pegawai()
     {

@@ -31,7 +31,9 @@ class GajiController extends Controller
                     $createGaji = Gaji::create([
                         'pegawai_id'    => $pegawai->id,
                         'periode'       => $data['periode'],
-                        'status_bayar'  => 0
+                        'status_bayar'  => 0,
+                        'approval'      => 0,
+                        'take_home_pay' => 0
                     ]);
 
                     // insert detail komponen gaji
@@ -71,6 +73,9 @@ class GajiController extends Controller
                         $btn = "<span class='label label-danger'>Approved <span class='label label-danger'><i class='fa fa-times'></i></span></span>";
                     }
                     return $btn;
+                })
+                ->addColumn('take_home_pay', function ($row) {
+                    return convert_rupiah($row->take_home_pay);
                 })
                 ->rawColumns(['action', 'status_approve'])
                 ->addIndexColumn()
