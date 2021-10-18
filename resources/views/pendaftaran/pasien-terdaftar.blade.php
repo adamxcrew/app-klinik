@@ -199,7 +199,7 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<script src="{{asset('adminlte/bower_components/select2/dist/js/select2.min.js')}}"></script>
 
 <script>
     $( document ).ready(function() {
@@ -336,5 +336,5 @@
 @endpush
 
 @push('css')
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />   
+    <link href="{{asset('adminlte/bower_components/select2/dist/css/select2.min.css')}}" rel="stylesheet"/>   
 @endpush

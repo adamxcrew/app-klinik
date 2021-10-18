@@ -99,8 +99,8 @@
 <!-- DataTables -->
 <script src="{{asset('adminlte/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-<script src="{{ asset('datatables/datatables.min.js') }}"></script>
+<script src="{{asset('adminlte/bower_components/select2/dist/js/select2.min.js')}}"></script>
+<script src="{{asset('datatables/datatables.min.js') }}"></script>
 <script>
     function addItem(btn){
         let tindakan_id = $('#tindakan_id').select2('data')[0].id
