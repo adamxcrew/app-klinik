@@ -100,7 +100,8 @@
         ['icon' => 'fa fa-user', 'link' => '/supplier', 'label' => 'Data Supplier'],
         ['icon' => 'fa fa-book', 'link' => '/stock-opname', 'label' => 'Stock Opname'],
         ['icon' => 'fa fa-user', 'link' => '/barang', 'label' => 'Master Barang'],
-        ['icon' => 'fa fa-user', 'link' => '/kategori', 'label' => 'Master Kategori']
+        ['icon' => 'fa fa-user', 'link' => '/kategori', 'label' => 'Master Kategori'],
+        ['icon' => 'fa fa-user', 'link' => '/pbf', 'label' => 'Master PBF']
       ];
 
       $bagian_pendaftaran = [

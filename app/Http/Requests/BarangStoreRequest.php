@@ -29,7 +29,6 @@ class BarangStoreRequest extends FormRequest
             'harga'                 =>  'required|integer',
             'satuan_terbesar_id'    =>  'required',
             'kategori_id'           =>  'required',
-            'keterangan'            =>  'required',
             'satuan_terkecil_id'    =>  'required',
             'jenis_barang'          =>  'required',
             'aktif'                 =>  'required',
