@@ -36,6 +36,66 @@ class GajiController extends Controller
                         'take_home_pay' => 0
                     ]);
 
+                    $gaji           = Gaji::findOrFail($createGaji->id);
+
+                    // Hitung end dan start, bulan ini plus tanggal 25.
+                    $periodeEnd = $gaji->periode . '-25';
+                    $periodeStart = date('Y-m-d', strtotime('-29 day', strtotime($periodeEnd)));
+
+                    $pegawai        = Pegawai::with('kelompok_pegawai')->findOrFail($gaji->pegawai_id);
+                    $gaji_detail    = PegawaiTunjanganGaji::with('komponen_gaji')->whereBetween('created_at', [$periodeStart, $periodeEnd])->where('pegawai_id', $pegawai->id)->get();
+
+                    // Handle tunjangan gaji
+                    $status_kehadiran = [];
+                    $kehadiran = KehadiranPegawai::where('pegawai_id', $pegawai->id);
+
+                    foreach ($kehadiran->get() as $k) {
+                        array_push($status_kehadiran, ['status' => $k->status]);
+                    }
+
+                    $total_kehadiran = hitung_kehadiran($pegawai->id, $periodeStart, $periodeEnd, $status_kehadiran);
+
+                    $jml_penambah = 0;
+
+                    $penambah = [];
+                    // Gaji pokok
+                    $penambah[0]['nama_komponen'] = 'gaji pokok';
+                    $penambah[0]['jumlah'] = $pegawai->gaji_pokok;
+                    $penambah[0]['jenis'] = 'penambah';
+
+                    // Tunjangan kehadiran
+                    $penambah[1]['nama_komponen'] = 'Tunjangan Kehadiran';
+                    $penambah[1]['jumlah'] = $total_kehadiran * $pegawai->tunjangan_kehadiran;
+                    $penambah[1]['jenis'] = 'penambah';
+                    $i = 2;
+
+                    foreach ($gaji_detail as $detail) {
+                        if ($detail->komponen_gaji->jenis == 'penambah') {
+                            $penambah[$i]['nama_komponen'] = $detail->komponen_gaji->nama_komponen;
+                            $penambah[$i]['jumlah'] = $detail->jumlah;
+                            $penambah[$i]['jenis'] = 'penambah';
+                            $i++;
+                        }
+                    }
+
+                    foreach ($penambah as $p) {
+                        if ($p['jenis'] == 'penambah') {
+                            $jml_penambah += $p['jumlah'];
+                        }
+                    }
+
+                    $jml_pengurang = 0;
+
+                    foreach ($gaji_detail as $detail) {
+                        if ($detail->komponen_gaji->jenis == 'pengurang') {
+                            $jml_pengurang += $detail->jumlah;
+                        }
+                    }
+                    $total = $jml_penambah - $jml_pengurang;
+                    $updated = Gaji::where('id', $createGaji->id)->update([
+                        'take_home_pay' => $total
+                    ]);
+
                     // insert detail komponen gaji
                     $komponenGajiPegawai = PegawaiTunjanganGaji::where('pegawai_id', $pegawai->id)->get();
                     foreach ($komponenGajiPegawai as $komponen) {
