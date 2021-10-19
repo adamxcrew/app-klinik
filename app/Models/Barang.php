@@ -39,4 +39,9 @@ class Barang extends Model
     {
         return $this->belongsTo(\App\Models\Kategori::class);
     }
+
+    public function pbf()
+    {
+        return $this->belongsTo(\App\Models\PedagangBesarFarmasi::class);
+    }
 }

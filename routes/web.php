@@ -121,6 +121,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('gaji/approve/{id}', 'GajiController@approve');
     Route::resource('gaji', 'GajiController');
     Route::resource('kelompok-pegawai', 'KelompokPegawaiController');
+    Route::resource('pbf', 'PBFController');
 
     Route::resource('perusahaan-asuransi', 'PerusahaanAsuransiController');
     Route::resource('supplier', 'SupplierController');
