@@ -115,7 +115,7 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<script src="{{asset('adminlte/bower_components/select2/dist/js/select2.min.js')}}"></script>
 <script src="{{asset('bootstrap3-editable/js/bootstrap-editable.js')}}"></script>
 <script>
 $( document ).ready(function() {
@@ -228,7 +228,7 @@ function tambah_barang() {
 
 @push('css')
     <link href="{{asset('bootstrap3-editable/css/bootstrap-editable.css')}}" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />  
+    <link href="{{asset('adminlte/bower_components/select2/dist/css/select2.min.css')}}" rel="stylesheet"/>
     <style>
         .dataTables_scrollHeadInner {
             width: 100% !important;

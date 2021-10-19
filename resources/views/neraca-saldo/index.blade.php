@@ -61,11 +61,11 @@
 
 @push('scripts')
 <!-- DataTables -->
-<script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
+<script src="{{asset('adminlte/bower_components/jquery/dist/jquery-1.12.1.min.js')}}"></script>
 <script src="{{asset('adminlte/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 <script src="{{asset('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
-<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<script src="{{asset('adminlte/bower_components/jquery-ui/jquery-ui.min.js')}}"></script>
 <script src="{{asset('jquery-ui-month-picker-master/src/MonthPicker.js')}}"></script>
 <script>
   $(function() {
@@ -105,6 +105,6 @@
 
 @push('css')
 <link rel="stylesheet" href="{{asset('adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
-<link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
-  <link rel="stylesheet" href="{{asset('jquery-ui-month-picker-master/src/MonthPicker.css')}}">
+<link rel="stylesheet" href="{{asset('adminlte/bower_components/jquery-ui/themes/smoothness/jquery-ui.css')}}">
+<link rel="stylesheet" href="{{asset('jquery-ui-month-picker-master/src/MonthPicker.css')}}">
 @endpush
