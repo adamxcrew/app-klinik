@@ -20,7 +20,9 @@ class Pegawai extends Model
         'user_id',
         'tanggal_masuk',
         'tanggal_keluar',
-        'tunjangan_kehadiran'
+        'tunjangan_kehadiran',
+        'nama_bank',
+        'nomor_rekening',
     ];
 
     public function kelompok_pegawai()

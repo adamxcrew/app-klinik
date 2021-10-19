@@ -43,6 +43,7 @@
                   <th>Nama Lengkap</th>
                   <th>Periode</th>
                   <th>Status approve</th>
+                  <th>Take Home Pay</th>
                   <th width="60">#</th>
                 </tr>
               </thead>
@@ -93,6 +94,10 @@
         {
           data: 'status_approve',
           name: 'status_approve'
+        },
+        {
+          data: 'take_home_pay',
+          name: 'take_home_pay'
         },
         {
           data: 'action',
