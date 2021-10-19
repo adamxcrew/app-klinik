@@ -76,6 +76,7 @@ class AjaxController extends Controller
         $data = \DB::table('tbm_icd')
             ->select('id', 'indonesia')
             ->where('indonesia', 'like', "%" . $request->q . "%")
+            ->orWhere('kode', 'like', "%" . $request->q . "%")
             ->limit(20)
             ->get();
         return response()->json($data);
