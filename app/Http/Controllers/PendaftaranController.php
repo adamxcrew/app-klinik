@@ -67,8 +67,10 @@ class PendaftaranController extends Controller
             return DataTables::of($pendaftaran->get())
                 ->addColumn('action', function ($row) {
                     $btn = \Form::open(['url' => 'pendaftaran/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
-                    $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-times'></i> Batal</button>";
-                    $btn .= \Form::close();
+                    if ($row->status_pelayanan == 'pendaftaran') {
+                        $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-times'></i> Batal</button>";
+                        $btn .= \Form::close();
+                    }
                     if (auth()->user()->role == 'admin_medis') {
                         $btn .= '<a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/input_tanda_vital"><i class="fa fa-print"></i> Input Tanda Vital</a> ';
                     } elseif (auth()->user()->role == 'poliklinik') {
@@ -78,15 +80,17 @@ class PendaftaranController extends Controller
                     } elseif (auth()->user()->role == 'kasir') {
                         $btn = '<a class="btn btn-danger btn-sm" href="/pembayaran/' . $row->id . '"><i class="fa fa-money"></i> Pembayaran</a> ';
                     } else {
-                        $btn .= '<a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/cetak"><i class="fa fa-print"></i> Cetak Antrian</a> ';
+                        if ($row->status_pelayanan == 'batal') {
+                            $btn .= "<button type='button' class='btn btn-warning btn-sm'>Dibatalkan</button>";
+                        } else {
+                            $btn .= '<a class="btn btn-primary btn-sm" href="/pendaftaran/' . $row->id . '/cetak"><i class="fa fa-print"></i> Cetak Antrian</a> ';
+                            $btn .= '<a class="btn btn-primary btn-sm" href="/pendaftaran/' . $row->id . '/edit"><i class="fa fa-edit"></i> Edit</a> ';
+                        }
                     }
                     return $btn;
                 })
                 ->addColumn('jenis_layanan', function ($row) {
                     return $row->perusahaanAsuransi->nama_perusahaan;
-                })
-                ->addColumn('status_pelayanan', function ($row) use ($status_pelayanan) {
-                    return $status_pelayanan[$row->status_pelayanan];
                 })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
