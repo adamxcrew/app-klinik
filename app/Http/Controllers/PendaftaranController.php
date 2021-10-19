@@ -83,7 +83,7 @@ class PendaftaranController extends Controller
                         if ($row->status_pelayanan == 'batal') {
                             $btn .= "<button type='button' class='btn btn-warning btn-sm'>Dibatalkan</button>";
                         } else {
-                            $btn .= '<a class="btn btn-primary btn-sm" href="/pendaftaran/' . $row->id . '/cetak"><i class="fa fa-print"></i> Cetak Antrian</a> ';
+                            $btn .= '<a class="btn btn-success btn-sm" href="/pendaftaran/' . $row->id . '/cetak"><i class="fa fa-print"></i> Cetak Antrian</a> ';
                             $btn .= '<a class="btn btn-primary btn-sm" href="/pendaftaran/' . $row->id . '/edit"><i class="fa fa-edit"></i> Edit</a> ';
                         }
                     }
@@ -128,8 +128,6 @@ class PendaftaranController extends Controller
 
         return view('pendaftaran.pemeriksaan_' . $jenis, $data);
     }
-
-
 
     public function input_tanda_vital($id)
     {
@@ -182,6 +180,22 @@ class PendaftaranController extends Controller
         $data['tindakan'] = Tindakan::all();
         $data['pasien']   = Pendaftaran::find($id);
         return view('pendaftaran.detail', $data);
+    }
+
+    public function edit($id)
+    {
+        $data['pendaftaran']         = Pendaftaran::with('pasien')->findOrFail($id);
+        $data['perusahaan_asuransi'] = PerusahaanAsuransi::pluck('nama_perusahaan', 'id');
+        $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
+
+        return view('pendaftaran.edit', $data);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $pendaftaran = Pendaftaran::with('pasien')->findOrFail($id);
+        $pendaftaran->update($request->all());
+        return redirect(route('pendaftaran.index'))->with('message', 'Data Pendaftaran Pasien Bernama ' . ucfirst($pendaftaran->pasien->nama) . ' Berhasil Di Update');
     }
 
     public function cetak($id)
