@@ -33,11 +33,10 @@ class GajiController extends Controller
                         'periode'       => $data['periode'],
                         'status_bayar'  => 0,
                         'approval'      => 0,
-                        'take_home_pay' => 0
                     ]);
 
                     // insert detail komponen gaji
-                    $komponenGajiPegawai = PegawaiTunjanganGaji::where('pegawai_id', $pegawai->id)->get();
+                    $komponenGajiPegawai = GajiDetail::where('pegawai_id', $pegawai->id)->get();
                     foreach ($komponenGajiPegawai as $komponen) {
                         GajiDetail::create([
                             'pegawai_id'        =>  $pegawai->id,
@@ -75,7 +74,8 @@ class GajiController extends Controller
                     return $btn;
                 })
                 ->addColumn('take_home_pay', function ($row) {
-                    return convert_rupiah($row->take_home_pay);
+                    $takeHomePay = hitung_gaji($row->id);
+                    return convert_rupiah($takeHomePay);
                 })
                 ->rawColumns(['action', 'status_approve'])
                 ->addIndexColumn()
@@ -147,10 +147,10 @@ class GajiController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $data['gaji'] = Gaji::findOrFail($id);
+        $data['gaji'] = Gaji::with('pegawai')->findOrFail($id);
 
         if ($request->ajax()) {
-            return DataTables::of(GajiDetail::where('gaji_id', $data['gaji']->id)->with(['komponen_gaji', 'gaji'])->get())
+            return DataTables::of(GajiDetail::where('pegawai_id', $data['gaji']->pegawai->id)->with(['komponen_gaji', 'gaji'])->get())
                 ->addColumn('action', function ($row) {
                     $btn = "";
                     if (auth()->user()->role != 'pimpinan') {
@@ -161,9 +161,9 @@ class GajiController extends Controller
                     $btn .= '<a class="btn btn-primary btn-sm" href="/gaji-detail/' . $row->id . '/edit' . $row->role . '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> ';
                     return $btn;
                 })
-                ->addColumn('gaji.status_bayar', function ($row) {
-                    return $row->gaji->status_bayar == 1 ? 'Sudah Dibayar' : 'Belum Dibayar';
-                })
+                // ->addColumn('status_bayar', function ($row) {
+                //     return $row->gaji->status_bayar == 1 ? 'Sudah Dibayar' : 'Belum Dibayar';
+                // })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
@@ -221,7 +221,7 @@ class GajiController extends Controller
         $periodeStart = date('Y-m-d', strtotime('-29 day', strtotime($periodeEnd)));
 
         $pegawai        = Pegawai::with('kelompok_pegawai')->findOrFail($gaji->pegawai_id);
-        $gaji_detail    = PegawaiTunjanganGaji::with('komponen_gaji')->whereBetween('created_at', [$periodeStart, $periodeEnd])->where('pegawai_id', $pegawai->id)->get();
+        $gaji_detail    = GajiDetail::with('komponen_gaji')->whereBetween('created_at', [$periodeStart, $periodeEnd])->where('pegawai_id', $pegawai->id)->get();
 
         // Handle tunjangan gaji
         $status_kehadiran = [];

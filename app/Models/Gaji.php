@@ -14,4 +14,9 @@ class Gaji extends Model
     {
         return $this->belongsTo(\App\Models\Pegawai::class);
     }
+
+    public function komponen_gaji()
+    {
+        return $this->belongsTo(KomponenGaji::class);
+    }
 }
