@@ -95,7 +95,7 @@
         },
         {
           data: 'komponen_gaji.nama_komponen',
-          name: 'nama_komponen'
+          name: 'komponen_gaji.nama_komponen'
         },
         {
           data: 'jumlah',
