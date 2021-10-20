@@ -60,9 +60,9 @@
         <td style="text-align:center">D4</td>
         <td style="text-align:right">{{convert_rupiah($row->pegawai->gaji_pokok)}}</td>
         @foreach($tunjangan as $key => $item)
+            $bonus = 0;
             @foreach($row->detail as $detailGaji)
                 @php
-                    $bonus = 0;
                     if($detailGaji->komponen_gaji_id == $key){
                         $bonus = $detailGaji->jumlah;
                     }
