@@ -114,6 +114,7 @@
 
       $admin_medis = [
         ['icon' => 'fa fa-television', 'link' => '/home', 'label' => 'Dashboard'],
+        ['icon' => 'fa fa-book', 'link' => '/antrian', 'label' => 'Antrian'],
         ['icon' => 'fa fa-address-card', 'link' => '/pendaftaran', 'label' => 'daftar pasien antri'],
       ];
       $pimpinan = [

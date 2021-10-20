@@ -19,6 +19,9 @@ Route::get('/', function () {
 Auth::routes();
 Route::middleware(['auth'])->group(function () {
 
+    // Route antrian
+    Route::resource('antrian', 'AntrianController');
+
     // route master pendaftaran
     Route::get('pendaftaran/{id}/cetak', 'PendaftaranController@cetak')->name('pendaftaran.cetak');
     Route::get('pendaftaran/{id}/selesai', 'PendaftaranController@selesai');
@@ -200,6 +203,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('ajax/select2Desa', 'AjaxController@select2Desa');
     Route::get('ajax/select2Pasien', 'AjaxController@select2Pasien');
     Route::get('ajax/select2Barang', 'AjaxController@select2Barang');
+    Route::get('ajax/select2Pendaftaran', 'AjaxController@select2Pendaftaran');
     Route::get('ajax/select2Tindakan', 'AjaxController@select2Tindakan');
     Route::get('ajax/select2ICD', 'AjaxController@select2ICD');
     Route::get('ajax/select2User', 'AjaxController@select2User');
