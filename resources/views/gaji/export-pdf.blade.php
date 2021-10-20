@@ -48,7 +48,7 @@
             <th>{{$row}}</th>
         @endforeach
     </tr>
-    @foreach($gaji as $row)
+    @forelse($gaji as $row)
     @php
         $total = 0;
         $lembur = 0;
@@ -60,7 +60,7 @@
         <td style="text-align:center">D4</td>
         <td style="text-align:right">{{convert_rupiah($row->pegawai->gaji_pokok)}}</td>
         @foreach($tunjangan as $key => $item)
-            $bonus = 0;
+            @php $bonus = 0; @endphp
             @foreach($row->detail as $detailGaji)
                 @php
                     if($detailGaji->komponen_gaji_id == $key){
@@ -90,5 +90,9 @@
         @php $total += $lembur @endphp
         <td style="text-align:right">{{convert_rupiah($total)}}</td>
     </tr>
-    @endforeach
+    @empty
+        <tr>
+            <td colspan=16 style="text-align:center"> Data tidak ditemukan. </td>
+        </tr>
+    @endforelse
 </table>

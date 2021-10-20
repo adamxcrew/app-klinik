@@ -29,7 +29,7 @@
                 </td>
                 <td>
                     <button type="submit" class="btn btn-danger btn btn-sm">Tampilkan</button>
-                    <a href="/gaji/export" class="btn btn-danger btn-sm"><i class="fa fa-print"></i> Export PDF</a>
+                    <a id="export_pdf" href="/gaji/export" class="btn btn-danger btn-sm"><i class="fa fa-print"></i> Export PDF</a>
                 </td>
               </tr>
             </table>
@@ -66,9 +66,14 @@
 
 <script>
   $(function() {
-    $('#NoIconDemo').MonthPicker({ Button: false });
+    $('#NoIconDemo').MonthPicker({
+      Button: false,
+      OnAfterChooseMonth: function () {
+        const period = $(this).val()
+        $("#export_pdf").attr("href", "/gaji/export?periode="+ period)
+      }
+    });
     $("#NoIconDemo").MonthPicker('option', 'MonthFormat','yy-mm');
-
     
     $('#pegawai-table').DataTable({
       processing: true,

@@ -282,10 +282,11 @@ class GajiController extends Controller
             }
         }
 
-        $data['gaji'] = Gaji::all();
+        $filterPeriode = $request->periode ?? date('Y-m');
+        $data['gaji'] = Gaji::with('pegawai')->where('periode', $filterPeriode)->get();
         $data['tunjangan'] = $tunjangan;
         $data['potongan'] = KomponenGaji::where('jenis', 'pengurang')->pluck('nama_komponen', 'id');
-        $data['periode'] = date('F Y');
+        $data['periode'] = date('F Y', strtotime($filterPeriode));
         // return view('gaji.export-pdf', $data);
         $pdf = PDF::loadView('gaji.export-pdf', $data)->setPaper('letter', 'landscape');
         return $pdf->stream();
