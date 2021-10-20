@@ -19,4 +19,9 @@ class Gaji extends Model
     {
         return $this->belongsTo(KomponenGaji::class);
     }
+
+    public function detail()
+    {
+        return $this->hasMany("App\Models\GajiDetail");
+    }
 }
