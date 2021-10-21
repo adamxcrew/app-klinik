@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Fpdf;
+use PDF;
 use DataTables;
 use App\Models\Gaji;
 use App\Models\Pegawai;
@@ -268,6 +269,27 @@ class GajiController extends Controller
         $data['pegawai'] = Pegawai::findOrFail($data['gajiDetail']->pegawai_id);
 
         return view('gaji.edit-gaji-detail', $data);
+    }
+
+    public function export(Request $request)
+    {
+        $tunjangan = KomponenGaji::where('jenis', 'penambah')->pluck('nama_komponen', 'id');
+        if($tunjangan != null){
+            foreach ($tunjangan as $index => $value) {
+                if($value == "Lembur"){
+                    unset($tunjangan[$index]);
+                }
+            }
+        }
+
+        $filterPeriode = $request->periode ?? date('Y-m');
+        $data['gaji'] = Gaji::with('pegawai')->where('periode', $filterPeriode)->get();
+        $data['tunjangan'] = $tunjangan;
+        $data['potongan'] = KomponenGaji::where('jenis', 'pengurang')->pluck('nama_komponen', 'id');
+        $data['periode'] = date('F Y', strtotime($filterPeriode));
+        // return view('gaji.export-pdf', $data);
+        $pdf = PDF::loadView('gaji.export-pdf', $data)->setPaper('letter', 'landscape');
+        return $pdf->stream();
     }
 
 

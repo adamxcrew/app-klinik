@@ -9,7 +9,7 @@
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Dashboard</li>
+      <li class="active">Daftar Gaji</li>
     </ol>
   </section>
 
@@ -18,7 +18,6 @@
     <div class="row">
       <div class="col-xs-12">
         <div class="box">
-
           <div class="box-body">
             @include('alert')
             {!! Form::open(['url'=>'gaji','method'=>'GET']) !!}
@@ -29,7 +28,8 @@
                   <input id="NoIconDemo" class="form-control" name="periode" type="text" value="{{$periode}}" />
                 </td>
                 <td>
-                  <button type="submit" class="btn btn-danger btn btn-sm">Tampilkan</button>
+                    <button type="submit" class="btn btn-danger btn btn-sm">Tampilkan</button>
+                    <a id="export_pdf" href="/gaji/export" class="btn btn-danger btn-sm"><i class="fa fa-print"></i> Export PDF</a>
                 </td>
               </tr>
             </table>
@@ -66,9 +66,14 @@
 
 <script>
   $(function() {
-    $('#NoIconDemo').MonthPicker({ Button: false });
+    $('#NoIconDemo').MonthPicker({
+      Button: false,
+      OnAfterChooseMonth: function () {
+        const period = $(this).val()
+        $("#export_pdf").attr("href", "/gaji/export?periode="+ period)
+      }
+    });
     $("#NoIconDemo").MonthPicker('option', 'MonthFormat','yy-mm');
-
     
     $('#pegawai-table').DataTable({
       processing: true,
