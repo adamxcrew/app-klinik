@@ -9,7 +9,7 @@
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Dashboard</li>
+      <li class="active">Daftar Gaji</li>
     </ol>
   </section>
 
@@ -18,7 +18,6 @@
     <div class="row">
       <div class="col-xs-12">
         <div class="box">
-
           <div class="box-body">
             @include('alert')
             {!! Form::open(['url'=>'gaji','method'=>'GET']) !!}
@@ -29,7 +28,8 @@
                   <input id="NoIconDemo" class="form-control" name="periode" type="text" value="{{$periode}}" />
                 </td>
                 <td>
-                  <button type="submit" class="btn btn-danger btn btn-sm">Tampilkan</button>
+                    <button type="submit" class="btn btn-danger btn btn-sm">Tampilkan</button>
+                    <a id="export_pdf" href="/gaji/export" class="btn btn-danger btn-sm"><i class="fa fa-print"></i> Export PDF</a>
                 </td>
               </tr>
             </table>
@@ -43,6 +43,7 @@
                   <th>Nama Lengkap</th>
                   <th>Periode</th>
                   <th>Status approve</th>
+                  <th>Take Home Pay</th>
                   <th width="60">#</th>
                 </tr>
               </thead>
@@ -57,17 +58,22 @@
 
 @push('scripts')
 <!-- DataTables -->
-<script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
+<script src="{{asset('adminlte/bower_components/jquery/dist/jquery-1.12.1.min.js')}}"></script>
 <script src="{{asset('adminlte/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
-<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<script src="{{asset('adminlte/bower_components/jquery-ui/jquery-ui.min.js')}}"></script>
 <script src="{{asset('jquery-ui-month-picker-master/src/MonthPicker.js')}}"></script>
 
 <script>
   $(function() {
-    $('#NoIconDemo').MonthPicker({ Button: false });
+    $('#NoIconDemo').MonthPicker({
+      Button: false,
+      OnAfterChooseMonth: function () {
+        const period = $(this).val()
+        $("#export_pdf").attr("href", "/gaji/export?periode="+ period)
+      }
+    });
     $("#NoIconDemo").MonthPicker('option', 'MonthFormat','yy-mm');
-
     
     $('#pegawai-table').DataTable({
       processing: true,
@@ -95,6 +101,10 @@
           name: 'status_approve'
         },
         {
+          data: 'take_home_pay',
+          name: 'take_home_pay'
+        },
+        {
           data: 'action',
           name: 'action'
         }
@@ -106,6 +116,6 @@
 
 @push('css')
   <link rel="stylesheet" href="{{asset('adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
-  <link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="{{asset('adminlte/bower_components/jquery-ui/themes/smoothness/jquery-ui.css')}}">
   <link rel="stylesheet" href="{{asset('jquery-ui-month-picker-master/src/MonthPicker.css')}}">
 @endpush

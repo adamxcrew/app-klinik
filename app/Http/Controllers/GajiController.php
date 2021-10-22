@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Fpdf;
+use PDF;
 use DataTables;
 use App\Models\Gaji;
 use App\Models\Pegawai;
@@ -31,11 +32,72 @@ class GajiController extends Controller
                     $createGaji = Gaji::create([
                         'pegawai_id'    => $pegawai->id,
                         'periode'       => $data['periode'],
-                        'status_bayar'  => 0
+                        'status_bayar'  => 0,
+                        'approval'      => 0,
+                    ]);
+
+                    $gaji           = Gaji::findOrFail($createGaji->id);
+
+                    // Hitung end dan start, bulan ini plus tanggal 25.
+                    $periodeEnd = $gaji->periode . '-25';
+                    $periodeStart = date('Y-m-d', strtotime('-29 day', strtotime($periodeEnd)));
+
+                    $pegawai        = Pegawai::with('kelompok_pegawai')->findOrFail($gaji->pegawai_id);
+                    $gaji_detail    = PegawaiTunjanganGaji::with('komponen_gaji')->whereBetween('created_at', [$periodeStart, $periodeEnd])->where('pegawai_id', $pegawai->id)->get();
+
+                    // Handle tunjangan gaji
+                    $status_kehadiran = [];
+                    $kehadiran = KehadiranPegawai::where('pegawai_id', $pegawai->id);
+
+                    foreach ($kehadiran->get() as $k) {
+                        array_push($status_kehadiran, ['status' => $k->status]);
+                    }
+
+                    $total_kehadiran = hitung_kehadiran($pegawai->id, $periodeStart, $periodeEnd, $status_kehadiran);
+
+                    $jml_penambah = 0;
+
+                    $penambah = [];
+                    // Gaji pokok
+                    $penambah[0]['nama_komponen'] = 'gaji pokok';
+                    $penambah[0]['jumlah'] = $pegawai->gaji_pokok;
+                    $penambah[0]['jenis'] = 'penambah';
+
+                    // Tunjangan kehadiran
+                    $penambah[1]['nama_komponen'] = 'Tunjangan Kehadiran';
+                    $penambah[1]['jumlah'] = $total_kehadiran * $pegawai->tunjangan_kehadiran;
+                    $penambah[1]['jenis'] = 'penambah';
+                    $i = 2;
+
+                    foreach ($gaji_detail as $detail) {
+                        if ($detail->komponen_gaji->jenis == 'penambah') {
+                            $penambah[$i]['nama_komponen'] = $detail->komponen_gaji->nama_komponen;
+                            $penambah[$i]['jumlah'] = $detail->jumlah;
+                            $penambah[$i]['jenis'] = 'penambah';
+                            $i++;
+                        }
+                    }
+
+                    foreach ($penambah as $p) {
+                        if ($p['jenis'] == 'penambah') {
+                            $jml_penambah += $p['jumlah'];
+                        }
+                    }
+
+                    $jml_pengurang = 0;
+
+                    foreach ($gaji_detail as $detail) {
+                        if ($detail->komponen_gaji->jenis == 'pengurang') {
+                            $jml_pengurang += $detail->jumlah;
+                        }
+                    }
+                    $total = $jml_penambah - $jml_pengurang;
+                    $updated = Gaji::where('id', $createGaji->id)->update([
+                        'take_home_pay' => $total
                     ]);
 
                     // insert detail komponen gaji
-                    $komponenGajiPegawai = PegawaiTunjanganGaji::where('pegawai_id', $pegawai->id)->get();
+                    $komponenGajiPegawai = GajiDetail::where('pegawai_id', $pegawai->id)->get();
                     foreach ($komponenGajiPegawai as $komponen) {
                         GajiDetail::create([
                             'pegawai_id'        =>  $pegawai->id,
@@ -71,6 +133,10 @@ class GajiController extends Controller
                         $btn = "<span class='label label-danger'>Approved <span class='label label-danger'><i class='fa fa-times'></i></span></span>";
                     }
                     return $btn;
+                })
+                ->addColumn('take_home_pay', function ($row) {
+                    $takeHomePay = hitung_gaji($row->id);
+                    return convert_rupiah($takeHomePay);
                 })
                 ->rawColumns(['action', 'status_approve'])
                 ->addIndexColumn()
@@ -142,10 +208,10 @@ class GajiController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $data['gaji'] = Gaji::findOrFail($id);
+        $data['gaji'] = Gaji::with('pegawai')->findOrFail($id);
 
         if ($request->ajax()) {
-            return DataTables::of(GajiDetail::where('gaji_id', $data['gaji']->id)->with(['komponen_gaji', 'gaji'])->get())
+            return DataTables::of(GajiDetail::where('pegawai_id', $data['gaji']->pegawai->id)->with(['komponen_gaji', 'gaji'])->get())
                 ->addColumn('action', function ($row) {
                     $btn = "";
                     if (auth()->user()->role != 'pimpinan') {
@@ -156,9 +222,9 @@ class GajiController extends Controller
                     $btn .= '<a class="btn btn-primary btn-sm" href="/gaji-detail/' . $row->id . '/edit' . $row->role . '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> ';
                     return $btn;
                 })
-                ->addColumn('gaji.status_bayar', function ($row) {
-                    return $row->gaji->status_bayar == 1 ? 'Sudah Dibayar' : 'Belum Dibayar';
-                })
+                // ->addColumn('status_bayar', function ($row) {
+                //     return $row->gaji->status_bayar == 1 ? 'Sudah Dibayar' : 'Belum Dibayar';
+                // })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
@@ -205,6 +271,27 @@ class GajiController extends Controller
         return view('gaji.edit-gaji-detail', $data);
     }
 
+    public function export(Request $request)
+    {
+        $tunjangan = KomponenGaji::where('jenis', 'penambah')->pluck('nama_komponen', 'id');
+        if($tunjangan != null){
+            foreach ($tunjangan as $index => $value) {
+                if($value == "Lembur"){
+                    unset($tunjangan[$index]);
+                }
+            }
+        }
+
+        $filterPeriode = $request->periode ?? date('Y-m');
+        $data['gaji'] = Gaji::with('pegawai')->where('periode', $filterPeriode)->get();
+        $data['tunjangan'] = $tunjangan;
+        $data['potongan'] = KomponenGaji::where('jenis', 'pengurang')->pluck('nama_komponen', 'id');
+        $data['periode'] = date('F Y', strtotime($filterPeriode));
+        // return view('gaji.export-pdf', $data);
+        $pdf = PDF::loadView('gaji.export-pdf', $data)->setPaper('letter', 'landscape');
+        return $pdf->stream();
+    }
+
 
     public function cetak($id)
     {
@@ -216,7 +303,7 @@ class GajiController extends Controller
         $periodeStart = date('Y-m-d', strtotime('-29 day', strtotime($periodeEnd)));
 
         $pegawai        = Pegawai::with('kelompok_pegawai')->findOrFail($gaji->pegawai_id);
-        $gaji_detail    = PegawaiTunjanganGaji::with('komponen_gaji')->whereBetween('created_at', [$periodeStart, $periodeEnd])->where('pegawai_id', $pegawai->id)->get();
+        $gaji_detail    = GajiDetail::with('komponen_gaji')->whereBetween('created_at', [$periodeStart, $periodeEnd])->where('pegawai_id', $pegawai->id)->get();
 
         // Handle tunjangan gaji
         $status_kehadiran = [];

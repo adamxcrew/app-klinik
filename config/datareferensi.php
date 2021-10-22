@@ -78,7 +78,7 @@ return [
         'anak'          => 'ANAK',
         'saudara'       => 'SAUDARA'
     ],
-    
+
     'status_kehadiran'    => [
         'hadir'        => 'Hadir',
         'tidak hadir'  => 'Tidak Hadir',
@@ -88,9 +88,9 @@ return [
     ],
 
     'status_pelayanan' => [
-        'pendaftaran'=>'Pendaftaran',
-        'selesai_pemeriksaan_medis'=>'Selesai Pemeriksaan Medis',
-        'selesai_pelayanan'=>'Selesai Pelayanan'
+        'pendaftaran' => 'Pendaftaran',
+        'selesai_pemeriksaan_medis' => 'Selesai Pemeriksaan Medis',
+        'selesai_pelayanan' => 'Selesai Pelayanan'
     ],
 
 
@@ -162,7 +162,7 @@ return [
         'Anak'  => 'Anak'
     ],
 
-    
+
     // digunakan pada module tindakan
     'object_fee' => [
         'klinik'            =>  'Klinik',
@@ -170,5 +170,13 @@ return [
         'perawat'           =>  'Perawat',
         'asisten_perawat'   =>  'Asisten Perawat',
         'bidan'             =>  'Bidan'
-    ]
+    ],
+
+    'bank' => [
+        'BCA'      => 'BCA',
+        'BRI'      => 'BRI',
+        'MANDIRI'  => 'MANDIRI',
+        'BNI'      => 'BNI',
+        'BTN'      => 'BTN'
+    ],
 ];

@@ -79,6 +79,18 @@
     </div>
 </div>
 <div class="form-group">
+    <label class="col-sm-2 control-label">Nama Bank</label>
+    <div class="col-sm-4">
+        {!! Form::select('nama_bank', $bank, null, ['class'=>'form-control']) !!}
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label">Nomor Rekening</label>
+    <div class="col-sm-4">
+        {!! Form::number('nomor_rekening', null, ['class'=>'form-control','Placeholder'=>'No Rekening']) !!}
+    </div>
+</div>
+<div class="form-group">
     <label class="col-sm-2 control-label">Tanggal masuk & Keluar</label>
     <div class="col-sm-4">
         {!! Form::date('tanggal_masuk', null, ['class'=>'form-control','Placeholder'=>'Tanggal masuk']) !!}
@@ -95,7 +107,7 @@
 </div>
 
 @push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<script src="{{asset('adminlte/bower_components/select2/dist/js/select2.min.js')}}"></script>
 <script>
 $( document ).ready(function() {
     $('.users').select2({
@@ -158,5 +170,5 @@ $( document ).ready(function() {
 @endpush
 
 @push('css')
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />   
+    <link href="{{asset('adminlte/bower_components/select2/dist/css/select2.min.css')}}" rel="stylesheet"/>   
 @endpush

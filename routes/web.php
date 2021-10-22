@@ -19,6 +19,9 @@ Route::get('/', function () {
 Auth::routes();
 Route::middleware(['auth'])->group(function () {
 
+    // Route antrian
+    Route::resource('antrian', 'AntrianController');
+
     // route master pendaftaran
     Route::get('pendaftaran/{id}/cetak', 'PendaftaranController@cetak')->name('pendaftaran.cetak');
     Route::get('pendaftaran/{id}/selesai', 'PendaftaranController@selesai');
@@ -115,12 +118,14 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('jurnal', 'JurnalController');
     Route::resource('komponengaji', 'KomponenGajiController');
     Route::get('gaji/{id}/cetak', 'GajiController@cetak');
+    Route::get('gaji/export', 'GajiController@export');
     Route::get('gaji-detail/{id}/edit', 'GajiController@editGajiDetail');
     Route::put('gaji-detail/{id}/update', 'GajiController@update')->name('gaji-detail.update');
     Route::delete('gaji-detail/{id}', 'GajiController@destroy')->name('gaji-detail.delete');
     Route::post('gaji/approve/{id}', 'GajiController@approve');
     Route::resource('gaji', 'GajiController');
     Route::resource('kelompok-pegawai', 'KelompokPegawaiController');
+    Route::resource('pbf', 'PBFController');
 
     Route::resource('perusahaan-asuransi', 'PerusahaanAsuransiController');
     Route::resource('supplier', 'SupplierController');
@@ -199,6 +204,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('ajax/select2Desa', 'AjaxController@select2Desa');
     Route::get('ajax/select2Pasien', 'AjaxController@select2Pasien');
     Route::get('ajax/select2Barang', 'AjaxController@select2Barang');
+    Route::get('ajax/select2Pendaftaran', 'AjaxController@select2Pendaftaran');
     Route::get('ajax/select2Tindakan', 'AjaxController@select2Tindakan');
     Route::get('ajax/select2ICD', 'AjaxController@select2ICD');
     Route::get('ajax/select2User', 'AjaxController@select2User');

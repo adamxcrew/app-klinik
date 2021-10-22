@@ -60,6 +60,16 @@ class AjaxController extends Controller
         return response()->json($data);
     }
 
+    public function select2Pendaftaran(Request $request)
+    {
+        $data = \DB::table('pendaftaran')
+            ->select('id', 'kode')
+            ->where('kode', 'like', "%" . $request->q . "%")
+            ->limit(20)
+            ->get();
+        return response()->json($data);
+    }
+
     public function select2Tindakan(Request $request)
     {
         $data = \DB::table('tindakan')
@@ -76,6 +86,7 @@ class AjaxController extends Controller
         $data = \DB::table('tbm_icd')
             ->select('id', 'indonesia')
             ->where('indonesia', 'like', "%" . $request->q . "%")
+            ->orWhere('kode', 'like', "%" . $request->q . "%")
             ->limit(20)
             ->get();
         return response()->json($data);
