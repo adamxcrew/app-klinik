@@ -13,6 +13,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         '/ajax/purchase-order-edittable',
-        '/ajax/permintaan-barang-detail-editable'
+        '/ajax/permintaan-barang-detail-editable',
+        '/ajax/indikator-editable',
     ];
 }

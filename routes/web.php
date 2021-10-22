@@ -99,6 +99,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('laporan-fee-tindakan', 'LaporanFeeTindakanController@index');
     Route::get('laporan-fee-tindakan/export_excel', 'LaporanFeeTindakanController@export_excel')->name('laporan-fee-tindakan.export_excel');
 
+    // Tindakan Indikator Pemeriksaan lab
+    Route::get('tindakan/{id}/input-indikator', 'TindakanController@input_indikator');
+
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('obat', 'ObatController');
     Route::get('barang/export_excel', 'BarangController@export_excel')->name('barang.export_excel');
@@ -113,6 +116,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('satuan', 'SatuanController');
     Route::resource('harilibur', 'HariLiburController');
     Route::resource('tindakan', 'TindakanController');
+    Route::resource('indikator-pemeriksaan-lab', 'IndikatorPemeriksaanLabController');
     Route::resource('tindakan-bhp', 'TindakanBHPController');
     Route::resource('akun', 'AkunController');
     Route::resource('jurnal', 'JurnalController');
@@ -213,6 +217,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('ajax/user', 'AjaxController@user');
     Route::post('ajax/purchase-order-edittable', 'AjaxController@purchaseOrderEditTable');
     Route::post('ajax/permintaan-barang-detail-editable', 'AjaxController@permintaanBarangDetailEditable');
+    Route::post('ajax/indikator-editable', 'AjaxController@indikatorEditable');
     Route::get('ajax/approval-item-purchase-order', 'AjaxController@approvalItemPurchaseOrder');
     Route::get('/ajax/dropdown-dokter', 'AjaxController@dropdownDokter');
 });
