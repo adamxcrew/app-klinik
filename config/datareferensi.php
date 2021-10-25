@@ -112,6 +112,11 @@ return [
         'alkes' =>  'Alkes'
     ],
 
+    'jenis_tindakan'          => [
+        'tindakan_medis'  =>  'Tindakan Medis',
+        'tindakan_laboratorium' =>  'Tindakan Laboratorium'
+    ],
+
     'hari'                  => [
         'Monday'        => 'Senin',
         'Tuesday'       => 'Selasa',

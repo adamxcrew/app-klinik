@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DataTables;
 use App\Models\Tindakan;
+use App\Models\IndikatorPemeriksaanLab;
 use App\Models\Poliklinik;
 use App\Models\TindakanBHP;
 use App\Models\Barang;
@@ -31,11 +32,17 @@ class TindakanController extends Controller
             return DataTables::of(Tindakan::all())
             ->addColumn('action', function ($row) {
                 $btn = "<a href='/tindakan/" . $row->id . "' class='btn btn-danger btn-sm ' style='margin-right:10px'><i class='fa fa-eye'></i></a>";
+                if($row->jenis == "tindakan_laboratorium"){
+                    $btn = "<a href='/tindakan/" . $row->id . "/input-indikator' class='btn btn-danger btn-sm ' style='margin-right:10px'><i class='fa fa-eye'></i></a>";
+                }
                 $btn .= \Form::open(['url' => 'tindakan/' . $row->id, 'method' => 'DELETE','style' => 'float:right;margin-right:5px']);
                 $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
                 $btn .= \Form::close();
                 $btn .= '<a class="btn btn-danger btn-sm" href="/tindakan/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
                 return $btn;
+            })
+            ->editColumn('jenis', function($row){
+                return config('datareferensi.jenis_tindakan')[$row->jenis];
             })
             ->addColumn('aktif', function ($row) {
                 return $row->aktif == 1 ? 'Aktif' : 'Tidak Aktif';
@@ -84,6 +91,13 @@ class TindakanController extends Controller
         $data['barang'] = Barang::all();
         $data['tindakan'] = Tindakan::findOrFail($id);
         return view('tindakan.show', $data);
+    }
+
+    public function input_indikator(Request $request , $id)
+    {
+        $data['tindakan'] = Tindakan::findOrFail($id);
+        $data['indikatorPemeriksaan'] = IndikatorPemeriksaanLab::all();
+        return view('tindakan.indikator', $data);
     }
 
     /**

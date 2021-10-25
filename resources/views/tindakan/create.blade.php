@@ -8,8 +8,9 @@
         <small>Tambah Tindakan</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Dashboard</li>
+        <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="/tindakan">Tindakan</a></li>
+        <li class="active">Tambah tindakan</li>
       </ol>
     </section>
 

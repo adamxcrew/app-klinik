@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\DokterPoliklinik;
 use App\Models\JadwalPraktek;
 use App\Models\PurchaseOrderDetail;
-use Ap\Models\PurchaseOrder;
+use App\Models\PurchaseOrder;
+use App\Models\IndikatorPemeriksaanLab;
 use App\Models\PermintaanBarangInternalDetail;
 use App\User;
 use App\Models\Pasien;
@@ -55,6 +56,16 @@ class AjaxController extends Controller
         $data = \DB::table('barang')
             ->select('id', 'nama_barang', 'harga')
             ->where('nama_barang', 'like', "%" . $request->q . "%")
+            ->limit(20)
+            ->get();
+        return response()->json($data);
+    }
+
+    public function select2Indikator(Request $request)
+    {
+        $data = \DB::table('indikator')
+            ->select('id', 'nama_indikator')
+            ->where('nama_indikator', 'like', "%" . $request->q . "%")
             ->limit(20)
             ->get();
         return response()->json($data);
@@ -111,6 +122,20 @@ class AjaxController extends Controller
             if ($request->name === 'harga') {
                 $request['value'] = 'Rp. ' . number_format($request->value, 0, ',', '.');
             }
+            $request['status'] = true;
+            $request['message'] = 'Data berhasil diubah';
+            return $request->all();
+        }
+
+        $request['status'] = false;
+        $request['message'] = 'Tidak ada data yg terubah';
+        return $request->all();
+    }
+    
+    public function indikatorEditable(Request $request)
+    {
+        if ($request->name !== null && $request->value !== null) {
+            IndikatorPemeriksaanLab::find($request->pk)->update([$request->name => $request->value]);
             $request['status'] = true;
             $request['message'] = 'Data berhasil diubah';
             return $request->all();

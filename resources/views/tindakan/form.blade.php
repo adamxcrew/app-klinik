@@ -11,6 +11,12 @@
     </div>
 </div>
 <div class="form-group">
+    <label class="col-sm-2 control-label">Jenis Tindakan</label>
+    <div class="col-sm-10">
+        {!! Form::select('jenis', config('datareferensi.jenis_tindakan'), null, ['class' => 'form-control']) !!}
+    </div>
+</div>
+<div class="form-group">
     <label class="col-sm-2 control-label">Poliklinik</label>
     <div class="col-sm-5">
         {!! Form::select('poliklinik_id',$poliklinik, null, ['class'=>'form-control','Placeholder'=>'Nama Tindakan']) !!}
