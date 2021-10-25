@@ -81,6 +81,38 @@ class AjaxController extends Controller
         return response()->json($data);
     }
 
+    public function select2Dokter(Request $request)
+    {
+        $data = \DB::table('users')
+            ->select('id', 'name')
+            ->where('role', 'dokter')
+            ->where('name', 'like', "%" . $request->q . "%")
+            ->limit(20)
+            ->get();
+        return response()->json($data);
+    }
+
+    public function select2Poliklinik(Request $request)
+    {
+        $data = \DB::table('poliklinik')
+            ->select('id', 'nama')
+            ->where('nama', 'like', "%" . $request->q . "%")
+            ->limit(20)
+            ->get();
+        return response()->json($data);
+    }
+
+    public function select2TindakanLaboratorium(Request $request)
+    {
+        $data = \DB::table('tindakan')
+            ->select('id', 'tindakan')
+            ->where('jenis', 'tindakan_laboratorium')
+            ->where('tindakan', 'like', "%" . $request->q . "%")
+            ->limit(20)
+            ->get();
+        return response()->json($data);
+    }
+
     public function select2Tindakan(Request $request)
     {
         $data = \DB::table('tindakan')

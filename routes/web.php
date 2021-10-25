@@ -42,6 +42,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('resume/diagnosaICD', 'PendaftaranDiagnosaController@resumeDiagnosaICD')->name('resume.diagnosaICD');
     Route::delete('diagnosa-remove-item/{id}', 'PendaftaranDiagnosaController@pemeriksaanDiagnosaHapus');
 
+    // Pendaftaran Diagnosa Controller's Routes
+    Route::post('rujukan-lab-add-item', 'PendaftaranRujukanLabController@pemeriksaanRujukanLab');
+    Route::get('resume/rujukanLaboratorium', 'PendaftaranRujukanLabController@resumeRujukanLab')->name('resume.rujukanLab');
+    Route::delete('rujukan-lab-remove-item/{id}', 'PendaftaranRujukanLabController@pemeriksaanRujukanLabHapus');
+
     // route menampilkan data diagnosa
     Route::get('resume/diagnosa', 'PendaftaranDiagnosaController@resumeDiagnosa')->name('resume.diagnosa');
     // pilih dan hapus pendaftaran resume diagnosa
@@ -206,6 +211,9 @@ Route::middleware(['auth'])->group(function () {
     Route::put('setting', 'SettingController@update')->name('setting.update');
     Route::get('ajax/dropdown-dokter-berdasarkan-poliklinik', 'AjaxController@dropdownDokterBerdasarkanPoliklinik');
     Route::get('ajax/select2Desa', 'AjaxController@select2Desa');
+    Route::get('ajax/select2Dokter', 'AjaxController@select2Dokter');
+    Route::get('ajax/select2TindakanLaboratorium', 'AjaxController@select2TindakanLaboratorium');
+    Route::get('ajax/select2Poliklinik', 'AjaxController@select2Poliklinik');
     Route::get('ajax/select2Pasien', 'AjaxController@select2Pasien');
     Route::get('ajax/select2Barang', 'AjaxController@select2Barang');
     Route::get('ajax/select2Pendaftaran', 'AjaxController@select2Pendaftaran');
