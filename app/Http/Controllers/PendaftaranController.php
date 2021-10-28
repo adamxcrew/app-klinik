@@ -90,7 +90,10 @@ class PendaftaranController extends Controller
                     return $btn;
                 })
                 ->addColumn('jenis_layanan', function ($row) {
-                    return $row->perusahaanAsuransi->nama_perusahaan;
+                    if(isset($row->perusahaanAsuransi)){
+                        return $row->perusahaanAsuransi->nama_perusahaan;
+                    }
+                    return "Tidak ada";
                 })
                 ->rawColumns(['action'])
                 ->addIndexColumn()

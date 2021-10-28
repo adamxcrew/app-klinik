@@ -26,7 +26,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-5">
                                 <h4>Form Input Obat Racik</h4>
                                 <hr>
                                 <table class="table table-bordered table-bordered">
@@ -36,8 +36,14 @@
                                     <tr>
                                         <td>Pilih Barang</td>
                                         <td>
-                                            <select name="barang_id" id="barang_id" class='select2 form-control' style="width:100%">
+                                            <select name="barang_id" id="barang_id" class='form-control' style="width:100%">
                                             </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Harga</td>
+                                        <td>
+                                            <input type="number" name="harga" id="harga" class="form-control" placeholder="Masukan harga obat">
                                         </td>
                                     </tr>
                                     <tr>
@@ -73,7 +79,7 @@
                                     </tr>
                                 </table>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-7">
                                 <h4>Daftar Obat Racik</h4>
                                 <hr>
                                 <div id="table-section">
@@ -83,6 +89,7 @@
                                                 <th width="10">Nomor</th>
                                                 <th>Kode</th>
                                                 <th>Nama Obat</th>
+                                                <th>Harga</th>
                                                 <th>Jumlah</th>
                                                 <th>Keterangan</th>
                                                 <th>#</th>
@@ -112,23 +119,22 @@
 <!-- DataTables -->
 <script src="{{asset('adminlte/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
-<script src="{{asset('adminlte/bower_components/select2/dist/js/select2.min.js')}}"></script>
+<script src="{{asset('/select2/dist/js/select2.min.js')}}"></script>
 <script src="{{ asset('datatables/datatables.min.js') }}"></script>
 <script>
     getObatRacik()
     $('#barang_id').select2({
         placeholder: 'Cari Barang',
-        multiple: false,
         ajax: {
             url: '/ajax/select2Barang',
             dataType: 'json',
             delay: 250,
-            multiple: false,
             processResults: function (data) {
                 return {
-                    results: $.map(data, function (item) {
+                    results: $.map(data, function (item) {  
                         return {
                             text: item.nama_barang,
+                            harga : item.harga,
                             id: item.id
                         }
                     })
@@ -137,6 +143,11 @@
             cache: true
         }
     });
+
+    $('#barang_id').on('change', ()=>{
+        let source = $("#barang_id :selected").data().data.harga;
+        $("#harga").val(source)
+    })
     
     function getObatRacik() {
         $('#obat-racik-table').DataTable({
@@ -163,6 +174,10 @@
                     name: 'nama'
                 },
                 {
+                    data: 'harga',
+                    name: 'harga'
+                },
+                {
                     data: 'jumlah',
                     name: 'jumlah'
                 },
@@ -182,6 +197,7 @@
         let barang_id = $('#barang_id').select2('data')[0].id
         let jumlah = $('#jumlah').val()
         let satuan = $('#satuan').val()
+        let harga = $('#harga').val()
         let aturan_pakai = $('#aturan_pakai').val()
         $.ajax({
             url : '/obat-racik-add-item/{{$pendaftaran->id}}',
@@ -191,6 +207,7 @@
                 barang_id : barang_id,
                 jumlah : jumlah,
                 satuan : satuan,
+                harga : harga,
                 aturan_pakai : aturan_pakai,
                 jenis : 'racik'
             },
