@@ -77,6 +77,7 @@
                                                 <th width="10">Nomor</th>
                                                 <th>Kode</th>
                                                 <th>Nama Tindakan</th>
+                                                <th>Fee</th>
                                                 <th width="70">#</th>
                                             </tr>
                                         </thead>
@@ -159,6 +160,10 @@
                 {
                     data: 'tindakan.tindakan',
                     name: 'tindakan.tindakan'
+                },
+                {
+                    data: 'fee',
+                    name: 'fee'
                 },
                 {
                     data: 'action',

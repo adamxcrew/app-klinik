@@ -15,6 +15,9 @@ class PendaftaranTindakanController extends Controller
     {
         if ($request->ajax()) {
             return DataTables::of(PendaftaranTindakan::where('pendaftaran_id', $request->pendaftaran_id)->with('tindakan')->get())
+                ->editColumn('fee', function($row){
+                    return convert_rupiah($row->fee);
+                })
                 ->addColumn('action', function ($row) {
                     return "<div class='btn btn-danger btn-sm' data-id = '" . $row->id . "' data-jenis='tindakan' onClick='removeItem(this)'>Hapus</div>";
                 })
@@ -62,13 +65,15 @@ class PendaftaranTindakanController extends Controller
         $pendaftaran_fee_tindakan['pendaftaran_id'] = $request->pendaftaran_id;
         $pendaftaran_fee_tindakan['jenis'] = $jenisPendaftaran;
 
+        
         foreach ($user_id as $index => $item) {
             $pendaftaran_fee_tindakan['user_id'] = $item;
             $pendaftaran_fee_tindakan['pelaksana'] = $pelaksana[$index];
             $pendaftaran_fee_tindakan['jumlah_fee'] = $jumlah_fee[$index];
             $this->addPendaftaranFeeTindakan($pendaftaran_fee_tindakan);
         }
-
+        
+        $request['fee'] = $tindakan['tarif_'.strtolower($jenisPendaftaran)];
         PendaftaranTindakan::create($request->all());
         return view('pendaftaran.ajax-table-tindakan');
     }
