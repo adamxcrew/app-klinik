@@ -4,6 +4,7 @@
             <th width="10">Nomor</th>
             <th>Kode</th>
             <th>Nama Obat</th>
+            <th>Harga</th>
             <th>Jumlah</th>
             <th>Keterangan</th>
             <th>#</th>

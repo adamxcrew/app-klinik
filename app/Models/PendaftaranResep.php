@@ -8,7 +8,7 @@ class PendaftaranResep extends Model
 {
     protected $table = "pendaftaran_resep";
 
-    protected $fillable = [ 'pendaftaran_id', 'barang_id', 'jumlah', 'satuan', 'aturan_pakai', 'jenis', ];
+    protected $fillable = [ 'pendaftaran_id', 'barang_id', 'jumlah', 'satuan', 'aturan_pakai', 'jenis', 'harga' ];
 
     public function pendaftaran()
     {

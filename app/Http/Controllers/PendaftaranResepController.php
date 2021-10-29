@@ -20,6 +20,9 @@ class PendaftaranResepController extends Controller
                 ->editColumn('kode', function ($row) {
                     return $row->barang->kode;
                 })
+                ->editColumn('harga', function ($row) {
+                    return convert_rupiah($row->harga);
+                })
                 ->editColumn('nama', function ($row) {
                     return $row->barang->nama_barang;
                 })
