@@ -140,6 +140,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('supplier', 'SupplierController');
     Route::resource('icd', 'ICDController');
     Route::resource('shift', 'ShiftController');
+    Route::resource('laporan-tindakan', 'LaporanTindakanController');
 
     Route::post('stock-opname/export_excel', 'StockOpnameController@export_excel')->name('stock-opname.export_excel');
     Route::resource('stock-opname', 'StockOpnameController');
