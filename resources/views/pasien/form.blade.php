@@ -11,6 +11,12 @@
             {!! Form::text('nomor_ktp', null, ['class'=>'form-control ktp','Placeholder'=>'Nomor KTP']) !!}
         </div>
     </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Jenis Identitas</label>
+            {{ Form::select('jenis_identitas', $jenisIdentitas, null,['class'=>'form-control']) }}
+        </div>
+    </div>
 </div>
 <div class="row">
     <div class="col-md-3">
