@@ -18,6 +18,7 @@ use App\Http\Requests\PendaftaranInputTandaVitalRequest;
 use App\Http\Requests\PendaftaranStoreRequest;
 use App\Models\PerusahaanAsuransi;
 use App\Models\Pegawai;
+use App\User;
 
 class PendaftaranController extends Controller
 {
@@ -190,6 +191,7 @@ class PendaftaranController extends Controller
         $data['pendaftaran']         = Pendaftaran::with('pasien')->findOrFail($id);
         $data['perusahaan_asuransi'] = PerusahaanAsuransi::pluck('nama_perusahaan', 'id');
         $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
+        $data['dokter'] = User::where('role', 'dokter')->pluck('name', 'id');
 
         return view('pendaftaran.edit', $data);
     }
