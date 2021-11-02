@@ -14,4 +14,9 @@ class RiwayatPenyakit extends Model
     {
         return $this->belongsTo('App\Models\Pendaftaran');
     }
+
+    public function tbmIcd()
+    {
+        return $this->belongsTo('App\Models\TbmIcd', 'tbm_icd');
+    }
 }

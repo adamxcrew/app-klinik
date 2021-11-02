@@ -29,6 +29,12 @@ class PendaftaranDiagnosaController extends Controller
     {
         if ($request->ajax()) {
             return DataTables::of(PendaftaranDiagnosa::where('pendaftaran_id', $request->id)->get())
+                ->editColumn('kode', function($row){
+                    return $row->icd->kode;
+                })
+                ->editColumn('tbm_icd', function($row){
+                    return $row->icd->indonesia;
+                })
                 ->addColumn('action', function ($row) {
                     $btn = "<div class='btn btn-danger btn-sm' data-id = '" . $row->id . "' onClick='removeDiagnosa(this)'>Hapus</div>";
                     return $btn;
