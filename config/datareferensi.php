@@ -167,6 +167,13 @@ return [
         'Anak'  => 'Anak'
     ],
 
+    'jenis_identitas'       => [
+        'KTP'            => 'KTP',
+        'Passport'       => 'Passport',
+        'Kartu Keluarga' => 'Kartu',
+        'DLL'            => 'DLL'
+    ],
+
 
     // digunakan pada module tindakan
     'object_fee' => [

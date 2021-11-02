@@ -31,6 +31,7 @@ class PasienController extends Controller
     public function __construct()
     {
         $this->agama              = config('datareferensi.agama');
+        $this->jenisIdentitas              = config('datareferensi.jenis_identitas');
         $this->jenjang_pendidikan = config('datareferensi.jenjang_pendidikan');
         $this->status_pernikahan  = config('datareferensi.status_pernikahan');
         $this->kewarganegaraan    = config('datareferensi.kewarganegaraan');
@@ -78,6 +79,7 @@ class PasienController extends Controller
     public function create()
     {
         $data['inisial']            = $this->inisial;
+        $data['jenisIdentitas']     = $this->jenisIdentitas;
         $data['agama']              = $this->agama;
         $data['jenjang_pendidikan'] = $this->jenjang_pendidikan;
         $data['status_pernikahan']  = $this->status_pernikahan;
@@ -120,6 +122,8 @@ class PasienController extends Controller
     public function show($id)
     {
         $data['agama']              = $this->agama;
+        $data['inisial']            = $this->inisial;
+        $data['jenisIdentitas']     = $this->jenisIdentitas;
         $data['jenjang_pendidikan'] = $this->jenjang_pendidikan;
         $data['status_pernikahan']  = $this->status_pernikahan;
         $data['kewarganegaraan']    = $this->kewarganegaraan;
@@ -143,6 +147,8 @@ class PasienController extends Controller
     public function edit($id)
     {
         $data['agama']              = $this->agama;
+        $data['inisial']            = $this->inisial;
+        $data['jenisIdentitas']     = $this->jenisIdentitas;
         $data['jenjang_pendidikan'] = $this->jenjang_pendidikan;
         $data['status_pernikahan']  = $this->status_pernikahan;
         $data['kewarganegaraan']    = $this->kewarganegaraan;
