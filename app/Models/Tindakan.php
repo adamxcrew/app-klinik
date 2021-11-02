@@ -14,4 +14,9 @@ class Tindakan extends Model
     {
         return unserialize($value);
     }
+
+    public function icd()
+    {
+        return $this->belongsTo('App\Models\TbmIcdNine', 'kode');
+    }
 }

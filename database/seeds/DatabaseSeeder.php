@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(WilayahIndonesiaSeeder::class);
         $this->call(SatuanSeeder::class);
         $this->call(IcdSeeder::class);
+        $this->call(IcdNineSeeder::class);
         $this->call(PasienSeeder::class);
     }
 }

@@ -1,7 +1,8 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">Kode Tindakan</label>
     <div class="col-sm-4">
-        {!! Form::text('kode', null, ['class'=>'form-control','Placeholder'=>'Kode Tindakan']) !!}
+        <select name="kode" id="kode" class="select2 form-control">
+        </select>
     </div>
 </div>
 <div class="form-group">
@@ -77,3 +78,38 @@
         <a href="/tindakan" class="btn btn-danger btn btn-sm"><i class="fa fa-share-square-o" aria-hidden="true"></i> Kembali</a>
     </div>
 </div>
+
+@push('css')
+<link href="{{asset('/select2/dist/css/select2.min.css')}}" rel="stylesheet" />
+@endpush
+
+
+@push('scripts')
+<!-- DataTables -->
+<script src="{{asset('adminlte/bower_components/select2/dist/js/select2.min.js')}}"></script>
+<script src="{{asset('datatables/datatables.min.js') }}"></script>
+
+<script>
+    $('#kode').select2({
+        placeholder: 'Cari Kode Nine',
+        multiple: false,
+        ajax: {
+            url: '/ajax/select2ICDNine',
+            dataType: 'json',
+            delay: 250,
+            multiple: false,
+            processResults: function (data) {
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            text: item.code + '-' +item.desc_short,
+                            id: item.id
+                        }
+                    })
+                };
+            },
+            cache: true
+        }
+    });
+</script>
+@endpush

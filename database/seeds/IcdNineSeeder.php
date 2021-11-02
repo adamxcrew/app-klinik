@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class IcdSeeder extends Seeder
+class IcdNineSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,7 +11,7 @@ class IcdSeeder extends Seeder
      */
     public function run()
     {
-        $sql = "database/seeds/sql/tbm_icd.sql";
+        $sql = "database/seeds/sql/tbm_icd_nine.sql";
         $db = [
             'username' => env('DB_USERNAME'),
             'password' => env('DB_PASSWORD'),

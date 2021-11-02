@@ -134,6 +134,17 @@ class AjaxController extends Controller
         return response()->json($data);
     }
 
+    public function select2ICDNine(Request $request)
+    {
+        $data = \DB::table('tbm_icd_nine')
+            ->select('id', 'code', 'desc_short')
+            ->where('desc_short', 'like', "%" . $request->q . "%")
+            ->orWhere('code', 'like', "%" . $request->q . "%")
+            ->limit(20)
+            ->get();
+        return response()->json($data);
+    }
+
     public function pasien(Request $request)
     {
         return Pasien::where('id', $request->pasien_id)->first();
@@ -162,7 +173,7 @@ class AjaxController extends Controller
         $request['message'] = 'Tidak ada data yg terubah';
         return $request->all();
     }
-    
+
     public function indikatorEditable(Request $request)
     {
         if ($request->name !== null && $request->value !== null) {
