@@ -18,7 +18,7 @@
         <div class="row">
           <div class="col-xs-12">
             <div class="box">
-        
+
               <div class="box-body">
                   <a href="{{route('tindakan.create')}}" class="btn btn-info btn-social btn-flat"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
                      Tambah Data</a>
@@ -28,7 +28,7 @@
                   <thead>
                       <tr>
                         <th width="10">Nomor</th>
-                        <th>Kode</th>
+                        <th>Kode ICD 9</th>
                         <th>Nama Tindakan</th>
                         <th>Jenis Tindakan</th>
                         <th>Tarif Umum</th>

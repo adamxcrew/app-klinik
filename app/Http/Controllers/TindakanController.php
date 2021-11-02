@@ -39,7 +39,7 @@ class TindakanController extends Controller
                 return $btn;
             })
             ->editColumn('kode', function($row){
-                return $row->icd->desc_short;
+                return $row->icd->code;
             })
             ->editColumn('jenis', function($row){
                 return config('datareferensi.jenis_tindakan')[$row->jenis];

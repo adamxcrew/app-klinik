@@ -102,7 +102,7 @@
                 return {
                     results: $.map(data, function (item) {
                         return {
-                            text: item.code + '-' +item.desc_short,
+                            text: item.code + ' - ' +item.desc_short,
                             id: item.id
                         }
                     })

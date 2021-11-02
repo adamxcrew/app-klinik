@@ -115,9 +115,10 @@ class AjaxController extends Controller
     public function select2Tindakan(Request $request)
     {
         $data = \DB::table('tindakan')
-            ->select('id', 'kode', 'tindakan')
+            ->join('tbm_icd_nine', 'tbm_icd_nine.id', '=', 'tindakan.kode')
+            ->select('tindakan.id', 'code as kode', 'tindakan')
             ->where('tindakan', 'like', "%" . $request->q . "%")
-            ->orWhere('kode', 'like', '%' . $request->q . '%')
+            ->orWhere('code', 'like', '%' . $request->q . '%')
             ->limit(20)
             ->get();
         return response()->json($data);
