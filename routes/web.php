@@ -105,7 +105,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('laporan-fee-tindakan/export_excel', 'LaporanFeeTindakanController@export_excel')->name('laporan-fee-tindakan.export_excel');
 
     // Tindakan Indikator Pemeriksaan lab
-    Route::get('tindakan/{id}/input-indikator', 'TindakanController@input_indikator');
+    Route::get('jenis-pemeriksaan-lab/{id}/input-indikator', 'JenisPemeriksaanLabController@input_indikator');
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('obat', 'ObatController');
@@ -119,6 +119,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('kategori', 'KategoriController');
     Route::resource('unit-stock', 'UnitStockController');
     Route::resource('satuan', 'SatuanController');
+    Route::resource('jenis-pemeriksaan-lab', 'JenisPemeriksaanLabController');
     Route::resource('harilibur', 'HariLiburController');
     Route::resource('tindakan', 'TindakanController');
     Route::resource('indikator-pemeriksaan-lab', 'IndikatorPemeriksaanLabController');

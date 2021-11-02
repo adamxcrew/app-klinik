@@ -32,9 +32,6 @@ class TindakanController extends Controller
             return DataTables::of(Tindakan::all())
             ->addColumn('action', function ($row) {
                 $btn = "<a href='/tindakan/" . $row->id . "' class='btn btn-danger btn-sm ' style='margin-right:10px'><i class='fa fa-eye'></i></a>";
-                if($row->jenis == "tindakan_laboratorium"){
-                    $btn = "<a href='/tindakan/" . $row->id . "/input-indikator' class='btn btn-danger btn-sm ' style='margin-right:10px'><i class='fa fa-eye'></i></a>";
-                }
                 $btn .= \Form::open(['url' => 'tindakan/' . $row->id, 'method' => 'DELETE','style' => 'float:right;margin-right:5px']);
                 $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
                 $btn .= \Form::close();
@@ -91,13 +88,6 @@ class TindakanController extends Controller
         $data['barang'] = Barang::all();
         $data['tindakan'] = Tindakan::findOrFail($id);
         return view('tindakan.show', $data);
-    }
-
-    public function input_indikator(Request $request , $id)
-    {
-        $data['tindakan'] = Tindakan::findOrFail($id);
-        $data['indikatorPemeriksaan'] = IndikatorPemeriksaanLab::all();
-        return view('tindakan.indikator', $data);
     }
 
     /**

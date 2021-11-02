@@ -22,16 +22,15 @@ class IndikatorPemeriksaanLabController extends Controller
             } else {
                 IndikatorPemeriksaanLab::create($input);
             }
-
             $data['listIndikator'] = IndikatorPemeriksaanLab::where('tindakan_id', $request->tindakan_id)->get();
-            return view('tindakan.ajax-indikator-table', $data);
+            return view('jenis-pemeriksaan-laboratorium.ajax-indikator-table', $data);
         }
     }
 
     public function show(Request $request, $id)
     {
         $data['listIndikator'] = IndikatorPemeriksaanLab::where('tindakan_id', $id)->get();
-        return view('tindakan.ajax-indikator-table', $data);
+        return view('jenis-pemeriksaan-laboratorium.ajax-indikator-table', $data);
     }
 
     public function update(Request $request, $id)

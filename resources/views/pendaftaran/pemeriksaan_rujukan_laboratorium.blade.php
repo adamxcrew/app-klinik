@@ -127,7 +127,7 @@
                 return {
                     results: $.map(data, function (item) {
                         return {
-                            text: item.tindakan,
+                            text: item.nama_jenis,
                             id: item.id
                         }
                     })

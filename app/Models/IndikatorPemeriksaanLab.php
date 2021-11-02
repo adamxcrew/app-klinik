@@ -12,6 +12,6 @@ class IndikatorPemeriksaanLab extends Model
 
     public function tindakan()
     {
-        return $this->belongsTo('App\Models\Tindakan');
+        return $this->belongsTo('App\Models\JenisPemeriksaanLabController', 'tindakan_id');
     }
 }
