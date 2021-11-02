@@ -71,6 +71,45 @@
         </div>
         <div class="box">
             <div class="box-body">
+                <h2 class="text-center"><strong>Detail Pembayaran</strong></h2>
+                <table class="table table-bordered">
+                  <tr style="background-color :#222d32 ;color:#ffffff;">
+                    <th>No</th>
+                    <th>Detail pembayaran</th>
+                    <th>Fee</th>
+                  </tr>
+                  @php $jumlah = 0; $nomor = 1 @endphp
+                  @foreach($userInfo->feeTindakan as $row)
+                    <tr>
+                      <td>{{$nomor}}</td>
+                      <td>{{$row->tindakan->tindakan}}</td>
+                      <td style="text-align:right">{{convert_rupiah($row->jumlah_fee)}}</td>
+                    </tr>
+                    @php $jumlah += $row->jumlah_fee ; $nomor++ @endphp
+                  @endforeach
+                  @foreach($userInfo->resep as $row)
+                    <tr>
+                      <td>{{$nomor}}</td>
+                      <td>{{$row->barang->nama_barang}} ({{$row->jumlah}} {{$row->satuan}} {{$row->aturan_pakai}}) </td>
+                      @php
+                        $harga = $row->harga;
+                        if($harga <= 0 ){
+                          $harga = $row->barang->harga;
+                        }
+                      @endphp
+                      <td style="text-align:right">{{ convert_rupiah($harga)}}</td>
+                    </tr>
+                    @php $jumlah += $harga ; $nomor++ @endphp
+                  @endforeach
+                  <tr style="text-align:right">
+                    <td colspan=2>Total Pembayaran</td>
+                    <td>{{convert_rupiah($jumlah)}}</td>
+                  </tr>
+                </table>
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-body">
                 <h2 class="text-center"><strong>Pembayaran</strong></h2>
                 {!! Form::open(['route'=>'pembayaran.store','class'=>'form-horizontal']) !!}
                 @include('validation_error')

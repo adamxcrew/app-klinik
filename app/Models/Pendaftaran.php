@@ -58,4 +58,14 @@ class Pendaftaran extends Model
     {
         return unserialize($value);
     }
+
+    public function feeTindakan()
+    {
+        return $this->hasMany('App\Models\PendaftaranFeeTindakan');
+    }
+
+    public function resep()
+    {
+        return $this->hasMany('App\Models\PendaftaranResep');
+    }
 }
