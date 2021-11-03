@@ -72,9 +72,8 @@ class PendaftaranController extends Controller
                         $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-times'></i> Batal</button>";
                         $btn .= \Form::close();
                     }
-                    if (auth()->user()->role == 'admin_medis') {
+                    if (auth()->user()->role == 'poliklinik') {
                         $btn .= '<a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/input_tanda_vital"><i class="fa fa-print"></i> Input Tanda Vital</a> ';
-                    } elseif (auth()->user()->role == 'poliklinik') {
                         if ($row->status_pelayanan == 'selesai_pemeriksaan_medis') {
                             $btn .= '<a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/pemeriksaan/tindakan"><i class="fa fa-edit"></i> Input tindakan</a> ';
                         }
@@ -154,7 +153,7 @@ class PendaftaranController extends Controller
                 'rr',
                 'saturasi_o2',
                 'fungsi_penciuman',
-                'status_alergi'
+                'status_alergi_value'
             )),
             'pemeriksaan_klinis'    =>  serialize($request->pemeriksaan_klinis),
             'status_pelayanan'      =>  'selesai_pemeriksaan_medis'
@@ -241,6 +240,12 @@ class PendaftaranController extends Controller
     {
         if ($request->ajax()) {
             return DataTables::of(RiwayatPenyakit::where('pendaftaran_id', $request->id)->get())
+                ->editColumn('kode', function($row){
+                    return $row->tbmIcd->kode;
+                })
+                ->editColumn('tbm_icd', function($row){
+                    return $row->tbmIcd->indonesia;
+                })
                 ->addColumn('action', function ($row) {
                     $btn = "<div class='btn btn-danger btn-sm' data-id = '" . $row->id . "' onClick='removeRiwayatPenyakit(this)'>Hapus</div>";
                     return $btn;

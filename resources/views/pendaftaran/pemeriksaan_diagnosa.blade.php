@@ -19,7 +19,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="box">
-                    
+
 
                     <div class="box-body">
                         <div class="row">
@@ -63,6 +63,7 @@
                                         <thead>
                                             <tr>
                                                 <th width="10">Nomor</th>
+                                                <th width="10">Kode</th>
                                                 <th>Nama Diagnosa</th>
                                                 <th>#</th>
                                             </tr>
@@ -116,7 +117,7 @@
             cache: true
         }
     });
-    
+
     function getDiagnosa() {
         $('#diagnosa-table').DataTable({
             processing: true,
@@ -133,6 +134,10 @@
                     searchable: false
                 },
                 {
+                    data: 'kode',
+                    name: 'kode'
+                },
+                {
                     data: 'tbm_icd',
                     name: 'tbm_icd'
                 },
@@ -143,7 +148,7 @@
             ]
         });
     }
-	
+
 	function addDiagnosa(btn) {
         let diagnosa = $('#diagnosa_id').select2('data')[0].id;
         $.ajax({

@@ -53,7 +53,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('resume/diagnosa/pilih', 'PendaftaranDiagnosaController@resumePilihDiagnosa')->name('resume.pilih-diagnosa');
     Route::delete('resume/diagnosa/{id}', 'PendaftaranDiagnosaController@resumeHapusDiagnosa')->name('resume.hapus-diagnosa');
 
-    // Pendaftaran Tindakan Controller's Routes 
+    // Pendaftaran Tindakan Controller's Routes
     Route::get('resume/tindakan', 'PendaftaranTindakanController@resumeTindakan')->name('resume.tindakan');
     // pilih dan hapus pendaftaran resume tindakan
     Route::get('tindakan-add-item', 'PendaftaranTindakanController@resumeTambahTindakan');

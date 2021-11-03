@@ -70,13 +70,13 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Status Alergi</label>
                     <div class="col-sm-1" style="width:10px;">
-                      <input type="checkbox" name="status_alergi">
+                      <input type="checkbox" id = 'status_alergi' name="status_alergi">
                     </div>
                     <div class="col-sm-6">
-                        {!! Form::text('status_alergi_value', null, ['class'=>'form-control','Placeholder'=>'Status Alergi','disabled']) !!}
+                        {!! Form::text('status_alergi_value', null, [ 'id' => 'status_alergi_value', 'class'=>'form-control','Placeholder'=>'Status Alergi','disabled']) !!}
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Jenis Kasus</label>
                     <div class="col-sm-4">
@@ -134,6 +134,7 @@
                             <thead>
                                 <tr>
                                     <th width="10">Nomor</th>
+                                    <th width="10">Kode</th>
                                     <th>Riwayat Penyakit</th>
                                     <th width="70">#</th>
                                 </tr>
@@ -872,6 +873,14 @@
         });
         $('.input').attr('disabled', 'disabled')
 
+        $("#status_alergi").change(function () {
+            $('#status_alergi_value').prop('disabled', true)
+            $('#status_alergi_value').val('')
+            if (this.checked) {
+                $('#status_alergi_value').prop('disabled', false)
+            }
+        });
+
         $(".check").click(function () {
             let name = $(this).attr('data-name');
             let status = $('.input-' + name).attr('disabled');
@@ -904,6 +913,10 @@
                     searchable: false
                 },
                 {
+                    data: 'kode',
+                    name: 'kode'
+                },
+                {
                     data: 'tbm_icd',
                     name: 'tbm_icd'
                 },
@@ -914,9 +927,9 @@
             ]
         });
     }
-	
+
 	function addRiwayatPenyakit(btn) {
-        let riwayatPenyakit = $('#riwayat_penyakit_id').find(':selected').text()
+        let riwayatPenyakit = $('#riwayat_penyakit_id').find(':selected').val()
         $.ajax({
             url : '/riwayat-penyakit-add-item/{{$pendaftaran->id}}',
             method : 'POST',

@@ -2,6 +2,7 @@
     <thead>
         <tr>
             <th width="10">Nomor</th>
+            <th width="10">Kode</th>
             <th>Nama Diagnosa</th>
             <th>#</th>
         </tr>
