@@ -25,7 +25,6 @@ class KomponenGajiStoreRequest extends FormRequest
     {
         return [
             'nama_komponen' =>  'required',
-            'jumlah'        =>  'required|integer',
             'jenis'         =>  'required'
         ];
     }

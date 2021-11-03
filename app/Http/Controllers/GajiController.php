@@ -334,7 +334,7 @@ class GajiController extends Controller
         Fpdf::text(110, 26, 'Nama Karyawan');
         Fpdf::text(136, 26, ' : ' . $pegawai->nama);
         Fpdf::text(110, 30, 'Jabatan');
-        Fpdf::text(136, 30, ' : ' . ucfirst($pegawai->kelompok_pegawai->nama_kelompok));
+        Fpdf::text(136, 30, ' : ' . ucfirst(isset($pegawai->kelompok_pegawai) ? $pegawai->kelompok_pegawai->nama_kelompok : "Belum punya jabatan"));
 
         Fpdf::Cell(190, 90, '', 1, 1, 'C');
         // ---------------------------------------
@@ -432,7 +432,7 @@ class GajiController extends Controller
         Fpdf::text(12, 112, 'Nama Karyawan');
         Fpdf::text(42, 112, ' : ' . $pegawai->nama);
         Fpdf::text(12, 116, 'Jabatan');
-        Fpdf::text(42, 116, ' : ' . ucfirst($pegawai->kelompok_pegawai->nama_kelompok));
+        Fpdf::text(42, 116, ' : ' . ucfirst(isset($pegawai->kelompok_pegawai) ? $pegawai->kelompok_pegawai->nama_kelompok : "Belum punya jabatan"));
 
 
         Fpdf::text(120, 96, 'Diserahkan Oleh');
