@@ -5,7 +5,7 @@
             <th scope="col">Nama Indikator</th>
             <th scope="col">Satuan</th>
             <th scope="col">Nilai Rujukan</th>
-            <th scope="col">Action</th>
+            <th scope="col" width="20">Action</th>
         </tr>
     </thead>
     <tbody>
@@ -16,7 +16,7 @@
                 <td><a href="#" class="editableRow" data-pk = '{{$row->id}}' data-name = 'satuan' > {{$row->satuan}} </a> </td>
                 <td><a href="#" class="editableRow" data-pk = '{{$row->id}}' data-name = 'nilai_rujukan' > {{$row->nilai_rujukan}} </a> </td>
                 <td>
-                    <button class="btn btn-danger btn-hapus-indikator" onClick="hapus_indikator({{$row->id}})"><i class="fa fa-trash"></i></button>
+                    <button class="btn btn-danger btn-sm btn-hapus-indikator" onClick="hapus_indikator({{$row->id}})"><i class="fa fa-trash"></i></button>
                 </td>
             </tr>
         @endforeach

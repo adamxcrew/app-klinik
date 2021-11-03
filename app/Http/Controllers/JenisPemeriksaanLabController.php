@@ -52,8 +52,8 @@ class JenisPemeriksaanLabController extends Controller
      */
     public function store(JenisPemeriksaanLabStoreRequest $request)
     {
-        JenisPemeriksaanLab::create($request->all());
-        return redirect(route('jenis-pemeriksaan-lab.index'));
+        $jenisPemeriksaanLab = JenisPemeriksaanLab::create($request->all());
+        return redirect('jenis-pemeriksaan-lab/'.$jenisPemeriksaanLab->id.'/input-indikator');
     }
 
     /**
@@ -106,7 +106,7 @@ class JenisPemeriksaanLabController extends Controller
         return redirect(route('jenis-pemeriksaan-lab.index'))->with('message', 'Data jenis pemeriksaan Berhasil Dihapus');
     }
 
-    public function input_indikator(Request $request , $id)
+    public function input_indikator(Request $request, $id)
     {
         $data['jenisPemeriksaan'] = JenisPemeriksaanLab::findOrFail($id);
         $data['indikatorPemeriksaan'] = IndikatorPemeriksaanLab::all();

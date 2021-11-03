@@ -3,7 +3,7 @@
 @section('content')
 <div class="content-wrapper">
     <section class="content-header">
-      <h1>Approval Purchase Order</h1>
+      <h1>Laporan Purchase Order</h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li class="active">Dashboard</li>
@@ -20,11 +20,11 @@
                     <table class="table table-bordered table-striped" id="purchase-order-table">
                     <thead>
                         <tr>
-                            <th width="60">#</th>
                             <th>Kode PO</th>
                             <th>Tanggal</th>
                             <th>Supplier</th>
                             <th>Status</th>
+                            <th width="60">#</th>
                         </tr>
                     </thead>
                     </table>
@@ -48,11 +48,11 @@
             serverSide: true,
             ajax: '/purchase-order',
             columns: [
-                { data: 'detail', name: 'detail' },
                 { data: 'kode', name: 'kode' },
                 { data: 'tanggal', name: 'tanggal' },
                 { data: 'supplier.nama_supplier', name: 'supplier.nama_supplier' },
-                { data: 'status_po', name: 'status_po' }
+                { data: 'status_po', name: 'status_po' },
+                { data: 'detail', name: 'detail' },
             ]
         });
     });

@@ -1,15 +1,6 @@
 @extends('layouts.app')
 @section('title','Jenis Pemeriksaan Lab '.$jenisPemeriksaan->jenisPemeriksaan)
 @section('content')
-<style>
-    .dataTables_scrollHeadInner {
-        width: 100% !important;
-    }
-
-    table.dataTable {
-        width: 100% !important;
-    }
-</style>
 <div class="content-wrapper">
     <section class="content-header">
         <h1>
@@ -26,7 +17,7 @@
     <section class="content">
         @include('alert')
         <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-4">
                 <div class="box">
                     <div class="box-header text-center" style="border-bottom: 1px solid;padding-top: 0;">
                         <h3>Jenis Pemeriksaan Lab</h3>
@@ -57,14 +48,14 @@
                 </div>
             </div>
 
-            <div class="col-md-7">
+            <div class="col-md-8">
                 <div class="box">
                     <div class="box-header text-center" style="border-bottom: 1px solid;padding-top: 0;">
                         <h3>Indikator Pemeriksaan Laboratorium</h3>
                     </div>
                     <div class="box-body">
                         <div class="row" style="padding-bottom: 20px">
-                            <div class="col-md-3">
+                            <div class="col-md-5">
                                 <div class="form-group">
                                     <label>Nama Indikator</label>
                                     {{ Form::text('nama_indikator', null, ['class' => 'form-control nama_indikator detail-section', 'placeholder' => 'Nama Indikator', 'required']) }}
@@ -76,17 +67,17 @@
                                     {{ Form::text('qty', null, ['class' => 'form-control satuan detail-section', 'placeholder' => 'Satuan', 'required']) }}
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Nilai Rujukan</label>
                                     {{ Form::text('nilai_rujukan', null, ['class' => 'form-control nilai_rujukan detail-section', 'placeholder' => 'Nilai Rujukan', 'required']) }}
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-1">
                                 <div class="form-group">
                                     <button id="tambah_indikator_detail" type="button" onClick="tambah_indikator()"
                                         class="btn btn-primary detail-section" style="margin-top: 25px;">
-                                        <i class="fa fa-plus"></i> Tambah
+                                        <i class="fa fa-plus"></i>
                                     </button>
                                 </div>
                             </div>
@@ -205,6 +196,9 @@ function tambah_indikator() {
         success: function (response) {
             refresh_table(response)
             $('#datatable').DataTable()
+            $(".nama_indikator").val('');
+            $(".nilai_rujukan").val('');
+            $(".satuan").val('');
         },
         error: function () {
             alert("error");
@@ -219,4 +213,13 @@ function tambah_indikator() {
     <link href="{{asset('adminlte/bower_components/select2/dist/css/select2.min.css')}}" rel="stylesheet"/>  
     <link href="{{asset('bootstrap3-editable/css/bootstrap-editable.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
+    <style>
+        .dataTables_scrollHeadInner {
+            width: 100% !important;
+        }
+    
+        table.dataTable {
+            width: 100% !important;
+        }
+    </style>
 @endpush

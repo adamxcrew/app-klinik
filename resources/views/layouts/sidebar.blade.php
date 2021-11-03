@@ -40,7 +40,7 @@
           ['icon' => 'fa fa-hospital-o', 'link' => '/poliklinik', 'label' => 'Data Poliklinik'],
           ['icon' => 'fa fa-file-text', 'link' => '/diagnosa', 'label' => 'Data Diagnosa'],
           ['icon' => 'fa fa-file-text', 'link' => '/tindakan', 'label' => 'Data Tindakan'],
-          ['icon' => 'fa fa-file-text', 'link' => '/jenis-pemeriksaan-lab', 'label' => 'Data Jenis Pemeriksaan Lab'],
+          ['icon' => 'fa fa-file-text', 'link' => '/jenis-pemeriksaan-lab', 'label' => 'Jenis Pemeriksaan Lab'],
           ['icon' => 'fa fa-list-ul', 'link' => '/gejala', 'label' => 'Data Gejala'],
           ['icon' => 'fa fa-user-md', 'link' => '/user?jabatan=dokter', 'label' => 'Data Dokter'],
           ['icon' => 'fa fa-cube', 'link' => '/supplier', 'label' => 'Data Supplier'],
