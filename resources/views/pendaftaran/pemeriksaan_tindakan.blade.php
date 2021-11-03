@@ -19,7 +19,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="box">
-                    
+
 
                     <div class="box-body">
                         <div class="row">
@@ -75,7 +75,7 @@
                                         <thead>
                                             <tr>
                                                 <th width="10">Nomor</th>
-                                                <th>Kode</th>
+                                                <th>Kode ICD 9</th>
                                                 <th>Nama Tindakan</th>
                                                 <th>Fee</th>
                                                 <th width="70">#</th>
@@ -147,15 +147,15 @@
                 data : {
                     pendaftaran_id : '{{$pendaftaran->id}}'
                 }
-            }, 
+            },
             columns: [{
                     data: 'DT_RowIndex',
                     orderable: false,
                     searchable: false
                 },
                 {
-                    data: 'tindakan.kode',
-                    name: 'tindakan.kode'
+                    data: 'kode',
+                    name: 'kode'
                 },
                 {
                     data: 'tindakan.tindakan',

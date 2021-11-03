@@ -38,6 +38,9 @@ class TindakanController extends Controller
                 $btn .= '<a class="btn btn-danger btn-sm" href="/tindakan/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
                 return $btn;
             })
+            ->editColumn('kode', function($row){
+                return $row->icd->code;
+            })
             ->editColumn('jenis', function($row){
                 return config('datareferensi.jenis_tindakan')[$row->jenis];
             })
