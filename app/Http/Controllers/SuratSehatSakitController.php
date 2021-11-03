@@ -7,6 +7,7 @@ use DataTables;
 use App\Http\Requests\SuratSakitStoreRequest;
 use App\Http\Requests\SuratSehatStoreRequest;
 use App\Models\Pasien;
+use App\Models\PerusahaanAsuransi;
 use App\Models\SuratSehatSakit;
 use App\User;
 use PDF;
@@ -135,7 +136,14 @@ class SuratSehatSakitController extends Controller
      */
     public function print($id)
     {
-        $data['surat'] = SuratSehatSakit::with('pasien')->findOrFail($id);
+        $data['surat'] = SuratSehatSakit::with(['pasien'])->findOrFail($id);
+        $data['instansi'] = PerusahaanAsuransi::findOrFail($data['surat']->pasien->penjamin);
+
+        $dateOfBirth = $data['surat']->pasien->tanggal_lahir;
+        $today = date('Y-m-d');
+        $diff = date_diff(date_create($dateOfBirth), date_create($today));
+        $data['age'] = $diff->format('%y');
+
         if ($data['surat']->tipe_surat == 'surat sehat') {
             $pdf = PDF::loadView('surat-sehat-sakit.cetak-surat-sehat', $data);
         } else {
