@@ -26,9 +26,6 @@ class KomponenGajiController extends Controller
                 $btn .= '<a class="btn btn-danger btn-sm" href="/komponengaji/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
                 return $btn;
             })
-            ->addColumn('jumlah', function ($row) {
-                return convert_rupiah($row->jumlah);
-            })
             ->rawColumns(['action','code'])
             ->addIndexColumn()
             ->make(true);

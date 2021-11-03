@@ -11,10 +11,7 @@
     </div>
 </div>
 <div class="form-group">
-    <label class="col-sm-2 control-label">Jumlah & Jenis</label>
-    <div class="col-sm-3">
-        {!! Form::text('jumlah', null, ['class'=>'form-control','Placeholder'=>'Jumlah']) !!}
-    </div>
+    <label class="col-sm-2 control-label">Jenis</label>
     <div class="col-sm-3">
         {!! Form::select('jenis',['penambah'=>'Penambah','pengurang'=>'Pengurang'], null, ['class'=>'form-control']) !!}
     </div>
