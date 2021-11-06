@@ -32,6 +32,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pendaftaran/create/{pasien_id}', 'PendaftaranController@create');
     Route::resource('pendaftaran', 'PendaftaranController');
 
+    // Pemeriksaan lab
+    Route::get('pendaftaran/{id}/input-indikator', 'PendaftaranController@input_indikator')->name('pendaftaran.input_indikator');
+    Route::get('pendaftaran/{id}/input-indikator/print', 'PendaftaranController@printHasilPemeriksaan');
+
     // route pendaftaran riwayat penyakit
     Route::post('riwayat-penyakit-add-item/{id}', 'PendaftaranController@pemeriksaanRiwayatPenyakit');
     Route::get('resume/riwayat_penyakit', 'PendaftaranController@resumeRiwayatPenyakit')->name('resume.riwayatPenyakit');
@@ -123,6 +127,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('harilibur', 'HariLiburController');
     Route::resource('tindakan', 'TindakanController');
     Route::resource('indikator-pemeriksaan-lab', 'IndikatorPemeriksaanLabController');
+    Route::resource('hasil-pemeriksaan-lab', 'HasilPemeriksaanLabController');
     Route::resource('tindakan-bhp', 'TindakanBHPController');
     Route::resource('akun', 'AkunController');
     Route::resource('jurnal', 'JurnalController');
@@ -229,6 +234,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('ajax/purchase-order-edittable', 'AjaxController@purchaseOrderEditTable');
     Route::post('ajax/permintaan-barang-detail-editable', 'AjaxController@permintaanBarangDetailEditable');
     Route::post('ajax/indikator-editable', 'AjaxController@indikatorEditable');
+    Route::post('ajax/hasil-pemeriksaan-lab-editable', 'AjaxController@hasilPemeriksaanLabEditable');
     Route::get('ajax/approval-item-purchase-order', 'AjaxController@approvalItemPurchaseOrder');
     Route::get('/ajax/dropdown-dokter', 'AjaxController@dropdownDokter');
 });

@@ -8,6 +8,7 @@ use App\Models\JadwalPraktek;
 use App\Models\PurchaseOrderDetail;
 use App\Models\PurchaseOrder;
 use App\Models\IndikatorPemeriksaanLab;
+use App\Models\HasilPemeriksaanLab;
 use App\Models\PermintaanBarangInternalDetail;
 use App\User;
 use App\Models\Pasien;
@@ -179,6 +180,20 @@ class AjaxController extends Controller
     {
         if ($request->name !== null && $request->value !== null) {
             IndikatorPemeriksaanLab::find($request->pk)->update([$request->name => $request->value]);
+            $request['status'] = true;
+            $request['message'] = 'Data berhasil diubah';
+            return $request->all();
+        }
+
+        $request['status'] = false;
+        $request['message'] = 'Tidak ada data yg terubah';
+        return $request->all();
+    }
+
+    public function hasilPemeriksaanLabEditable(Request $request)
+    {
+        if ($request->name !== null && $request->value !== null) {
+            HasilPemeriksaanLab::find($request->pk)->update([$request->name => $request->value]);
             $request['status'] = true;
             $request['message'] = 'Data berhasil diubah';
             return $request->all();

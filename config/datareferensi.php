@@ -89,6 +89,7 @@ return [
 
     'status_pelayanan' => [
         'pendaftaran' => 'Pendaftaran',
+        'pemeriksaan_laboratorium' => 'Rujukan Pemeriksaan Laboratorium',
         'selesai_pemeriksaan_medis' => 'Selesai Pemeriksaan Medis',
         'selesai_pelayanan' => 'Selesai Pelayanan'
     ],
@@ -104,6 +105,7 @@ return [
         'poliklinik'      =>  'Poliklinik',
         'bagian_pendaftaran' => 'Bagian Pendaftaran',
         'admin_medis'   =>  'Admin Medis',
+        'laboratorium'   =>  'Laboratorium',
         'bagian_gudang' => 'Bagian Gudang'
     ],
 

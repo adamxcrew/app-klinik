@@ -15,5 +15,6 @@ class VerifyCsrfToken extends Middleware
         '/ajax/purchase-order-edittable',
         '/ajax/permintaan-barang-detail-editable',
         '/ajax/indikator-editable',
+        '/ajax/hasil-pemeriksaan-lab-editable',
     ];
 }

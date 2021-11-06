@@ -128,17 +128,23 @@
         ['icon' => 'fa fa-address-card', 'link' => '/pendaftaran', 'label' => 'Data Pasien Antri'],
       ];
 
+      $laboratorium = [
+        ['icon' => 'fa fa-address-card', 'link' => '/pendaftaran', 'label' => 'Data Pasien Antri'],
+        ['icon' => 'fa fa-file-text', 'link' => '/jenis-pemeriksaan-lab', 'label' => 'Jenis Pemeriksaan Lab'],
+      ];
+
       // pengaturan menu berdasarkan level
       $menus = [
-        'administrator'   => $administrator, 
-        'dokter'          => [], 
-        'kasir'           => $kasir, 
-        'keuangan'        => $keuangan, 
+        'administrator'   => $administrator,
+        'dokter'          => [],
+        'kasir'           => $kasir,
+        'keuangan'        => $keuangan,
         'hrd'             => $hrd,
         'bagian_gudang'   => $bagian_gudang,
         'admin_medis'     => $admin_medis,
         'pimpinan'        => $pimpinan,
         'bagian_pendaftaran' => $bagian_pendaftaran,
+        'laboratorium' => $laboratorium,
         'poliklinik' => $poliklinik
       ];
       ?>
