@@ -10,10 +10,14 @@ use App\Models\Tindakan;
 use App\Models\Obat;
 use App\Models\Poliklinik;
 use App\Models\Pasien;
+use App\Models\JenisPemeriksaanLab;
+use App\Models\HasilPemeriksaanLab;
+use App\Models\IndikatorPemeriksaanLab;
 use App\Models\RiwayatPenyakit;
 use DataTables;
 use PDF;
 use DB;
+use Carbon\Carbon;
 use App\Http\Requests\PendaftaranInputTandaVitalRequest;
 use App\Http\Requests\PendaftaranStoreRequest;
 use App\Models\PerusahaanAsuransi;
@@ -58,6 +62,10 @@ class PendaftaranController extends Controller
             $pendaftaran->where('status_pelayanan', 'selesai_pelayanan');
         }
 
+        if (auth()->user()->role == 'laboratorium') {
+            $pendaftaran->where('status_pelayanan', 'pemeriksaan_laboratorium');
+        }
+
         // filter berdasarkan poliklinik
         if ($request->poliklinik_id != null) {
             $pendaftaran->where('poliklinik_id', $request->poliklinik_id);
@@ -79,6 +87,8 @@ class PendaftaranController extends Controller
                         }
                     } elseif (auth()->user()->role == 'kasir') {
                         $btn = '<a class="btn btn-danger btn-sm" href="/pembayaran/' . $row->id . '"><i class="fa fa-money"></i> Pembayaran</a> ';
+                    }elseif (auth()->user()->role == 'laboratorium') {
+                        $btn = '<a class="btn btn-danger btn-sm" href="/pendaftaran/'.$row->id.'/input-indikator"><i class="fa fa-edit"></i> Input Indikator</a> ';
                     } else {
                         if ($row->status_pelayanan == 'batal') {
                             $btn .= "<button type='button' class='btn btn-warning btn-sm'>Dibatalkan</button>";
@@ -130,6 +140,28 @@ class PendaftaranController extends Controller
         }
 
         return view('pendaftaran.pemeriksaan_' . $jenis, $data);
+    }
+
+    public function input_indikator($id)
+    {
+        $data['pendaftaran'] = Pendaftaran::with('pasien')->find($id);
+        $data['jenisPemeriksaan'] = JenisPemeriksaanLab::findOrFail($id);
+        $data['indikatorPemeriksaan'] = IndikatorPemeriksaanLab::all();
+        return view('pendaftaran.indikator', $data);
+    }
+
+    public function printHasilPemeriksaan($id)
+    {
+        $listIndikator = HasilPemeriksaanLab::where('pendaftaran_id', $id)->get();
+
+        $data['pendaftaran'] = Pendaftaran::with('pasien')->find($id);
+        $data['jenisPemeriksaan'] = JenisPemeriksaanLab::findOrFail($id);
+        $data['indikatorPemeriksaan'] = IndikatorPemeriksaanLab::all();
+        $data['listIndikator'] = $listIndikator;
+        $data['carbon'] = new Carbon();
+        // return view('pendaftaran.pdf_hasil_pemeriksaan_lab',$data);
+        $pdf = PDF::loadView('pendaftaran.pdf_hasil_pemeriksaan_lab', $data)->setPaper('letter', 'potrait');
+        return $pdf->stream();
     }
 
     public function input_tanda_vital($id)

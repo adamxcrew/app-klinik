@@ -45,4 +45,9 @@ class Pasien extends Model
     {
         return $this->belongsTo('App\Models\WilayahAdministratifIndonesia', 'village_id', 'village_id');
     }
+
+    public function rujukan(Type $var = null)
+    {
+        return $this->hasMany('App\Models\RujukanInternal');
+    }
 }

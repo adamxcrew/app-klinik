@@ -8,7 +8,7 @@ class IndikatorPemeriksaanLab extends Model
 {
     protected $table = "indikator_pemeriksaan_laboratorium";
 
-    protected $fillable = [ 'nama_indikator', 'satuan', 'nilai_rujukan', 'tindakan_id', ];
+    protected $fillable = [ 'nama_indikator', 'satuan', 'nilai_rujukan', 'tindakan_id', 'pendaftaran_id'];
 
     public function tindakan()
     {
