@@ -76,28 +76,40 @@ class PendaftaranController extends Controller
             return DataTables::of($pendaftaran->get())
                 ->addColumn('action', function ($row) {
                     $btn = '<div class="btn-group">';
-                    $btn .= \Form::open(['url' => 'pendaftaran/' . $row->id, 'method' => 'DELETE', 'style' => 'float:left;']);
+                    $btn .= '<button type="button" class="btn btn-danger">Action</button>
+                              <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+                              <span class="caret"></span>
+                              <span class="sr-only">Toggle Dropdown</span>
+                             </button>';
+                    $btn .= '<ul class="dropdown-menu" role="menu">';
                     if ($row->status_pelayanan == 'pendaftaran') {
-                        $btn .= "<button style='border-radius:0px' type='submit' class='btn btn-danger btn-sm'><i class='fa fa-times'></i> Batal</button>";
+                        $btn .= \Form::open(['url' => 'pendaftaran/' . $row->id, 'method' => 'DELETE', 'style' => 'margin-left:15px']);
+                        $btn .= "<li><button type='submit' style='border: 0;background:#fff'><i class='fa fa-times'></i> <span style='margin-left:10px'>Batal</span></button></li>";
                         $btn .= \Form::close();
                     }
                     if (auth()->user()->role == 'poliklinik') {
-                        $btn .= '<a style="border-radius:0" class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/input_tanda_vital"><i class="fa fa-print"></i> Input Tanda Vital</a>';
                         if ($row->status_pelayanan == 'selesai_pemeriksaan_medis') {
-                            $btn .= '<a style="border-radius:0" class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/pemeriksaan/tindakan"><i class="fa fa-edit"></i> Input tindakan</a>';
+                            $btn .= '<li><a href="/pendaftaran/' . $row->id . '/pemeriksaan/tindakan"><i class="fa fa-edit"></i> Input tindakan</a></li>';
+                        } else {
+                            $btn .= '<li><a href="/pendaftaran/' . $row->id . '/input_tanda_vital"><i class="fa fa-print"></i> Input Tanda Vital</a></li>';
                         }
                     } elseif (auth()->user()->role == 'kasir') {
-                        $btn = '<a class="btn btn-danger btn-sm" href="/pembayaran/' . $row->id . '"><i class="fa fa-money"></i> Pembayaran</a></div>';
+                        $btn = '<li><a class="btn btn-danger btn-sm" href="/pembayaran/' . $row->id . '"><i class="fa fa-money"></i> Pembayaran</a></div></li>';
                     } elseif (auth()->user()->role == 'laboratorium') {
-                        $btn = '<a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/input-indikator"><i class="fa fa-edit"></i> Input Indikator</a>';
+                        $btn = '<li><a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/input-indikator"><i class="fa fa-edit"></i> Input Indikator</a></li>';
+                    } elseif (auth()->user()->role == 'admin_medis') {
+                        if ($row->status_pelayanan == 'pendaftaran') {
+                            $btn .= '<li><a href="/pendaftaran/' . $row->id . '/input_tanda_vital"><i class="fa fa-print"></i> Input Tanda Vital</a></li>';
+                        }
                     } else {
                         if ($row->status_pelayanan == 'batal') {
-                            $btn .= "<button type='button' class='btn btn-warning btn-sm'>Dibatalkan</button>";
+                            $btn .= "<li><button type='button' class='btn btn-default btn-sm'>Dibatalkan</button></li>";
                         } else {
-                            $btn .= '<a style="border-radius:0" class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/cetak"><i class="fa fa-print"></i> Cetak Antrian</a>';
-                            $btn .= '<a style="border-radius:0" class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/edit"><i class="fa fa-edit"></i> Edit</a></div>';
+                            $btn .= '<li><a href="/pendaftaran/' . $row->id . '/cetak"><i class="fa fa-print"></i> Cetak Antrian</a></li>';
+                            $btn .= '<li><a href="/pendaftaran/' . $row->id . '/edit"><i class="fa fa-edit"></i> Edit</a></li>';
                         }
                     }
+                    $btn .= '</ul>';
                     $btn .= '</div>';
                     return $btn;
                 })
