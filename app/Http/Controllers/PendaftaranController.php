@@ -77,9 +77,9 @@ class PendaftaranController extends Controller
                 ->addColumn('action', function ($row) {
                     $btn = '<div class="btn-group">';
                     $btn .= '<button type="button" class="btn btn-danger">Action</button>
-                              <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
-                              <span class="caret"></span>
-                              <span class="sr-only">Toggle Dropdown</span>
+                               <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+                               <span class="caret"></span>
+                               <span class="sr-only">Toggle Dropdown</span>
                              </button>';
                     $btn .= '<ul class="dropdown-menu" role="menu">';
                     if ($row->status_pelayanan == 'pendaftaran') {
