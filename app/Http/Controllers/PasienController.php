@@ -13,6 +13,9 @@ use App\Models\Regency;
 use App\Models\Diagnosa;
 use App\Models\Tindakan;
 use App\Models\Obat;
+use App\Models\PendaftaranDiagnosa;
+use App\Models\PendaftaranResep;
+use App\Models\PendaftaranTindakan;
 use App\Models\PerusahaanAsuransi;
 use PDF;
 
@@ -68,7 +71,10 @@ class PasienController extends Controller
                 ->addIndexColumn()
                 ->make(true);
         }
-        return view('pasien.index');
+
+        $data['pendaftaran'] = Pendaftaran::with(['poliklinik', 'dokter', 'perusahaanAsuransi'])->get();
+
+        return view('pasien.index', $data);
     }
 
     /**
@@ -186,5 +192,21 @@ class PasienController extends Controller
         $pasien = Pasien::findOrFail($id);
         $pasien->delete();
         return redirect(route('pasien.index'))->with('message', 'Data Berhasil Dihapus');
+    }
+
+    public function riwayatKunjungan($idPendaftaran)
+    {
+        $tindakan = PendaftaranTindakan::with('tindakan')->where('pendaftaran_id', $idPendaftaran)->get();
+        $diagnosa = PendaftaranDiagnosa::with('icd')->where('pendaftaran_id', $idPendaftaran)->get();
+        $obat = PendaftaranResep::with('barang')->where('pendaftaran_id', $idPendaftaran)->get();
+        $pendaftaran = Pendaftaran::with('pasien')->find($idPendaftaran);
+        $riwayatKunjungan = [
+            "pasien"   => $pendaftaran->pasien->nama,
+            "tindakan" => $tindakan,
+            "diagnosa" => $diagnosa,
+            "obat"     => $obat
+        ];
+
+        return $riwayatKunjungan;
     }
 }
