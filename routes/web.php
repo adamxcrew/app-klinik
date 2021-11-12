@@ -111,6 +111,9 @@ Route::middleware(['auth'])->group(function () {
     // Tindakan Indikator Pemeriksaan lab
     Route::get('jenis-pemeriksaan-lab/{id}/input-indikator', 'JenisPemeriksaanLabController@input_indikator');
 
+    // Get detail riwayat kunjungan
+    Route::get('pasien/riwayatKunjungan/{idPendaftaran}', 'PasienController@riwayatKunjungan');
+
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('obat', 'ObatController');
     Route::get('barang/export_excel', 'BarangController@export_excel')->name('barang.export_excel');
