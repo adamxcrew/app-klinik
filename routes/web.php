@@ -162,6 +162,8 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::get('laporan-tagihan', 'LaporanTagihanController@index');
+    Route::get('ondotogram/{pendaftaranId}', 'OndotogramController@index');
+    Route::post('ondotogram', 'OndotogramController@store')->name('ondotogram.store');
 
     /** Route pembayaran */
     Route::get('pembayaran/{id}', 'PembayaranController@index');
@@ -232,6 +234,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('ajax/select2ICDNine', 'AjaxController@select2ICDNine');
     Route::get('ajax/select2User', 'AjaxController@select2User');
     Route::get('ajax/select2Perusahaan', 'AjaxController@select2Perusahaan');
+    Route::get('ajax/select2TBM', 'AjaxController@select2TBM');
     Route::get('ajax/pasien', 'AjaxController@pasien');
     Route::get('ajax/user', 'AjaxController@user');
     Route::post('ajax/purchase-order-edittable', 'AjaxController@purchaseOrderEditTable');
