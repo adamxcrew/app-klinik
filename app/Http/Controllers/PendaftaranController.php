@@ -90,6 +90,7 @@ class PendaftaranController extends Controller
                     if (auth()->user()->role == 'poliklinik') {
                         if ($row->status_pelayanan == 'selesai_pemeriksaan_medis') {
                             $btn .= '<li><a href="/pendaftaran/' . $row->id . '/pemeriksaan/tindakan"><i class="fa fa-edit"></i> Input tindakan</a></li>';
+                            $btn .= '<li><a href="/ondotogram/' . $row->id . '"><i class="fa fa-plus-square"></i> Pemeriksaan Gigi</a></li>';
                         } else {
                             $btn .= '<li><a href="/pendaftaran/' . $row->id . '/input_tanda_vital"><i class="fa fa-print"></i> Input Tanda Vital</a></li>';
                         }
