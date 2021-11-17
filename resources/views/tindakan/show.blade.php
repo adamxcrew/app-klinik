@@ -38,12 +38,37 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label>Kode</label>
-                                    {{ Form::text('kode',$tindakan->kode,['class' => 'form-control', 'required']) }}
+                                    <label>Kode ICD</label>
+                                    {{ Form::text('kode',$tindakan->icd->code,['class' => 'form-control', 'disabled']) }}
+                                </div>
+                                <div class="form-group">
+                                    <label>Nama ICD</label>
+                                    {{ Form::text('kode',$tindakan->icd->desc_short,['class' => 'form-control', 'disabled']) }}
                                 </div>
                                 <div class="form-group">
                                     <label>Nama Tindakan</label>
                                     {{ Form::text('tindakan',$tindakan->tindakan,['class' => 'form-control', 'required']) }}
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Tarif Umum</label>
+                                            {{ Form::text('kode',$tindakan->tarif_umum,['class' => 'form-control', 'disabled']) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Tarif BPJS</label>
+                                            {{ Form::text('kode',$tindakan->tarif_bpjs,['class' => 'form-control', 'disabled']) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Tarif Perusahaan</label>
+                                            {{ Form::text('kode',$tindakan->tarif_perusahaan,['class' => 'form-control', 'disabled']) }}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

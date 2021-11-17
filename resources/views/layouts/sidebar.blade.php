@@ -116,7 +116,6 @@
 
       $admin_medis = [
         ['icon' => 'fa fa-television', 'link' => '/home', 'label' => 'Dashboard'],
-        ['icon' => 'fa fa-book', 'link' => '/antrian', 'label' => 'Antrian'],
         ['icon' => 'fa fa-address-card', 'link' => '/pendaftaran', 'label' => 'daftar pasien antri'],
       ];
       $pimpinan = [
@@ -125,7 +124,8 @@
         ['icon' => 'fa fa-money', 'link' => '/gaji', 'label' => 'Laporan Gaji'],
       ];
       $poliklinik = [
-        ['icon' => 'fa fa-address-card', 'link' => '/pendaftaran', 'label' => 'Data Pasien Antri'],
+        ['icon' => 'fa fa-book', 'link' => '/antrian', 'label' => 'Antrian'],
+        ['icon' => 'fa fa-address-card', 'link' => '/pendaftaran', 'label' => 'Data Pasien Antri']
       ];
 
       $laboratorium = [

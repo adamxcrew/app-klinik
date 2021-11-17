@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SatuanSeeder::class);
         $this->call(IcdSeeder::class);
         $this->call(IcdNineSeeder::class);
+        $this->call(PerusahaanAsuransiSeeder::class);
         // $this->call(PasienSeeder::class);
     }
 }

@@ -52,7 +52,7 @@ class BarangController extends Controller
                 })
                 ->addColumn('harga_jual', function ($row) {
                     $harga_ppn = $row->harga + ($row->harga * 0.1); /// harga + ppn 10%
-                    $harga_ppn_margin = $harga_ppn * ($row->margin / 100); // harga ppn * margin
+                    $harga_ppn_margin = $harga_ppn; // harga ppn * margin
                     return convert_rupiah($harga_ppn_margin);
                 })
                 ->rawColumns(['action', 'code'])

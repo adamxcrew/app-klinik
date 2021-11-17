@@ -76,7 +76,7 @@ class PendaftaranController extends Controller
             return DataTables::of($pendaftaran->get())
                 ->addColumn('action', function ($row) {
                     $btn = '<div class="btn-group">';
-                    $btn .= '<button type="button" class="btn btn-danger">Action</button>
+                    $btn .= '<button type="button" class="btn btn-danger">Pilih Tindakan</button>
                                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
                                <span class="caret"></span>
                                <span class="sr-only">Toggle Dropdown</span>
