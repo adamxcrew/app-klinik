@@ -254,4 +254,16 @@ class AjaxController extends Controller
             ->get();
         return response()->json($data);
     }
+
+    // pencarian nama TBM dengan element select2
+    public function select2TBM(Request $request)
+    {
+        $data = \DB::table('tbm_icd')
+            ->select('id', 'indonesia')
+            ->where('indonesia', 'like', "%" . $request->q . "%")
+            ->where('dtd', 'K00')
+            ->limit(20)
+            ->get();
+        return response()->json($data);
+    }
 }

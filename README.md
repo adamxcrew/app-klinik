@@ -22,3 +22,4 @@ Server Testing : http://klinik.nurisakbar.com
 ## Informasi penting :
 Referensi app klinik : https://github.com/nurisakbar/klinik_l8<br>
 Rererensi app akutansi : https://github.com/nurisakbar/laransi
+Referensi poli gigi : https://www.youtube.com/watch?v=HMeyqUtNecY&t=240s
