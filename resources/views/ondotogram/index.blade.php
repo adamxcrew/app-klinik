@@ -21,13 +21,13 @@
 
           <div class="box-body">
             <h4 class="text-center">ONDOTOGRAM</h4>            
-            <div class="d-block mx-auto" style="padding-right: 90px">
+            <div class="d-block mx-auto">
               <div class="row">
                 <div class="col">
                   <table id="Table_01" height="680" border="0" cellpadding="0" cellspacing="0">
                     <tr>
                       <td>
-                        <img data-kode="18" class="kode-gigi img-fluid" src="{{ asset('images') }}/141686611-90067e00-8288-4e3d-842e-392adb7c9080_01.gif" width="151" height="181" alt=""></td>
+                        <img data-kode="18" class="kode-gigi" src="{{ asset('images') }}/141686611-90067e00-8288-4e3d-842e-392adb7c9080_01.gif" width="151" height="181" alt=""></td>
                       <td>
                         <img data-kode="17" class="kode-gigi" src="{{ asset('images') }}/141686611-90067e00-8288-4e3d-842e-392adb7c9080_02.gif" width="72" height="181" alt=""></td>
                       <td>
@@ -258,7 +258,6 @@ $( document ).ready(function() {
 
   $('#submit').on('click', function() {
     // Get data form
-    let kode_gigi = ""
     let tbm_icd_id = $('#tbm').val()
     let anamnesa = $('#anamnesa').val()
     let tindakan = $('#tindakan').val()
@@ -305,6 +304,7 @@ $( document ).ready(function() {
   })
 
   // Handle ondotogram image onclick
+  let kode_gigi = ""
   $('.kode-gigi').on('click', function() {
     kode_gigi = $(this).attr('data-kode')
     $('#kodeGigi').html(kode_gigi)
