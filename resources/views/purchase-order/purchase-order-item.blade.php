@@ -79,10 +79,11 @@
         <?php
         if(isset($purchase_order))
         {
-            if($row->approval==1)
-        {
+            // if($row->approval==1)
+            // {
+            //     $total += $row->harga * $row->qty;
+            // }
             $total += $row->harga * $row->qty;
-        }
         }
         else{
             $total += $row->harga * $row->qty;
