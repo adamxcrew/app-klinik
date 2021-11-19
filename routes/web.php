@@ -163,6 +163,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('laporan-tagihan', 'LaporanTagihanController@index');
     Route::get('ondotogram/{pendaftaranId}', 'OndotogramController@index');
+    Route::get('ondotogram/{pendaftaranId}/print', 'OndotogramController@print');
     Route::post('ondotogram', 'OndotogramController@store')->name('ondotogram.store');
 
     /** Route pembayaran */

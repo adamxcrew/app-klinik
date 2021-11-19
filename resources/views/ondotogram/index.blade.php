@@ -141,6 +141,9 @@
                 </div>
               </div>
             </div>
+            @if($total != 0)
+            <a class="btn btn-danger btn-sm" style="margin-top:15px" href="{{ url('ondotogram/' . Request::segment(2) . '/print') }}" target="_blank"><i class="fa fa-print" aria-hidden="true"></i> Cetak Hasil</a>
+            @endif
             <hr>
             <table class="table table-bordered">
                 <thead>
