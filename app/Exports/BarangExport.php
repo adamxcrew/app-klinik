@@ -11,7 +11,7 @@ class BarangExport implements FromView, ShouldAutoSize
 {
     public function view(): View
     {
-        $barang = Barang::with('satuan')->get();
+        $barang = Barang::with(['satuanTerbesar', 'satuanTerkecil'])->get();
         return view('barang.laporan-barang-excel', ['barangs' => $barang]);
     }
 }
