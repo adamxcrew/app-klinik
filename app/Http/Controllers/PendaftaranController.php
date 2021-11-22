@@ -95,7 +95,8 @@ class PendaftaranController extends Controller
                             $btn .= '<li><a href="/pendaftaran/' . $row->id . '/input_tanda_vital"><i class="fa fa-print"></i> Input Tanda Vital</a></li>';
                         }
                     } elseif (auth()->user()->role == 'kasir') {
-                        $btn = '<li><a class="btn btn-danger btn-sm" href="/pembayaran/' . $row->id . '"><i class="fa fa-money"></i> Pembayaran</a></div></li>';
+                        $btn = '<a class="btn btn-danger btn-sm" style="margin-right:5px" href="/pembayaran/' . $row->id . '"><i class="fa fa-money"></i> Pembayaran</a></div>';
+                        $btn .= '<a class="btn btn-danger btn-sm" href="/pembayaran/' . $row->id . '/kwitansi"><i class="fa fa-print"></i> Kwitansi</a></div>';
                     } elseif (auth()->user()->role == 'laboratorium') {
                         $btn = '<li><a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/input-indikator"><i class="fa fa-edit"></i> Input Indikator</a></li>';
                     } elseif (auth()->user()->role == 'admin_medis') {

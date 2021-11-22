@@ -167,6 +167,7 @@ Route::middleware(['auth'])->group(function () {
 
     /** Route pembayaran */
     Route::get('pembayaran/{id}', 'PembayaranController@index');
+    Route::get('pembayaran/{id}/kwitansi', 'PembayaranController@kwitansi');
     Route::post('pembayaran/store', 'PembayaranController@store')->name('pembayaran.store');
     /** End */
 
