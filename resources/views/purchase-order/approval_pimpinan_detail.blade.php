@@ -42,15 +42,16 @@
                             </div>
                         </div>
                     </div>
-                    @if($purchase_order->status_po != 'approve_by_pimpinan')
+                   
                     <div class="row">
                         <div class="col-md-12 pull-right">
-                            <button onClick="$('#approval').val(0)" class="btn btn-danger btn-sm"><i class="fa fa-ban"></i> Tolak</button>
-                            <button onClick="$('#approval').val(1)" class="btn btn-warning btn-sm"><i class="fa fa-check"></i> Setujui</button>
+                            @if($purchase_order->status_po != 'approve_by_pimpinan')
+                                <button onClick="$('#approval').val(0)" class="btn btn-danger btn-sm"><i class="fa fa-ban"></i> Tolak</button>
+                                <button onClick="$('#approval').val(1)" class="btn btn-warning btn-sm"><i class="fa fa-check"></i> Selesai</button>
+                            @endif
                             <a href="/purchase-order" class="btn btn-danger btn-sm">Kembali</a>
                         </div>
                     </div>
-                    @endif
                     {{ Form::close() }}
                 </div>
             </div>
@@ -84,7 +85,9 @@
                                       <th>Jumlah</th>
                                       <th>Harga PO</th>
                                       <th width="200">Catatan ( Opsional )</th>
-                                      <th width="80">Action</th>
+                                      @if($purchase_order->status_po=='menunggu_persetujuan')
+                                        <th width="80">Action</th>
+                                      @endif
                                   </tr>
                               </thead>
                               <tbody>
@@ -96,13 +99,14 @@
                                       <td>{{ $row->qty }}</td>
                                       <td>@currency($row->harga)</td>
                                       <td>
-                                          {!! Form::text('catatan', null, ['class'=>'form-control catatan-'.$row->id,'Placeholder'=>'Keterangan']) !!}
+                                          {!! Form::text('catatan', $row->catatan, ['class'=>'form-control catatan-'.$row->id,'Placeholder'=>'Keterangan']) !!}
                                       </td>
-                                      <td>
-                                        <i class="fa fa-check-square-o fa-2x" aria-hidden="true" onClick="approval({{$row->id}},1)"></i>
-                                        <i class="fa fa-times fa-2x" aria-hidden="true" onClick="approval({{$row->id}},0)"></i>
-
-                                      </td>
+                                      @if($purchase_order->status_po=='menunggu_persetujuan')
+                                        <td>
+                                            <i class="fa fa-check-square-o fa-2x" aria-hidden="true" onClick="approval({{$row->id}},1)"></i>
+                                            <i class="fa fa-times fa-2x" aria-hidden="true" onClick="approval({{$row->id}},0)"></i>
+                                        </td>
+                                      @endif
                                   </tr>
                                   <?php $total += $row->harga * $row->qty;?>
                                   @endforeach

@@ -110,11 +110,11 @@ class PurchaseOrderController extends Controller
     {
         $po = PurchaseOrder::find($id);
         $po->status_po = 'selesai_po';
-        foreach ($po->detail as $row) {
-            $barang = Barang::find($row->barang_id);
-            $barang->stock += $row->qty_diterima;
-            $barang->update();
-        }
+        // foreach ($po->detail as $row) {
+        //     $barang = Barang::find($row->barang_id);
+        //     $barang->stock += $row->qty_diterima;
+        //     $barang->update();
+        // }
         $po->update();
         return redirect(route('purchase-order.index'))->with('message', 'Purchase Order Selesai');
     }
