@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pendaftaran;
 use App\Http\Requests\PembayaranStoreRequest;
+use PDF;
 
 class PembayaranController extends Controller
 {
@@ -17,5 +18,11 @@ class PembayaranController extends Controller
     public function store(PembayaranStoreRequest $request)
     {
         return "Pembayaran sukses";
+    }
+
+    public function kwitansi($id)
+    {
+        $pdf = PDF::loadView('pembayaran.kwitansi');
+        return $pdf->stream();
     }
 }
