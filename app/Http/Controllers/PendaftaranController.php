@@ -20,9 +20,11 @@ use DB;
 use Carbon\Carbon;
 use App\Http\Requests\PendaftaranInputTandaVitalRequest;
 use App\Http\Requests\PendaftaranStoreRequest;
+use App\Imports\PendaftaranImport;
 use App\Models\PerusahaanAsuransi;
 use App\Models\Pegawai;
 use App\User;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PendaftaranController extends Controller
 {
@@ -322,6 +324,26 @@ class PendaftaranController extends Controller
                 })
                 ->addIndexColumn()
                 ->make(true);
+        }
+    }
+
+    public function import_excel(Request $request)
+    {
+        // menangkap file excel
+        $file = $request->file('import_file');
+
+        // membuat nama file unik
+        $nama_file = $file->getClientOriginalName();
+
+        // upload ke folder file_siswa di dalam folder public
+        $file->move('file-excel', $nama_file);
+
+        // import data
+        try {
+            Excel::import(new PendaftaranImport(), public_path('/file-excel/' . $nama_file));
+            return redirect('/pendaftaran')->with('message', 'Data calon pasien berhasil diimport!');
+        } catch (\Throwable $th) {
+            return redirect(route('pendaftaran.index'))->with('message', 'File excel tidak valid!');
         }
     }
 }

@@ -44,7 +44,11 @@
                                       </div>
                                       <div class="col-md-4">
                                           <button type="submit" name="type" value="web" class="btn btn-danger"><i class="fa fa-cogs" aria-hidden="true"></i>
-                                             Filter Laporan</button>
+                                             Filter Laporan
+                                          </button>
+                                          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#import-stock">
+                                              <i class="fa fa-file-text"></i> Import Calon Pasien
+                                          </button>
                                       </div>
                                   </div>
                               </td>
@@ -72,6 +76,35 @@
         </div>
       </section>
   </div>
+  <!-- Modal -->
+  {!! Form::open(['route'=>'pendaftaran.import_excel', 'files' => true]) !!}
+    <div class="modal fade" id="import-stock" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Import Data Calon Pasien</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-bordered">
+                <tr>
+                    <td>Pilih File</td>
+                    <td>
+                        {!! Form::file('import_file', ['class' => 'form-control']) !!}
+                    </td>
+                </tr>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            <button type="submit" class="btn btn-primary">Upload Calon Pasien</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  {!! Form::close() !!}
 @endsection
 @push('scripts')
 <!-- DataTables -->
