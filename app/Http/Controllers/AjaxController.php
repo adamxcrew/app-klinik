@@ -266,4 +266,20 @@ class AjaxController extends Controller
             ->get();
         return response()->json($data);
     }
+
+    // pencarian nama jenis pekerjaan dengan element select2
+    public function select2Pekerjaan(Request $request)
+    {
+        $data = config('datareferensi.jenis_pekerjaan');
+
+        return response()->json($data);
+    }
+
+    // pencarian nama suku bangsa dengan element select2
+    public function select2SukuBangsa(Request $request)
+    {
+        $data = config('datareferensi.suku_bangsa');
+
+        return response()->json($data);
+    }
 }

@@ -66,6 +66,10 @@ class PendaftaranController extends Controller
             $pendaftaran->where('status_pelayanan', 'pemeriksaan_laboratorium');
         }
 
+        if (auth()->user()->role == 'bagian_pendaftaran') {
+            $pendaftaran->where('status_pelayanan', 'pendaftaran');
+        }
+
         // filter berdasarkan poliklinik
         if ($request->poliklinik_id != null) {
             $pendaftaran->where('poliklinik_id', $request->poliklinik_id);

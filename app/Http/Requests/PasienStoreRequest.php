@@ -25,6 +25,7 @@ class PasienStoreRequest extends FormRequest
     {
         return [
             'nama'              =>  'required',
+            'nomor_identitas'   =>  'required',
             'nomor_hp'          =>  'required',
             'tanggal_lahir'     =>  'required',
             'tempat_lahir'      =>  'required',

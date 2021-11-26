@@ -24,6 +24,7 @@ class PendaftaranStoreRequest extends FormRequest
     public function rules()
     {
         return [
+            'pasien_id'                =>  'required',
             'penanggung_jawab'         =>  'required',
             'alamat_penanggung_jawab'  =>  'required',
             'no_hp_penanggung_jawab'   =>  'required',

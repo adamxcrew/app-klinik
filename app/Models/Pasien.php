@@ -37,7 +37,8 @@ class Pasien extends Model
         'province_id',
         'district_id',
         'regency_id',
-        'inisial'
+        'inisial',
+        'foto'
     ];
 
 

@@ -106,16 +106,23 @@ class PasienController extends Controller
      */
     public function store(PasienStoreRequest $request)
     {
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $fileName = str_replace(' ', '', $file->getClientOriginalName());
+            $path = $file->storeAs('public/pasien', $fileName);
+        }
+
         $wilayah_administratif = \DB::table('view_wilayah_administratif_indonesia')
             ->where('village_id', $request->wilayah_administratif)
             ->first();
-        $data                =   $request->all();
+        $data                = $request->all();
+        $data['foto']        = $fileName;
         $data['village_id']  = $wilayah_administratif->village_id;
         $data['district_id'] = $wilayah_administratif->district_id;
         $data['province_id'] = $wilayah_administratif->province_id;
         $data['regency_id']  = $wilayah_administratif->regency_id;
-        $pasien              =   Pasien::create($data);
-        $data['pasien_id']   =   $pasien->id;
+        $pasien              = Pasien::create($data);
+        $data['pasien_id']   = $pasien->id;
         return redirect('pendaftaran/create/' . $pasien->id);
     }
 

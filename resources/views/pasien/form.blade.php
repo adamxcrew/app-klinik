@@ -7,7 +7,7 @@
     </div>
     <div class="col-md-3">
         <div class="form-group">
-            <label>Nomor Identitas</label>
+            <label>Nomor Identitas *) </label>
             {!! Form::text('nomor_ktp', null, ['class'=>'form-control ktp','Placeholder'=>'Nomor KTP']) !!}
         </div>
     </div>
@@ -29,24 +29,27 @@
            </div>
            <div class="col-md-8">
             <div class="form-group">
-                <label>Nama pasien</label>
+                <label>Nama pasien *)</label>
                 {!! Form::text('nama', null, ['class'=>'form-control','Placeholder'=>'Nama Pasien']) !!}
+                @error('nama') <small class="text-danger">{{ $message }}</small> @enderror
             </div>
            </div>
        </div>
     </div>
     <div class="col-md-3">
         <div class="form-group">
-            <label>Tempat Lahir</label>
+            <label>Tempat Lahir *)</label>
             {!! Form::text('tempat_lahir', null, ['class'=>'form-control','Placeholder'=>'Tempat Lahir']) !!}
+            @error('tempat_lahir') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
     </div>
     <div class="col-md-3">
         <div class="form-group">
-            <label>Tanggal Lahir</label>
+            <label>Tanggal Lahir *)</label>
             <div class="row">
                 <div class="col-md-7">
                     {!! Form::date('tanggal_lahir', null, ['class'=>'form-control tanggal_lahir','Placeholder'=>'Tanggal Lahir']) !!}
+                    @error('tanggal_lahir') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
                 <div class="col-md-5">
                     <input type="text" class="form-control umur" readonly>
@@ -104,7 +107,7 @@
             <div class="col-md-7">
                 <div class="form-group">
                     <label>Suku Bangsa</label>
-                    {!! Form::text('suku_bangsa', null, ['class'=>'form-control','Placeholder'=>'Suku bangsa']) !!}
+                    <select name="suku_bangsa" id="suku-bangsa" class="suku-bangsa form-control" style="height: 100px;" placeholder="Pilih Suku Bangsa"></select>
                 </div>
             </div>
         </div>
@@ -118,14 +121,16 @@
     </div>
     <div class="col-md-3">
         <div class="form-group">
-            <label>Pekerjaan</label>
-            {!! Form::text('pekerjaan', null, ['class'=>'form-control','Placeholder'=>'Pekerjaan']) !!}
+            <label>Jenis Pekerjaan *)</label>
+            <select name="pekerjaan" id="pekerjaan" class="pekerjaan form-control" style="height: 100px;" placeholder="Pilih Jenis Pekerjaan"></select>
+            @error('pekerjaan') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
     </div>
     <div class="col-md-3">
         <div class="form-group">
-            <label>Nomor HP</label>
+            <label>Nomor HP *)</label>
             {!! Form::number('nomor_hp', null, ['class'=>'form-control','Placeholder'=>'Nomor HP']) !!}
+            @error('nomor_hp') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
     </div>
 </div>
@@ -133,28 +138,31 @@
     @if(!isset($pasien))
     <div class="col-md-6">
         <div class="form-group">
-            <label>Desa</label>
+            <label>Desa *)</label>
             <select name="wilayah_administratif" id="alamat" class="alamat form-control" style="height: 100px;" placeholder="Masukan Nama Desa"></select>
+            @error('wilayah_administratif') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
     </div>
     @else
     <div class="col-md-6">
         <div class="form-group">
-            <label>Desa</label>
+            <label>Desa *)</label>
             <input class="form-control" disabled type="text" value="{{ $pasien->wilayahAdministratifIndonesia->province_name.','.$pasien->wilayahAdministratifIndonesia->regency_name.','.$pasien->wilayahAdministratifIndonesia->district_name.','.$pasien->wilayahAdministratifIndonesia->village_name}}">
         </div>
     </div>
     @endif
     <div class="col-md-3">
         <div class="form-group">
-            <label>RT / RW</label>
+            <label>RT / RW *)</label>
             {!! Form::text('rt_rw', null, ['class'=>'form-control','Placeholder'=>'RT RW']) !!}
+            @error('rt_rw') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
     </div>
     <div class="col-md-3">
         <div class="form-group">
-            <label>Alamat Tambahan</label>
+            <label>Alamat Tambahan *)</label>
             {!! Form::text('alamat', null, ['class'=>'form-control','Placeholder'=>'Alamat']) !!}
+            @error('alamat') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
     </div>
 </div>
@@ -162,8 +170,9 @@
 <div class="row">
     <div class="col-md-3">
         <div class="form-group">
-            <label>Nama Penanggung Jawab</label>
+            <label>Nama Penanggung Jawab *)</label>
             {!! Form::text('penanggung_jawab', null, ['class'=>'form-control','Placeholder'=>'Nama penanggung jawab']) !!}
+            @error('penanggung_jawab') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
     </div>
     <div class="col-md-3">
@@ -174,22 +183,25 @@
     </div>
     <div class="col-md-3">
         <div class="form-group">
-            <label>Alamat Penanggung Jawab</label>
+            <label>Alamat Penanggung Jawab *)</label>
             {!! Form::text('alamat_penanggung_jawab', null, ['class'=>'form-control','Placeholder'=>'Alamat penanggung jawab']) !!}
+            @error('alamat_penanggung_jawab') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
     </div>
     <div class="col-md-3">
         <div class="form-group">
-            <label>Nomor HP Penanggung Jawab</label>
+            <label>Nomor HP Penanggung Jawab *)</label>
             {!! Form::text('nomor_hp_penanggung_jawab', null, ['class'=>'form-control','Placeholder'=>'Nomor HP penanggung jawab']) !!}
+            @error('nomor_hp_penanggung_jawab') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
     </div>
 </div>
 <div class="row">
     <div class="col-md-3">
         <div class="form-group">
-            <label>Nama Ibu Kandung</label>
+            <label>Nama Ibu Kandung *)</label>
             {!! Form::text('nama_ibu', null, ['class'=>'form-control','Placeholder'=>'Nama ibu kandung']) !!}
+            @error('nama_ibu') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
     </div>
     <div class="col-md-3">
@@ -205,6 +217,17 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="">Foto pasien</label>
+            <input type="file" name="image" id="image" class="form-control">
+        </div>
+    </div>
+    <div class="col-md-5">
+        <img src="https://www.riobeauty.co.uk/images/product_image_not_found.gif" id="preview" style="width: 350px;height:200px" alt="Preview Image">
+    </div>
+</div>
 <div class="form-group">
     <div class="col-sm-10">
         <button type="submit" class="btn btn-danger btn btn-sm"><i class="fa fa-floppy-o" aria-hidden="true"></i> Simpan</button>
@@ -217,6 +240,14 @@
 <script src="{{asset('adminlte/bower_components/select2/dist/js/select2.min.js')}}"></script>
 <script>
 $( document ).ready(function() {
+
+    $('#image').change(function(){
+        let reader = new FileReader();
+        reader.onload = (e) => { 
+            $('#preview').attr('src', e.target.result); 
+        }
+        reader.readAsDataURL(this.files[0]); 
+    });
 
     $(".ktp").keyup(function() {
         var ktp = $(".ktp").val();
@@ -274,6 +305,46 @@ $( document ).ready(function() {
                 return {
                 text: item.village_name,
                 id: item.village_id
+                }
+            })
+            };
+        },
+        cache: true
+        }
+    });
+
+    $('.pekerjaan').select2({
+        placeholder: 'Pilih Jenis Pekerjaan',
+        ajax: {
+        url: '/ajax/select2Pekerjaan',
+        dataType: 'json',
+        delay: 250,
+        processResults: function (data) {
+            return {
+            results:  $.map(data, function (item) {
+                return {
+                text: item,
+                id: item
+                }
+            })
+            };
+        },
+        cache: true
+        }
+    });
+
+    $('.suku-bangsa').select2({
+        placeholder: 'Pilih Suku Bangsa',
+        ajax: {
+        url: '/ajax/select2SukuBangsa',
+        dataType: 'json',
+        delay: 250,
+        processResults: function (data) {
+            return {
+            results:  $.map(data, function (item) {
+                return {
+                text: item,
+                id: item
                 }
             })
             };
