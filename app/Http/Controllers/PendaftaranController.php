@@ -350,4 +350,9 @@ class PendaftaranController extends Controller
             return redirect(route('pendaftaran.index'))->with('message', 'File excel tidak valid!');
         }
     }
+
+    public function test($id)
+    {
+        return view('pendaftaran.test');
+    }
 }

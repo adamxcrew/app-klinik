@@ -36,6 +36,7 @@ Route::middleware(['auth'])->group(function () {
     // Pemeriksaan lab
     Route::get('pendaftaran/{id}/input-indikator', 'PendaftaranController@input_indikator')->name('pendaftaran.input_indikator');
     Route::get('pendaftaran/{id}/input-indikator/print', 'PendaftaranController@printHasilPemeriksaan');
+    Route::get('pendaftaran/{id}/test', 'PendaftaranController@test');
 
     // route pendaftaran riwayat penyakit
     Route::post('riwayat-penyakit-add-item/{id}', 'PendaftaranController@pemeriksaanRiwayatPenyakit');
