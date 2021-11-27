@@ -31,6 +31,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pendaftaran/{id}/print', 'PendaftaranController@print')->name('pendaftaran.print');
     Route::get('pendaftaran/create/{pasien_id}', 'PendaftaranController@create');
     Route::resource('pendaftaran', 'PendaftaranController');
+    Route::post('pendaftaran/import_excel', 'PendaftaranController@import_excel')->name('pendaftaran.import_excel');
 
     // Pemeriksaan lab
     Route::get('pendaftaran/{id}/input-indikator', 'PendaftaranController@input_indikator')->name('pendaftaran.input_indikator');
