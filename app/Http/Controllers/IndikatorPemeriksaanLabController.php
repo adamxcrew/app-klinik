@@ -35,8 +35,8 @@ class IndikatorPemeriksaanLabController extends Controller
 
     public function update(Request $request, $id)
     {
-        if($this->isExist($id)){
-            IndikatorPemeriksaanLab::update(['id'=>$id], $input);
+        if ($this->isExist($id)) {
+            IndikatorPemeriksaanLab::update(['id' => $id], $input);
         }
     }
 
@@ -51,7 +51,7 @@ class IndikatorPemeriksaanLabController extends Controller
 
     public function isExist($id)
     {
-        if(IndikatorPemeriksaanLab::find($id) > 0){
+        if (IndikatorPemeriksaanLab::find($id) > 0) {
             return true;
         }
 

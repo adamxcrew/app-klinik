@@ -53,7 +53,7 @@ class JenisPemeriksaanLabController extends Controller
     public function store(JenisPemeriksaanLabStoreRequest $request)
     {
         $jenisPemeriksaanLab = JenisPemeriksaanLab::create($request->all());
-        return redirect('jenis-pemeriksaan-lab/'.$jenisPemeriksaanLab->id.'/input-indikator');
+        return redirect('jenis-pemeriksaan-lab/' . $jenisPemeriksaanLab->id . '/input-indikator');
     }
 
     /**

@@ -34,8 +34,8 @@ class HasilPemeriksaanLabController extends Controller
 
     public function update(Request $request, $id)
     {
-        if($this->isExist($id)){
-            HasilPemeriksaanLab::update(['id'=>$id], $input);
+        if ($this->isExist($id)) {
+            HasilPemeriksaanLab::update(['id' => $id], $input);
         }
     }
 
@@ -50,7 +50,7 @@ class HasilPemeriksaanLabController extends Controller
 
     public function isExist($id)
     {
-        if(HasilPemeriksaanLab::find($id) > 0){
+        if (HasilPemeriksaanLab::find($id) > 0) {
             return true;
         }
 

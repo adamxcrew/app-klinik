@@ -201,10 +201,9 @@ function hitung_gaji($id)
 // Function for register or get device
 function device($method, $device = null)
 {
-    $client = new GuzzleHttp\Client;
+    $client = new GuzzleHttp\Client();
 
     if ($method == "GET") {
-
         if ($device == null) {
             $url = env('API_WA') . '/devices/';
         } else {
@@ -249,7 +248,7 @@ function device($method, $device = null)
 function getQRCode($device)
 {
     $query = http_build_query(['device_id' => $device]);
-    $client = new GuzzleHttp\Client;
+    $client = new GuzzleHttp\Client();
     $url = env('API_WA') . '/qr?' . $query;
 
     $res = $client->request('GET', $url, [
@@ -265,7 +264,7 @@ function getQRCode($device)
 // Function for send message WA and get message by id
 function message($method, $message = null, $phone_number = null, $message_type = null, $device = null)
 {
-    $client = new GuzzleHttp\Client;
+    $client = new GuzzleHttp\Client();
     if ($method == "GET") {
         $query = http_build_query([
             'status' => 'success'

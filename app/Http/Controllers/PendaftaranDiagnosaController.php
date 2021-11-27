@@ -29,10 +29,10 @@ class PendaftaranDiagnosaController extends Controller
     {
         if ($request->ajax()) {
             return DataTables::of(PendaftaranDiagnosa::where('pendaftaran_id', $request->id)->get())
-                ->editColumn('kode', function($row){
+                ->editColumn('kode', function ($row) {
                     return $row->icd->kode;
                 })
-                ->editColumn('tbm_icd', function($row){
+                ->editColumn('tbm_icd', function ($row) {
                     return $row->icd->indonesia;
                 })
                 ->addColumn('action', function ($row) {

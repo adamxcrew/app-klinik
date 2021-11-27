@@ -274,9 +274,9 @@ class GajiController extends Controller
     public function export(Request $request)
     {
         $tunjangan = KomponenGaji::where('jenis', 'penambah')->pluck('nama_komponen', 'id');
-        if($tunjangan != null){
+        if ($tunjangan != null) {
             foreach ($tunjangan as $index => $value) {
-                if($value == "Lembur"){
+                if ($value == "Lembur") {
                     unset($tunjangan[$index]);
                 }
             }

@@ -34,9 +34,13 @@
                                     {{ Form::text('nama_jenis',$jenisPemeriksaan->nama_jenis,['class' => 'form-control', 'required', 'disabled']) }}
                                 </div>
                                 <div class="form-group pull-right">
+                                    <a href="/pendaftaran" class="btn btn-primary">
+                                        <i class="fa fa-back"></i> kembali
+                                    </a>
                                     <a href="/pendaftaran/{{$pendaftaran->id}}/input-indikator/print" class="btn btn-primary">
                                         <i class="fa fa-print"></i> Cetak PDF
                                     </a>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -50,6 +54,39 @@
                         <h3>Indikator Pemeriksaan Laboratorium ({{$jenisPemeriksaan->nama_jenis}})</h3>
                     </div>
                     <div class="box-body">
+
+                        
+{{-- 
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>Indikator</th>
+                                <th>Nilai Rujukan</th>
+                                <th>Satuan</th>
+                                <th width="100">Hasil</th>
+                            </tr>
+                            @foreach($jenisPemeriksaan->indikator as $row)
+                            <tr>
+                                <td>{{ $row->nama_indikator }}</td>
+                                <td>{{ $row->nilai_rujukan }}</td>
+                                <td>{{ $row->satuan }}</td>
+                                <td>
+                                    {{ Form::text('hasil', null, ['class' => 'form-control hasil detail-section', 'placeholder' => 'Nilai Hasil', 'required']) }}
+                                </td>
+                            </tr>
+                            @endforeach
+                            <tr>
+                                <td colspan="3"></td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-success">Simpan Hasil</button>
+                                </td>
+                            </tr>
+                        </table>
+                        
+                        <hr>
+
+
+                        <h3 class="text-center">Hasil Pemeriksaan</h3>
+                        <hr> --}}
                         <div class="row" style="padding-bottom: 20px">
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -64,7 +101,8 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Nilai Normal</label>
-                                    <textarea class="form-control" disabled name="nilai_rujukan" id="nilai_rujukan" cols="30" rows="2"></textarea>
+                                    <input type="text" class="form-control" name="nilai_rujukan" id="nilai_rujukan" placeholder="Nilai"
+                                    <textarea class="form-control" disabled name="nilai_rujukan" id="nilai_rujukan" cols="30" rows="1"></textarea>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -82,6 +120,8 @@
                                 </div>
                             </div>
                         </div>
+
+
                         <div class="table-responsive" id="table-detail-section">
                             <!-- Ajax content on view jenis-pemeriksaan-lab.ajax-indikator-table -->
                         </div>
