@@ -18,8 +18,7 @@
           <div class="col-xs-12">
             <div class="box">
               <div class="box-body">
-                  {!! Form::open(['route'=>'pasien.store']) !!}
-                  @include('validation_error')
+                  {!! Form::open(['route'=>'pasien.store', 'files' => true]) !!}
                   @include('pasien.form')
                   {!! Form::close() !!}
               </div>

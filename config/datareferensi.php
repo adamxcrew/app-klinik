@@ -193,4 +193,38 @@ return [
         'BNI'      => 'BNI',
         'BTN'      => 'BTN'
     ],
+
+    'jenis_pekerjaan' => [
+        'Karyawan Swasta',
+        'Karyawan BUMN',
+        'Pegawai Negeri Sipil (ASN)',
+        'Wirausaha',
+        'Tenaga Kesehatan',
+        'Tenaga Pengajar',
+        'TNI',
+        'Polisi',
+        'Security/ Satpam',
+        'Pelajar/ Mahasiswa',
+        'Ibu Rumah Tangga',
+        'Petani',
+        'Peternak',
+        'Nelayan',
+        'Transportasi',
+        'Buruh Harian Lepas',
+        'Seniman',
+        'Tokoh Agama',
+        'Belum/ Tidak Bekerja',
+        'Pensiunan',
+        'Lainnya'
+    ],
+
+    'suku_bangsa' => [
+        'Melayu',
+        'Jawa',
+        'Sunda',
+        'Batak',
+        'Betawi',
+        'Bugis',
+        'Lainnya'
+    ],
 ];
