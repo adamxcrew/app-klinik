@@ -107,7 +107,11 @@
             <div class="col-md-7">
                 <div class="form-group">
                     <label>Suku Bangsa</label>
-                    <select name="suku_bangsa" id="suku-bangsa" class="suku-bangsa form-control" style="height: 100px;" placeholder="Pilih Suku Bangsa"></select>
+                    <select name="suku_bangsa" id="suku-bangsa" class="suku-bangsa form-control" style="height: 100px;" placeholder="Pilih Suku Bangsa">
+                        @if(old('suku_bangsa'))
+                        <option value="{{ old('suku_bangsa') }}" selected>{{ old('suku_bangsa') }}</option>
+                        @endif
+                    </select>
                 </div>
             </div>
         </div>
@@ -122,7 +126,11 @@
     <div class="col-md-3">
         <div class="form-group">
             <label>Jenis Pekerjaan *)</label>
-            <select name="pekerjaan" id="pekerjaan" class="pekerjaan form-control" style="height: 100px;" placeholder="Pilih Jenis Pekerjaan"></select>
+            <select name="pekerjaan" id="pekerjaan" class="pekerjaan form-control" style="height: 100px;" placeholder="Pilih Jenis Pekerjaan">
+                @if(old('pekerjaan'))
+                <option value="{{ old('pekerjaan') }}" selected>{{ old('pekerjaan') }}</option>
+                @endif
+            </select>
             @error('pekerjaan') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
     </div>
@@ -139,7 +147,12 @@
     <div class="col-md-6">
         <div class="form-group">
             <label>Desa *)</label>
-            <select name="wilayah_administratif" id="alamat" class="alamat form-control" style="height: 100px;" placeholder="Masukan Nama Desa"></select>
+            <select name="wilayah_administratif" id="alamat" class="alamat form-control" style="height: 100px;" placeholder="Masukan Nama Desa">
+                @if(old('wilayah_administratif'))
+                <?php $data = App\Models\WilayahAdministratifIndonesia::where('village_id',old('wilayah_administratif'))->first() ?>
+                <option value="{{ old('wilayah_administratif') }}" selected>{{ $data->village_name.', '.$data->district_name.', '.$data->regency_name.', '.$data->province_name }}</option>
+                @endif
+            </select>
             @error('wilayah_administratif') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
     </div>
