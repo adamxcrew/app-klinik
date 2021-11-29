@@ -84,7 +84,7 @@
                         <td>{{ $p->kode_gigi }}</td>
                         <td>{{ $p->tbm->indonesia }}</td>
                         <td>{{ $p->anamnesa }}</td>
-                        <td>{{ $p->tindakan }}</td>
+                        <td>{{ $p->tindakan->tindakan }}</td>
                     </tr>
                     @endforeach
                 </tbody>

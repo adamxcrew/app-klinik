@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pendaftaran;
-use App\PendaftaranPemeriksaanGigi;
+use App\Models\PendaftaranTindakan;
+use App\Models\Tindakan;
 use Illuminate\Http\Request;
 use PDF;
 
@@ -12,7 +13,7 @@ class OndotogramController extends Controller
     public function index($pendaftaranId)
     {
         $data['pendaftaran'] = Pendaftaran::findOrFail($pendaftaranId);
-        $data['pendaftaran_gigi'] = PendaftaranPemeriksaanGigi::with('tbm')->where('pendaftaran_id', $pendaftaranId)->get();
+        $data['pendaftaran_gigi'] = PendaftaranTindakan::with(['tbm', 'tindakan'])->where('pendaftaran_id', $pendaftaranId)->get();
         $data['total'] = count($data['pendaftaran_gigi']);
 
         return view('ondotogram.index', $data);
@@ -20,19 +21,31 @@ class OndotogramController extends Controller
 
     public function store(Request $request)
     {
-        $stored = PendaftaranPemeriksaanGigi::create($request->all());
-        $pendaftaran = PendaftaranPemeriksaanGigi::with('tbm')->where('id', $stored->id)->first();
+        $pendaftaran = Pendaftaran::with('perusahaanAsuransi')->findOrFail($request->pendaftaran_id);
+        $tindakan = Tindakan::findOrFail($request->tindakan_id);
+
+        if ($pendaftaran->perusahaanAsuransi->nama_perusahaan == 'UMUM') {
+            $fee = $tindakan->tarif_umum;
+        } else if ($pendaftaran->perusahaanAsuransi->nama_perusahaan == 'BPJS') {
+            $fee = $tindakan->tarif_bpjs;
+        } else {
+            $fee = $tindakan->tarif_perusahaan;
+        }
+
+        $request['fee'] = $fee;
+        $stored = PendaftaranTindakan::create($request->all());
+        $result = PendaftaranTindakan::with(['tbm', 'tindakan'])->where('id', $stored->id)->first();
         $response = [
             "success" => true,
             "message" => "Data berhasil ditambahkan",
-            "data" => $pendaftaran
+            "data" => $result
         ];
         return response($response, 201);
     }
 
     public function print($pendaftaranId)
     {
-        $data['pendaftaran'] = PendaftaranPemeriksaanGigi::with(['tbm', 'pendaftaran'])->where('pendaftaran_id', $pendaftaranId)->get();
+        $data['pendaftaran'] = PendaftaranTindakan::with(['tbm', 'pendaftaran'])->where('pendaftaran_id', $pendaftaranId)->get();
         $date_birth = $data['pendaftaran'][0]->pendaftaran->pasien->tanggal_lahir;
         $date_now = date('Y-m-d');
         $date_diff = date_diff(date_create($date_birth), date_create($date_now));
@@ -40,5 +53,15 @@ class OndotogramController extends Controller
         $pdf = PDF::loadView('ondotogram.cetak-hasil', $data);
 
         return $pdf->stream();
+    }
+
+    public function destroy($id)
+    {
+        PendaftaranTindakan::where('id', $id)->delete();
+        $response = [
+            "success" => true,
+            "message" => "Data berhasil dihapus",
+        ];
+        return response($response, 200);
     }
 }

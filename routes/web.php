@@ -167,6 +167,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('ondotogram/{pendaftaranId}', 'OndotogramController@index');
     Route::get('ondotogram/{pendaftaranId}/print', 'OndotogramController@print');
     Route::post('ondotogram', 'OndotogramController@store')->name('ondotogram.store');
+    Route::post('ondotogram/{id}', 'OndotogramController@destroy')->name('ondotogram.destroy');
 
     /** Route pembayaran */
     Route::get('pembayaran/{id}', 'PembayaranController@index');

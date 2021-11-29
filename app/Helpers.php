@@ -5,7 +5,7 @@ use App\Models\Pegawai;
 use App\Models\GajiDetail;
 use App\Models\KehadiranPegawai;
 use App\Models\PegawaiTunjanganGaji;
-use App\PendaftaranPemeriksaanGigi;
+use App\Models\PendaftaranTindakan;
 
 function generateUniqNumber($table, $field, $prefix)
 {
@@ -306,7 +306,7 @@ function message($method, $message = null, $phone_number = null, $message_type =
 
 function checkDataGigi($kodeGigi, $pendaftaranId)
 {
-    $pendaftaran = PendaftaranPemeriksaanGigi::where('kode_gigi', $kodeGigi)->where('pendaftaran_id', $pendaftaranId)->first();
+    $pendaftaran = PendaftaranTindakan::where('kode_gigi', $kodeGigi)->where('pendaftaran_id', $pendaftaranId)->first();
 
     if ($pendaftaran != null) {
         return true;

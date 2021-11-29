@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumnKodeGigiInPemeriksaanGigiTable extends Migration
+class AddColumnInPendaftaranTindakanTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class AddColumnKodeGigiInPemeriksaanGigiTable extends Migration
      */
     public function up()
     {
-        Schema::table('pendaftaran_pemeriksaan_gigi', function (Blueprint $table) {
-            $table->string('kode_gigi');
+        Schema::table('pendaftaran_tindakan', function (Blueprint $table) {
+            $table->integer('tbm_icd_id')->nullable();
+            $table->string('anamnesa')->nullable();
+            $table->string('kode_gigi')->nullable();
         });
     }
 
@@ -25,7 +27,7 @@ class AddColumnKodeGigiInPemeriksaanGigiTable extends Migration
      */
     public function down()
     {
-        Schema::table('pendaftaran_pemeriksaan_gigi', function (Blueprint $table) {
+        Schema::table('pendaftaran_tindakan', function (Blueprint $table) {
             //
         });
     }
