@@ -5,7 +5,7 @@
   <section class="content-header">
     <h1>
       Komponen Gaji Detail
-      <small>Daftar Komponen Gaji Detail Pegawai</small>
+      <small>Periode {{ $gaji->periode }}</small>
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>

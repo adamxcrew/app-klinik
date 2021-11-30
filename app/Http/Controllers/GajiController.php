@@ -97,7 +97,7 @@ class GajiController extends Controller
                     ]);
 
                     // insert detail komponen gaji
-                    $komponenGajiPegawai = GajiDetail::where('pegawai_id', $pegawai->id)->get();
+                    $komponenGajiPegawai = PegawaiTunjanganGaji::where('pegawai_id', $pegawai->id)->get();
                     foreach ($komponenGajiPegawai as $komponen) {
                         GajiDetail::create([
                             'pegawai_id'        =>  $pegawai->id,
@@ -211,7 +211,7 @@ class GajiController extends Controller
         $data['gaji'] = Gaji::with('pegawai')->findOrFail($id);
 
         if ($request->ajax()) {
-            return DataTables::of(GajiDetail::where('pegawai_id', $data['gaji']->pegawai->id)->with(['komponen_gaji', 'gaji'])->get())
+            return DataTables::of(GajiDetail::where('pegawai_id', $data['gaji']->pegawai->id)->where('gaji_id', $id)->with(['komponen_gaji', 'gaji'])->get())
                 ->addColumn('action', function ($row) {
                     $btn = "";
                     if (auth()->user()->role != 'pimpinan') {
@@ -303,7 +303,11 @@ class GajiController extends Controller
         $periodeStart = date('Y-m-d', strtotime('-29 day', strtotime($periodeEnd)));
 
         $pegawai        = Pegawai::with('kelompok_pegawai')->findOrFail($gaji->pegawai_id);
-        $gaji_detail    = GajiDetail::with('komponen_gaji')->whereBetween('created_at', [$periodeStart, $periodeEnd])->where('pegawai_id', $pegawai->id)->get();
+        $gaji_detail    = GajiDetail::with('komponen_gaji')
+                            //->whereBetween('created_at', [$periodeStart, $periodeEnd])
+                            ->where('pegawai_id', $pegawai->id)
+                            ->where('gaji_id',$id)
+                            ->get();
 
         // Handle tunjangan gaji
         $status_kehadiran = [];
