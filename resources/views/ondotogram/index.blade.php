@@ -144,7 +144,7 @@
             <table class="table table-bordered">
                 <thead>
                   <tr>
-                    <th>NOMOR</th>
+                    <th width="15">NOMOR</th>
                     <th>GIGI</th>
                     <th>Kondisi</th>
                     <th>Anamnesa</th>
@@ -152,20 +152,28 @@
                     <th>Action</th>
                   </tr>
                 </thead>
+                @if(count($pendaftaran_gigi) != 0)
                 <tbody class="ondotogram-output">
                   @foreach($pendaftaran_gigi as $p)
-                  <tr>
+                  <tr class="data-ondotogram">
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $p->kode_gigi }}</td>
                     <td>{{ $p->tbm->indonesia }}</td>
                     <td>{{ $p->anamnesa }}</td>
-                    <td>{{ $p->tindakan }}</td>
+                    <td>{{ $p->tindakan->tindakan }}</td>
                     <td>
-                      <button class="btn btn-danger btm-sm">Hapus</button>
+                      <button class="btn btn-danger btm-sm hapus" data-id="{{ $p->id }}">Hapus</button>
                     </td>
                   </tr>
                   @endforeach
                 </tbody>
+                @else 
+                <tbody class="ondotogram-output">
+                  <tr class="enough">
+                    <td colspan="6" class="text-center"><h3>Hasil pemeriksaan belum ada</h3></td>
+                  </tr>
+                </tbody>
+                @endif
               </table>
           </div>
         </div>
@@ -206,7 +214,7 @@
               </div>
               <div class="col-md-8">
                   <div class="form-group">
-                    <input type="text" id="tindakan" class="form-control" placeholder="Masukan tindakan">
+                    <select name="tindakan_id" id="tindakan_id" class="tindakan form-control" style="height: 100px;width: 100%" placeholder="Pilih Tindakan"></select>
                   </div>
               </div>
           </div>
@@ -255,11 +263,32 @@ $( document ).ready(function() {
       }
   });
 
+  // Select2 from table tindakan where dtd like K00
+  $('.tindakan').select2({
+      placeholder: 'Pilih Tindakan',
+      ajax: {
+      url: '/ajax/select2Tindakan',
+      dataType: 'json',
+      delay: 250,
+      processResults: function (data) {
+          return {
+          results:  $.map(data, function (item) {
+              return {
+              text: item.tindakan,
+              id: item.id
+              }
+          })
+          };
+      },
+      cache: true
+      }
+  });
+
   $('#submit').on('click', function() {
     // Get data form
     let tbm_icd_id = $('#tbm').val()
     let anamnesa = $('#anamnesa').val()
-    let tindakan = $('#tindakan').val()
+    let tindakan_id = $('#tindakan_id').val()
     let pendaftaran_id = $('#pendaftaranId').val()
 
     // Create payload for ajax request
@@ -267,7 +296,7 @@ $( document ).ready(function() {
       "_token": "{{ csrf_token() }}",
       tbm_icd_id,
       anamnesa,
-      tindakan,
+      tindakan_id,
       pendaftaran_id,
       kode_gigi
     };
@@ -292,12 +321,16 @@ $( document ).ready(function() {
             <td>${res.data.kode_gigi}</td>
             <td>${res.data.tbm.indonesia}</td>
             <td>${res.data.anamnesa}</td>
-            <td>${res.data.tindakan}</td>
-            <td><button class='btn btn-danger btn-sm'>Hapus</button></td>
+            <td>${res.data.tindakan.tindakan}</td>
+            <td><button class='btn btn-danger hapus' data-id='${res.data.id}' }}''>Hapus</button></td>
           </tr>
         `;  
 
+        $('.enough').remove()
         $('.ondotogram-output').append(content);
+      },
+      error: function(err) {
+        console.log(err);
       }
     })
   })
@@ -309,6 +342,31 @@ $( document ).ready(function() {
     $('#kodeGigi').html(kode_gigi)
     $('#modal-default').modal({show: true})
   });
+
+  // Handle hapus data
+  $('.hapus').on('click', function() {
+    if(confirm("Apakah anda yakin akan menghapus?")) {
+      let el = $(this).closest('.data-ondotogram')
+      let id = $(this).attr('data-id')
+      let url = "{{ url('ondotogram') }}/" + id
+
+      payload = {
+        "_token": "{{ csrf_token() }}",
+      }
+
+      $.ajax({
+        method: 'POST',
+        url: url,
+        data: payload,
+        success: function(res) {
+          el.remove()
+        }
+      })
+
+      } else {
+        return false;
+      }
+  })
 });
 </script>
 @endpush
