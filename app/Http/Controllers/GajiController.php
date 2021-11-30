@@ -211,7 +211,7 @@ class GajiController extends Controller
         $data['gaji'] = Gaji::with('pegawai')->findOrFail($id);
 
         if ($request->ajax()) {
-            return DataTables::of(GajiDetail::where('pegawai_id', $data['gaji']->pegawai->id)->where('gaji_id', $id)->with(['komponen_gaji', 'gaji'])->get())
+            return DataTables::of(GajiDetail::where('pegawai_id', $data['gaji']->pegawai->id)->where('gaji_id', $data['gaji']->$id)->with(['komponen_gaji', 'gaji'])->get())
                 ->addColumn('action', function ($row) {
                     $btn = "";
                     if (auth()->user()->role != 'pimpinan') {
@@ -306,7 +306,7 @@ class GajiController extends Controller
         $gaji_detail    = GajiDetail::with('komponen_gaji')
                             //->whereBetween('created_at', [$periodeStart, $periodeEnd])
                             ->where('pegawai_id', $pegawai->id)
-                            ->where('gaji_id',$id)
+                            ->where('gaji_id', $id)
                             ->get();
 
         // Handle tunjangan gaji
