@@ -31,13 +31,18 @@ class PendaftaranRujukanLabController extends Controller
     public function resumeRujukanLab(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(RujukanInternal::where('pasien_id', $request->id)->get())
+            return DataTables::of(RujukanInternal::with(['tindakan'])->where('pasien_id', $request->id)->get())
                 ->editColumn('tindakan', function ($row) {
-                    return $row->tindakan->tindakan;
+                    return $row->tindakan->nama_jenis;
                 })
                 ->editColumn('dokter', function ($row) {
                     return $row->dokter->name;
                 })
+                ->addColumn('action', function ($row) {
+                    $btn = "<div class='btn btn-danger btn-sm' data-id = '" . $row->id . "' onClick='removeRujukan(this)'>Hapus</div>";
+                    return $btn;
+                })
+                ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
         }

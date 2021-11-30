@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.topnavlayout')
 @section('title','Antrian')
 @section('content')
 <!-- load file audio bell antrian -->
@@ -195,6 +195,7 @@
             url : '/antrian/show',
             type : 'GET',
             success : (html)=>{
+                console.log(html);
                 $('#detail-section').html(html)
             }
         })

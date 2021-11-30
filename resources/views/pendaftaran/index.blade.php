@@ -1,4 +1,11 @@
-@extends('layouts.app')
+<?php 
+  if(Auth::user()->role == 'poliklinik' || Auth::user()->role == 'laboratorium' || Auth::user()->role == 'admin_medis') {
+    $layout = 'topnavlayout';
+  } else {
+    $layout = 'app';
+  }
+?>
+@extends("layouts.$layout")
 @section('title','Pasien Terdaftar')
 @section('content')
 <div class="content-wrapper">
