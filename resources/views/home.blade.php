@@ -1,4 +1,11 @@
-@extends('layouts.app')
+<?php
+  if(Auth::user()->role == 'poliklinik' || Auth::user()->role == 'admin_medis' || Auth::user()->role == 'laboratorium') {
+    $layout = 'topnavlayout';
+  } else {
+    $layout = 'app';
+  }
+?>
+@extends("layouts.$layout")
 @section('title','Dashboard')
 @section('content')
 <div class="content-wrapper">

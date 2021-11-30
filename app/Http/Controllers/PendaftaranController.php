@@ -153,6 +153,9 @@ class PendaftaranController extends Controller
     {
         $jenis          = $request->segment(4);
         $data['pendaftaran']   = Pendaftaran::with('pasien', 'perusahaanAsuransi')->find($id);
+        $pasien_id = $data['pendaftaran']->pasien->id;
+        $data['riwayatKunjungan'] = Pendaftaran::with('poliklinik', 'dokter', 'perusahaanAsuransi')->where('pasien_id', $pasien_id)->get();
+
         if ($jenis == 'tindakan') {
             $data['tindakan'] = Tindakan::all();
             $data['diagnosa'] = Diagnosa::all();

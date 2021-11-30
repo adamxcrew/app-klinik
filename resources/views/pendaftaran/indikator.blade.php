@@ -1,7 +1,7 @@
 @php
     $jenisPemeriksaan = $pendaftaran->pasien->rujukan[0]->tindakan;
 @endphp
-@extends('layouts.app')
+@extends('layouts.topnavlayout')
 @section('title','Jenis Pemeriksaan Lab '.$jenisPemeriksaan->nama_jenis)
 @section('content')
 <div class="content-wrapper">

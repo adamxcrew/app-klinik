@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.topnavlayout')
 @section('title','Kelola Data Ondotogram')
 @section('content')
 <div class="content-wrapper">
@@ -21,7 +21,7 @@
 
           <div class="box-body">
             <h4 class="text-center">ONDOTOGRAM</h4>  
-            <div style="margin-left: -65px">
+            <div>
               <table id="Table_01" style="transform:scale(.8)" height="680" border="0" cellpadding="0" cellspacing="0">
                 <tr>
                   <td>
