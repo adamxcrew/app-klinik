@@ -11,15 +11,6 @@ use App\Models\PendaftaranFeeTindakan;
 class PendaftaranTindakanController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index($id)
-    {
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -63,20 +54,11 @@ class PendaftaranTindakanController extends Controller
             $pendaftaran_fee_tindakan['user_id'] = $item;
             $pendaftaran_fee_tindakan['pelaksana'] = $pelaksana[$index];
             $pendaftaran_fee_tindakan['jumlah_fee'] = $jumlah_fee[$index];
-            $this->addPendaftaranFeeTindakan($pendaftaran_fee_tindakan);
+            PendaftaranFeeTindakan::create($pendaftaran_fee_tindakan);
         }
 
         $request['fee'] = $tindakan['tarif_' . strtolower($jenisPendaftaran)];
         PendaftaranTindakan::create($request->all());
-
-
-        // $pendaftaranTindakan = PendaftaranTindakan::create($request->all());
-        // return $pendaftaranTindakan;
-    }
-
-    public function addPendaftaranFeeTindakan($pendaftaran_fee_tindakan)
-    {
-        return PendaftaranFeeTindakan::create($pendaftaran_fee_tindakan);
     }
 
     /**
@@ -89,18 +71,6 @@ class PendaftaranTindakanController extends Controller
     {
         $data['pendaftaranTindakan'] = PendaftaranTindakan::with(['tindakan.icd'])->where('pendaftaran_id', $id);
         return view('pendaftaran.partials.daftar_tindakan', $data);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
     }
 
     /**

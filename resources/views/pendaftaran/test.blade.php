@@ -92,30 +92,12 @@
                   <div id="daftar_tindakan"></div>
 
                   <hr style="border:1px dashed">
-                  <h4>Daftar Diagnosa <button style="float: right" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
+                  <h4>Daftar Diagnosa <button style="float: right" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-diagnosa">
                     Input Diganosa
                   </button></h4>
                   <hr>
-                  <table class="table table-bordered">
-                      <tr>
-                          <th>No</th>
-                          <th>Kode ICDController</th>
-                          <th>Nama Diganosa</th>
-                          <th width="30"></th>
-                      </tr>
-                      <tr>
-                          <td>1</td>
-                          <td>ABC</td>
-                          <td>Konsultasi</td>
-                          <td><button class="btn btn-danger btn-sm"><i class='fa fa-trash' aria-hidden='true'></i></button></td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>ABC</td>
-                        <td>Konsultasi</td>
-                        <td><button class="btn btn-danger btn-sm"><i class='fa fa-trash' aria-hidden='true'></i></button></td>
-                    </tr>
-                  </table>
+                  <div id="daftar_diagnosa"></div>
+
                   <hr style="border:1px dashed">
                   <h4>Daftar Obat Racik <button style="float: right" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
                     Input Obat Racik
@@ -221,6 +203,39 @@
     </div>
   </div>
 
+  <!-- Modal Diagnosa -->
+<div class="modal fade" id="modal-diagnosa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Form Input Diagnosa</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-bordered table-bordered">
+              <tr>
+                <td width="200">Pilih Diagnosa</td>
+                <td>
+                  <select name="diagnosa_id" id="diagnosa_id" class='select2 form-control' style="width: 100%">
+                  </select>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+        <button type="button" class="btn btn-primary" onClick="simpan_daftar_diagnosa()">Simpan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
   <!-- Modal history pendafatran -->
 <div class="modal fade" id="modalHistoryPendaftaran" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -248,6 +263,7 @@
 <script>
   $(document).ready(function(){
     load_daftar_tindakan();
+    load_daftar_diagnosa();
 
     $('#tindakan_id').select2({
       placeholder: 'Cari tindakan',
@@ -270,6 +286,28 @@
         cache: true
       }
     });
+
+    $('#diagnosa_id').select2({
+    placeholder: 'Cari Riwayat Penyakit',
+    multiple: false,
+    ajax: {
+      url: '/ajax/select2ICD',
+      dataType: 'json',
+      delay: 250,
+      multiple: false,
+      processResults: function(data) {
+        return {
+          results: $.map(data, function(item) {
+            return {
+              text: item.indonesia,
+              id: item.id
+            }
+          })
+        };
+      },
+      cache: true
+    }
+  });
   });
 
    // kelola tindakan =======================
@@ -317,6 +355,49 @@
   }
 
   // end kelola tindakan =======================
+
+
+  function load_daftar_diagnosa(){
+    $.ajax({
+    url: "/pendaftaran-diagnosa/<?php echo $pendaftaran->id;?>",
+    method: 'GET',
+    success: function (response) {
+        $("#daftar_diagnosa").html(response);
+      }
+    });
+  }
+
+
+  function simpan_daftar_diagnosa()
+  {
+    let diagnosa = $('#diagnosa_id').select2('data')[0].id;
+
+    $.ajax({
+      url: '/pendaftaran-diagnosa',
+      method: 'POST',
+      data: {
+        _token: '{{csrf_token()}}',
+        pendaftaran_id: '{{$pendaftaran->id}}',
+        tbm_icd_id: diagnosa,
+      },
+      success: (response) => {
+        console.log(response);
+        $('#modal-diagnosa').modal('hide')
+        load_daftar_diagnosa();
+      }
+    })
+  }
+
+  function hapus_daftar_diagnosa(id){
+    $.ajax({
+    url: "/pendaftaran-diagnosa/"+id,
+    data: {"_token": "{{ csrf_token() }}"},
+    method: 'DELETE',
+    success: function (response) {
+        load_daftar_diagnosa();
+      }
+    });
+  }
 
   
 </script>
