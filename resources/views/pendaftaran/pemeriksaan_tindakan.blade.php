@@ -77,7 +77,7 @@
             </table>
             <hr>
 
-            <button type="button" class="btn btn-danger btn-lg">Tandai Selesai Pelayanan</button>
+            <a href="/pendaftaran/{{ $pendaftaran->id }}/selesai" class="btn btn-danger btn-lg">Tandai Selesai Pelayanan</a>
           </div>
         </div>
       </div>
@@ -92,13 +92,15 @@
             <hr>
             <div id="table-tindakan">
               <table class="table table-bordered" id="tindakan-table">
-                <tr>
-                  <th>No</th>
-                  <th>Kode ICD 9</th>
-                  <th>Nama Tindakan</th>
-                  <th>Fee</th>
-                  <th width="30"></th>
-                </tr>
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Kode ICD 9</th>
+                    <th>Nama Tindakan</th>
+                    <th>Fee</th>
+                    <th width="10">#</th>
+                  </tr>
+                </thead>
               </table>
             </div>
             <hr style="border:1px dashed">
@@ -113,7 +115,7 @@
                     <th>No</th>
                     <th>Kode ICDController</th>
                     <th>Nama Diganosa</th>
-                    <th width="30"></th>
+                    <th width="10">#</th>
                   </tr>
                 </thead>
               </table>
@@ -125,14 +127,16 @@
             <hr>
             <div id="table-obat-racik">
               <table class="table table-bordered" id="obat-racik-table">
-                <tr>
-                  <th>No</th>
-                  <th>Nama Obat</th>
-                  <th>Jumlah</th>
-                  <th>Harga</th>
-                  <th>Keterangan</th>
-                  <th width="30"></th>
-                </tr>
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Nama Obat</th>
+                    <th>Jumlah</th>
+                    <th>Harga</th>
+                    <th>Keterangan</th>
+                    <th width="10">#</th>
+                  </tr>
+                </thead>
               </table>
             </div>
 
@@ -142,14 +146,16 @@
               </button></h4>
             <hr>
             <table class="table table-bordered" id="rujukan-table">
-              <tr>
-                <th>No</th>
-                <th>Dokter Perujuk</th>
-                <th>Nama Laboratorium</th>
-                <th>Jenis Pemeriksaan</th>
-                <th>Status</th>
-                <th width="30">#</th>
-              </tr>
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Dokter Perujuk</th>
+                  <th>Nama Laboratorium</th>
+                  <th>Jenis Pemeriksaan</th>
+                  <th>Status</th>
+                  <th width="10">#</th>
+                </tr>
+              </thead>
             </table>
             <hr style="border:1px dashed">
           </div>
@@ -179,7 +185,7 @@
               <tr>
                 <td>Pilih Tindakan</td>
                 <td>
-                  <select name="tindakan_id" id="tindakan_id" class='select2 form-control'>
+                  <select style="width: 100%" name="tindakan_id" id="tindakan_id" class='select2 form-control'>
                   </select>
                 </td>
               </tr>
@@ -249,7 +255,7 @@
               <tr>
                 <td>Pilih Tindakan Laboratorium</td>
                 <td>
-                  <select name="tindakan_id" id="tindakan_id" class='select2 form-control' style="width:100%">
+                  <select name="tindakan_id" id="tindakan_lab_id" class='select2 form-control' style="width:100%">
                   </select>
                 </td>
               </tr>
@@ -397,7 +403,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <table class="table table-bordered table-striped">
+        <table class="table table-bordered">
           <tr>
             <td>Nama Pasien</td>
             <td>:</td>
@@ -475,7 +481,7 @@
   }
 
   function getResumeTindakan() {
-    $('#tindakan-resume-table').DataTable({
+    $('#tindakan-table').DataTable({
       processing: true,
       serverSide: true,
       ajax: {
@@ -559,7 +565,7 @@
     }
   });
 
-  $('#tindakan_id').select2({
+  $('#tindakan_lab_id').select2({
     placeholder: 'Cari Tindakan Lab',
     multiple: false,
     ajax: {
