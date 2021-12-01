@@ -116,7 +116,7 @@ class AjaxController extends Controller
     public function select2Tindakan(Request $request)
     {
         $data = \DB::table('tindakan')
-            ->select('id', 'tindakan')
+            ->select('id', 'tindakan', 'kode')
             ->where('poliklinik_id', '1')
             ->where('tindakan', 'like', "%" . $request->q . "%")
             ->orWhere('kode', 'like', '%' . $request->q . '%')
