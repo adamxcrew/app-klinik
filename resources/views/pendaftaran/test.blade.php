@@ -59,32 +59,21 @@
                         <th>Poliklinik</th>
                         <th width="30"></th>
                     </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>1 Januari 2021</td>
-                        <td>Umum</td>
-                        <td>Dokter Asep</td>
-                        <td>Polikli Gigi</td>
+                    @foreach($riwayatKunjungan as $riwayat)
+                      <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ tgl_indo(substr($riwayat->created_at, 0,10)) }}</td>
+                        <td>{{ $riwayat->perusahaanAsuransi->nama_perusahaan }}</td>
+                        <td>{{ $riwayat->dokter->name }}</td>
+                        <td>{{ $riwayat->poliklinik->nama }}</td>
                         <td>
-                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalHistoryPendaftaran">
-                                <i class='fa fa-eye' aria-hidden='true'></i>
-                              </button>
-                              
+                          <button type="button" data-kode="{{ $riwayat->id }}" class="btn btn-primary btn-sm kode" data-toggle="modal" data-target="#modalHistoryPendaftaran">
+                            <i class='fa fa-eye' aria-hidden='true'></i>
+                          </button>
+        
                         </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>22 Januari 2021</td>
-                        <td>Umum</td>
-                        <td>Dokter Gunawan</td>
-                        <td>Polikli Gigi</td>
-                        <td>
-                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalHistoryPendaftaran">
-                                <i class='fa fa-eye' aria-hidden='true'></i>
-                              </button>
-                              
-                        </td>
-                    </tr>
+                      </tr>
+                    @endforeach
                 </table>
                   <hr>
 

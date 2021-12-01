@@ -356,8 +356,12 @@ class PendaftaranController extends Controller
 
     public function test($id)
     {
-        $data['pendaftaran']    = Pendaftaran::with('pasien')->find($id);
-        $data['dokter']         = Pegawai::pluck('nama', 'id');
+        $data['pendaftaran']        = Pendaftaran::with('pasien')->find($id);
+        $data['dokter']             = Pegawai::pluck('nama', 'id');
+        $data['riwayatKunjungan']   = Pendaftaran::with('poliklinik', 'dokter', 'perusahaanAsuransi')
+                                        ->where('pasien_id', $data['pendaftaran']->pasien->id)
+                                        ->where('id','!=',$id)
+                                        ->get();
         return view('pendaftaran.test', $data);
     }
 }
