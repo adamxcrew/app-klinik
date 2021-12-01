@@ -38,6 +38,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pendaftaran/{id}/input-indikator/print', 'PendaftaranController@printHasilPemeriksaan');
     Route::get('pendaftaran/{id}/test', 'PendaftaranController@test');
 
+    Route::resource('pendaftaran-tindakan','PendaftaranTindakanController');
+
     // route pendaftaran riwayat penyakit
     Route::post('riwayat-penyakit-add-item/{id}', 'PendaftaranController@pemeriksaanRiwayatPenyakit');
     Route::get('resume/riwayat_penyakit', 'PendaftaranController@resumeRiwayatPenyakit')->name('resume.riwayatPenyakit');

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Pendaftaran;
-use App\Models\Diagnosa;
 use App\Models\PendaftaranDiagnosa;
 use App\Models\Tindakan;
 use App\Models\Obat;
@@ -25,6 +24,7 @@ use App\Models\PerusahaanAsuransi;
 use App\Models\Pegawai;
 use App\User;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\PendaftaranTindakan;
 
 class PendaftaranController extends Controller
 {
@@ -149,23 +149,23 @@ class PendaftaranController extends Controller
         return view('pendaftaran.pasien-terdaftar', $data);
     }
 
-    public function pemeriksaan(Request $request, $id)
-    {
-        $jenis          = $request->segment(4);
-        $data['pendaftaran']   = Pendaftaran::with('pasien', 'perusahaanAsuransi')->find($id);
-        $pasien_id = $data['pendaftaran']->pasien->id;
-        $data['riwayatKunjungan'] = Pendaftaran::with('poliklinik', 'dokter', 'perusahaanAsuransi')->where('pasien_id', $pasien_id)->get();
+    // public function pemeriksaan(Request $request, $id)
+    // {
+    //     $jenis          = $request->segment(4);
+    //     $data['pendaftaran']   = Pendaftaran::with('pasien', 'perusahaanAsuransi')->find($id);
+    //     $pasien_id = $data['pendaftaran']->pasien->id;
+    //     $data['riwayatKunjungan'] = Pendaftaran::with('poliklinik', 'dokter', 'perusahaanAsuransi')->where('pasien_id', $pasien_id)->get();
 
-        if ($jenis == 'tindakan') {
-            $data['tindakan'] = Tindakan::all();
-            $data['diagnosa'] = Diagnosa::all();
-            $data['obat']     = Obat::all();
-            $data['dokter']   = Pegawai::pluck('nama', 'id');
-            return view('pendaftaran.pemeriksaan_tindakan', $data);
-        }
+    //     if ($jenis == 'tindakan') {
+    //         $data['tindakan'] = Tindakan::all();
+    //         $data['diagnosa'] = Diagnosa::all();
+    //         $data['obat']     = Obat::all();
+    //         $data['dokter']   = Pegawai::pluck('nama', 'id');
+    //         return view('pendaftaran.pemeriksaan_tindakan', $data);
+    //     }
 
-        return view('pendaftaran.pemeriksaan_' . $jenis, $data);
-    }
+    //     return view('pendaftaran.pemeriksaan_' . $jenis, $data);
+    // }
 
     public function input_indikator($id)
     {
@@ -235,11 +235,11 @@ class PendaftaranController extends Controller
 
     public function show($id)
     {
-        $data['diagnosa'] = Diagnosa::all();
-        $data['obat']     = Obat::all();
-        $data['tindakan'] = Tindakan::all();
-        $data['pasien']   = Pendaftaran::find($id);
-        return view('pendaftaran.detail', $data);
+        // $data['diagnosa'] = Diagnosa::all();
+        // $data['obat']     = Obat::all();
+        // $data['tindakan'] = Tindakan::all();
+        // $data['pasien']   = Pendaftaran::find($id);
+        // return view('pendaftaran.detail', $data);
     }
 
     public function edit($id)
@@ -356,6 +356,8 @@ class PendaftaranController extends Controller
 
     public function test($id)
     {
-        return view('pendaftaran.test');
+        $data['pendaftaran']    = Pendaftaran::with('pasien')->find($id);
+        $data['dokter']         = Pegawai::pluck('nama', 'id');
+        return view('pendaftaran.test', $data);
     }
 }

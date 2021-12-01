@@ -2,30 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use DataTables;
 use Illuminate\Http\Request;
 use App\Models\PendaftaranTindakan;
-use App\Models\Pendaftaran;
-use App\Models\Tindakan;
 use App\Models\PendaftaranFeeTindakan;
+use App\Models\Tindakan;
+use App\Models\Pendaftaran;
 
 class PendaftaranTindakanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index($id)
+    public function resumeTindakan(Request $request)
     {
+        if ($request->ajax()) {
+            return DataTables::of(PendaftaranTindakan::where('pendaftaran_id', $request->pendaftaran_id)->with('tindakan')->get())
+                ->editColumn('kode', function ($row) {
+                    return $row->tindakan->icd->code;
+                })
+                ->editColumn('fee', function ($row) {
+                    return convert_rupiah($row->fee);
+                })
+                ->addColumn('action', function ($row) {
+                    return "<div class='btn btn-danger btn-sm' data-id = '" . $row->id . "' data-jenis='tindakan' onClick='removeItem(this)'>Hapus</div>";
+                })
+                ->rawColumns(['action'])
+                ->addIndexColumn()
+                ->make(true);
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function addPendaftaranFeeTindakan($pendaftaran_fee_tindakan)
+    {
+        return PendaftaranFeeTindakan::create($pendaftaran_fee_tindakan);
+    }
+
+    public function resumeTambahTindakan(Request $request)
     {
         $pendaftaran = Pendaftaran::find($request->pendaftaran_id);
         $jenisPendaftaran = $pendaftaran->perusahaanAsuransi->nama_perusahaan;
@@ -68,50 +78,23 @@ class PendaftaranTindakanController extends Controller
 
         $request['fee'] = $tindakan['tarif_' . strtolower($jenisPendaftaran)];
         PendaftaranTindakan::create($request->all());
-
-
-        // $pendaftaranTindakan = PendaftaranTindakan::create($request->all());
-        // return $pendaftaranTindakan;
+        return view('pendaftaran.ajax-table-tindakan');
     }
 
-    public function addPendaftaranFeeTindakan($pendaftaran_fee_tindakan)
+    public function resumePilihTindakan(Request $request)
     {
-        return PendaftaranFeeTindakan::create($pendaftaran_fee_tindakan);
+        return PendaftaranTindakan::create($request->all());
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function resumeHapusTindakan($id)
     {
-        $data['pendaftaranTindakan'] = PendaftaranTindakan::with(['tindakan.icd'])->where('pendaftaran_id', $id);
-        return view('pendaftaran.partials.daftar_tindakan', $data);
-    }
+        $data = PendaftaranTindakan::findOrFail($id);
+        $pendaftaran_id = $data->pendaftaran_id;
+        $tindakan_id = $data->tindakan_id;
+        $data->delete();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        PendaftaranFeeTindakan::where('pendaftaran_id', $pendaftaran_id)->where('tindakan_id', $tindakan_id)->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $pendaftaranTindakan = PendaftaranTindakan::findOrFail($id);
-        $pendaftaranTindakan->delete();
+        return view('pendaftaran.ajax-table-tindakan');
     }
 }
