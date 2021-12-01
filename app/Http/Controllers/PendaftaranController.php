@@ -127,7 +127,7 @@ class PendaftaranController extends Controller
                     }
                     return "Tidak ada";
                 })
-                ->addColumn('status_pelayanan', function ($row) use($status_pelayanan) {
+                ->addColumn('status_pelayanan', function ($row) use ($status_pelayanan) {
                     return $status_pelayanan[$row->status_pelayanan];
                 })
                 ->rawColumns(['action'])
@@ -159,7 +159,7 @@ class PendaftaranController extends Controller
         $pasien_id = $data['pendaftaran']->pasien->id;
         $data['riwayatKunjungan'] = Pendaftaran::with('poliklinik', 'dokter', 'perusahaanAsuransi')
                                     ->where('pasien_id', $pasien_id)
-                                    ->where('id','!=',$id)
+                                    ->where('id', '!=', $id)
                                     ->get();
 
         if ($jenis == 'tindakan') {
