@@ -165,7 +165,7 @@ class PendaftaranController extends Controller
         if ($jenis == 'tindakan') {
             $data['tindakan'] = Tindakan::all();
             $data['diagnosa'] = Diagnosa::all();
-            $data['obat']     = Barang::all();
+            $data['obat']     = Obat::all();
             $data['dokter']   = Pegawai::pluck('nama', 'id');
             return view('pendaftaran.pemeriksaan_tindakan', $data);
         }
