@@ -96,7 +96,7 @@ class PendaftaranController extends Controller
                     }
                     if (auth()->user()->role == 'poliklinik') {
                         if ($row->status_pelayanan == 'selesai_pemeriksaan_medis') {
-                            $btn .= '<li><a href="/pendaftaran/' . $row->id . '/pemeriksaan/tindakan"><i class="fa fa-edit"></i> Input tindakan</a></li>';
+                            $btn .= '<li><a href="/pendaftaran/' . $row->id . '/pemeriksaan"><i class="fa fa-edit"></i> Input tindakan</a></li>';
                             $btn .= '<li><a href="/ondotogram/' . $row->id . '"><i class="fa fa-plus-square"></i> Pemeriksaan Gigi</a></li>';
                         } else {
                             $btn .= '<li><a href="/pendaftaran/' . $row->id . '/input_tanda_vital"><i class="fa fa-print"></i> Input Tanda Vital</a></li>';
@@ -148,24 +148,6 @@ class PendaftaranController extends Controller
         $data['daftar_pasien'] = Pasien::pluck('nama', 'id');
         $data['pasien_id'] = $pasien_id;
         return view('pendaftaran.pasien-terdaftar', $data);
-    }
-
-    public function pemeriksaan(Request $request, $id)
-    {
-        $jenis          = $request->segment(4);
-        $data['pendaftaran']   = Pendaftaran::with('pasien', 'perusahaanAsuransi')->find($id);
-        $pasien_id = $data['pendaftaran']->pasien->id;
-        $data['riwayatKunjungan'] = Pendaftaran::with('poliklinik', 'dokter', 'perusahaanAsuransi')->where('pasien_id', $pasien_id)->get();
-
-        if ($jenis == 'tindakan') {
-            $data['tindakan'] = Tindakan::all();
-            $data['diagnosa'] = Diagnosa::all();
-            $data['obat']     = Obat::all();
-            $data['dokter']   = Pegawai::pluck('nama', 'id');
-            return view('pendaftaran.pemeriksaan_tindakan', $data);
-        }
-
-        return view('pendaftaran.pemeriksaan_' . $jenis, $data);
     }
 
     public function input_indikator($id)
@@ -232,15 +214,6 @@ class PendaftaranController extends Controller
         $request['dokter_id'] = $request->dokter_id == 0 ? $request->dokter_pengganti : $request->dokter_id;
         $data = Pendaftaran::create($request->all());
         return redirect('/pendaftaran/' . $data->id . '/cetak');
-    }
-
-    public function show($id)
-    {
-        // $data['diagnosa'] = Diagnosa::all();
-        // $data['obat']     = Obat::all();
-        // $data['tindakan'] = Tindakan::all();
-        // $data['pasien']   = Pendaftaran::find($id);
-        // return view('pendaftaran.detail', $data);
     }
 
     public function edit($id)
@@ -355,7 +328,7 @@ class PendaftaranController extends Controller
         }
     }
 
-    public function test($id)
+    public function pemeriksaan($id)
     {
         $data['pendaftaran']        = Pendaftaran::with('pasien')->find($id);
         $data['dokter']             = Pegawai::pluck('nama', 'id');

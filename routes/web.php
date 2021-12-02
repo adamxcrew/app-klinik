@@ -36,7 +36,7 @@ Route::middleware(['auth'])->group(function () {
     // Pemeriksaan lab
     Route::get('pendaftaran/{id}/input-indikator', 'PendaftaranController@input_indikator')->name('pendaftaran.input_indikator');
     Route::get('pendaftaran/{id}/input-indikator/print', 'PendaftaranController@printHasilPemeriksaan');
-    Route::get('pendaftaran/{id}/test', 'PendaftaranController@test');
+    Route::get('pendaftaran/{id}/pemeriksaan', 'PendaftaranController@pemeriksaan');
 
     Route::resource('pendaftaran-tindakan','PendaftaranTindakanController');
     Route::resource('pendaftaran-diagnosa','PendaftaranDiagnosaController');
