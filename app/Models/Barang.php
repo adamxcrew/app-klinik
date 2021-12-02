@@ -44,4 +44,11 @@ class Barang extends Model
     {
         return $this->belongsTo(\App\Models\PedagangBesarFarmasi::class);
     }
+
+    protected $appends = ['harga_jual'];
+
+    public function getHargaJualAttribute()
+    {
+        return 1000;
+    }
 }
