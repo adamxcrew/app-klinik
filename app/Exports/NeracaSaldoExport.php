@@ -7,8 +7,10 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Events\AfterSheet;
 
-class NeracaSaldoExport implements FromView, ShouldAutoSize
+class NeracaSaldoExport implements FromView, ShouldAutoSize, WithEvents
 {
     public $periode;
 
@@ -48,5 +50,25 @@ class NeracaSaldoExport implements FromView, ShouldAutoSize
         $data['neraca_saldo'] = $collection;
 
         return view('neraca-saldo.laporan-neraca-saldo-excel', $data);
+    }
+
+    public function registerEvents(): array
+    {
+        $jmlData = Jurnal::count() + 1;
+        return [
+            AfterSheet::class    => function (AfterSheet $event) use ($jmlData) {
+                $cellRange = 'A1:G1'; // All headers
+                $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(10)->setBold(true);
+
+                $event->sheet->getStyle('A1:E' . $jmlData)->applyFromArray([
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                            'color' => ['argb' => '000000'],
+                        ],
+                    ],
+                ]);
+            },
+        ];
     }
 }

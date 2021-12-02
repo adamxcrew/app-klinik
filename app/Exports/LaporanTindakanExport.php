@@ -2,12 +2,15 @@
 
 namespace App\Exports;
 
+use App\Models\PendaftaranTindakan;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Events\AfterSheet;
 
-class LaporanTindakanExport implements FromView, ShouldAutoSize
+class LaporanTindakanExport implements FromView, ShouldAutoSize, WithEvents
 {
     public $periode;
 
@@ -37,5 +40,25 @@ class LaporanTindakanExport implements FromView, ShouldAutoSize
         $data['laporanTindakan'] = $pendaftaranTindakan;
 
         return view('laporan-tindakan.laporan-tindakan-excel', $data);
+    }
+
+    public function registerEvents(): array
+    {
+        $jmlData = PendaftaranTindakan::count() + 1;
+        return [
+            AfterSheet::class    => function (AfterSheet $event) use ($jmlData) {
+                $cellRange = 'A1:G1'; // All headers
+                $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(10)->setBold(true);
+
+                $event->sheet->getStyle('A1:I' . $jmlData)->applyFromArray([
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                            'color' => ['argb' => '000000'],
+                        ],
+                    ],
+                ]);
+            },
+        ];
     }
 }

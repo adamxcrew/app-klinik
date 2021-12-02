@@ -45,7 +45,8 @@
                         <th width="10">Nomor</th>
                         <th>Kode Barang</th>
                         <th>Nama Barang</th>
-                        <th>Satuan</th>
+                        <th>Satuan Terkecil</th>
+                        <th>Satuan Terbesar</th>
                         <th>Jenis</th>
                         <th>Stock Sebelumnya</th>
                         <th>Stock Real</th>
@@ -140,7 +141,8 @@
                 {data: 'DT_RowIndex', orderable: false, searchable: false},
                 { data: 'barang.kode', name: 'barang.kode' },
                 { data: 'barang.nama_barang', name: 'barang.nama_barang' },
-                { data: 'barang.satuan.satuan', name: 'barang.satuan.satuan' },
+                { data: 'satuan_terkecil', name: 'satuan_terkecil' },
+                { data: 'satuan_terbesar', name: 'satuan_terbesar' },
                 { data: 'barang.jenis_barang', name: 'barang.jenis_barang' },
                 { data: 'stock_sebelumnya', name: 'stock_sebelumnya' },
                 { data: 'stock_real', name: 'stock_real' },
