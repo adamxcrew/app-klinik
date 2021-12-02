@@ -128,6 +128,9 @@ class PendaftaranController extends Controller
                     }
                     return "Tidak ada";
                 })
+                ->addColumn('status_pelayanan', function ($row) use ($status_pelayanan) {
+                    return $status_pelayanan[$row->status_pelayanan];
+                })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
