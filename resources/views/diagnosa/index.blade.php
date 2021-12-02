@@ -18,9 +18,9 @@
             <div class="box">
         
               <div class="box-body">
-                  <a href="{{route('diagnosa.create')}}" class="btn btn-info btn-social btn-flat"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                  {{-- <a href="{{route('diagnosa.create')}}" class="btn btn-info btn-social btn-flat"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
                      Tambah Data</a>
-                  <hr>
+                  <hr> --}}
                 @include('alert')
                 <table class="table table-bordered table-striped" id="users-table">
                   <thead>
@@ -28,8 +28,6 @@
                         <th width="10">Nomor</th>
                         <th>Kode</th>
                         <th>Nama Diagnosa</th>
-                        <th>Status</th>
-                        <th width="60">#</th>
                       </tr>
                   </thead>
               </table>
@@ -54,9 +52,7 @@
             columns: [
                 {data: 'DT_RowIndex', orderable: false, searchable: false},
                 { data: 'kode', name: 'kode' },
-                { data: 'nama', name: 'nama' },
-                { data: 'aktif', name: 'aktif' },
-                { data: 'action', name: 'action' }
+                { data: 'indonesia', name: 'indonesia' }
             ]
         });
     });

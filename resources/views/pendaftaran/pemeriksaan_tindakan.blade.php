@@ -49,7 +49,7 @@
               </tr>
             </table>
 
-            <h4>Daftar Kunjungan</h4>
+            <h4>Riwayat Kunjungan Sebelumnya</h4>
             <table class="table table-bordered">
               <tr>
                 <th>No</th>
@@ -394,7 +394,7 @@
 
 <!-- Modal history pendafatran -->
 <div class="modal fade" id="modalHistoryPendaftaran" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Riwayat Pelayanan</h5>
@@ -423,6 +423,47 @@
             <td>Obat</td>
             <td>:</td>
             <th id="obat"></th>
+          </tr>
+        </table>
+
+        <h4>Riwayat Tindakan</h4>
+        <table class="table table-bordered">
+          <tr>
+            <th>Nomor</th>
+            <th>Kode ICD 9</th>
+            <th>Nama Tindakan</th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>sample</td>
+            <td>sample</td>
+          </tr>
+        </table>
+
+        <h4>Riwayat Diagnosa</h4>
+        <table class="table table-bordered">
+          <tr>
+            <th>Nomor</th>
+            <th>Kode ICD</th>
+            <th>Nama Diagnosa</th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>sample</td>
+            <td>sample</td>
+          </tr>
+        </table>
+        <h4>Riwayat Pemberian Obat</h4>
+        <table class="table table-bordered">
+          <tr>
+            <th>Nomor</th>
+            <th>Nama Obat</th>
+            <th>Jumlah Dan Keterangan</th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>sample</td>
+            <td>sample</td>
           </tr>
         </table>
       </div>

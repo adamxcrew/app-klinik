@@ -127,6 +127,9 @@ class PendaftaranController extends Controller
                     }
                     return "Tidak ada";
                 })
+                ->addColumn('status_pelayanan', function ($row) use ($status_pelayanan) {
+                    return $status_pelayanan[$row->status_pelayanan];
+                })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
@@ -154,7 +157,10 @@ class PendaftaranController extends Controller
         $jenis          = $request->segment(4);
         $data['pendaftaran']   = Pendaftaran::with('pasien', 'perusahaanAsuransi')->find($id);
         $pasien_id = $data['pendaftaran']->pasien->id;
-        $data['riwayatKunjungan'] = Pendaftaran::with('poliklinik', 'dokter', 'perusahaanAsuransi')->where('pasien_id', $pasien_id)->get();
+        $data['riwayatKunjungan'] = Pendaftaran::with('poliklinik', 'dokter', 'perusahaanAsuransi')
+                                    ->where('pasien_id', $pasien_id)
+                                    ->where('id', '!=', $id)
+                                    ->get();
 
         if ($jenis == 'tindakan') {
             $data['tindakan'] = Tindakan::all();
