@@ -9,6 +9,7 @@ use App\Models\Tindakan;
 use App\Models\Obat;
 use App\Models\Poliklinik;
 use App\Models\Pasien;
+use App\Models\Satuan;
 use App\Models\JenisPemeriksaanLab;
 use App\Models\HasilPemeriksaanLab;
 use App\Models\IndikatorPemeriksaanLab;
@@ -358,9 +359,10 @@ class PendaftaranController extends Controller
     {
         $data['pendaftaran']        = Pendaftaran::with('pasien')->find($id);
         $data['dokter']             = Pegawai::pluck('nama', 'id');
+        $data['satuan']             = Satuan::pluck('satuan', 'id');
         $data['riwayatKunjungan']   = Pendaftaran::with('poliklinik', 'dokter', 'perusahaanAsuransi')
                                         ->where('pasien_id', $data['pendaftaran']->pasien->id)
-                                        ->where('id','!=',$id)
+                                        ->where('id', '!=', $id)
                                         ->get();
         return view('pendaftaran.test', $data);
     }

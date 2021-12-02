@@ -77,7 +77,7 @@
                 </table>
                   <hr>
 
-                  <button type="button" class="btn btn-danger btn-lg">Tandai Selesai Pelayanan</button>
+                  <a href="/pendaftaran/{{ $pendaftaran->id }}/selesai" class="btn btn-danger btn-lg">Tandai Selesai Pelayanan</a>
               </div>
             </div>
           </div>
@@ -99,36 +99,13 @@
                   <div id="daftar_diagnosa"></div>
 
                   <hr style="border:1px dashed">
-                  <h4>Daftar Obat Racik <button style="float: right" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
+                  <h4>Daftar Obat Racik <button style="float: right" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-obat-racik">
                     Input Obat Racik
                   </button></h4>
                   <hr>
-                  <table class="table table-bordered">
-                      <tr>
-                          <th>No</th>
-                          <th>Nama Obat</th>
-                          <th>Jumlah</th>
-                          <th>Harga</th>
-                          <th>Keterangan</th>
-                          <th width="30"></th>
-                      </tr>
-                      <tr>
-                          <td>1</td>
-                          <td>Obat A</td>
-                          <td>1</td>
-                          <td>10000</td>
-                          <td>Keterangan Contoh</td>
-                          <td><button class="btn btn-danger btn-sm"><i class='fa fa-trash' aria-hidden='true'></i></button></td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>Obat B</td>
-                        <td>1</td>
-                        <td>10000</td>
-                        <td>Keterangan Contoh</td>
-                        <td><button class="btn btn-danger btn-sm"><i class='fa fa-trash' aria-hidden='true'></i></button></td>
-                    </tr>
-                  </table>
+
+                  <div id="daftar_obat_racik"></div>
+
 
                   <hr style="border:1px dashed">
                   <h4>Rujukan Laboratorium <button style="float: right" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
@@ -203,6 +180,58 @@
     </div>
   </div>
 
+<!-- Modal Obat Racik -->
+<div class="modal fade" id="modal-obat-racik" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Form Input Obat Racik</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-bordered table-bordered">
+              <tr>
+                <td>Pilih Barang</td>
+                <td>
+                  <select name="barang_id" id="barang_id" class='form-control' style="width:100%">
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td>Jumlah & Satuan</td>
+                <td>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <input type="number" name="jumlah" id="jumlah" class="form-control" placeholder="Masukan jumlah obat">
+                    </div>
+                    <div class="col-md-6">
+                      {{ Form::select('satuan',$satuan,null,['class' => 'form-control','id'=>'satuan']) }}
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Aturan Pakai</td>
+                <td>
+                  <input type="text" id="aturan_pakai" placeholder="Aturan Pakai" class="form-control">
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+        <button type="button" class="btn btn-primary" onClick="simpan_daftar_obat_racik()">Simpan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
   <!-- Modal Diagnosa -->
 <div class="modal fade" id="modal-diagnosa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -264,6 +293,7 @@
   $(document).ready(function(){
     load_daftar_tindakan();
     load_daftar_diagnosa();
+    load_daftar_obat_racik();
 
     $('#tindakan_id').select2({
       placeholder: 'Cari tindakan',
@@ -286,6 +316,27 @@
         cache: true
       }
     });
+
+    $('#barang_id').select2({
+    placeholder: 'Cari Barang',
+    ajax: {
+      url: '/ajax/select2Barang',
+      dataType: 'json',
+      delay: 250,
+      processResults: function(data) {
+        return {
+          results: $.map(data, function(item) {
+            return {
+              text: item.nama_barang,
+              harga: item.harga,
+              id: item.id
+            }
+          })
+        };
+      },
+      cache: true
+    }
+  });
 
     $('#diagnosa_id').select2({
     placeholder: 'Cari Riwayat Penyakit',
@@ -310,7 +361,7 @@
   });
   });
 
-   // kelola tindakan =======================
+   // KELOLA TINDAKAN =======================
   function load_daftar_tindakan(){
     $.ajax({
     url: "/pendaftaran-tindakan/<?php echo $pendaftaran->id;?>",
@@ -354,9 +405,10 @@
     })
   }
 
-  // end kelola tindakan =======================
+  // END KELOLA TINDAKAN =======================
 
 
+  // KELOLA DATA DIAGNOSA ==========================================
   function load_daftar_diagnosa(){
     $.ajax({
     url: "/pendaftaran-diagnosa/<?php echo $pendaftaran->id;?>",
@@ -399,7 +451,56 @@
     });
   }
 
-  
+  // END KELOLA DATA DIAGNOSA ===========================
+
+   // KELOLA DATA OBAT RACIK ===========================
+
+   function load_daftar_obat_racik(){
+    $.ajax({
+    url: "/pendaftaran-resep/<?php echo $pendaftaran->id;?>",
+    method: 'GET',
+    success: function (response) {
+        $("#daftar_obat_racik").html(response);
+      }
+    });
+  }
+
+
+  function simpan_daftar_obat_racik(){
+    let barang_id = $('#barang_id').select2('data')[0].id
+    let jumlah = $('#jumlah').val()
+    let satuan = $('#satuan').val()
+    let aturan_pakai = $('#aturan_pakai').val()
+    $.ajax({
+      url: '/pendaftaran-resep',
+      method: 'POST',
+      data: {
+        _token: '{{csrf_token()}}',
+        barang_id: barang_id,
+        jumlah: jumlah,
+        satuan: satuan,
+        pendaftaran_id: '{{$pendaftaran->id}}',
+        aturan_pakai: aturan_pakai,
+        jenis: 'racik'
+      },
+      success: (response) => {
+        console.log(response);
+        $('#modal-obat-racik').modal('hide')
+        load_daftar_obat_racik();
+      }
+    })
+  }
+
+  function hapus_daftar_obat_racik(id){
+    $.ajax({
+    url: "/pendaftaran-resep/"+id,
+    data: {"_token": "{{ csrf_token() }}"},
+    method: 'DELETE',
+    success: function (response) {
+        load_daftar_obat_racik();
+      }
+    });
+  }
 </script>
 @endpush
 

@@ -40,7 +40,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('pendaftaran-tindakan','PendaftaranTindakanController');
     Route::resource('pendaftaran-diagnosa','PendaftaranDiagnosaController');
-
+    Route::resource('pendaftaran-resep','PendaftaranResepController');
     // route pendaftaran riwayat penyakit
     Route::post('riwayat-penyakit-add-item/{id}', 'PendaftaranController@pemeriksaanRiwayatPenyakit');
     Route::get('resume/riwayat_penyakit', 'PendaftaranController@resumeRiwayatPenyakit')->name('resume.riwayatPenyakit');

@@ -3,49 +3,47 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Barang;
 use App\Models\PendaftaranResep;
-use DataTables;
-use App\Models\Obat;
 
 class PendaftaranResepController extends Controller
 {
-    public function dataPemeriksaanResep(Request $request)
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
     {
-        if ($request->ajax()) {
-            return DataTables::of(PendaftaranResep::where('pendaftaran_id', $request->id)->where('jenis', $request->jenis)->get())
-                ->addColumn('action', function ($row) {
-                    $btn = "<div class='btn btn-danger btn-sm' data-id = '" . $row->id . "' onClick='removeObatRacik(this)'>Hapus</div>";
-                    return $btn;
-                })
-                ->editColumn('kode', function ($row) {
-                    return $row->barang->kode;
-                })
-                ->editColumn('harga', function ($row) {
-                    return convert_rupiah($row->harga);
-                })
-                ->editColumn('nama', function ($row) {
-                    return $row->barang->nama_barang;
-                })
-                ->editColumn('jumlah', function ($row) {
-                    return $row->jumlah . ' ' . $row->satuan;
-                })
-                ->rawColumns(['action'])
-                ->addIndexColumn()
-                ->make(true);
-        }
+        $barang                     = Barang::find($request->barang_id);
+        $request['harga']           = $barang->harga_jual;
+        $request['pendaftaran_id']  = $request->pendaftaran_id;
+        return PendaftaranResep::create($request->all());
     }
 
-    public function storePemeriksaanResep(Request $request, $id)
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
     {
-        $request['pendaftaran_id'] = $id;
-        PendaftaranResep::create($request->all());
-        return view('pendaftaran.ajax-table-obat-racik');
+        $data['pendaftaranResep'] = PendaftaranResep::with(['barang.satuanTerkecil'])->where('pendaftaran_id', $id);
+        return view('pendaftaran.partials.daftar_resep', $data);
     }
 
-    public function hapusPemeriksaanResep($id)
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
     {
-        $data = PendaftaranResep::findOrFail($id);
-        $data->delete();
-        return view('pendaftaran.ajax-table-obat-racik');
+        $pendaftaranResep = PendaftaranResep::findOrFail($id);
+        $pendaftaranResep->delete();
     }
 }
