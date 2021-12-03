@@ -63,7 +63,8 @@ class StockOpnameController extends Controller
         // import data
         try {
             Excel::import(new StockOpnameImport($request->tanggal), public_path('/file-excel/' . $nama_file));
-            return redirect('/stock-opname')->with('message', 'Stock opname berhasil diimport!');;
+            return redirect('/stock-opname')->with('message', 'Stock opname berhasil diimport!');
+            ;
         } catch (\Throwable $th) {
             return redirect(route('stock-opname.index'))->with('message', 'Kode barang tidak ditemukan atau file excel tidak valid!');
         }

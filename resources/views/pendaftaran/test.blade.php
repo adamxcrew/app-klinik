@@ -276,7 +276,44 @@
           </button>
         </div>
         <div class="modal-body">
-          ...
+          <table class="table table-bordered table-bordered">
+            <tr>
+              <td>Tanggal Pelayanan</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Poliklinik Tujuan</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Dokter Yang Dituju</td>
+              <td></td>
+            </tr>
+          </table>
+          <h4>Riwayat Tindakan</h4>
+          <table class="table table-bordered">
+            <tr>
+              <th>Kode ICD 9</th>
+              <th>Nama Tindakan</th>
+            </tr>
+          </table>
+
+          <h4>Riwayat Diagnosa</h4>
+          <table class="table table-bordered">
+            <tr>
+              <th>Kode ICD</th>
+              <th>Nama Tindakan</th>
+            </tr>
+          </table>
+
+          <h4>Riwayat Pemberian Obat</h4>
+          <table class="table table-bordered">
+            <tr>
+              <th>Nama Obat</th>
+              <th>Jumlah</th>
+              <th>Keterangan</th>
+            </tr>
+          </table>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
