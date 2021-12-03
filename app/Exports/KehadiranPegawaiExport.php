@@ -2,12 +2,15 @@
 
 namespace App\Exports;
 
+use App\Models\KehadiranPegawai;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use DB;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Events\AfterSheet;
 
-class KehadiranPegawaiExport implements FromView, ShouldAutoSize
+class KehadiranPegawaiExport implements FromView, ShouldAutoSize, WithEvents
 {
     public $tanggal_mulai;
     public $tanggal_selesai;
@@ -36,5 +39,25 @@ class KehadiranPegawaiExport implements FromView, ShouldAutoSize
         $data['status_kehadiran'] = $this->status_kehadiran;
         $data['laporan_kehadiran'] = $laporan_kehadiran->get();
         return view('kehadiran-pegawai.laporan-kehadiran-excel', $data);
+    }
+
+    public function registerEvents(): array
+    {
+        $jmlData = KehadiranPegawai::count() + 1;
+        return [
+            AfterSheet::class    => function (AfterSheet $event) use ($jmlData) {
+                $cellRange = 'A1:G1'; // All headers
+                $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(10)->setBold(true);
+
+                $event->sheet->getStyle('A1:G' . $jmlData)->applyFromArray([
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                            'color' => ['argb' => '000000'],
+                        ],
+                    ],
+                ]);
+            },
+        ];
     }
 }

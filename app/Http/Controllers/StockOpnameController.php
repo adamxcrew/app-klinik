@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\StockOpnameExport;
 use App\Http\Requests\StockOpnameStoreRequest;
 use App\Imports\StockOpnameImport;
+use App\Models\Satuan;
 use Illuminate\Http\Request;
 use App\Models\StockOpname;
 use DataTables;
@@ -16,11 +17,18 @@ class StockOpnameController extends Controller
     {
         $data['tanggal']   = $request->tanggal ?? date('Y-m-d');
         if ($request->ajax()) {
-            $stockOpname = StockOpname::with('barang.satuan')
+            $stockOpname = StockOpname::with('barang')
                 ->where('tanggal', $data['tanggal'])
                 ->get();
 
+
             return DataTables::of($stockOpname)
+                ->addColumn('satuan_terkecil', function ($row) {
+                    return $row->barang->jumlah_satuan_terkecil . " " . $row->barang->satuanTerkecil->satuan;
+                })
+                ->addColumn('satuan_terbesar', function ($row) {
+                    return $row->barang->jumlah_satuan_terbesar . " " . $row->barang->satuanTerbesar->satuan;
+                })
                 ->addColumn('tanggal', function ($row) {
                     return tgl_indo($row->tanggal);
                 })
@@ -55,8 +63,7 @@ class StockOpnameController extends Controller
         // import data
         try {
             Excel::import(new StockOpnameImport($request->tanggal), public_path('/file-excel/' . $nama_file));
-            return redirect('/stock-opname')->with('message', 'Stock opname berhasil diimport!');
-            ;
+            return redirect('/stock-opname')->with('message', 'Stock opname berhasil diimport!');;
         } catch (\Throwable $th) {
             return redirect(route('stock-opname.index'))->with('message', 'Kode barang tidak ditemukan atau file excel tidak valid!');
         }
