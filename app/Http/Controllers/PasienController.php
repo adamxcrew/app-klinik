@@ -203,15 +203,18 @@ class PasienController extends Controller
 
     public function riwayatKunjungan($idPendaftaran)
     {
-        $tindakan = PendaftaranTindakan::with('tindakan')->where('pendaftaran_id', $idPendaftaran)->get();
+        $tindakan = PendaftaranTindakan::with('tindakan', 'tbm')->where('pendaftaran_id', $idPendaftaran)->get();
         $diagnosa = PendaftaranDiagnosa::with('icd')->where('pendaftaran_id', $idPendaftaran)->get();
         $obat = PendaftaranResep::with('barang')->where('pendaftaran_id', $idPendaftaran)->get();
-        $pendaftaran = Pendaftaran::with('pasien')->find($idPendaftaran);
+        $pendaftaran = Pendaftaran::with('pasien', 'poliklinik', 'dokter')->find($idPendaftaran);
         $riwayatKunjungan = [
             "pasien"   => $pendaftaran->pasien->nama,
             "tindakan" => $tindakan,
             "diagnosa" => $diagnosa,
-            "obat"     => $obat
+            "obat"     => $obat,
+            "poliklinik" => $pendaftaran->poliklinik->nama,
+            "dokter" => $pendaftaran->dokter->name,
+            "tanggal_pelayanan" => tgl_indo(substr($pendaftaran->created_at, 0, 10))
         ];
 
         return $riwayatKunjungan;

@@ -279,40 +279,52 @@
           <table class="table table-bordered table-bordered">
             <tr>
               <td>Tanggal Pelayanan</td>
-              <td></td>
+              <td id="tanggal-pelayanan"></td>
             </tr>
             <tr>
               <td>Poliklinik Tujuan</td>
-              <td></td>
+              <td id="poliklinik-tujuan"></td>
             </tr>
             <tr>
               <td>Dokter Yang Dituju</td>
-              <td></td>
+              <td id="dokter-tujuan"></td>
             </tr>
           </table>
           <h4>Riwayat Tindakan</h4>
           <table class="table table-bordered">
-            <tr>
-              <th>Kode ICD 9</th>
-              <th>Nama Tindakan</th>
-            </tr>
+            <thead>
+              <tr>
+                <th>Kode ICD 9</th>
+                <th>Nama Tindakan</th>
+              </tr>
+            </thead>
+            <tbody id="riwayat-tindakan">
+            </tbody>
           </table>
 
           <h4>Riwayat Diagnosa</h4>
           <table class="table table-bordered">
-            <tr>
-              <th>Kode ICD</th>
-              <th>Nama Tindakan</th>
-            </tr>
+            <thead>
+              <tr>
+                <th>Kode ICD</th>
+                <th>Nama Diagnosa</th>
+              </tr>
+            </thead>
+            <tbody id="riwayat-diagnosa">
+            </tbody>
           </table>
 
           <h4>Riwayat Pemberian Obat</h4>
           <table class="table table-bordered">
-            <tr>
-              <th>Nama Obat</th>
-              <th>Jumlah</th>
-              <th>Keterangan</th>
-            </tr>
+            <thead>
+              <tr>
+                <th>Nama Obat</th>
+                <th>Jumlah</th>
+                <th>Keterangan</th>
+              </tr>
+            </thead>
+            <tbody id="riwayat-obat">
+            </tbody>
           </table>
         </div>
         <div class="modal-footer">
@@ -538,6 +550,79 @@
       }
     });
   }
+
+  // Handle detail riwayat kunjungan
+  $('.kode').on('click', function() {
+    let idPendaftaran = $(this).attr('data-kode')
+    let url = "/pasien/riwayatKunjungan/" + idPendaftaran
+
+    // Empty table before request ajax
+    $('#riwayat-tindakan').html(null)
+    $('#riwayat-diagnosa').html(null)
+    $('#riwayat-obat').html(null)
+
+    $.ajax({
+      url: url,
+      type: "GET",
+      success: function(res) {
+        console.log(res);
+
+        $('#tanggal-pelayanan').html(res.tanggal_pelayanan)
+        $('#poliklinik-tujuan').html(res.poliklinik)
+        $('#dokter-tujuan').html(res.dokter)
+
+        // Detail riwayat tindakan
+        res.tindakan.forEach(el => {
+          let namaTindakan = el.tindakan.tindakan
+          let kode = el.tbm.kode
+          
+          let content = `
+            <tr>
+              <td>${kode}</td>
+              <td>${namaTindakan}</td>
+            </tr>
+          `
+
+          $('#riwayat-tindakan').append(content)
+        });
+
+        // Detail riwayat diagnosa
+        res.diagnosa.forEach(el => {
+          let namaTindakan = el.icd.indonesia
+          let kode = el.icd.kode
+          
+          let content = `
+            <tr>
+              <td>${kode}</td>
+              <td>${namaTindakan}</td>
+            </tr>
+          `
+
+          $('#riwayat-diagnosa').append(content)
+        });
+
+        // Detail riwayat obat
+        res.obat.forEach(el => {
+          let namaObat = el.barang.nama_barang
+          let jumlah = el.jumlah
+          let keterangan = el.barang.keterangan
+          
+          let content = `
+            <tr>
+              <td>${namaObat}</td>
+              <td>${jumlah}</td>
+              <td>${keterangan}</td>
+            </tr>
+          `
+          $('#riwayat-obat').append(content)
+        });
+
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    })
+  })
 </script>
 @endpush
 
