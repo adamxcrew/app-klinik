@@ -1,5 +1,5 @@
 @extends('layouts.topnavlayout')
-@section('title','Pendaftaran 111111')
+@section('title',"Pendaftaran $pendaftaran->kode")
 @section('content')
 <div class="content-wrapper">
     <section class="content-header">
