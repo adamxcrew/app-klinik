@@ -58,6 +58,7 @@ class PendaftaranController extends Controller
             ->whereBetween(DB::raw('DATE(pendaftaran.created_at)'), [$awal, $akhir]);
 
         if (auth()->user()->role == 'poliklinik') {
+            $pendaftaran->where('poliklinik_id', auth()->user()->poliklinik_id);
             $pendaftaran->where('status_pelayanan', 'selesai_pemeriksaan_medis');
         }
 
@@ -337,9 +338,9 @@ class PendaftaranController extends Controller
         $data['dokter']             = Pegawai::pluck('nama', 'id');
         $data['satuan']             = Satuan::pluck('satuan', 'id');
         $data['riwayatKunjungan']   = Pendaftaran::with('poliklinik', 'dokter', 'perusahaanAsuransi')
-                                        ->where('pasien_id', $data['pendaftaran']->pasien->id)
-                                        ->where('id', '!=', $id)
-                                        ->get();
+            ->where('pasien_id', $data['pendaftaran']->pasien->id)
+            ->where('id', '!=', $id)
+            ->get();
         return view('pendaftaran.test', $data);
     }
 }
