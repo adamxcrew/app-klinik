@@ -38,9 +38,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pendaftaran/{id}/input-indikator/print', 'PendaftaranController@printHasilPemeriksaan');
     Route::get('pendaftaran/{id}/pemeriksaan', 'PendaftaranController@pemeriksaan');
 
-    Route::resource('pendaftaran-tindakan','PendaftaranTindakanController');
-    Route::resource('pendaftaran-diagnosa','PendaftaranDiagnosaController');
-    Route::resource('pendaftaran-resep','PendaftaranResepController');
+    Route::resource('pendaftaran-tindakan', 'PendaftaranTindakanController');
+    Route::resource('pendaftaran-diagnosa', 'PendaftaranDiagnosaController');
+    Route::resource('pendaftaran-resep', 'PendaftaranResepController');
     // route pendaftaran riwayat penyakit
     Route::post('riwayat-penyakit-add-item/{id}', 'PendaftaranController@pemeriksaanRiwayatPenyakit');
     Route::get('resume/riwayat_penyakit', 'PendaftaranController@resumeRiwayatPenyakit')->name('resume.riwayatPenyakit');
@@ -160,6 +160,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('kamar', 'KamarController');
     Route::resource('bed', 'BedController');
+
+    // Route handle device for integration Whatsapp
+    Route::post('device', 'DeviceController@getQRCode');
 
     Route::prefix('laporan')->group(function () {
         Route::get('/kunjungan-perpoli', 'LaporanController@laporanKunjunganPerPoli');
