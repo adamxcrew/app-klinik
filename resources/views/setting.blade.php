@@ -78,6 +78,82 @@
                   {!! Form::close() !!}
               </div>
             </div>
+            <div class="box">
+              <div class="box-body">
+                @if(\Session::has('success'))
+                  <div class="alert alert-success">
+                    {{ \Session::get('success') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                @endif
+                <h3>Daftar / Login Device untuk notifikasi whatsapp</h3>
+                <div class="row">
+                  <div class="col-md-12">
+                    <!-- Custom Tabs -->
+                    <div class="nav-tabs-custom">
+                      <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab_1" data-toggle="tab">Login</a></li>
+                        <li><a href="#tab_2" data-toggle="tab">Register</a></li>
+                      </ul>
+                      <div class="tab-content">
+                        <div class="tab-pane active" id="tab_1">
+                          <form action="{{ url('device?login=true') }}" method="POST">
+                            @CSRF
+                            <div class="row">
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  @if(\Session::has('messageErr'))
+                                    <div class="alert alert-danger">{{ \Session::get('messageErr') }}</div>
+                                  @endif
+                                  <label for="">Login Device</label> <br>
+                                  <small>Sampel : samsung-galaxy-s21</small>
+                                  <div class="input-group input-group-sm">
+                                    <input type="text" name="device" required class="form-control" placeholder="Masukan nama device">
+                                    <span class="input-group-btn">
+                                      <button type="submit" class="btn btn-info btn-flat">Submit</button>
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                        <!-- /.tab-pane -->
+                        <div class="tab-pane" id="tab_2">
+                          <form action="{{ url('device') }}" method="POST">
+                            @CSRF
+                            <div class="row">
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  @if(\Session::has('messageErr'))
+                                    <div class="alert alert-danger">{{ \Session::get('messageErr') }}</div>
+                                  @endif
+                                  <label for="">Register Device</label> <br>
+                                  <small>Sampel : samsung-galaxy-s21</small>
+                                  <div class="input-group input-group-sm">
+                                    <input type="text" name="device" required class="form-control" placeholder="Masukan nama device">
+                                    <span class="input-group-btn">
+                                      <button type="submit" class="btn btn-info btn-flat">Submit</button>
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                      <!-- /.tab-content -->
+                    </div>
+                    <!-- nav-tabs-custom -->
+                  </div>
+                  <!-- /.col -->          
+                </div>
+                <!-- /.row -->
+                <!-- END CUSTOM TABS -->
+              </div>
+            </div>
           </div>
         </div>
       </section>
