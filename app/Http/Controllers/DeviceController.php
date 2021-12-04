@@ -12,7 +12,7 @@ class DeviceController extends Controller
         $deviceName = $request->device;
 
         // Check type request is login or register
-        if ($request->login != NULL) {
+        if ($request->login != null) {
             try {
                 $device = device('GET', $deviceName);
             } catch (\Throwable $th) {
