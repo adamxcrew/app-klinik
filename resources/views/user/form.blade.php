@@ -1,7 +1,7 @@
 <div class="form-group">
     <label for="inputName" class="col-sm-2 control-label">Nama</label>
 
-    <div class="col-sm-5">
+    <div class="col-sm-4">
         {!! Form::text('name', null, ['class'=>'form-control','Placeholder'=>'Nama Pengguna']) !!}
     </div>
     @if($_GET['jabatan']!='user')
@@ -13,10 +13,10 @@
 <div class="form-group">
     <label for="inputEmail" class="col-sm-2 control-label">Email & Password</label>
 
-    <div class="col-sm-5">
+    <div class="col-sm-2">
         {!! Form::email('email', null, ['class'=>'form-control','Placeholder'=>'Email']) !!}
     </div>
-    <div class="col-sm-5">
+    <div class="col-sm-2">
         {!! Form::password('password', ['class'=>'form-control','Placeholder'=>'Password']) !!}
     </div>
 </div>
@@ -36,14 +36,14 @@
 
 
 <div class="form-group">
-    <label for="inputName" class="col-sm-2 control-label">Jabatan</label>
-    <div class="col-sm-10">
+    <label for="inputName" class="col-sm-2 control-label">Level User</label>
+    <div class="col-sm-4">
         {!! Form::select('role',$user_role, $_GET['jabatan'], ['class'=>'form-control', 'id' => 'jabatan']) !!}
     </div>
 </div>
 <div class="form-group d-none" id="poliklinik">
     <label for="inputName" class="col-sm-2 control-label">Poliklinik</label>
-    <div class="col-sm-10">
+    <div class="col-sm-4">
         {!! Form::select('poliklinik_id',$poliklinik, null, ['class'=>'form-control']) !!}
     </div>
 </div>

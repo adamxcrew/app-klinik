@@ -9,26 +9,25 @@ use DataTables;
 
 class PendaftaranRujukanLabController extends Controller
 {
-    public function pemeriksaanRujukanLab(Request $request)
+    public function store(Request $request)
     {
-        $pendaftaran = Pendaftaran::find($request->pendaftaran_id);
+        $pendaftaran                = Pendaftaran::find($request->pendaftaran_id);
+        $request['users_id']        = $request->user_id;
+        $request['pasien_id']       = $pendaftaran->pasien_id;
+        $request['tindakan_id']     = $request->jenis_pemeriksaan_laboratorium_id;
         RujukanInternal::create($request->all());
         $pendaftaran->status_pelayanan = "pemeriksaan_laboratorium";
         $pendaftaran->save();
-        // return redirect('/pendaftaran');
-        return view('pendaftaran.ajax-table-rujukan-laboratorium');
     }
 
-    public function pemeriksaanRujukanLabHapus($id)
+    public function delete($id)
     {
 
         $data = RujukanInternal::findOrFail($id);
         $data->delete();
-
-        return view('pendaftaran.ajax-table-rujukan-laboratorium');
     }
 
-    public function resumeRujukanLab(Request $request)
+    public function show(Request $request)
     {
         if ($request->ajax()) {
             return DataTables::of(RujukanInternal::with(['tindakan'])->where('pasien_id', $request->id)->get())

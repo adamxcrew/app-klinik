@@ -108,7 +108,7 @@
 
 
                   <hr style="border:1px dashed">
-                  <h4>Rujukan Laboratorium <button style="float: right" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
+                  <h4>Rujukan Laboratorium <button style="float: right" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-rujukan-laporatorium">
                     Input Rujukan
                   </button></h4>
                   <hr>
@@ -264,6 +264,51 @@
     </div>
   </div>
 </div>
+
+
+  <!-- Rujukan Laboratorium -->
+  <div class="modal fade" id="modal-rujukan-laporatorium" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Rujukan Laporatorium</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <table class="table table-bordered table-bordered">
+                <tr>
+                  <td width="200">Pilih Laboratorium</td>
+                  <td>
+                    {{ Form::select('poliklinik_id',$poliklinik,null,['class'=>'form-control poliklinik_id'])}}
+                  </td>
+                </tr>
+                <tr>
+                  <td width="200">Pilih Jenis Pemeriksaan</td>
+                  <td>
+                    {{ Form::select('jenis_pemeriksaan_laboratorium_id',$jenisPemeriksaanLaboratorium,null,['class'=>'form-control jenis_pemeriksaan_laboratorium_id'])}}
+                  </td>
+                </tr>
+                <tr>
+                  <td width="200">Dokter Perujuk</td>
+                  <td>
+                    {{ Form::select('user_id',$dokter,null,['class'=>'form-control user_id'])}}
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+          <button type="submit" class="btn btn-primary" onClick="simpan_daftar_rujukan()">Simpan</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Modal history pendafatran -->
 <div class="modal fade" id="modalHistoryPendaftaran" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -550,6 +595,34 @@
       }
     });
   }
+
+  // RUJUKAN LABORATORIUM
+
+
+  function simpan_daftar_rujukan()
+  {
+    var jenis_pemeriksaan_laboratorium_id = $(".jenis_pemeriksaan_laboratorium_id").val();
+    var user_id                           = $(".user_id").val();
+    var poliklinik_id                     = $(".poliklinik_id").val();
+    
+    $.ajax({
+      url: "/pendaftaran-rujukan",
+      data: {
+        "_token": "{{ csrf_token() }}",
+        user_id:user_id,
+        pendaftaran_id: '{{$pendaftaran->id}}',
+        poliklinik_id:poliklinik_id,
+        jenis_pemeriksaan_laboratorium_id:jenis_pemeriksaan_laboratorium_id
+      },
+      method: 'POST',
+      success: function (response) {
+          
+          $('#modal-rujukan-laporatorium').modal('hide')
+          // load_daftar_obat_racik();
+        }
+      });
+  }
+  // END RUJUKAN LABORATORIUM
 
   // Handle detail riwayat kunjungan
   $('.kode').on('click', function() {

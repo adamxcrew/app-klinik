@@ -49,8 +49,8 @@
           ['icon' => 'fa fa-user-md', 'link' => '/barang', 'label' => 'Data Barang'],
           ['icon' => 'fa fa-list-ul', 'link' => '/perusahaan-asuransi', 'label' => 'Perusahaan Asuransi'],
           ['icon' => 'fa fa-list-ul', 'link' => '/icd', 'label' => 'Data ICD'],
-          ['icon' => 'fa fa-home', 'link' => '/kamar', 'label' => 'Data Kamar'],
-          ['icon' => 'fa fa-bed', 'link' => '/bed', 'label' => 'Data Bed'],
+          // ['icon' => 'fa fa-home', 'link' => '/kamar', 'label' => 'Data Kamar'],
+          // ['icon' => 'fa fa-bed', 'link' => '/bed', 'label' => 'Data Bed'],
         ]],
         ['icon' => 'fa fa-bars', 'link' => '#', 'label' => 'Laporan', 'submenu' => [
           ['icon' => 'fa fa-plus-square', 'link' => '/laporan/kunjungan-perpoli', 'label' => 'Kunjungan Perpoli'],

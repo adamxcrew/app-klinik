@@ -15,7 +15,7 @@
     <section class="content">
       {!! Form::model($pendaftaran,['route'=>['pendaftaran.input_tanda_vital_store',$pendaftaran->id],'method'=>'PUT','class'=>'form-horizontal']) !!}
         <div class="row">
-          <div class="col-xs-9">
+          <div class="col-xs-8">
             <div class="box">
               <div class="box-body">
                   @include('validation_error')
@@ -86,12 +86,29 @@
               </div>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <div class="box">
                 <div class="box-body text-center">
                     <img src="https://img.pikbest.com/png-images/qiantu/cute-cartoon-little-girl-medical-patient-in-hospital-gown_2558435.png!c1024wm0/compress/true/progressive/true/format/webp/fw/1024" width="200">
-                    <h4>{{$pendaftaran->pasien->nama}}</h4>
-                    <h4>{{$pendaftaran->pasien->nomor_rekam_medis}}</h4>
+                    <hr>
+                    <table class="table table-bordered text-left">
+                      <tr>
+                        <td width="160">Nama Lengkap</td>
+                        <td>{{$pendaftaran->pasien->nama}}</td>
+                      </tr>
+                      <tr>
+                        <td>Nomor RM</td>
+                        <td>{{$pendaftaran->pasien->nomor_rekam_medis}}</td>
+                      </tr>
+                      <tr>
+                        <td>Tanggal Lahir</td>
+                        <td>{{ $pendaftaran->pasien->tanggal_lahir }}</td>
+                      </tr>
+                      <tr>
+                        <td>Umur</td>
+                        <td>{{ hitung_umur($pendaftaran->pasien->tanggal_lahir) }} tahun</td>
+                      </tr>
+                    </table>
                 </div>
             </div>
         </div>
