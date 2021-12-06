@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pendaftaran;
 use App\Http\Requests\PembayaranStoreRequest;
+use App\Models\PendaftaranTindakan;
 use PDF;
 
 class PembayaranController extends Controller
@@ -15,14 +16,21 @@ class PembayaranController extends Controller
         return view('pembayaran.index', $data);
     }
 
-    public function store(PembayaranStoreRequest $request)
+    public function store(PembayaranStoreRequest $request, $id)
     {
-        return "Pembayaran sukses";
+        $pendaftaran = Pendaftaran::findOrFail($id);
+        $pendaftaran->update(['status_pembayaran' => 1]);
+        return redirect('pembayaran/' . $pendaftaran->id . '/kwitansi');
     }
 
     public function kwitansi($id)
     {
-        $pdf = PDF::loadView('pembayaran.kwitansi');
+        $data['pendaftaran'] = Pendaftaran::with('pasien', 'perusahaanAsuransi')->where('id', $id)->first();
+        $awal = substr($data['pendaftaran']->created_at, 0, 10) . " 00:00:00";
+        $akhir = substr($data['pendaftaran']->created_at, 0, 10) . " 23:59:00";
+        $data['tindakans'] = PendaftaranTindakan::with('tindakan', 'pendaftaran')->where('pendaftaran_id', $data['pendaftaran']->id)->whereBetween('created_at', [$awal, $akhir])->get();
+        $data['penjamin'] = $data['pendaftaran']->perusahaanAsuransi->nama_perusahaan;
+        $pdf = PDF::loadView('pembayaran.kwitansi', $data)->setPaper('a5', 'landscape');
         return $pdf->stream();
     }
 }
