@@ -10,6 +10,7 @@ class SettingController extends Controller
     public function index()
     {
         $data['setting']  = Setting::first();
+        $data['deviceStatus'] = device('GET')->data;
         return view('setting', $data);
     }
 
