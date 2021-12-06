@@ -256,40 +256,40 @@ class PendaftaranController extends Controller
         return redirect('/pendaftaran');
     }
 
-    public function pemeriksaanRiwayatPenyakit(Request $request, $id)
-    {
-        $request['pendaftaran_id'] = $id;
-        RiwayatPenyakit::create($request->all());
-        return view('pendaftaran.ajax-table-riwayat-penyakit');
-    }
+    // public function pemeriksaanRiwayatPenyakit(Request $request, $id)
+    // {
+    //     $request['pendaftaran_id'] = $id;
+    //     RiwayatPenyakit::create($request->all());
+    //     return view('pendaftaran.ajax-table-riwayat-penyakit');
+    // }
 
-    public function pemeriksaanRiwayatPenyakitHapus($id)
-    {
-        $data = RiwayatPenyakit::findOrFail($id);
-        $data->delete();
+    // public function pemeriksaanRiwayatPenyakitHapus($id)
+    // {
+    //     $data = RiwayatPenyakit::findOrFail($id);
+    //     $data->delete();
 
-        return view('pendaftaran.ajax-table-riwayat-penyakit');
-    }
+    //     return view('pendaftaran.ajax-table-riwayat-penyakit');
+    // }
 
-    public function resumeRiwayatPenyakit(Request $request)
-    {
-        if ($request->ajax()) {
-            return DataTables::of(RiwayatPenyakit::where('pendaftaran_id', $request->id)->get())
-                ->editColumn('kode', function ($row) {
-                    return $row->tbmIcd->kode;
-                })
-                ->editColumn('tbm_icd', function ($row) {
-                    return $row->tbmIcd->indonesia;
-                })
-                ->addColumn('action', function ($row) {
-                    $btn = "<div class='btn btn-danger btn-sm' data-id = '" . $row->id . "' onClick='removeRiwayatPenyakit(this)'>Hapus</div>";
-                    return $btn;
-                })
-                ->rawColumns(['action'])
-                ->addIndexColumn()
-                ->make(true);
-        }
-    }
+    // public function resumeRiwayatPenyakit(Request $request)
+    // {
+    //     if ($request->ajax()) {
+    //         return DataTables::of(RiwayatPenyakit::where('pendaftaran_id', $request->id)->get())
+    //             ->editColumn('kode', function ($row) {
+    //                 return $row->tbmIcd->kode;
+    //             })
+    //             ->editColumn('tbm_icd', function ($row) {
+    //                 return $row->tbmIcd->indonesia;
+    //             })
+    //             ->addColumn('action', function ($row) {
+    //                 $btn = "<div class='btn btn-danger btn-sm' data-id = '" . $row->id . "' onClick='removeRiwayatPenyakit(this)'>Hapus</div>";
+    //                 return $btn;
+    //             })
+    //             ->rawColumns(['action'])
+    //             ->addIndexColumn()
+    //             ->make(true);
+    //     }
+    // }
 
     public function selesai($id)
     {
