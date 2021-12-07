@@ -1,5 +1,5 @@
 <?php 
-  if(Auth::user()->role == 'poliklinik' || Auth::user()->role == 'laboratorium' || Auth::user()->role == 'admin_medis') {
+  if(Auth::user()->role == 'poliklinik' || Auth::user()->role == 'laboratorium' || Auth::user()->role == 'admin_medis' || Auth::user()->role == 'kasir') {
     $layout = 'topnavlayout';
   } else {
     $layout = 'app';
