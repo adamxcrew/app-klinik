@@ -19,4 +19,9 @@ class Tindakan extends Model
     {
         return $this->belongsTo('App\Models\TbmIcdNine', 'kode');
     }
+
+    public function indikator()
+    {
+        return $this->hasMany('App\Models\IndikatorPemeriksaanLab', 'tindakan_id');
+    }
 }

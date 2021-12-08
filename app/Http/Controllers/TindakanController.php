@@ -88,9 +88,14 @@ class TindakanController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $data['barang'] = Barang::all();
-        $data['tindakan'] = Tindakan::findOrFail($id);
-        return view('tindakan.show', $data);
+        $data['barang']     = Barang::all();
+        $data['tindakan']   = Tindakan::findOrFail($id);
+        if($data['tindakan']->jenis=='tindakan_laboratorium')
+        {
+            return view('tindakan.indikator', $data);
+        }else{
+            return view('tindakan.show', $data);
+        }
     }
 
     /**
