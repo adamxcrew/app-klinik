@@ -165,6 +165,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('kamar', 'KamarController');
     Route::resource('bed', 'BedController');
 
+    // Route for laporan transaksi
+    Route::get('laporan-transaksi', 'LaporanTransaksiController@index');
+
     // Route handle device for integration Whatsapp
     Route::post('device', 'DeviceController@getQRCode');
 
