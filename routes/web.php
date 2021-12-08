@@ -134,7 +134,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('kategori', 'KategoriController');
     Route::resource('unit-stock', 'UnitStockController');
     Route::resource('satuan', 'SatuanController');
-    Route::resource('jenis-pemeriksaan-lab', 'JenisPemeriksaanLabController');
     Route::resource('harilibur', 'HariLiburController');
     Route::resource('tindakan', 'TindakanController');
     Route::resource('indikator-pemeriksaan-lab', 'IndikatorPemeriksaanLabController');
