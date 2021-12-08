@@ -111,7 +111,7 @@
         <div class="box">
             <div class="box-body">
                 <h2 class="text-center"><strong>Pembayaran</strong></h2>
-                {!! Form::open(['route'=>'pembayaran.store','class'=>'form-horizontal']) !!}
+                {!! Form::open(['url'=>"pembayaran/$userInfo->id/store",'class'=>'form-horizontal']) !!}
                 @include('validation_error')
                 @include('pembayaran.form')
                 {!! Form::close() !!}
