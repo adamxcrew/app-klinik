@@ -37,7 +37,7 @@
     <nav class="navbar navbar-static-top">
       <div class="containers">
         <div class="navbar-header">
-          <a href="../../index2.html" class="navbar-brand"><b>Admin</b>LTE</a>
+          <a href="{{ url('home') }}" class="navbar-brand"><b>Klinik Nurdin</b></a>
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
             <i class="fa fa-bars"></i>
           </button>
@@ -59,6 +59,11 @@
             @if(Auth::user()->role == 'laboratorium')
             <li class="{{ Request::segment(1) == 'pendaftaran' ? 'active' : '' }}"><a href="{{ url('pendaftaran') }}">Data Pasien Antri</a></li>
             <li class="{{ Request::segment(1) == 'jenis-pemeriksaan-lab' ? 'active' : '' }}"><a href="{{ url('jenis-pemeriksaan-lab') }}">Jenis Pemeriksaan Lab</a></li>
+            @endif
+
+            @if(Auth::user()->role == 'kasir')
+            <li class="{{ Request::segment(1) == 'pendaftaran' ? 'active' : '' }}"><a href="{{ url('pendaftaran') }}">Data Pasien Antri</a></li>
+            <li class="{{ Request::segment(1) == 'laporan-transaksi' ? 'active' : '' }}"><a href="{{ url('laporan-transaksi') }}">Laporan Transaksi</a></li>
             @endif
           </ul>
           {{-- <form class="navbar-form navbar-left" role="search">

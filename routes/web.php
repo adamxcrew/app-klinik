@@ -165,6 +165,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('kamar', 'KamarController');
     Route::resource('bed', 'BedController');
 
+    // Route for laporan transaksi
+    Route::get('laporan-transaksi', 'LaporanTransaksiController@index');
+
     // Route handle device for integration Whatsapp
     Route::post('device', 'DeviceController@getQRCode');
 
@@ -181,7 +184,7 @@ Route::middleware(['auth'])->group(function () {
     /** Route pembayaran */
     Route::get('pembayaran/{id}', 'PembayaranController@index');
     Route::get('pembayaran/{id}/kwitansi', 'PembayaranController@kwitansi');
-    Route::post('pembayaran/store', 'PembayaranController@store')->name('pembayaran.store');
+    Route::post('pembayaran/{id}/store', 'PembayaranController@store')->name('pembayaran.store');
     /** End */
 
     /**

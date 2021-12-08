@@ -148,7 +148,26 @@
                     </div>
                     <!-- nav-tabs-custom -->
                   </div>
-                  <!-- /.col -->          
+                  <!-- /.col -->   
+                  <div class="col-md-12">
+                    <h4>Daftar device yang sudah terdaftar dalam sistem</h4>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Device</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @foreach($deviceStatus as $device)
+                          <tr>
+                            <td>{!! $device->id !!}</td>
+                            <td>{!! $device->status !!}</td>
+                          </tr>
+                        @endforeach
+                      </tbody>
+                    </table>  
+                  </div>       
                 </div>
                 <!-- /.row -->
                 <!-- END CUSTOM TABS -->
