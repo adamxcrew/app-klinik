@@ -8,7 +8,7 @@ class RujukanInternal extends Model
 {
     protected $table = "rujukan_internal";
 
-    protected $fillable = ['users_id', 'pasien_id', 'poliklinik_id', 'tindakan_id'];
+    protected $fillable = ['users_id', 'pasien_id', 'poliklinik_id', 'tindakan_id','pendaftaran_id'];
 
     public function dokter()
     {

@@ -19,7 +19,7 @@ class PembayaranController extends Controller
     public function store(PembayaranStoreRequest $request, $id)
     {
         $pendaftaran = Pendaftaran::findOrFail($id);
-        $pendaftaran->update(['status_pembayaran' => 1]);
+        $pendaftaran->update(['status_pembayaran' => 1,'metode_pembayaran'=>$request->metode_pembayaran,'jumlah_bayar'=>$request->jumlah_bayar]);
         return redirect('pembayaran/' . $pendaftaran->id . '/kwitansi');
     }
 
