@@ -15,6 +15,7 @@ class AddMetodePembayaranInPendaftaran extends Migration
     {
         Schema::table('pendaftaran', function (Blueprint $table) {
             $table->string('metode_pembayaran')->default(null)->nullable();
+            $table->integer('jumlah_bayar')->nullable();
         });
     }
 
