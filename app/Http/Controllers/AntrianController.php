@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Antrian;
 use DataTables;
 use DB;
-
+use App\Models\Poliklinik;
 class AntrianController extends Controller
 {
     public function dataAntrian($request)
@@ -78,5 +78,11 @@ class AntrianController extends Controller
             'status' => failed,
             'message' => 'Antrian gagal diupdate'
         ];
+    }
+
+
+    public function antrianDepan(){
+        $data['poliklinik'] = Poliklinik::all();
+        return view('antrian.depan',$data);
     }
 }

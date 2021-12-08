@@ -260,3 +260,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('ajax/approval-item-purchase-order', 'AjaxController@approvalItemPurchaseOrder');
     Route::get('/ajax/dropdown-dokter', 'AjaxController@dropdownDokter');
 });
+
+Route::get('antrian-depan','AntrianController@antrianDepan');
