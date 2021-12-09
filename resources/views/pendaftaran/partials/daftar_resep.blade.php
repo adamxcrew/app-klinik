@@ -4,7 +4,8 @@
         <th>Nama Obat</th>
         <th>Jumlah</th>
         <th>Keterangan</th>
-        <th width="80">Harga</th>
+        <th width="100">Harga</th>
+        <th width="100">Subtotal</th>
         <th width="30"></th>
     </tr>
     @if($pendaftaranResep->count() < 1)
@@ -18,7 +19,8 @@
             <td>{{ $row->barang->nama_barang}}</td>
             <td>{{ $row->jumlah .' '.$row->barang->satuanTerkecil->satuan}}</td>
             <td>{{ $row->aturan_pakai }}</td>
-            <td>{{ $row->harga }}</td>
+            <td>{{ convert_rupiah($row->harga) }}</td>
+            <td>{{ convert_rupiah($row->jumlah * $row->harga) }}</td>
             <td><button onClick="hapus_daftar_obat_racik({{$row->id}})" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
         </tr>
         @endforeach
