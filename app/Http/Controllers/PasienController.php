@@ -201,9 +201,10 @@ class PasienController extends Controller
         return redirect(route('pasien.index'))->with('message', 'Data Berhasil Dihapus');
     }
 
+
     public function riwayatKunjungan($idPendaftaran)
     {
-        $tindakan = PendaftaranTindakan::with('tindakan', 'tbm')->where('pendaftaran_id', $idPendaftaran)->get();
+        $tindakan = PendaftaranTindakan::with('tindakan.icd')->where('pendaftaran_id', $idPendaftaran)->get();
         $diagnosa = PendaftaranDiagnosa::with('icd')->where('pendaftaran_id', $idPendaftaran)->get();
         $obat = PendaftaranResep::with('barang')->where('pendaftaran_id', $idPendaftaran)->get();
         $pendaftaran = Pendaftaran::with('pasien', 'poliklinik', 'dokter')->find($idPendaftaran);

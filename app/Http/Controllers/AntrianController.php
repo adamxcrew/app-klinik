@@ -7,6 +7,7 @@ use App\Models\Antrian;
 use DataTables;
 use DB;
 use App\Models\Poliklinik;
+
 class AntrianController extends Controller
 {
     public function dataAntrian($request)
@@ -81,8 +82,9 @@ class AntrianController extends Controller
     }
 
 
-    public function antrianDepan(){
+    public function antrianDepan()
+    {
         $data['poliklinik'] = Poliklinik::all();
-        return view('antrian.depan',$data);
+        return view('antrian.depan', $data);
     }
 }
