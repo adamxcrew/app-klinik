@@ -527,7 +527,6 @@
         tbm_icd_id: diagnosa,
       },
       success: (response) => {
-        console.log(response);
         $('#modal-diagnosa').modal('hide')
         load_daftar_diagnosa();
       }
@@ -578,7 +577,6 @@
         jenis: 'racik'
       },
       success: (response) => {
-        console.log(response);
         $('#modal-obat-racik').modal('hide')
         load_daftar_obat_racik();
       }
@@ -658,8 +656,6 @@
             </tr>
           `
 
-          console.log(el.tindakan.icd.code)
-
           $('#riwayat-tindakan').append(content)
         });
 
@@ -692,8 +688,6 @@
               <td>${keterangan}</td>
             </tr>
           `
-
-          //console.log(content)
           $('#riwayat-obat').append(content)
         });
 
