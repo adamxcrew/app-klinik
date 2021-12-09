@@ -638,16 +638,18 @@
       url: url,
       type: "GET",
       success: function(res) {
-        console.log(res);
+        
 
         $('#tanggal-pelayanan').html(res.tanggal_pelayanan)
         $('#poliklinik-tujuan').html(res.poliklinik)
         $('#dokter-tujuan').html(res.dokter)
 
+        
+
         // Detail riwayat tindakan
         res.tindakan.forEach(el => {
           let namaTindakan = el.tindakan.tindakan
-          let kode = el.tbm.kode
+          let kode = el.tindakan.icd.code
           
           let content = `
             <tr>
@@ -655,6 +657,8 @@
               <td>${namaTindakan}</td>
             </tr>
           `
+
+          console.log(el.tindakan.icd.code)
 
           $('#riwayat-tindakan').append(content)
         });
@@ -674,6 +678,7 @@
           $('#riwayat-diagnosa').append(content)
         });
 
+       
         // Detail riwayat obat
         res.obat.forEach(el => {
           let namaObat = el.barang.nama_barang
@@ -687,6 +692,8 @@
               <td>${keterangan}</td>
             </tr>
           `
+
+          //console.log(content)
           $('#riwayat-obat').append(content)
         });
 
