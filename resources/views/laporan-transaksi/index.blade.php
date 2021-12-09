@@ -48,11 +48,14 @@
                   <thead>
                       <tr>
                         <th width="10">No</th>
+                        <th>Tanggal</th>
                         <th>Nomor Pendaftaran</th>
+                        <th>Nomor RM</th>
                         <th>Nama Pasien</th>
                         <th>Jenis Layanan</th>
                         <th>Total Transaksi</th>
                         <th>Jenis Pembayaran</th>
+                        <th>#</th>
                       </tr>
                   </thead>
               </table>
@@ -108,8 +111,16 @@
             searchable: false
           },
           {
+            data: 'tanggal',
+            name: 'tanggal'
+          },
+          {
             data: 'kode',
             name: 'kode'
+          },
+          {
+            data: 'pasien.nomor_rekam_medis',
+            name: 'pasien.nomor_rekam_medis'
           },
           {
             data: 'pasien.nama',
@@ -126,6 +137,10 @@
           {
             data: 'metode_pembayaran',
             name: 'metode_pembayaran'
+          },
+          {
+            data: 'action',
+            name: 'action'
           },
         ]
       });

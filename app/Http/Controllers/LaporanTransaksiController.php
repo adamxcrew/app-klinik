@@ -24,6 +24,9 @@ class LaporanTransaksiController extends Controller
 
         if ($request->ajax()) {
             return DataTables::of($pendaftaran->get())
+                ->addColumn('tanggal', function ($row) {
+                    return tgl_indo(substr($row->created_at, 0, 10));
+                })
                 ->addColumn('jenis_layanan', function ($row) {
                     return $row->perusahaanAsuransi->nama_perusahaan;
                 })
@@ -51,6 +54,11 @@ class LaporanTransaksiController extends Controller
 
                     return convert_rupiah($total);
                 })
+                ->addColumn('action', function ($row) {
+                    $btn = '<a class="btn btn-danger btn-sm" href="/pembayaran/' . $row->id . '/kwitansi"><i class="fa fa-print"></i> Kwitansi</a></div>';
+                    return $btn;
+                })
+                ->rawColumns(['action', 'code'])
                 ->addIndexColumn()
                 ->make(true);
         }
