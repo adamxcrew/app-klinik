@@ -90,10 +90,9 @@ class TindakanController extends Controller
     {
         $data['barang']     = Barang::all();
         $data['tindakan']   = Tindakan::findOrFail($id);
-        if($data['tindakan']->jenis=='tindakan_laboratorium')
-        {
+        if ($data['tindakan']->jenis == 'tindakan_laboratorium') {
             return view('tindakan.indikator', $data);
-        }else{
+        } else {
             return view('tindakan.show', $data);
         }
     }
