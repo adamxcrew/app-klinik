@@ -2,7 +2,7 @@
     <label class="col-sm-2 control-label">Jumlah Bayar</label>
     <div class="col-sm-5">
         <div class="input-group">
-            <span class="input-group-addon">$</span>
+            <span class="input-group-addon">Rp</span>
             {!! Form::number('jumlah_bayar', null, ['class'=>'form-control','Placeholder'=>'Jumlah Pembayaran']) !!}
             <span class="input-group-addon">.00</span>
           </div>

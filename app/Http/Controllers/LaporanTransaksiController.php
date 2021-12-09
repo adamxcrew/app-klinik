@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\LaporanTransaksiExport;
 use App\Models\Pendaftaran;
 use App\Models\PendaftaranResep;
 use App\Models\PendaftaranTindakan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class LaporanTransaksiController extends Controller
@@ -31,28 +33,7 @@ class LaporanTransaksiController extends Controller
                     return $row->perusahaanAsuransi->nama_perusahaan;
                 })
                 ->addColumn('total_transaksi', function ($row) {
-                    // Deklarasi variabel untuk menampung data
-                    $biaya_tindakan = null;
-                    $biaya_obat = null;
-
-                    // Cari tindakan & obat by pendaftaran_id
-                    $tindakans = PendaftaranTindakan::where('pendaftaran_id', $row->id)->get();
-                    $obats = PendaftaranResep::where('pendaftaran_id', $row->id)->get();
-
-                    // Looping hasil dan Masukan fee ke $biaya_tindakan
-                    foreach ($tindakans as $tindakan) {
-                        $biaya_tindakan += $tindakan->fee;
-                    }
-
-                    // Looping hasil dan Masukan harga ke $biaya_obat
-                    foreach ($obats as $obat) {
-                        $biaya_obat += $obat->harga;
-                    }
-
-                    // Menjumlahkan total hasil dari $biaya_tindakan dan $biaya_obat
-                    $total = $biaya_tindakan + $biaya_obat;
-
-                    return convert_rupiah($total);
+                    return convert_rupiah($row->total_bayar);
                 })
                 ->addColumn('action', function ($row) {
                     $btn = '<a class="btn btn-danger btn-sm" href="/pembayaran/' . $row->id . '/kwitansi"><i class="fa fa-print"></i> Kwitansi</a></div>';
@@ -64,5 +45,10 @@ class LaporanTransaksiController extends Controller
         }
 
         return view('laporan-transaksi.index', $data);
+    }
+
+    public function export(Request $request)
+    {
+        return Excel::download(new LaporanTransaksiExport($request->tanggal, $request->shift_id), 'Laporan Transaksi ' . date('Y-m-d') . '.xlsx');
     }
 }

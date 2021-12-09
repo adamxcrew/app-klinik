@@ -166,6 +166,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Route for laporan transaksi
     Route::get('laporan-transaksi', 'LaporanTransaksiController@index');
+    Route::post('laporan-transaksi', 'LaporanTransaksiController@export')->name('laporan-transaksi.export_excel');
 
     // Route handle device for integration Whatsapp
     Route::post('device', 'DeviceController@getQRCode');
@@ -263,4 +264,4 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/ajax/dropdown-dokter', 'AjaxController@dropdownDokter');
 });
 
-Route::get('antrian-depan','AntrianController@antrianDepan');
+Route::get('antrian-depan', 'AntrianController@antrianDepan');
