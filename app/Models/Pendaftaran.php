@@ -63,7 +63,7 @@ class Pendaftaran extends Model
 
     public function feeTindakan()
     {
-        return $this->hasMany('App\Models\PendaftaranFeeTindakan');
+        return $this->hasMany('App\Models\PendaftaranTindakan');
     }
 
     public function resep()
