@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Surat Keterangan Sakit</title>
+    <title>Kwitansi Pembayaran</title>
     <style>
         .text-center {
             text-align: center;
@@ -55,27 +55,39 @@
 
     {{-- <hr style="width: 100%; border: 1px dotted black"> --}}
 
-    <div style="margin: 30px 0">
-        <table style="width: 100%;border-top: 1px dotted black">
+    <div style="margin: 30px;margin-left:-40px">
+        <table style="transform:scale(.9);width: 100%;border-top: 1px dotted black">
             <thead class="dotted">
                 <tr>
                     <th>NO</th>
                     <th>KETERANGAN</th>
                     <th>QTY</th>
-                    <th width="70">TARIF</th>
+                    <th width="70">TARIF OBAT</th>
+                    <th width="70">TARIF TINDAKAN</th>
                     <th>DISC</th>
                     <th>TAGIHAN PENJAMIN</th>
                     <th>TAGIHAN PASIEN</th>
                 </tr>
             </thead>
+
+            {{-- Deklarasi variabel untuk menampung data --}}
             @php
                 $total = 0;
+                $totalTindakan = 0;
+                $totalObat = 0;
             @endphp
+
+            {{-- Data tagihan tindakan --}}
+            <tr>
+                <th></th>
+                <th>TINDAKAN</th>
+            </tr>
             @foreach($tindakans as $tindakan)
             <tbody class="dotted" style="text-align:center">
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $tindakan->tindakan->tindakan }} - {{ $tindakan->pendaftaran->dokter->name }}</td>
+                    <td>-</td>
                     <td>-</td>
                     <td>{{ convert_rupiah($tindakan->fee) }}</td>
                     <td>-</td>
@@ -83,30 +95,39 @@
                     <td>{{ $penjamin == 'UMUM' ? convert_rupiah($tindakan->fee) : '-' }}</td>
                 </tr>
                 @php
-                    if($penjamin == 'UMUM') {
-                        $total += $tindakan->fee;
-                    } else if($penjamin == 'BPJS') {
-                        $total += $tindakan->fee;
-                    } else {
-                        $total += $tindakan->fee;
-                    }
+                    $totalTindakan += $tindakan->fee;
                 @endphp
-                {{-- <tr>
-                    <td>1</td>
-                    <td>
-                        <div>
-                            <strong><i>TINDAKAN POLI KEBIDANAN - dr. Win Irwan,SpOG</i></strong>
-                        </div>
-                        <div>USG 2D ( Dr. Win, SpOG )</div>
-                    </td>
-                    <td>1</td>
-                    <td>170.000.00</td>
-                    <td>0,00</td>
-                    <td>0,00</td>
-                    <td>170.000.00</td>
-                </tr> --}}
             </tbody>
             @endforeach
+
+            {{-- Data tagihan obat --}}
+            <tr>
+                <th></th>
+                <th>OBAT</th>
+            </tr>
+            @foreach($obats as $obat)
+            <tbody class="dotted" style="text-align:center">
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $obat->barang->nama_barang }}</td>
+                    <td>{{ $obat->jumlah }}</td>
+                    <td>{{ convert_rupiah($obat->harga) }}</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>{{ $penjamin != 'UMUM' ? convert_rupiah($obat->harga) : '-' }}</td>
+                    <td>{{ $penjamin == 'UMUM' ? convert_rupiah($obat->jumlah * $obat->harga) : '-' }}</td>
+                </tr>
+                @php
+                    $totalObat += $obat->jumlah * $obat->harga
+                @endphp
+            </tbody>
+            @endforeach
+
+            {{-- Hitung total hasil dari semua harga tindakan dan obat --}}
+            @php
+             $total = $totalTindakan + $totalObat   
+            @endphp
+            
             <tbody class="dotted" style="text-align: center">
                 <tr>
                     <td></td>
@@ -114,8 +135,9 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td>{{ $penjamin != 'UMUM' ? convert_rupiah($total) : '-' }}</td>
-                    <td>{{ $penjamin == 'UMUM' ? convert_rupiah($total) : '-' }}</td>
+                    <td></td>
+                    <td width="60">{{ $penjamin != 'UMUM' ? convert_rupiah($total) : '-' }}</td>
+                    <td width="60">{{ $penjamin == 'UMUM' ? convert_rupiah($total) : '-' }}</td>
                 </tr>
             </tbody>
             <tbody class="dotted" style="text-align: center">
@@ -126,16 +148,14 @@
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td></td>
                     <td>{{ $penjamin == 'UMUM' ? convert_rupiah($total) : '-' }}</td>
                 </tr>
             </tbody>
             <tbody class="dotted">
                 <tr>
                     <td></td>
-                    <td width="300px"><i>TERBILANG #{{ strtoupper(terbilang($total)) }}#</i></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td colspan="5"><i>TERBILANG #{{ strtoupper(terbilang($total)) }}#</i></td>
                     <td></td>
                     <td></td>
                 </tr>

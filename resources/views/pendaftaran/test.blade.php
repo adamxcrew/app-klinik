@@ -527,7 +527,6 @@
         tbm_icd_id: diagnosa,
       },
       success: (response) => {
-        console.log(response);
         $('#modal-diagnosa').modal('hide')
         load_daftar_diagnosa();
       }
@@ -578,7 +577,6 @@
         jenis: 'racik'
       },
       success: (response) => {
-        console.log(response);
         $('#modal-obat-racik').modal('hide')
         load_daftar_obat_racik();
       }
@@ -638,16 +636,18 @@
       url: url,
       type: "GET",
       success: function(res) {
-        console.log(res);
+        
 
         $('#tanggal-pelayanan').html(res.tanggal_pelayanan)
         $('#poliklinik-tujuan').html(res.poliklinik)
         $('#dokter-tujuan').html(res.dokter)
 
+        
+
         // Detail riwayat tindakan
         res.tindakan.forEach(el => {
           let namaTindakan = el.tindakan.tindakan
-          let kode = el.tbm.kode
+          let kode = el.tindakan.icd.code
           
           let content = `
             <tr>
@@ -674,6 +674,7 @@
           $('#riwayat-diagnosa').append(content)
         });
 
+       
         // Detail riwayat obat
         res.obat.forEach(el => {
           let namaObat = el.barang.nama_barang

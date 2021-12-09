@@ -75,7 +75,8 @@
                 <table class="table table-bordered">
                   <tr style="background-color :#222d32 ;color:#ffffff;">
                     <th>No</th>
-                    <th>Detail pembayaran</th>
+                    <th>Detail Layanan</th>
+                    <th>Jumlah</th>
                     <th>Fee</th>
                   </tr>
                   @php $jumlah = 0; $nomor = 1 @endphp
@@ -83,16 +84,18 @@
                     <tr>
                       <td>{{$nomor}}</td>
                       <td>{{$row->tindakan->tindakan}}</td>
-                      <td style="text-align:right">{{convert_rupiah($row->jumlah_fee)}}</td>
+                      <td>1</td>
+                      <td style="text-align:right">{{convert_rupiah($row->fee)}}</td>
                     </tr>
-                    @php $jumlah += $row->jumlah_fee ; $nomor++ @endphp
+                    @php $jumlah += $row->fee ; $nomor++ @endphp
                   @endforeach
                   @foreach($userInfo->resep as $row)
                     <tr>
                       <td>{{$nomor}}</td>
-                      <td>{{$row->barang->nama_barang}} ({{$row->jumlah}} {{$row->satuan}} {{$row->aturan_pakai}}) </td>
+                      <td>{{$row->barang->nama_barang}} ( {{$row->satuan}} {{$row->aturan_pakai}}) </td>
+                      <td>{{$row->jumlah}}</td>
                       @php
-                        $harga = $row->harga;
+                        $harga = $row->harga* $row->jumlah;
                         if($harga <= 0 ){
                           $harga = $row->barang->harga;
                         }
@@ -102,7 +105,7 @@
                     @php $jumlah += $harga ; $nomor++ @endphp
                   @endforeach
                   <tr style="text-align:right">
-                    <td colspan=2>Total Pembayaran</td>
+                    <td colspan=3>Total Pembayaran</td>
                     <td>{{convert_rupiah($jumlah)}}</td>
                   </tr>
                 </table>

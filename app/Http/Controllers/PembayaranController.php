@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pendaftaran;
 use App\Http\Requests\PembayaranStoreRequest;
+use App\Models\PendaftaranResep;
 use App\Models\PendaftaranTindakan;
 use PDF;
 
@@ -19,7 +20,7 @@ class PembayaranController extends Controller
     public function store(PembayaranStoreRequest $request, $id)
     {
         $pendaftaran = Pendaftaran::findOrFail($id);
-        $pendaftaran->update(['status_pembayaran' => 1,'metode_pembayaran'=>$request->metode_pembayaran,'jumlah_bayar'=>$request->jumlah_bayar]);
+        $pendaftaran->update(['status_pembayaran' => 1, 'metode_pembayaran' => $request->metode_pembayaran, 'jumlah_bayar' => $request->jumlah_bayar]);
         return redirect('pembayaran/' . $pendaftaran->id . '/kwitansi');
     }
 
@@ -30,6 +31,7 @@ class PembayaranController extends Controller
         $akhir = substr($data['pendaftaran']->created_at, 0, 10) . " 23:59:00";
         $data['tindakans'] = PendaftaranTindakan::with('tindakan', 'pendaftaran')->where('pendaftaran_id', $data['pendaftaran']->id)->whereBetween('created_at', [$awal, $akhir])->get();
         $data['penjamin'] = $data['pendaftaran']->perusahaanAsuransi->nama_perusahaan;
+        $data['obats'] = PendaftaranResep::with('barang')->where('pendaftaran_id', $data['pendaftaran']->id)->get();
         $pdf = PDF::loadView('pembayaran.kwitansi', $data)->setPaper('a5', 'landscape');
         return $pdf->stream();
     }

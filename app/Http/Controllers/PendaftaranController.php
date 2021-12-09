@@ -103,8 +103,12 @@ class PendaftaranController extends Controller
                             $btn .= '<li><a href="/pendaftaran/' . $row->id . '/input_tanda_vital"><i class="fa fa-print"></i> Input Tanda Vital</a></li>';
                         }
                     } elseif (auth()->user()->role == 'kasir') {
-                        $btn = '<a class="btn btn-danger btn-sm" style="margin-right:5px" href="/pembayaran/' . $row->id . '"><i class="fa fa-money"></i> Pembayaran</a></div>';
-                        $btn .= '<a class="btn btn-danger btn-sm" href="/pembayaran/' . $row->id . '/kwitansi"><i class="fa fa-print"></i> Kwitansi</a></div>';
+                        if ($row->status_pembayaran == 1) {
+                            $btn = '<a class="btn btn-danger btn-sm btn-block" href="/pembayaran/' . $row->id . '/kwitansi"><i class="fa fa-print"></i> Kwitansi</a></div>';
+                        } else {
+                            $btn = '<a class="btn btn-danger btn-sm" style="margin-right:5px" href="/pembayaran/' . $row->id . '"><i class="fa fa-money"></i> Pembayaran</a></div>';
+                            $btn .= '<a class="btn btn-danger btn-sm" href="/pembayaran/' . $row->id . '/kwitansi"><i class="fa fa-print"></i> Kwitansi</a></div>';
+                        }
                     } elseif (auth()->user()->role == 'laboratorium') {
                         $btn = '<li><a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/input-indikator"><i class="fa fa-edit"></i> Input Indikator</a></li>';
                     } elseif (auth()->user()->role == 'admin_medis') {
@@ -338,7 +342,7 @@ class PendaftaranController extends Controller
         $data['dokter']             = Pegawai::pluck('nama', 'id');
         $data['satuan']             = Satuan::pluck('satuan', 'id');
         $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
-        $data['jenisPemeriksaanLaboratorium'] = JenisPemeriksaanLab::pluck('nama_jenis', 'id');
+        $data['jenisPemeriksaanLaboratorium'] = Tindakan::pluck('tindakan', 'id');
         $data['riwayatKunjungan']   = Pendaftaran::with('poliklinik', 'dokter', 'perusahaanAsuransi')
             ->where('pasien_id', $data['pendaftaran']->pasien->id)
             ->where('id', '!=', $id)
