@@ -32,7 +32,7 @@ class PembayaranController extends Controller
         $data['tindakans'] = PendaftaranTindakan::with('tindakan', 'pendaftaran')->where('pendaftaran_id', $data['pendaftaran']->id)->whereBetween('created_at', [$awal, $akhir])->get();
         $data['penjamin'] = $data['pendaftaran']->perusahaanAsuransi->nama_perusahaan;
         $data['obats'] = PendaftaranResep::with('barang')->where('pendaftaran_id', $data['pendaftaran']->id)->get();
-        $pdf = PDF::loadView('pembayaran.kwitansi', $data)->setPaper('a5', 'landscape');
+        $pdf = PDF::loadView('pembayaran.kwitansi', $data)->setPaper('A5', 'landscape');
         return $pdf->stream();
     }
 }
