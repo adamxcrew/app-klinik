@@ -36,6 +36,7 @@
                                     <button type="submit" name="type" value="web" class="btn btn-danger"><i class="fa fa-cogs" aria-hidden="true"></i>
                                         Filter Laporan
                                     </button>
+                                    <button type="button" value="export_excel" class="btn btn-success" data-toggle="modal" data-target="#export-modal">Export Excel</button>
                                 </div>
                             </div>
                         </td>
@@ -48,11 +49,14 @@
                   <thead>
                       <tr>
                         <th width="10">No</th>
+                        <th>Tanggal</th>
                         <th>Nomor Pendaftaran</th>
+                        <th>Nomor RM</th>
                         <th>Nama Pasien</th>
                         <th>Jenis Layanan</th>
                         <th>Total Transaksi</th>
                         <th>Jenis Pembayaran</th>
+                        <th>#</th>
                       </tr>
                   </thead>
               </table>
@@ -91,6 +95,44 @@
       </div>
     </div>
   {!! Form::close() !!}
+
+    <!-- Modal -->
+    <div class="modal fade" id="export-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Export Stock Opname</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          {{ Form::open(['route' => 'laporan-transaksi.export_excel', 'method' => 'POST']) }}
+          <div class="modal-body">
+            <table class="table table-bordered">
+              <tr>
+                <th>Tanggal Mulai</th>
+                <td><input type="date" name="tanggal" class="form-control"></td>
+              </tr>
+              <tr>
+                <th>Shift</th>
+                <td>
+                  <select name="shift_id" class="form-control">
+                    <option value="1">Shift 1</option>
+                    <option value="2">Shift 2</option>
+                  </select>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            <button type="submit" class="btn btn-primary">Download</button>
+          </div>
+          {{ Form::close() }}
+        </div>
+      </div>
+    </div>
+
 @endsection
 @push('scripts')
 <!-- DataTables -->
@@ -108,8 +150,16 @@
             searchable: false
           },
           {
+            data: 'tanggal',
+            name: 'tanggal'
+          },
+          {
             data: 'kode',
             name: 'kode'
+          },
+          {
+            data: 'pasien.nomor_rekam_medis',
+            name: 'pasien.nomor_rekam_medis'
           },
           {
             data: 'pasien.nama',
@@ -126,6 +176,10 @@
           {
             data: 'metode_pembayaran',
             name: 'metode_pembayaran'
+          },
+          {
+            data: 'action',
+            name: 'action'
           },
         ]
       });

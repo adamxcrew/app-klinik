@@ -28,7 +28,7 @@ class Pendaftaran extends Model
         'no_hp_penanggung_jawab',
         'pemeriksaan_klinis',
         'metode_pembayaran',
-        'jumlah_bayar'
+        'total_bayar'
     ];
 
     public function pasien()
