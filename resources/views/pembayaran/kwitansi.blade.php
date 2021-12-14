@@ -17,7 +17,7 @@
         }
     </style>
 </head>
-<body style="padding:10px">
+<body style="margin: -60px -40px;width:100%;transform: scale(0.9);">
 
     <div>
         <table>
@@ -32,9 +32,9 @@
         </table>
     </div>
     <hr style="border: 1px dotted black">
-    <h4 class="text-center">BUKTI PEMBAYARAN</h4>
+    <h4 class="text-center" style="margin-top: -1px">BUKTI PEMBAYARAN</h4>
 
-    <div>
+    <div style="margin-top: -20px">
         <table border="0">
             <tr>
                 <td>RM / Nama Pasien</td>
@@ -55,7 +55,7 @@
 
     {{-- <hr style="width: 100%; border: 1px dotted black"> --}}
 
-    <div style="margin: 30px;margin-left:-40px">
+    <div style="margin: -10px;margin-left:-40px">
         <table style="transform:scale(.9);width: 100%;border-top: 1px dotted black">
             <thead class="dotted">
                 <tr>
@@ -163,9 +163,9 @@
         </table>
     </div>
 
-    <div class="mt-3">
+    <div style="margin-top: 15px">
         <div style="float: right">
-            <p style="margin-bottom:60px;padding-left:30px">Kasir</p>
+            <p style="margin-bottom:50px;padding-left:30px">Kasir</p>
             <p style="margin-bottom:-10px;margin-left:30px"><strong>{{ Auth::user()->name }}</strong></p>
             <p style="">Dokter Pemeriksa</p>
         </div>
