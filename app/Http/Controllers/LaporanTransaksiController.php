@@ -44,11 +44,12 @@ class LaporanTransaksiController extends Controller
                 ->make(true);
         }
 
+        $data['shift'] = config('datareferensi.kasir_shift');
         return view('laporan-transaksi.index', $data);
     }
 
     public function export(Request $request)
     {
-        return Excel::download(new LaporanTransaksiExport($request->tanggal, $request->shift_id), 'Laporan Transaksi ' . date('Y-m-d') . '.xlsx');
+        return Excel::download(new LaporanTransaksiExport($request->tanggal, $request->nama_shift), 'Laporan Transaksi ' . date('Y-m-d') . '.xlsx');
     }
 }

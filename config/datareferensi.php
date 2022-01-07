@@ -219,6 +219,12 @@ return [
         'Lainnya'
     ],
 
+    'kasir_shift'=>[
+        ['nama_shift'=>'shift 1','waktu_mulai'=>'01:00','waktu_selesai'=>'12:00'],
+        ['nama_shift'=>'shift 2','waktu_mulai'=>'13:00','waktu_selesai'=>'20:00'],
+        ['nama_shift'=>'shift 3','waktu_mulai'=>'01:00','waktu_selesai'=>'24:00']
+    ],
+
     'suku_bangsa' => [
         'Melayu',
         'Jawa',

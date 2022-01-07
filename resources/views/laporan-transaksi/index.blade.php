@@ -111,14 +111,16 @@
             <table class="table table-bordered">
               <tr>
                 <th>Tanggal Mulai</th>
-                <td><input type="date" name="tanggal" class="form-control"></td>
+                <td><input type="date" name="tanggal" class="form-control" required></td>
               </tr>
               <tr>
                 <th>Shift</th>
                 <td>
-                  <select name="shift_id" class="form-control">
-                    <option value="1">Shift 1</option>
-                    <option value="2">Shift 2</option>
+                  
+                  <select name="nama_shift" class="form-control">
+                    @foreach($shift as $shf)
+                      <option value="{{ $shf['nama_shift']}}">{{ $shf['nama_shift']}}</option>
+                    @endforeach
                   </select>
                 </td>
               </tr>

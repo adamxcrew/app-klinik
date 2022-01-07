@@ -8,30 +8,28 @@ use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
+use DB;
 
 class LaporanTransaksiExport implements FromView, ShouldAutoSize, WithEvents
 {
     public $tanggal;
-    public $shift_id;
+    public $nama_shift;
 
-    public function __construct($tanggal, $shift_id)
+    public function __construct($tanggal, $nama_shift)
     {
         $this->tanggal = $tanggal;
-        $this->shift_id = $shift_id;
+        $this->nama_shift = $nama_shift;
     }
 
     public function view(): View
     {
-        if ($this->shift_id == 1) {
-            $awal = $this->tanggal . " 00:00:00";
-            $akhir = $this->tanggal . " 12:00:00";
-        } else {
-            $awal = $this->tanggal . " 12:00:01";
-            $akhir = $this->tanggal . " 23:59:59";
-        }
 
-        $laporan_transaksi = Pendaftaran::with('pasien', 'perusahaanAsuransi')
-            ->whereBetween('created_at', [$awal, $akhir])
+        $shift = config('datareferensi.kasir_shift');
+        $selectedShift = $shift[array_search($this->nama_shift, array_column($shift, 'nama_shift'))];
+        $awal   = $this->tanggal . ' ' . $selectedShift['waktu_mulai'];
+        $akhir  = $this->tanggal . ' ' . $selectedShift['waktu_selesai'];
+        $laporan_transaksi = Pendaftaran::with('pasien', 'perusahaanAsuransi', 'userKasir')
+            ->whereBetween(\DB::raw('left(created_at,16)'), [$awal, $akhir])
             ->where('status_pembayaran', 1)
             ->get();
         $data['laporan_transaksi'] = $laporan_transaksi;
@@ -42,13 +40,20 @@ class LaporanTransaksiExport implements FromView, ShouldAutoSize, WithEvents
 
     public function registerEvents(): array
     {
-        $jmlData = Pendaftaran::count() + 1;
+        $shift = config('datareferensi.kasir_shift');
+        $selectedShift = $shift[array_search($this->nama_shift, array_column($shift, 'nama_shift'))];
+        $awal   = $this->tanggal . ' ' . $selectedShift['waktu_mulai'];
+        $akhir  = $this->tanggal . ' ' . $selectedShift['waktu_selesai'];
+        $jmlData = Pendaftaran::with('pasien', 'perusahaanAsuransi', 'userKasir')
+        ->whereBetween(\DB::raw('left(created_at,16)'), [$awal, $akhir])
+        ->where('status_pembayaran', 1)
+        ->count() + 2;
         return [
             AfterSheet::class    => function (AfterSheet $event) use ($jmlData) {
-                $cellRange = 'A1:H1'; // All headers
+                $cellRange = 'A1:I1'; // All headers
                 $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(10)->setBold(true);
 
-                $event->sheet->getStyle('A1:H' . $jmlData)->applyFromArray([
+                $event->sheet->getStyle('A1:I' . $jmlData)->applyFromArray([
                     'borders' => [
                         'allBorders' => [
                             'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,

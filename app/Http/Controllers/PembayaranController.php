@@ -7,6 +7,7 @@ use App\Http\Requests\PembayaranStoreRequest;
 use App\Models\PendaftaranResep;
 use App\Models\PendaftaranTindakan;
 use PDF;
+use Auth;
 
 class PembayaranController extends Controller
 {
@@ -20,7 +21,7 @@ class PembayaranController extends Controller
     public function store(PembayaranStoreRequest $request, $id)
     {
         $pendaftaran = Pendaftaran::findOrFail($id);
-        $pendaftaran->update(['status_pembayaran' => 1, 'metode_pembayaran' => $request->metode_pembayaran, 'total_bayar' => $request->jumlah_bayar]);
+        $pendaftaran->update(['user_id_kasir' => Auth::user()->id,'status_pembayaran' => 1, 'metode_pembayaran' => $request->metode_pembayaran, 'total_bayar' => $request->jumlah_bayar]);
         return redirect('pembayaran/' . $pendaftaran->id . '/kwitansi');
     }
 

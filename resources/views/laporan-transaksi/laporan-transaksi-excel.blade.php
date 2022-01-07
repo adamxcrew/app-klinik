@@ -9,6 +9,7 @@
             <th>Jenis Layanan</th>
             <th>Total Transaksi</th>
             <th>Jenis Pembayaran</th>
+            <th>Nama Kasir</th>
         </tr>
     </thead>
     <tbody>
@@ -27,22 +28,15 @@
             <td>{{ $laporan->perusahaanAsuransi->nama_perusahaan }}</td>
             <td>{{ convert_rupiah($laporan->total_bayar) }}</td>
             <td>{{ $laporan->metode_pembayaran }}</td>
+            <td>{{ $laporan->userkasir->name }}</td>
         </tr>
         @php 
             $total += $laporan->total_bayar;
         @endphp
         @endforeach
 
-        @for($i=0;$i<=$total_looping;$i++)
-            <tr></tr>
-        @endfor
         <tr>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
+            <th colspan="6"></th>
             <th>TOTAL</th>
             <th>{{ convert_rupiah($total) }}</th>
         </tr>

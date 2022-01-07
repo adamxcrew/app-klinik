@@ -28,7 +28,8 @@ class Pendaftaran extends Model
         'no_hp_penanggung_jawab',
         'pemeriksaan_klinis',
         'metode_pembayaran',
-        'total_bayar'
+        'total_bayar',
+        'user_id_kasir'
     ];
 
     public function pasien()
@@ -49,6 +50,11 @@ class Pendaftaran extends Model
     public function perusahaanAsuransi()
     {
         return $this->belongsTo('App\Models\PerusahaanAsuransi', 'jenis_layanan', 'id');
+    }
+
+    public function userKasir()
+    {
+        return $this->belongsTo('App\User', 'user_id_kasir', 'id');
     }
 
     public function getTandaTandaVitalAttribute($value)
