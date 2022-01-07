@@ -2,6 +2,10 @@
 
 Aplikasi untuk pengelolaan proses klinik
 
+
+## Laporan Perbaikan
+https://docs.google.com/document/d/1V2JUhCyfiAN7hUD0tN5OTxoWH2tK9MbfletuGsgzVbY/edit
+
 ## Cara Install
 1. git clone https://github.com/nurisakbar/app-klinik.git
 2. cd app-klinik
