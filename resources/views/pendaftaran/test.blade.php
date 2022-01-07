@@ -108,7 +108,7 @@
 
 
                   <hr style="border:1px dashed">
-                  <h4>Rujukan Laboratorium <button style="float: right" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-rujukan-laporatorium">
+                  <h4>Rujukan Internal <button style="float: right" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-rujukan-laporatorium">
                     Input Rujukan
                   </button></h4>
                   <hr>
@@ -116,7 +116,7 @@
                       <tr>
                           <th>No</th>
                           <th>Dokter Perujuk</th>
-                          <th>Nama Laporatorium</th>
+                          <th>Nama Unit</th>
                           <th>Jenis Pemeriksaan</th>
                           <th>Status</th>
                           <th width="30"></th>
@@ -266,12 +266,12 @@
 </div>
 
 
-  <!-- Rujukan Laboratorium -->
+  <!-- Rujukan Internal -->
   <div class="modal fade" id="modal-rujukan-laporatorium" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Rujukan Laporatorium</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Rujukan Internal</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -281,15 +281,9 @@
             <div class="col-md-12">
               <table class="table table-bordered table-bordered">
                 <tr>
-                  <td width="200">Pilih Laboratorium</td>
+                  <td width="200">Pilih Unit</td>
                   <td>
                     {{ Form::select('poliklinik_id',$poliklinik,null,['class'=>'form-control poliklinik_id'])}}
-                  </td>
-                </tr>
-                <tr>
-                  <td width="200">Pilih Jenis Pemeriksaan</td>
-                  <td>
-                    {{ Form::select('jenis_pemeriksaan_laboratorium_id',$jenisPemeriksaanLaboratorium,null,['class'=>'form-control jenis_pemeriksaan_laboratorium_id'])}}
                   </td>
                 </tr>
                 <tr>
@@ -298,6 +292,13 @@
                     {{ Form::select('user_id',$dokter,null,['class'=>'form-control user_id'])}}
                   </td>
                 </tr>
+                <tr>
+                  <td width="200">Jenis Pemeriksaan ( Opsional )</td>
+                  <td>
+                    {{ Form::select('jenis_pemeriksaan_laboratorium_id',$jenisPemeriksaanLaboratorium,null,['class'=>'form-control jenis_pemeriksaan_laboratorium_id'])}}
+                  </td>
+                </tr>
+
               </table>
             </div>
           </div>

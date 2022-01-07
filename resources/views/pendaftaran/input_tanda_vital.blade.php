@@ -19,70 +19,84 @@
             <div class="box">
               <div class="box-body">
                   @include('validation_error')
-                  <div class="form-group">
-                    <label class="col-sm-3 control-label">Berat Badan</label>
-                    <div class="col-sm-3">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group col-sm-11">
+                        <label>Berat Badan</label>
                         {!! Form::text('berat_badan', null, ['class'=>'form-control','Placeholder'=>'Berat Badan']) !!}
+                      </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">Tinggi Badan</label>
-                    <div class="col-sm-3">
+                    <div class="col-md-4">
+                      <div class="form-group col-sm-11">
+                        <label>Tinggi Badan</label>
                         {!! Form::text('tinggi_badan', null, ['class'=>'form-control','Placeholder'=>'Tekanan Darah']) !!}
+                      </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">Tekanan Darah</label>
-                    <div class="col-sm-3">
+                    <div class="col-md-4">
+                      <div class="form-group col-sm-11">
+                        <label>Tekanan Darah</label>
                         {!! Form::text('tekanan_darah', null, ['class'=>'form-control','Placeholder'=>'Tekanan Darah']) !!}
+                      </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">Suhu Tubuh</label>
-                    <div class="col-sm-3">
-                        {!! Form::text('suhu_tubuh', null, ['class'=>'form-control','Placeholder'=>'Suhu Tubuh']) !!}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">Nadi</label>
-                    <div class="col-sm-3">
-                        {!! Form::text('nadi', null, ['class'=>'form-control','Placeholder'=>'Nadi']) !!}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">RR</label>
-                    <div class="col-sm-3">
-                        {!! Form::text('rr', null, ['class'=>'form-control','Placeholder'=>'RR']) !!}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">Saturasi O2</label>
-                    <div class="col-sm-3">
-                        {!! Form::text('saturasi_o2', null, ['class'=>'form-control','Placeholder'=>'Saturasi O2']) !!}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">Fungsi Penciuman</label>
-                    <div class="col-sm-3">
-                        {!! Form::select('fungsi_penciuman',['Normal'=>'Normal','Tidak Normal'=>'Tidak Normal'], null, ['class'=>'form-control','Placeholder'=>'Fungsi Penciuman']) !!}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">Status Alergi</label>
-                    <div class="col-sm-1" style="width:10px;">
-                      <input type="checkbox" id = 'status_alergi' name="status_alergi">
-                    </div>
-                    <div class="col-sm-6">
-                        {!! Form::text('status_alergi_value', null, [ 'id' => 'status_alergi_value', 'class'=>'form-control','Placeholder'=>'Status Alergi','disabled']) !!}
-                    </div>
-                </div>
 
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">Jenis Kasus</label>
-                    <div class="col-sm-4">
-                        {!! Form::select('jenis_kasus',['baru'=>'Jenis Kasus Baru','lama'=>'Jenis Kasus Lama'], null, ['class'=>'form-control']) !!}
+
+                    <div class="col-md-4">
+                      <div class="form-group col-sm-11">
+                        <label>Suhu Tubuh</label>
+                        {!! Form::text('suhu_tubuh', null, ['class'=>'form-control','Placeholder'=>'Suhu Tubuh']) !!}
+                      </div>
                     </div>
-                </div>
+                    <div class="col-md-4">
+                      <div class="form-group col-sm-11">
+                        <label>Nadi</label>
+                        {!! Form::text('nadi', null, ['class'=>'form-control','Placeholder'=>'Nadi']) !!}
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group col-sm-11">
+                        <label>RR</label>
+                        {!! Form::text('rr', null, ['class'=>'form-control','Placeholder'=>'RR']) !!}
+                      </div>
+                    </div>
+
+
+
+                    <div class="col-md-4">
+                      <div class="form-group col-sm-11">
+                        <label>Saturasi O2</label>
+                        {!! Form::text('saturasi_o2', null, ['class'=>'form-control','Placeholder'=>'Saturasi O2']) !!}
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group col-sm-11">
+                        <label>Fungsi Penciuman</label>
+                        {!! Form::select('fungsi_penciuman',['Normal'=>'Normal','Tidak Normal'=>'Tidak Normal'], null, ['class'=>'form-control','Placeholder'=>'Fungsi Penciuman']) !!}
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group col-sm-11">
+                        <label>Status Alergi</label>
+                        <div class="row">
+                          <div class="col-sm-1" style="width:10px;">
+                            <input type="checkbox" id = 'status_alergi' name="status_alergi">
+                          </div>
+                          <div class="col-sm-10">
+                              {!! Form::text('status_alergi_value', null, [ 'id' => 'status_alergi_value', 'class'=>'form-control','Placeholder'=>'Status Alergi','disabled']) !!}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div class="col-md-4">
+                      <div class="form-group col-sm-11">
+                        <label>Jenis Kasus</label>
+                        {!! Form::select('jenis_kasus',['baru'=>'Jenis Kasus Baru','lama'=>'Jenis Kasus Lama'], null, ['class'=>'form-control']) !!}
+                      </div>
+                    </div>
+
+
+                  </div>
               </div>
             </div>
           </div>
@@ -102,11 +116,7 @@
                       </tr>
                       <tr>
                         <td>Tanggal Lahir</td>
-                        <td>{{ $pendaftaran->pasien->tanggal_lahir }}</td>
-                      </tr>
-                      <tr>
-                        <td>Umur</td>
-                        <td>{{ hitung_umur($pendaftaran->pasien->tanggal_lahir) }} tahun</td>
+                        <td>{{ $pendaftaran->pasien->tanggal_lahir }} / {{ hitung_umur($pendaftaran->pasien->tanggal_lahir) }} tahun</td>
                       </tr>
                     </table>
                 </div>

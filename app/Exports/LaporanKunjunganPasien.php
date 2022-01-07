@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\Poliklinik;
+use App\Models\Pendaftaran;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
@@ -10,8 +10,9 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\WithTitle;
+use DB;
 
-class KunjunganPasienPerPoliExport implements FromView, ShouldAutoSize, WithEvents, WithTitle
+class LaporanKunjunganPasien implements FromView, ShouldAutoSize, WithEvents, WithTitle
 {
     public $tanggal_awal;
     public $tanggal_akhir;
@@ -29,24 +30,30 @@ class KunjunganPasienPerPoliExport implements FromView, ShouldAutoSize, WithEven
      */
     public function view(): View
     {
-        $kunjungan = Poliklinik::KunjunganPasienPerPoli($this->tanggal_awal, $this->tanggal_akhir)->get();
-        return view('laporan.kunjungan-perpoli-excel', ['laporan' => $kunjungan]);
+        $pendaftaran = Pendaftaran::with('pasien', 'perusahaanAsuransi', 'poliklinik')
+            ->whereBetween(DB::raw('DATE(pendaftaran.created_at)'), [$this->tanggal_awal, $this->tanggal_akhir])
+            ->orderBy('created_at')
+            ->get();
+
+        return view('laporan.kunjungan-pasien-excel', ['laporan' => $pendaftaran]);
     }
 
     public function title(): string
     {
-        return 'Laporan Kunjungan Perpoli';
+        return 'Laporan Kunjungan Pasien';
     }
 
     public function registerEvents(): array
     {
-        $jmlData = Poliklinik::count() + 1;
+        $jmlData = Pendaftaran::with('pasien', 'perusahaanAsuransi', 'poliklinik')
+        ->whereBetween(DB::raw('DATE(pendaftaran.created_at)'), [$this->tanggal_awal, $this->tanggal_akhir])
+        ->count() + 1;
         return [
             AfterSheet::class    => function (AfterSheet $event) use ($jmlData) {
                 $cellRange = 'A1:G1'; // All headers
                 $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(10)->setBold(true);
 
-                $event->sheet->getStyle('A1:C' . $jmlData)->applyFromArray([
+                $event->sheet->getStyle('A1:E' . $jmlData)->applyFromArray([
                     'borders' => [
                         'allBorders' => [
                             'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,

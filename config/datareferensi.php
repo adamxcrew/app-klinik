@@ -91,7 +91,8 @@ return [
         'pendaftaran' => 'Pendaftaran',
         'pemeriksaan_laboratorium' => 'Rujukan Pemeriksaan Laboratorium',
         'selesai_pemeriksaan_medis' => 'Selesai Pemeriksaan Medis',
-        'selesai_pelayanan' => 'Selesai Pelayanan'
+        'selesai_pelayanan' => 'Selesai Pelayanan',
+        'sedang_dirujuk'     => 'Sedang Dirujuk'
     ],
 
 

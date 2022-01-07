@@ -22,6 +22,7 @@
             <th>Shift Kerja</th>
             <th>Jam Masuk</th>
             <th>Jam Pulang</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -38,6 +39,11 @@
             </td>
             <td>
                 {{ $shift->shift->jam_pulang }}
+            </td>
+            <td>
+                {{ Form::open(['url'=>'pegawai-shift/'.$shift->id,'method' => 'DELETE'])}}
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                {{ Form::close() }}
             </td>
         </tr>
         @endforeach

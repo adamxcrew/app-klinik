@@ -20,6 +20,7 @@
           <div class="box-body text-center">
             <img src="https://img.freepik.com/free-vector/man-shows-gesture-great-idea_10045-637.jpg?size=338&ext=jpg" width="230">
             <h4>{{ $pegawai->nama }}</h4>
+            <a href="/pegawai" class="btn btn-primary">Kembali</a>
           </div>
         </div>
       </div>
@@ -61,8 +62,8 @@
         @include('tunjangan-gaji-pegawai.form')
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
       </div>
       {!! Form::close() !!}
     </div>

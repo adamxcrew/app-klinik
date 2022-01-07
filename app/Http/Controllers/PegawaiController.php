@@ -146,4 +146,11 @@ class PegawaiController extends Controller
         }
         return redirect('pegawai/' . $request->pegawai_id . '?tab=jadwal_kerja');
     }
+
+    public function deletePegawaiShift($id)
+    {
+        $pegawaiShift = PegawaiShift::findOrFail($id);
+        $pegawaiShift->delete();
+        return redirect('pegawai/' . $pegawaiShift->pegawai_id . '?tab=jadwal_kerja')->with('message', 'Data Berhasil Dihapus');
+    }
 }

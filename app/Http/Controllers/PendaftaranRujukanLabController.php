@@ -14,9 +14,10 @@ class PendaftaranRujukanLabController extends Controller
         $pendaftaran                = Pendaftaran::find($request->pendaftaran_id);
         $request['users_id']        = $request->user_id;
         $request['pasien_id']       = $pendaftaran->pasien_id;
+        $request['pendaftaran_id']  = $pendaftaran->id;
         $request['tindakan_id']     = $request->jenis_pemeriksaan_laboratorium_id;
         RujukanInternal::create($request->all());
-        $pendaftaran->status_pelayanan = "pemeriksaan_laboratorium";
+        //$pendaftaran->status_pelayanan = "sedang_dirujuk";
         $pendaftaran->save();
     }
 

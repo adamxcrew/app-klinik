@@ -200,6 +200,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pegawai/atur-jadwal', 'PegawaiController@aturJadwal');
     Route::post('pegawai/atur-jadwal', 'PegawaiController@aturJadwalStore')->name('pegawai.atur-jadwal.store');
     Route::resource('pegawai', 'PegawaiController');
+    Route::delete('pegawai-shift/{id}', 'PegawaiController@deletePegawaiShift');
 
     /**
      * Jadwal Praktek Dokter

@@ -211,7 +211,7 @@ class GajiController extends Controller
         $data['gaji'] = Gaji::with('pegawai')->findOrFail($id);
 
         if ($request->ajax()) {
-            return DataTables::of(GajiDetail::where('pegawai_id', $data['gaji']->pegawai->id)->where('gaji_id', $data['gaji']->$id)->with(['komponen_gaji', 'gaji'])->get())
+            return DataTables::of(GajiDetail::where('pegawai_id', $data['gaji']->pegawai_id)->where('gaji_id', $id)->with(['komponen_gaji', 'gaji'])->get())
                 ->addColumn('action', function ($row) {
                     $btn = "";
                     if (auth()->user()->role != 'pimpinan') {

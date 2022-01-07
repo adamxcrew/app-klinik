@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Poliklinik;
-use App\Exports\KunjunganPasienPerPoliExport;
+use App\Exports\LaporanKunjungan;
 use Maatwebsite\Excel\Facades\Excel;
 
 class LaporanController extends Controller
@@ -17,7 +17,7 @@ class LaporanController extends Controller
         if ($request->has('type')) {
             if ($request->type == 'excel') {
                 $nama_file = 'laporan-kunjungan-pasien-perpoli-periode-' . $data['tanggal_awal'] . '-sampai-' . $data['tanggal_akhir'] . '.xlsx';
-                return Excel::download(new KunjunganPasienPerPoliExport($data['tanggal_awal'], $data['tanggal_akhir']), $nama_file);
+                return Excel::download(new LaporanKunjungan($data['tanggal_awal'], $data['tanggal_akhir']), $nama_file);
             }
         }
         return view('laporan.kunjungan-perpoli', $data);
