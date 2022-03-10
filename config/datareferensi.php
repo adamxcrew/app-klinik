@@ -102,11 +102,12 @@ return [
         'dokter'        =>  'Dokter',
         'kasir'         =>  'Kasir',
         'keuangan'      =>  'Keuangan',
+        'akutansi'      => 'Akutansi',
         'hrd'           =>  'HRD',
         'poliklinik'      =>  'Poliklinik',
         'bagian_pendaftaran' => 'Bagian Pendaftaran',
         'admin_medis'   =>  'Admin Medis',
-        'laboratorium'   =>  'Laboratorium',
+        // 'laboratorium'   =>  'Laboratorium',
         'bagian_gudang' => 'Bagian Gudang'
     ],
 

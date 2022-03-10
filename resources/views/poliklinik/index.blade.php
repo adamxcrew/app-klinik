@@ -4,8 +4,8 @@
 <div class="content-wrapper">
     <section class="content-header">
       <h1>
-        Kelola Data Poliklinik
-        <small>Daftar Poliklinik</small>
+        Kelola Data Poliklinik / Unit
+        <small>Daftar Poliklinik/ Unit</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -29,9 +29,10 @@
                       <tr>
                         <th width="10">Nomor</th>
                         <th>Kode</th>
-                        <th>Nama Poliklinik</th>
+                        <th>Nama Poliklinik / Unit</th>
                         <th>Keterangan</th>
                         <th>Status</th>
+                        <th>Jenis Unit</th>
                         <th width="60">#</th>
                       </tr>
                   </thead>
@@ -60,6 +61,7 @@
                 { data: 'nama', name: 'nama' },
                 { data: 'keterangan', name: 'keterangan' },
                 { data: 'aktif', name: 'aktif' },
+                { data: 'jenis_unit', name: 'jenis_unit' },
                 { data: 'action', name: 'action' }
             ]
         });

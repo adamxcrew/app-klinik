@@ -29,12 +29,6 @@
       <?php
       $administrator = [
         ['icon' => 'fa fa-user', 'link' => '/home', 'label' => 'Dashboard'],
-        // ['icon' => 'fa fa-address-card', 'link' => '/pendaftaran', 'label' => 'Data Pasien Antri'],
-        // ['icon' => 'fa fa-bars', 'link' => '/home', 'label' => 'Pendaftaran Pasien', 'submenu' => [
-        //   ['icon' => 'fa fa-plus-square', 'link' => '/pasien/create', 'label' => 'Pasien Baru'],
-        //   ['icon' => 'fa fa-plus-square-o', 'link' => '/pendaftaran/create', 'label' => 'Pasien Lama'],
-        //   ['icon' => 'fa fa-list-ul', 'link' => '/pasien', 'label' => 'Database Pasien'],
-        // ]],
         ['icon' => 'fa fa-bars', 'link' => '/home', 'label' => 'Data Master', 'submenu' => [
           ['icon' => 'fa fa-clone', 'link' => '/satuan', 'label' => 'Data Satuan'],
           ['icon' => 'fa fa-hospital-o', 'link' => '/poliklinik', 'label' => 'Data Poliklinik'],
@@ -84,7 +78,7 @@
         ['icon' => 'fa fa-list-alt', 'link' => '/kelompok-pegawai', 'label' => 'Kelompok Pegawai'],
       ];
 
-      $keuangan = [
+      $akutansi = [
         ['icon' => 'fa fa-user', 'link' => '/home', 'label' => 'Dashboard'],
         ['icon' => 'fa fa-user', 'link' => '/akun', 'label' => 'Akun'],
         ['icon' => 'fa fa-user', 'link' => '/jurnal', 'label' => 'Jurnal Umum'],
@@ -94,6 +88,11 @@
         ['icon' => 'fa fa-paste', 'link' => '/laporan-fee-tindakan', 'label' => 'Laporan Fee Tindakan'],
         ['icon' => 'fa fa-user', 'link' => '/laporan-tagihan', 'label' => 'Laporan Tagihan Perusahaan'],
         ['icon' => 'fa fa-paste', 'link' => '/laporan-tindakan', 'label' => 'Laporan Tindakan'],
+      ];
+
+      $keuangan = [
+        ['icon' => 'fa fa-user', 'link' => '/home', 'label' => 'Dashboard'],
+        ['icon' => 'fa fa-user', 'link' => '/jurnal', 'label' => 'Jurnal Umum']
       ];
 
       $bagian_gudang = [
@@ -140,6 +139,7 @@
         'dokter'          => [],
         'kasir'           => $kasir,
         'keuangan'        => $keuangan,
+        'akutansi'        => $akutansi,
         'hrd'             => $hrd,
         'bagian_gudang'   => $bagian_gudang,
         'admin_medis'     => $admin_medis,

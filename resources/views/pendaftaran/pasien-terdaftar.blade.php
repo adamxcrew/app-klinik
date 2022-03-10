@@ -100,6 +100,12 @@
                                 {{ Form::select('poliklinik_id', $poliklinik, null,['class'=>'form-control poliklinik']) }}
                             </div>
                         </div>
+                        <div class="col-md-4 tindakan_lab">
+                            <div class="form-group">
+                                <label for="exampleFormControlInput1">Tindakan Lab</label>
+                                {{ Form::select('tindakan_id', $tidakanLab, null,['class'=>'form-control']) }}
+                            </div>
+                        </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="exampleFormControlInput1">Dokter</label>
@@ -120,6 +126,8 @@
                                 {{ Form::select('jenis_layanan', $perusahaan_asuransi , null,['class'=>'form-control']) }}
                             </div>
                         </div>
+
+
                         
                         <div>
                             <button type="submit" class="btn btn-primary btn-sm" style="width: 100%">DAFTARKAN PASIEN</button>
@@ -255,6 +263,14 @@
                     $("#dokter").html(response);
                     dokterPegganti();
             }});
+            
+            // tampilkan tindakan jika yang dipilih adalah lab
+            if(poliklinik==4)
+            {
+                $(".tindakan_lab").show();
+            }else{
+                $(".tindakan_lab").hide();
+            }
         });
         
     

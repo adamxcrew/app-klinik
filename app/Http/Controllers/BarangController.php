@@ -10,6 +10,7 @@ use App\Models\Kategori;
 use App\Http\Requests\BarangStoreRequest;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\BarangExport;
+use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 
 class BarangController extends Controller
 {
@@ -51,9 +52,9 @@ class BarangController extends Controller
                     return convert_rupiah($row->harga + ($row->harga * 0.1));
                 })
                 ->addColumn('harga_jual', function ($row) {
-                    $harga_ppn = $row->harga + ($row->harga * 0.1); /// harga + ppn 10%
-                    $harga_ppn_margin = $harga_ppn; // harga ppn * margin
-                    return convert_rupiah($harga_ppn_margin);
+                    // $harga_ppn = $row->harga + ($row->harga * 0.1); /// harga + ppn 10%
+                    // $harga_ppn_margin = $harga_ppn; // harga ppn * margin
+                    return convert_rupiah($row->harga_jual);
                 })
                 ->rawColumns(['action', 'code'])
                 ->addIndexColumn()
@@ -143,5 +144,59 @@ class BarangController extends Controller
     public function export_excel()
     {
         return Excel::download(new BarangExport(), 'Barang.xlsx');
+    }
+
+    public function import_excel(Request $request)
+    {
+        $file = $request->file('file');
+        $nama_file = $file->getClientOriginalName();
+        $destinationPath = 'uploads';
+        $file->move($destinationPath, $nama_file);
+
+        $filePath = $destinationPath . '/' . $nama_file;
+        $reader = ReaderEntityFactory::createXLSXReader();
+        $reader->open($filePath);
+
+        foreach ($reader->getSheetIterator() as $sheet) {
+            $nomor = 1;
+            $data = [];
+            foreach ($sheet->getRowIterator() as $row) {
+                if ($nomor > 1) {
+                    $cells                      = $row->getCells();
+                    // dd($cells);
+                    $jenis_barang               = $cells[1]->getValue();
+                    $kode_barang                = $cells[2]->getValue();
+                    $nama_barang                = $cells[3]->getValue();
+                    $jumlah_satuan_terbesar     = $cells[4]->getValue();
+                    $satuan_terbesar            = Satuan::firstOrCreate(['satuan' => $cells[5]->getValue()], ['satuan' => $cells[5]->getValue()]);
+                    $jumlah_satuan_terkecil     = $cells[6]->getValue();
+                    $satuan_terkecil            = Satuan::firstOrCreate(['satuan' => $cells[7]->getValue()], ['satuan' => $cells[7]->getValue()]);
+                    $jenis                      = Kategori::firstOrCreate(['nama_kategori' => $cells[8]->getValue()], ['nama_kategori' => $cells[8]->getValue(),'jenis' => $jenis_barang]);
+                    $harga                      = (int) $cells[9]->getValue();
+                    $margin                     = (int) $cells[10]->getValue();
+                    $untuk_penjamin             = $cells[11]->getValue();
+
+                    $data[] = [
+                        'kode'                      =>  $kode_barang,
+                        'nama_barang'               =>  $nama_barang,
+                        'keterangan'                =>  null,
+                        'harga'                     =>  $harga,
+                        'kategori_id'               =>  $jenis->id,
+                        'satuan_terbesar_id'        =>  $satuan_terbesar->id,
+                        'jumlah_satuan_terbesar'    =>  $jumlah_satuan_terbesar,
+                        'pelayanan'                 =>  $untuk_penjamin,
+                        'satuan_terkecil_id'        =>  $satuan_terkecil->id,
+                        'jumlah_satuan_terkecil'    =>  $jumlah_satuan_terkecil,
+                        'margin'                    =>  $margin,
+                        'pbf_id'                    =>  0,
+                        'aktif'                     =>  1
+                    ];
+                }
+                Barang::insert($data);
+                $nomor++;
+            }
+        }
+
+        return redirect('barang')->with('message', 'Import Berhasil');
     }
 }

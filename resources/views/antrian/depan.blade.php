@@ -12,7 +12,7 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="#">KLINIK NURDIN WAHID</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -41,35 +41,72 @@
             </li>
           </ul>
           <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+           Tanggal : {{ date('d m Y') }}
           </form>
         </div>
       </nav>
-    <div class="container">
+      
+    <div class="container-fluid" style="margin-top:30px;">
         <div class="row">
-            <div class="col-md-12">
-                <video width="80%" controls autoplay>
+            <div class="col-md-6">
+                <video width="95%" controls autoplay>
                     <source src="{{asset('antrian/video.mp4')}}" type="video/mp4">
                   Your browser does not support the video tag.
                   </video> 
             </div>
-        </div>
-        <hr>
-        <div class="row">
-            <div class="card-deck">
-            @foreach($poliklinik as $poli)
-            <div class="col-md-4">
-                <div class="card text-center" style="width: 18rem;">
-                    <div class="card-body">
-                      <h4 class="card-title">ANTRIAN</h4>
-                      <h1 class="text-center">001</h1>
-                      <h4> KE {{strtoupper($poli->nama) }}</h4>
-                    </div>
+            <div class="col-md-6 text-center">
+              <div class="row mx-n5">
+                <div class="col px-5">
+                  <div class="p-3 border bg-light">
+                    <h6>ANTRIAN</h6>
+                    <h2 class="text-center">001</h2>
+                    <h6> KE POLI UMUM</h6>
                   </div>
+                </div>
+                <div class="col px-5">
+                  <div class="p-3 border bg-light">
+                    <h6>ANTRIAN</h6>
+                    <h2 class="text-center">001</h2>
+                    <h6> KE POLI UMUM</h6>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mx-n5" Style="margin-top:10px;">
+                <div class="col px-5">
+                  <div class="p-3 border bg-light">
+                    <h6>ANTRIAN</h6>
+                    <h2 class="text-center">001</h2>
+                    <h6> KE POLI UMUM</h6>
+                  </div>
+                </div>
+                <div class="col px-5">
+                  <div class="p-3 border bg-light">
+                    <h6>ANTRIAN</h6>
+                    <h2 class="text-center">001</h2>
+                    <h6> KE POLI UMUM</h6>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mx-n5" Style="margin-top:10px;">
+                <div class="col px-5">
+                  <div class="p-3 border bg-light">
+                    <h6>ANTRIAN</h6>
+                    <h2 class="text-center">001</h2>
+                    <h6> KE POLI UMUM</h6>
+                  </div>
+                </div>
+                <div class="col px-5">
+                  <div class="p-3 border bg-light">
+                    <h6>ANTRIAN</h6>
+                    <h2 class="text-center">001</h2>
+                    <h6> KE POLI UMUM</h6>
+                  </div>
+                </div>
+              </div>
             </div>
-            @endforeach
-            </div>
+        </div>
         </div>
     </div>
 

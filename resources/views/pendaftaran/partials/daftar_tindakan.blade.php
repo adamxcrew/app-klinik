@@ -3,7 +3,7 @@
         <th width="10">No</th>
         <th width="90">Kode ICD 9</th>
         <th>Nama Tindakan</th>
-        <th width="50">Fee</th>
+        <th width="50">Biaya</th>
         <th width="30"></th>
     </tr>
     @if($pendaftaranTindakan->count() < 1)

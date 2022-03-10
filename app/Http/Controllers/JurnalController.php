@@ -53,6 +53,7 @@ class JurnalController extends Controller
      */
     public function store(JurnalStoreRequest $request)
     {
+        $request['user_id'] = \Auth::user()->id;
         Jurnal::create($request->all());
         return redirect(route('jurnal.index'));
     }

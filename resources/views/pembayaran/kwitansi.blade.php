@@ -56,17 +56,17 @@
     {{-- <hr style="width: 100%; border: 1px dotted black"> --}}
 
     <div style="margin: -10px;margin-left:-40px">
-        <table style="transform:scale(.9);width: 100%;border-top: 1px dotted black">
+        <table style="transform:scale(.9);width: 100%;border-top: 1px dotted black;text-align:left">
             <thead class="dotted">
                 <tr>
                     <th>NO</th>
-                    <th>KETERANGAN</th>
+                    <th width="380">KETERANGAN</th>
                     <th>QTY</th>
-                    <th width="70">TARIF OBAT</th>
-                    <th width="70">TARIF TINDAKAN</th>
-                    <th>DISC</th>
-                    <th>TAGIHAN PENJAMIN</th>
-                    <th>TAGIHAN PASIEN</th>
+                    <th width="110">TARIF OBAT</th>
+                    <th width="110">TARIF TINDAKAN</th>
+                    {{-- <th>DISC</th> --}}
+                    {{-- <th>TAGIHAN PENJAMIN</th>
+                    <th>TAGIHAN PASIEN</th> --}}
                 </tr>
             </thead>
 
@@ -78,21 +78,21 @@
             @endphp
 
             {{-- Data tagihan tindakan --}}
-            <tr>
+            {{-- <tr>
                 <th></th>
                 <th>TINDAKAN</th>
-            </tr>
+            </tr> --}}
             @foreach($tindakans as $tindakan)
-            <tbody class="dotted" style="text-align:center">
+            <tbody class="dotted" style="text-align:left">
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $tindakan->tindakan->tindakan }} - {{ $tindakan->pendaftaran->dokter->name }}</td>
                     <td>-</td>
                     <td>-</td>
                     <td>{{ convert_rupiah($tindakan->fee) }}</td>
-                    <td>-</td>
+                    {{-- <td>-</td>
                     <td>{{ ($penjamin == 'UMUM') ? '-' : (($penjamin == 'BPJS') ? convert_rupiah($tindakan->fee) : convert_rupiah($tindakan->fee)) }}</td>
-                    <td>{{ $penjamin == 'UMUM' ? convert_rupiah($tindakan->fee) : '-' }}</td>
+                    <td>{{ $penjamin == 'UMUM' ? convert_rupiah($tindakan->fee) : '-' }}</td> --}}
                 </tr>
                 @php
                     $totalTindakan += $tindakan->fee;
@@ -101,21 +101,21 @@
             @endforeach
 
             {{-- Data tagihan obat --}}
-            <tr>
+            {{-- <tr>
                 <th></th>
                 <th>OBAT</th>
-            </tr>
+            </tr> --}}
             @foreach($obats as $obat)
-            <tbody class="dotted" style="text-align:center">
+            <tbody class="dotted" style="text-align:left">
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $obat->barang->nama_barang }}</td>
                     <td>{{ $obat->jumlah }}</td>
                     <td>{{ convert_rupiah($obat->harga) }}</td>
                     <td>-</td>
-                    <td>-</td>
+                    {{-- <td>-</td>
                     <td>{{ $penjamin != 'UMUM' ? convert_rupiah($obat->harga) : '-' }}</td>
-                    <td>{{ $penjamin == 'UMUM' ? convert_rupiah($obat->jumlah * $obat->harga) : '-' }}</td>
+                    <td>{{ $penjamin == 'UMUM' ? convert_rupiah($obat->jumlah * $obat->harga) : '-' }}</td> --}}
                 </tr>
                 @php
                     $totalObat += $obat->jumlah * $obat->harga
@@ -128,30 +128,27 @@
              $total = $totalTindakan + $totalObat   
             @endphp
             
-            <tbody class="dotted" style="text-align: center">
+            <tbody class="dotted" style="text-align: left">
                 <tr>
                     <td></td>
                     <td>TOTAL</td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td></td>
+                    
+            
                     <td width="60">{{ $penjamin != 'UMUM' ? convert_rupiah($total) : '-' }}</td>
                     <td width="60">{{ $penjamin == 'UMUM' ? convert_rupiah($total) : '-' }}</td>
                 </tr>
             </tbody>
-            <tbody class="dotted" style="text-align: center">
+            {{-- <tbody class="dotted" style="text-align: left">
                 <tr>
                     <td></td>
                     <td width="300px">TOTAL YANG HARUS DIBAYAR PASIEN</td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
                     <td>{{ $penjamin == 'UMUM' ? convert_rupiah($total) : '-' }}</td>
                 </tr>
-            </tbody>
+            </tbody> --}}
             <tbody class="dotted">
                 <tr>
                     <td></td>

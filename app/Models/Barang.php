@@ -49,6 +49,8 @@ class Barang extends Model
 
     public function getHargaJualAttribute()
     {
-        return 1000;
+        $harga_ppn = $this->harga + ($this->harga * 0.1); /// harga + ppn 10%
+        $harga_ppn_margin = $harga_ppn * ($this->margin / 100); // harga ppn * margin
+        return $harga_ppn_margin;
     }
 }

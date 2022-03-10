@@ -1,19 +1,17 @@
-@php
-    $jenisPemeriksaan = $pendaftaran->pasien->rujukan[0]->tindakan;
-@endphp
+
 @extends('layouts.topnavlayout')
-@section('title','Jenis Pemeriksaan Lab '.$jenisPemeriksaan->nama_jenis)
+@section('title','Jenis Pemeriksaan Lab ')
 @section('content')
 <div class="content-wrapper">
     <section class="content-header">
         <h1>
-            Input indikator pemeriksaan laboratorium
-            <small>Input indikator pemeriksaan {{$jenisPemeriksaan->nama_jenis}} </small>
+            Input Hasil pemeriksaan laboratorium
+            {{-- <small>Input indikator pemeriksaan</small> --}}
         </h1>
         <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
             <li><a href="/pendaftaran">Pendaftaran </a></li>
-            <li class="active">Input indikator pemeriksaan {{$jenisPemeriksaan->nama_jenis}}</li>
+            <li class="active">Input indikator pemeriksaan</li>
         </ol>
     </section>
     @include('pendaftaran._informasi_umum')
@@ -31,15 +29,13 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Rujukan pemeriksaan</label>
-                                    {{ Form::text('nama_jenis',$jenisPemeriksaan->nama_jenis,['class' => 'form-control', 'required', 'disabled']) }}
+                                    {{ Form::text('nama_jenis',$pendaftaran->tindakan->tindakan,['class' => 'form-control', 'required', 'disabled']) }}
                                 </div>
                                 <div class="form-group pull-right">
                                     <a href="/pendaftaran" class="btn btn-primary">
                                         <i class="fa fa-back"></i> kembali
                                     </a>
-                                    <a href="/pendaftaran/{{$pendaftaran->id}}/input-indikator/print" class="btn btn-primary">
-                                        <i class="fa fa-print"></i> Cetak PDF
-                                    </a>
+                                    
                                     
                                 </div>
                             </div>
@@ -51,81 +47,54 @@
             <div class="col-md-8">
                 <div class="box">
                     <div class="box-header text-center" style="border-bottom: 1px solid;padding-top: 0;">
-                        <h3>Indikator Pemeriksaan Laboratorium ({{$jenisPemeriksaan->nama_jenis}})</h3>
+                        <h3>Indikator Pemeriksaan Laboratorium</h3>
                     </div>
                     <div class="box-body">
-
-                        
-{{-- 
+                        {{ Form::open(['url'=>'simpan-hasil-pemeriksaan-lab/'.$pendaftaran->id]) }}
                         <table class="table table-bordered">
                             <tr>
+                                <th>Nomor</th>
                                 <th>Indikator</th>
                                 <th>Nilai Rujukan</th>
                                 <th>Satuan</th>
                                 <th width="100">Hasil</th>
+                                <th>Catatan ( Opsional )</th>
                             </tr>
-                            @foreach($jenisPemeriksaan->indikator as $row)
+                            @foreach($indikatorPemeriksaan as $row)
                             <tr>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $row->nama_indikator }}</td>
                                 <td>{{ $row->nilai_rujukan }}</td>
                                 <td>{{ $row->satuan }}</td>
                                 <td>
-                                    {{ Form::text('hasil', null, ['class' => 'form-control hasil detail-section', 'placeholder' => 'Nilai Hasil', 'required']) }}
+                                    <input type="hidden" name="indikator_id[]" value="{{ $row->id }}">
+                                    <?php
+                                    $hasil = \DB::table('pendaftaran_hasil_pemeriksaan_lab')
+                                    ->where('pendaftaran_id',$pendaftaran->id)
+                                    ->where('indikator_pemeriksaan_lab_id',$row->id)
+                                    ->first();
+                                    ?>
+                                    {{ Form::text('hasil[]', $hasil->hasil??null, ['class' => 'form-control hasil detail-section', 'placeholder' => 'Nilai Hasil', 'required']) }}
+                                </td>
+                                <td>
+                                    {{ Form::text('catatan[]', $hasil->catatan??null, ['class' => 'form-control hasil detail-section', 'placeholder' => 'Catatan']) }}
                                 </td>
                             </tr>
                             @endforeach
                             <tr>
-                                <td colspan="3"></td>
-                                <td>
-                                    <button type="button" class="btn btn-sm btn-success">Simpan Hasil</button>
+                                <td colspan="5"></td>
+                                <td class="text-left">
+                                    <button type="submit" class="btn btn-success">Simpan Hasil</button>
+                                    @if($hasilPemeriksaan)
+                                    <a href="/pendaftaran/{{$pendaftaran->id}}/input-indikator/print" target="new" class="btn btn-primary">
+                                        <i class="fa fa-print"></i> Cetak PDF
+                                    </a>
+                                    @endif
                                 </td>
                             </tr>
                         </table>
-                        
-                        <hr>
-
-
-                        <h3 class="text-center">Hasil Pemeriksaan</h3>
-                        <hr> --}}
-                        <div class="row" style="padding-bottom: 20px">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Indikator</label>
-                                    <select name="indikator_pemeriksaan_lab_id" id="indikator_pemeriksaan_lab_id" class="form-control select2">
-                                        @foreach($jenisPemeriksaan->indikator as $row)
-                                            <option data-nilai="{{$row->nilai_rujukan}}" value="{{$row->id}}">{{$row->nama_indikator}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Nilai Normal</label>
-                                    <input type="text" class="form-control" name="nilai_rujukan" id="nilai_rujukan" placeholder="Nilai"
-                                    <textarea class="form-control" disabled name="nilai_rujukan" id="nilai_rujukan" cols="30" rows="1"></textarea>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Hasil</label>
-                                    {{ Form::text('hasil', null, ['class' => 'form-control hasil detail-section', 'placeholder' => 'Nilai Hasil', 'required']) }}
-                                </div>
-                            </div>
-                            <div class="col-md-1">
-                                <div class="form-group">
-                                    <button id="tambah_indikator_detail" type="button" onClick="tambah_indikator()"
-                                        class="btn btn-primary detail-section" style="margin-top: 25px;">
-                                        <i class="fa fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="table-responsive" id="table-detail-section">
-                            <!-- Ajax content on view jenis-pemeriksaan-lab.ajax-indikator-table -->
-                        </div>
-                    </div>
+                        {{ Form::close() }}
+      </div>
                 </div>
             </div>
         </div>

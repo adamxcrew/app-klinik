@@ -16,7 +16,7 @@
 
   <section class="content">
     <div class="row">
-      <div class="col-xs-12">
+      <div class="col-xs-6">
         <div class="box">
 
           <div class="box-body">
@@ -34,21 +34,6 @@
                     <td>Nama Pasien</td>
                     <td>:</td>
                     <th>{{ $userInfo->pasien->nama }}</th>
-                </tr>
-                <tr>
-                    <td>Alamat</td>
-                    <td>:</td>
-                    <th>{{ $userInfo->pasien->alamat }}</th>
-                </tr>
-                <tr>
-                    <td>Jenis Kelamin</td>
-                    <td>:</td>
-                    <th>{{ ucfirst($userInfo->pasien->jenis_kelamin) }}</th>
-                </tr>
-                <tr>
-                    <td>Nomor HP</td>
-                    <td>:</td>
-                    <th>{{ $userInfo->pasien->nomor_hp }}</th>
                 </tr>
                 <tr>
                     <td>Penjamin</td>
@@ -74,10 +59,11 @@
                 <h2 class="text-center"><strong>Detail Pembayaran</strong></h2>
                 <table class="table table-bordered">
                   <tr style="background-color :#222d32 ;color:#ffffff;">
-                    <th>No</th>
+                    <th width="10">No</th>
                     <th>Detail Layanan</th>
                     <th>Jumlah</th>
                     <th>Fee</th>
+                    <th width="10"></th>
                   </tr>
                   @php $jumlah = 0; $nomor = 1 @endphp
                   @foreach($userInfo->feeTindakan as $row)
@@ -86,6 +72,9 @@
                       <td>{{$row->tindakan->tindakan}}</td>
                       <td>1</td>
                       <td style="text-align:right">{{convert_rupiah($row->fee)}}</td>
+                      <td>
+                        <button type="button" class="btn btn-danger btn-sm"><i class='fa fa-trash' aria-hidden='true'></i></button>
+                      </td>
                     </tr>
                     @php $jumlah += $row->fee ; $nomor++ @endphp
                   @endforeach
@@ -101,25 +90,31 @@
                         }
                       @endphp
                       <td style="text-align:right">{{ convert_rupiah($harga)}}</td>
+                      <td>
+                        <button type="button" class="btn btn-danger btn-sm"><i class='fa fa-trash' aria-hidden='true'></i></button>
+                      </td>
                     </tr>
                     @php $jumlah += $harga ; $nomor++ @endphp
                   @endforeach
                   <tr style="text-align:right">
                     <td colspan=3>Total Pembayaran</td>
-                    <td>{{convert_rupiah($jumlah)}}</td>
+                    <td colspan="2">{{convert_rupiah($jumlah)}}</td>
                   </tr>
                 </table>
             </div>
         </div>
+
+      </div>
+      <div class="col-xs-6">
         <div class="box">
-            <div class="box-body">
-                <h2 class="text-center"><strong>Pembayaran</strong></h2>
-                {!! Form::open(['url'=>"pembayaran/$userInfo->id/store",'class'=>'form-horizontal']) !!}
-                @include('validation_error')
-                @include('pembayaran.form')
-                {!! Form::close() !!}
-            </div>
-        </div>
+          <div class="box-body">
+              <h2 class="text-center"><strong>Pembayaran</strong></h2>
+              {!! Form::open(['url'=>"pembayaran/$userInfo->id/store",'class'=>'form-horizontal']) !!}
+              @include('validation_error')
+              @include('pembayaran.form')
+              {!! Form::close() !!}
+          </div>
+      </div>
       </div>
     </div>
   </section>

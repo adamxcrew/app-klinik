@@ -288,4 +288,12 @@ class AjaxController extends Controller
 
         return response()->json($data);
     }
+
+    public function nomorAntrialCall(Request $request)
+    {
+        $antrian = \App\Models\NomorAntrian::where('sudah_dipanggil', 0)->where('poliklinik_id', $request->poliklinik_id)->first();
+        $antrian->sudah_dipanggil = 1;
+        $antrian->save();
+        return $antrian;
+    }
 }

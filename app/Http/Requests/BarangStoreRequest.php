@@ -24,7 +24,6 @@ class BarangStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'kode'                  =>  'required',
             'nama_barang'           =>  'required',
             'harga'                 =>  'required|integer',
             'satuan_terbesar_id'    =>  'required',

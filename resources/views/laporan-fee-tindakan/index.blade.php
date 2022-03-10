@@ -19,7 +19,10 @@
           <div class="col-xs-12">
             <div class="box">
               <div class="col-md-12" style="margin: 1% 0">
-                <a href="/laporan-fee-tindakan/export_excel" class="btn btn-success pull-right"> <i class="fa fa-table"></i> Export Excel</a>
+                {{-- <a href="/laporan-fee-tindakan/export_excel" class="btn btn-success pull-right"> <i class="fa fa-table"></i> Export Excel</a> --}}
+                <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#myModal">
+                  <i class="fa fa-table"></i> Export Excel
+                </button>
                 <div class="col-md-3">
                   <div class="input-group">
                     <div class="input-group-addon">
@@ -52,6 +55,44 @@
         </div>
       </section>
   </div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Export Laporan</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered">
+          <tr>
+            <td>Tanggal Mulai</td>
+            <td>
+              {{ Form::date('tanggal_mulai',null,['class'=>'form-control','placeholder'=>'Tanggal Mulai'])}}
+            </td>
+          </tr>
+          <tr>
+            <td>Tanggal Selesai</td>
+            <td>
+              {{ Form::date('tanggal_selesai',null,['class'=>'form-control','placeholder'=>'Tanggal Selesai'])}}
+            </td>
+          </tr>
+          <tr>
+            <td>Poliklinik</td>
+            <td>
+              {{Form::select('poliklinik_id',$poliklinik,null,['class'=>'form-control'])}}
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+        <button type="button" class="btn btn-primary">Export</button>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 
 @push('scripts')

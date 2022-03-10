@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\RujukanInternal;
 use App\Models\Pendaftaran;
 use DataTables;
+use App\Models\NomorAntrian;
 
 class PendaftaranRujukanLabController extends Controller
 {
@@ -16,35 +17,32 @@ class PendaftaranRujukanLabController extends Controller
         $request['pasien_id']       = $pendaftaran->pasien_id;
         $request['pendaftaran_id']  = $pendaftaran->id;
         $request['tindakan_id']     = $request->jenis_pemeriksaan_laboratorium_id;
+        $request['catatan']         = $request->catatan;
+        $request['status']          = "Proses Pemeriksaan";
         RujukanInternal::create($request->all());
-        //$pendaftaran->status_pelayanan = "sedang_dirujuk";
-        $pendaftaran->save();
+                // create nomor antrian
+        $nomor = NomorAntrian::where('poliklinik_id', $request->poliklinik_id)
+                ->whereDate('created_at', date('Y-m-d'))
+                ->max('nomor_antrian');
+                $nomorAntrianData = [
+                'pendaftaran_id'    =>  $request->pendaftaran_id,
+                'poliklinik_id'     =>  $request->poliklinik_id,
+                'nomor_antrian'     =>  ($nomor + 1)
+                ];
+                NomorAntrian::create($nomorAntrianData);
+                $pendaftaran->save();
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
 
         $data = RujukanInternal::findOrFail($id);
         $data->delete();
     }
 
-    public function show(Request $request)
+    public function show($id)
     {
-        if ($request->ajax()) {
-            return DataTables::of(RujukanInternal::with(['tindakan'])->where('pasien_id', $request->id)->get())
-                ->editColumn('tindakan', function ($row) {
-                    return $row->tindakan->nama_jenis;
-                })
-                ->editColumn('dokter', function ($row) {
-                    return $row->dokter->name;
-                })
-                ->addColumn('action', function ($row) {
-                    $btn = "<div class='btn btn-danger btn-sm' data-id = '" . $row->id . "' onClick='removeRujukan(this)'>Hapus</div>";
-                    return $btn;
-                })
-                ->rawColumns(['action'])
-                ->addIndexColumn()
-                ->make(true);
-        }
+        $data['rujukanInternal'] = RujukanInternal::with('dokter', 'poliklinik', 'tindakan')->where('pendaftaran_id', $id);
+        return view('pendaftaran.partials.rujukan_internal', $data);
     }
 }

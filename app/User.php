@@ -40,6 +40,6 @@ class User extends Authenticatable
 
     public function poliklinik()
     {
-        return $this->belongsTo(\App\Models\DokterPoliklinik::class, 'id', 'user_id');
+        return $this->belongsTo(\App\Models\Poliklinik::class, 'poliklinik_id','id');
     }
 }

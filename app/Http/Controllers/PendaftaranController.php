@@ -26,6 +26,7 @@ use App\Models\Pegawai;
 use App\User;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\PendaftaranTindakan;
+use App\Models\NomorAntrian;
 
 class PendaftaranController extends Controller
 {
@@ -53,12 +54,12 @@ class PendaftaranController extends Controller
         $awal = date('Y-m-d H:i:s', strtotime($data['tanggal_awal']));
         $akhir = date('Y-m-d H:i:s', strtotime($data['tanggal_akhir']));
 
-        $pendaftaran = Pendaftaran::with('pasien', 'perusahaanAsuransi')
+        $pendaftaran = Pendaftaran::select('pendaftaran.*')->with('pasien', 'perusahaanAsuransi')->join('nomor_antrian', 'nomor_antrian.pendaftaran_id', 'pendaftaran.id')
             ->with('poliklinik')
             ->whereBetween(DB::raw('DATE(pendaftaran.created_at)'), [$awal, $akhir]);
 
         if (auth()->user()->role == 'poliklinik') {
-            $pendaftaran->where('poliklinik_id', auth()->user()->poliklinik_id);
+            $pendaftaran->where('nomor_antrian.poliklinik_id', auth()->user()->poliklinik_id);
             $pendaftaran->where('status_pelayanan', 'selesai_pemeriksaan_medis');
         }
 
@@ -81,7 +82,7 @@ class PendaftaranController extends Controller
 
         if ($request->ajax()) {
             $status_pelayanan = $this->status_pelayanan;
-            return DataTables::of($pendaftaran->get())
+            return DataTables::of($pendaftaran->orderBy('id', 'DESC')->get())
                 ->addColumn('action', function ($row) {
                     $btn = '<div class="btn-group">';
                     $btn .= '<button type="button" class="btn btn-danger">Pilih Tindakan</button>
@@ -97,14 +98,22 @@ class PendaftaranController extends Controller
                     }
                     if (auth()->user()->role == 'poliklinik') {
                         if ($row->status_pelayanan == 'selesai_pemeriksaan_medis') {
-                            $btn .= '<li><a href="/pendaftaran/' . $row->id . '/pemeriksaan"><i class="fa fa-edit"></i> Input tindakan</a></li>';
-                            $btn .= '<li><a href="/ondotogram/' . $row->id . '"><i class="fa fa-plus-square"></i> Pemeriksaan Gigi</a></li>';
+                            // cek kalau unit lab maka tampilkan pemeriksaan lab
+                            $unit = Poliklinik::where('id', \Auth::user()->poliklinik_id)->first();
+                            if ($unit->jenis_unit == 'laboratorium') {
+                                $btn .= '<li><a href="/pendaftaran/' . $row->id . '/input-indikator"><i class="fa fa-plus-square"></i> Input Tindakan Lab</a></li>';
+                            } elseif ($unit->id == 2) {
+                                // 2 itu adalah id poli gigi
+                                $btn .= '<li><a href="/pendaftaran/' . $row->id . '/pemeriksaan"><i class="fa fa-edit"></i> Input tindakan</a></li>';
+                            } else {
+                                $btn .= '<li><a href="/ondotogram/' . $row->id . '"><i class="fa fa-plus-square"></i> Pemeriksaan Gigi</a></li>';
+                            }
                         } else {
                             $btn .= '<li><a href="/pendaftaran/' . $row->id . '/input_tanda_vital"><i class="fa fa-print"></i> Input Tanda Vital</a></li>';
                         }
                     } elseif (auth()->user()->role == 'kasir') {
                         if ($row->status_pembayaran == 1) {
-                            $btn = '<a class="btn btn-danger btn-sm btn-block" href="/pembayaran/' . $row->id . '/kwitansi"><i class="fa fa-print"></i> Kwitansi</a></div>';
+                            $btn = '<a class="btn btn-danger btn-sm btn-block" target="new" href="/pembayaran/' . $row->id . '/kwitansi"><i class="fa fa-print"></i> Kwitansi</a></div>';
                         } else {
                             $btn = '<a class="btn btn-danger btn-sm" style="margin-right:5px" href="/pembayaran/' . $row->id . '"><i class="fa fa-money"></i> Pembayaran</a></div>';
                             $btn .= '<a class="btn btn-danger btn-sm" href="/pembayaran/' . $row->id . '/kwitansi"><i class="fa fa-print"></i> Kwitansi</a></div>';
@@ -155,15 +164,34 @@ class PendaftaranController extends Controller
         $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
         $data['daftar_pasien'] = Pasien::pluck('nama', 'id');
         $data['pasien_id'] = $pasien_id;
+        $data['tidakanLab'] = Tindakan::where('jenis', 'tindakan_laboratorium')->pluck('tindakan', 'id');
         return view('pendaftaran.pasien-terdaftar', $data);
     }
 
     public function input_indikator($id)
     {
-        $data['pendaftaran'] = Pendaftaran::with('pasien')->find($id);
-        $data['jenisPemeriksaan'] = JenisPemeriksaanLab::findOrFail($id);
-        $data['indikatorPemeriksaan'] = IndikatorPemeriksaanLab::all();
+        $data['pendaftaran']            = Pendaftaran::with('pasien', 'tindakan')->find($id);
+        $data['hasilPemeriksaan']       = HasilPemeriksaanLab::where('pendaftaran_id', $id)->get();
+        $data['indikatorPemeriksaan']   = IndikatorPemeriksaanLab::where('tindakan_id', $data['pendaftaran']->tindakan_id)->get();
         return view('pendaftaran.indikator', $data);
+    }
+
+    public function simpanHasilPemeriksaanLab($pendaftaranId, Request $request)
+    {
+        $jmlIndikator = count($request->indikator_id) - 1;
+        for ($i = 0; $i <= $jmlIndikator; $i++) {
+            \DB::table('pendaftaran_hasil_pemeriksaan_lab')->insert([
+                'indikator_pemeriksaan_lab_id'  =>  $request->indikator_id[$i],
+                'catatan'       =>  $request->catatan[$i],
+                'hasil'         =>  $request->hasil[$i],
+                'pendaftaran_id' => $pendaftaranId,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+        }
+
+        RujukanInternal::where('pendaftaran_id', $pendaftaranId)->update(['status' => 'Selesai']);
+        return redirect('pendaftaran/' . $pendaftaranId . '/input-indikator')->with('message', 'Data Berhasil Disimpan');
     }
 
     public function printHasilPemeriksaan($id)
@@ -171,7 +199,7 @@ class PendaftaranController extends Controller
         $listIndikator = HasilPemeriksaanLab::where('pendaftaran_id', $id)->get();
 
         $data['pendaftaran'] = Pendaftaran::with('pasien')->find($id);
-        $data['jenisPemeriksaan'] = JenisPemeriksaanLab::findOrFail($id);
+        // $data['jenisPemeriksaan'] = JenisPemeriksaanLab::findOrFail($id);
         $data['indikatorPemeriksaan'] = IndikatorPemeriksaanLab::all();
         $data['listIndikator'] = $listIndikator;
         $data['carbon'] = new Carbon();
@@ -221,6 +249,17 @@ class PendaftaranController extends Controller
     {
         $request['dokter_id'] = $request->dokter_id == 0 ? $request->dokter_pengganti : $request->dokter_id;
         $data = Pendaftaran::create($request->all());
+        // create nomor antrian
+        $nomor = NomorAntrian::where('poliklinik_id', $request->poliklinik_id)
+                            ->whereDate('created_at', date('Y-m-d'))
+                            ->max('nomor_antrian');
+        $nomorAntrianData = [
+            'pendaftaran_id'    =>  $data->id,
+            'poliklinik_id'     =>  $request->poliklinik_id,
+            'dokter_id'         => $request['dokter_id'],
+            'nomor_antrian'     =>  ($nomor + 1)
+        ];
+        NomorAntrian::create($nomorAntrianData);
         return redirect('/pendaftaran/' . $data->id . '/cetak');
     }
 
@@ -249,7 +288,10 @@ class PendaftaranController extends Controller
 
     public function print($id)
     {
-        $data['pasien'] = Pendaftaran::where('id', $id)->with('dokter')->first();
+        $data['pasien'] = Pendaftaran::where('pendaftaran.id', $id)
+        ->with('dokter')
+        ->leftJoin('nomor_antrian', 'nomor_antrian.pendaftaran_id', 'pendaftaran.id')
+        ->first();
         $pdf = PDF::loadView('pendaftaran.cetak', $data);
         return $pdf->stream();
     }
@@ -341,12 +383,12 @@ class PendaftaranController extends Controller
         $data['pendaftaran']        = Pendaftaran::with('pasien')->find($id);
         $data['dokter']             = Pegawai::pluck('nama', 'id');
         $data['satuan']             = Satuan::pluck('satuan', 'id');
-        $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
+        $data['poliklinik']         = Poliklinik::pluck('nama', 'id');
         $data['jenisPemeriksaanLaboratorium'] = Tindakan::pluck('tindakan', 'id');
         $data['riwayatKunjungan']   = Pendaftaran::with('poliklinik', 'dokter', 'perusahaanAsuransi')
             ->where('pasien_id', $data['pendaftaran']->pasien->id)
             ->where('id', '!=', $id)
             ->get();
-        return view('pendaftaran.test', $data);
+        return view('pendaftaran.pemeriksaan', $data);
     }
 }

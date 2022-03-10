@@ -33,7 +33,6 @@ class PendaftaranInputTandaVitalRequest extends FormRequest
             'saturasi_o2'      =>  'required',
             'saturasi_o2'      =>  'required',
             'fungsi_penciuman' =>  'required',
-            'status_alergi'    =>  'required',
             'jenis_kasus'      =>  'required',
         ];
     }

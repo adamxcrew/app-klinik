@@ -78,6 +78,7 @@
                   <hr>
 
                   <a href="/pendaftaran/{{ $pendaftaran->id }}/selesai" class="btn btn-danger btn-lg">Tandai Selesai Pelayanan</a>
+                  <a href="/pendaftaran" class="btn btn-danger btn-lg">Kembali</a>
               </div>
             </div>
           </div>
@@ -99,8 +100,8 @@
                   <div id="daftar_diagnosa"></div>
 
                   <hr style="border:1px dashed">
-                  <h4>Daftar Obat Racik <button style="float: right" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-obat-racik">
-                    Input Obat Racik
+                  <h4>Daftar Obat Non Racik <button style="float: right" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-obat-racik">
+                    Input Obat Non Racik
                   </button></h4>
                   <hr>
 
@@ -112,24 +113,7 @@
                     Input Rujukan
                   </button></h4>
                   <hr>
-                  <table class="table table-bordered">
-                      <tr>
-                          <th>No</th>
-                          <th>Dokter Perujuk</th>
-                          <th>Nama Unit</th>
-                          <th>Jenis Pemeriksaan</th>
-                          <th>Status</th>
-                          <th width="30"></th>
-                      </tr>
-                      <tr>
-                          <td>1</td>
-                          <td>Nuris Abar</td>
-                          <td>Laporatorium A</td>
-                          <td>Gula Darah</td>
-                          <td>Sedang Pemeriksaan</td>
-                          <td><button class="btn btn-danger btn-sm"><i class='fa fa-trash' aria-hidden='true'></i></button></td>
-                      </tr>
-                  </table>
+                  <div id="rujukan_internal"></div>
                   <hr style="border:1px dashed">
               </div>
             </div>
@@ -180,12 +164,12 @@
     </div>
   </div>
 
-<!-- Modal Obat Racik -->
+<!-- Modal Obat Non Racik -->
 <div class="modal fade" id="modal-obat-racik" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Form Input Obat Racik</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Form Input Obat Non Racik</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -298,6 +282,12 @@
                     {{ Form::select('jenis_pemeriksaan_laboratorium_id',$jenisPemeriksaanLaboratorium,null,['class'=>'form-control jenis_pemeriksaan_laboratorium_id'])}}
                   </td>
                 </tr>
+                <tr>
+                  <td>Catatan</td>
+                  <td>
+                    {{ Form::text('catatan',null,['class'=>'form-control catatan','placeholder'=>'Catatan'])}}
+                  </td>
+                </tr>
 
               </table>
             </div>
@@ -389,6 +379,8 @@
     load_daftar_tindakan();
     load_daftar_diagnosa();
     load_daftar_obat_racik();
+    load_rujukan_internal()
+    
 
     $('#tindakan_id').select2({
       placeholder: 'Cari tindakan',
@@ -547,7 +539,7 @@
 
   // END KELOLA DATA DIAGNOSA ===========================
 
-   // KELOLA DATA OBAT RACIK ===========================
+   // KELOLA DATA Obat Non Racik ===========================
 
    function load_daftar_obat_racik(){
     $.ajax({
@@ -597,12 +589,34 @@
 
   // RUJUKAN LABORATORIUM
 
+  function load_rujukan_internal(){
+    console.log("Loading rujukan internal");
+    $.ajax({
+    url: "/pendaftaran-rujukan/<?php echo $pendaftaran->id;?>",
+    method: 'GET',
+    success: function (response) {
+        $("#rujukan_internal").html(response);
+      }
+    });
+  }
+
+  function hapus_rujukan(id){
+    $.ajax({
+    url: "/pendaftaran-rujukan/"+id,
+    data: {"_token": "{{ csrf_token() }}"},
+    method: 'DELETE',
+    success: function (response) {
+        load_rujukan_internal();
+      }
+    });
+  }
 
   function simpan_daftar_rujukan()
   {
     var jenis_pemeriksaan_laboratorium_id = $(".jenis_pemeriksaan_laboratorium_id").val();
     var user_id                           = $(".user_id").val();
     var poliklinik_id                     = $(".poliklinik_id").val();
+    var catatan                           = $(".catatan").val();
     
     $.ajax({
       url: "/pendaftaran-rujukan",
@@ -611,13 +625,14 @@
         user_id:user_id,
         pendaftaran_id: '{{$pendaftaran->id}}',
         poliklinik_id:poliklinik_id,
+        catatan:catatan,
         jenis_pemeriksaan_laboratorium_id:jenis_pemeriksaan_laboratorium_id
       },
       method: 'POST',
       success: function (response) {
           
           $('#modal-rujukan-laporatorium').modal('hide')
-          // load_daftar_obat_racik();
+          load_rujukan_internal();
         }
       });
   }

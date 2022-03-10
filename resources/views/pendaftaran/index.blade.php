@@ -8,6 +8,7 @@
 @extends("layouts.$layout")
 @section('title','Pasien Terdaftar')
 @section('content')
+<audio id="tingtung" src="{{asset('audio/tingtung.mp3')}}"></audio>
 <div class="content-wrapper">
     <section class="content-header">
       @if(auth()->user()->role == 'kasir') 
@@ -32,7 +33,85 @@
         <div class="row">
           <div class="col-xs-12">
             <div class="box">
-        
+           
+
+              <?php
+              $nomor_antrian = \DB::table('nomor_antrian');
+              $jumlah_antrian =   $nomor_antrian->where('poliklinik_id',Auth::user()->poliklinik_id)->count();
+              $sisa_antrian = $nomor_antrian->where('sudah_dipanggil',0)->count();
+              $antrian_sekarang = $nomor_antrian->where('sudah_dipanggil',1)->orderBy('sudah_dipanggil','DESC')->first();
+              ?>
+              <div class="row-fluid">
+                @if(in_array(Auth::user()->role,['poliklinik']))
+                <div class="col-md-12" style="margin-bottom:20px;margin-top:20px">
+                  {{-- {{ Auth::user()}} --}}
+                  <input type="hidden" id="poliklinik_id" value="{{ Auth::user()->poliklinik_id}}">
+                  
+                    <button type="button" class="btn btn-danger btn-lg" onclick="panggil()"><i class="fa fa-microphone"></i> Panggil</button>
+                 
+                </div>
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-aqua">
+                        <div class="inner">
+                            <h3>{{ $jumlah_antrian }}</h3>
+                            <p>Jumlah Antrian</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-android-list"></i>
+                        </div>
+                        
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-green">
+                        <div class="inner">
+                            <h3>{{ $antrian_sekarang->nomor_antrian??0 }}<sup style="font-size: 20px"></sup></h3>
+            
+                            <p>Antrian Saat ini</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-android-checkmark-circle"></i>
+                        </div>
+                        
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-yellow">
+                        <div class="inner">
+                            <h3>5</h3>
+            
+                            <p>{{ $antrian_sekarang->nomor_antrian??0 }}</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-person-add"></i>
+                        </div>
+                        
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-red">
+                        <div class="inner">
+                            <h3>{{ $sisa_antrian }}</h3>
+            
+                            <p>Sisa antrian</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-android-people"></i>
+                        </div>
+                        
+                    </div>
+                </div>
+                <!-- ./col -->
+                @endif
+            </div>
+
               <div class="box-body">
                       {!! Form::open(['url'=>'pendaftaran','method'=>'GET','id'=>'form']) !!}
                       <table class="table table-bordered">
@@ -117,6 +196,8 @@
 <!-- DataTables -->
 <script src="{{asset('adminlte/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+<!-- Get API Key -> https://responsivevoice.org/ -->
+<script src="https://code.responsivevoice.org/responsivevoice.js?key=jQZ2zcdq"></script>
 <script>
     $(function() {
       var parameter = $('#form').serialize();
@@ -137,6 +218,38 @@
           ]
       });
     });
+
+    function panggil(){
+      console.log("sas");
+      var bell = document.getElementById('tingtung');
+        bell.pause();
+        bell.currentTime = 0;
+        bell.play();
+        durasi_bell = bell.duration * 770;
+
+        setTimeout(function () {
+          $.ajax({
+          url: '/nomor_antrian_call',
+          type: 'GET',
+          data: {poliklinik_id:$("#poliklinik_id").val(),} ,
+          success: function (response) {
+            console.log(response.nomor_antrian);
+              responsiveVoice.speak("Nomor Antrian, "+response.nomor_antrian+", silahkan menuju ke, Poli umum", "Indonesian Male", {
+                rate: 0.9,
+                pitch: 1,
+                volume: 1
+            });
+          },
+          error: function () {
+              //alert("error");
+
+          }
+      }); 
+
+
+        }, durasi_bell);
+        //location.reload();
+    }
 </script>
 @endpush
 

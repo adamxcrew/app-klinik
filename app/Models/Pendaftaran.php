@@ -29,7 +29,9 @@ class Pendaftaran extends Model
         'pemeriksaan_klinis',
         'metode_pembayaran',
         'total_bayar',
-        'user_id_kasir'
+        'user_id_kasir',
+        'tindakan_id',
+        'keterangan_pembayaran'
     ];
 
     public function pasien()
@@ -75,5 +77,10 @@ class Pendaftaran extends Model
     public function resep()
     {
         return $this->hasMany('App\Models\PendaftaranResep');
+    }
+
+    public function tindakan()
+    {
+        return $this->belongsTo('App\Models\Tindakan', 'tindakan_id', 'id');
     }
 }

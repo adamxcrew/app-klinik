@@ -98,6 +98,7 @@
         </div>
         <div style=" text-align:center;
             width:150px;height:150px;
+            
             font-size:10pt;float:right;margin-right:15%">
             Analisis Laboratorium
             <br> <br> <br> <br> <br> <br> <br> <br> <br>
@@ -107,8 +108,9 @@
             margin-bottom:50px;
             border-top:solid 2px #3C2C3E;
             width:90%;text-align:center;
+            border:1px solid black;
             position: fixed;
-            bottom: 0;">
+            bottom: 40;">
             Jl. Hm. Ashari No.22 Cibinong – Bogor 16911, Telpon : ( 021 ) 8791 6739
             <br>
             <table width=90 style="text-align:center">

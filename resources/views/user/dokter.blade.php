@@ -35,15 +35,6 @@
                             <th width="90">Action</th>
                         </tr>
                     </thead>
-                    <tfoot>
-                      <tr>
-                          <th width="20px">Nomor</th>
-                          <th>Nama Lengkap</th>
-                          <th>Email</th>
-                          <th>Role</th>
-                          <th width="60">Action</th>
-                      </tr>
-                  </tfoot>
                 </table>
               </div>
             </div>
@@ -67,7 +58,7 @@
                 { data: 'kode', name: 'kode' },
                 { data: 'name', name: 'name' },
                 { data: 'email', name: 'email' },
-                { data: 'poliklinik.poliklinik.nama', name: 'poliklinik.poliklinik.nama' },
+                { data: 'poliklinik.nama', name: 'poliklinik.nama' },
                 { data: 'action', name: 'action' }
             ]
         });

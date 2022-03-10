@@ -9,7 +9,7 @@ class Jurnal extends Model
 {
     protected $table = "jurnal";
 
-    protected $fillable = ['tanggal', 'nominal', 'akun_id', 'keterangan', 'tipe', 'periode'];
+    protected $fillable = ['tanggal', 'nominal', 'akun_id', 'keterangan', 'tipe', 'periode','user_id'];
 
     public function akun()
     {

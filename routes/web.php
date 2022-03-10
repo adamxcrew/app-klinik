@@ -36,6 +36,7 @@ Route::middleware(['auth'])->group(function () {
     // Pemeriksaan lab
     Route::get('pendaftaran/{id}/input-indikator', 'PendaftaranController@input_indikator')->name('pendaftaran.input_indikator');
     Route::get('pendaftaran/{id}/input-indikator/print', 'PendaftaranController@printHasilPemeriksaan');
+    Route::post('simpan-hasil-pemeriksaan-lab/{id}','PendaftaranController@simpanHasilPemeriksaanLab');
     Route::get('pendaftaran/{id}/pemeriksaan', 'PendaftaranController@pemeriksaan');
 
     Route::resource('pendaftaran-tindakan', 'PendaftaranTindakanController');
@@ -125,6 +126,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('barang/export_excel', 'BarangController@export_excel')->name('barang.export_excel');
+    ROute::post('barang/import','BarangController@import_excel');
     Route::resource('barang', 'BarangController');
     Route::resource('user', 'UserController');
     Route::resource('pasien', 'PasienController');
@@ -263,6 +265,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('ajax/hasil-pemeriksaan-lab-editable', 'AjaxController@hasilPemeriksaanLabEditable');
     Route::get('ajax/approval-item-purchase-order', 'AjaxController@approvalItemPurchaseOrder');
     Route::get('/ajax/dropdown-dokter', 'AjaxController@dropdownDokter');
+    Route::get('nomor_antrian_call','AjaxController@nomorAntrialCall');
 });
 
 Route::get('antrian-depan', 'AntrianController@antrianDepan');

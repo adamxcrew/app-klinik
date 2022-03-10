@@ -13,21 +13,21 @@
 <div class="form-group">
     <label for="inputEmail" class="col-sm-2 control-label">Email & Password</label>
 
-    <div class="col-sm-2">
+    <div class="col-sm-4">
         {!! Form::email('email', null, ['class'=>'form-control','Placeholder'=>'Email']) !!}
     </div>
-    <div class="col-sm-2">
+    <div class="col-sm-4">
         {!! Form::password('password', ['class'=>'form-control','Placeholder'=>'Password']) !!}
     </div>
 </div>
 
 @if($_GET['jabatan']=='dokter')
 <div class="form-group">
-    <label for="inputEmail" class="col-sm-2 control-label">Poliklinik & Spesialis</label>
+    <label for="inputEmail" class="col-sm-2 control-label">Spesialis</label>
 
-    <div class="col-sm-5">
+    {{-- <div class="col-sm-5">
         {!! Form::select('poliklinik_id',$poliklinik, $poliklinik, ['class'=>'form-control']) !!}
-    </div>
+    </div> --}}
     <div class="col-sm-5">
         {!! Form::text('spesialis',null, ['class'=>'form-control','Placeholder'=>'Spesialis']) !!}
     </div>

@@ -20,15 +20,14 @@
             <div class="box">
         
               <div class="box-body">
-                <div class="row">
-                  <div class="col-md-2">
-                    <a href="{{route('barang.create')}}" class="btn btn-info btn-social btn-flat"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
-                      Tambah Barang</a>
-                  </div>
+                <a href="{{route('barang.create')}}" class="btn btn-info btn-social btn-flat"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                  Tambah Barang</a>
                   <a href="{{route('barang.export_excel')}}" class="btn btn btn-success btn-social btn-flat"><i class="fa fa-file-excel-o" aria-hidden="true"></i>
                     Export Excel
                   </a>
-                </div>
+                  <button type="button" class="btn btn-primary btn-social btn-flat" data-toggle="modal" data-target="#myModal">
+                    <i class="fa fa-file-excel-o" aria-hidden="true"></i> Import Data
+                  </button>
 
                   <hr>
                 @include('alert')
@@ -53,7 +52,35 @@
         </div>
       </section>
   </div>
-  
+  <!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Import Data Barang</h4>
+      </div>
+      {{ Form::open(['url'=>'barang/import','files'=>true]) }}
+      <div class="modal-body">
+
+        <div class="alert alert-info" role="alert">Download Template Import <a href="{{ asset('template_import_barang.xlsx')}}">Disini</a></div>
+       <table class="table table-bordered">
+         <tr>
+           <td>Pilih FIle</td>
+           <td>
+             {{ Form::file('file')}}
+           </td>
+         </tr>
+       </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+        <button type="submit" class="btn btn-primary">Upload</button>
+      </div>
+      {{ Form::close() }}
+    </div>
+  </div>
+</div>
 @endsection
 
 @push('scripts')

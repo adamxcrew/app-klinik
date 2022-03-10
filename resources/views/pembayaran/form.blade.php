@@ -1,6 +1,6 @@
 <div class="form-group">
-    <label class="col-sm-2 control-label">Jumlah Bayar</label>
-    <div class="col-sm-5">
+    <label class="col-sm-4 control-label">Jumlah Bayar</label>
+    <div class="col-sm-8">
         <div class="input-group">
             <span class="input-group-addon">Rp</span>
             {!! Form::number('jumlah_bayar', null, ['class'=>'form-control','Placeholder'=>'Jumlah Pembayaran']) !!}
@@ -9,15 +9,22 @@
     </div>
 </div>
 <div class="form-group">
-    <label class="col-sm-2 control-label">Metode Pembayaran</label>
-    <div class="col-sm-5">
+    <label class="col-sm-4 control-label">Metode Pembayaran</label>
+    <div class="col-sm-8">
         {!! Form::select('metode_pembayaran', array_merge(['' => '--PILIH METODE PEMBAYARAN--'] + $metodePembayaran) ,null, ['class'=>'form-control','Placeholder'=>'Nama Obat']) !!}
     </div>
 </div>
 
 <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-success btn btn-sm"><i class="fa fa-floppy-o" aria-hidden="true"></i> Submit</button>
+    <label class="col-sm-4 control-label">Keterangan</label>
+    <div class="col-sm-8">
+        {!! Form::text('keterangan_pembayaran',null,['class'=>'form-control','Placeholder'=>'Keterangan Pembayaran'] ) !!}
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-sm-offset-4 col-sm-8">
+        <button type="submit" class="btn btn-success btn btn-sm"><i class="fa fa-floppy-o" aria-hidden="true"></i> Simpan Pembayaran</button>
         <a href="/pendaftaran" class="btn btn-danger btn btn-sm"><i class="fa fa-share-square-o" aria-hidden="true"></i> Kembali</a>
     </div>
 </div>
