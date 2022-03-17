@@ -87,7 +87,7 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $tindakan->tindakan->tindakan }} - {{ $tindakan->pendaftaran->dokter->name }}</td>
-                    <td>-</td>
+                    <td>{{ $tindakan->qty }}</td>
                     <td>-</td>
                     <td>{{ convert_rupiah($tindakan->fee) }}</td>
                     {{-- <td>-</td>
@@ -95,7 +95,7 @@
                     <td>{{ $penjamin == 'UMUM' ? convert_rupiah($tindakan->fee) : '-' }}</td> --}}
                 </tr>
                 @php
-                    $totalTindakan += $tindakan->fee;
+                    $totalTindakan += ($tindakan->fee*$tindakan->qty)-$tindakan->discount;
                 @endphp
             </tbody>
             @endforeach

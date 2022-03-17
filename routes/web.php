@@ -42,6 +42,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('pendaftaran-tindakan', 'PendaftaranTindakanController');
     Route::resource('pendaftaran-diagnosa', 'PendaftaranDiagnosaController');
     Route::resource('pendaftaran-resep', 'PendaftaranResepController');
+    Route::get('pendaftaran-resep-racik/add_komposisi','PendaftaranResepRacikController@addKomposisi');
+    Route::get('pendaftaran-resep-racik/add_obat_racik','PendaftaranResepRacikController@addObatRacikForm');
+    Route::resource('pendaftaran-resep-racik', 'PendaftaranResepRacikController');
     Route::resource('pendaftaran-rujukan', 'PendaftaranRujukanLabController');
 
 
@@ -269,3 +272,4 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('antrian-depan', 'AntrianController@antrianDepan');
+Route::get('label','LaporanController@label');

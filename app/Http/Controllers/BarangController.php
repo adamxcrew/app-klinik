@@ -10,7 +10,7 @@ use App\Models\Kategori;
 use App\Http\Requests\BarangStoreRequest;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\BarangExport;
-use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
+use App\Jobs\ImportBarangExcel;
 
 class BarangController extends Controller
 {
@@ -28,7 +28,17 @@ class BarangController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(Barang::with('satuanTerbesar', 'satuanTerkecil', 'kategori')->get())
+            $search         = $request->input('search.value');
+            $columns        = $request->get('columns');
+            $count_total    = Barang::count();
+            $count_filter  = $count_total;
+            $items = Barang::with('satuanTerbesar', 'satuanTerkecil', 'kategori')->limit(10);
+
+            return DataTables::of($items)
+                ->with([
+                    'recordsTotal' => $count_total,
+                    'recordsFiltered' => $count_filter,
+                ])
                 ->addColumn('action', function ($row) {
                     $btn = \Form::open(['url' => 'barang/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
                     $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
@@ -152,51 +162,8 @@ class BarangController extends Controller
         $nama_file = $file->getClientOriginalName();
         $destinationPath = 'uploads';
         $file->move($destinationPath, $nama_file);
-
         $filePath = $destinationPath . '/' . $nama_file;
-        $reader = ReaderEntityFactory::createXLSXReader();
-        $reader->open($filePath);
-
-        foreach ($reader->getSheetIterator() as $sheet) {
-            $nomor = 1;
-            $data = [];
-            foreach ($sheet->getRowIterator() as $row) {
-                if ($nomor > 1) {
-                    $cells                      = $row->getCells();
-                    // dd($cells);
-                    $jenis_barang               = $cells[1]->getValue();
-                    $kode_barang                = $cells[2]->getValue();
-                    $nama_barang                = $cells[3]->getValue();
-                    $jumlah_satuan_terbesar     = $cells[4]->getValue();
-                    $satuan_terbesar            = Satuan::firstOrCreate(['satuan' => $cells[5]->getValue()], ['satuan' => $cells[5]->getValue()]);
-                    $jumlah_satuan_terkecil     = $cells[6]->getValue();
-                    $satuan_terkecil            = Satuan::firstOrCreate(['satuan' => $cells[7]->getValue()], ['satuan' => $cells[7]->getValue()]);
-                    $jenis                      = Kategori::firstOrCreate(['nama_kategori' => $cells[8]->getValue()], ['nama_kategori' => $cells[8]->getValue(),'jenis' => $jenis_barang]);
-                    $harga                      = (int) $cells[9]->getValue();
-                    $margin                     = (int) $cells[10]->getValue();
-                    $untuk_penjamin             = $cells[11]->getValue();
-
-                    $data[] = [
-                        'kode'                      =>  $kode_barang,
-                        'nama_barang'               =>  $nama_barang,
-                        'keterangan'                =>  null,
-                        'harga'                     =>  $harga,
-                        'kategori_id'               =>  $jenis->id,
-                        'satuan_terbesar_id'        =>  $satuan_terbesar->id,
-                        'jumlah_satuan_terbesar'    =>  $jumlah_satuan_terbesar,
-                        'pelayanan'                 =>  $untuk_penjamin,
-                        'satuan_terkecil_id'        =>  $satuan_terkecil->id,
-                        'jumlah_satuan_terkecil'    =>  $jumlah_satuan_terkecil,
-                        'margin'                    =>  $margin,
-                        'pbf_id'                    =>  0,
-                        'aktif'                     =>  1
-                    ];
-                }
-                Barang::insert($data);
-                $nomor++;
-            }
-        }
-
-        return redirect('barang')->with('message', 'Import Berhasil');
+        ImportBarangExcel::dispatch($nama_file);
+        return redirect('barang')->with('message', 'Import Data Sedang Diproses, Check Hasilnya Berkala');
     }
 }

@@ -28,7 +28,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $role = $request->role == 'user' ? ['administrator', 'admin','akutansi', 'kasir', 'keuangan', 'hrd', 'bagian_gudang', 'admin_medis', 'poliklinik'] : [$request->role];
+        $role = $request->role == 'user' ? ['administrator','apoteker', 'admin','akutansi', 'kasir', 'keuangan', 'hrd', 'bagian_gudang', 'admin_medis', 'poliklinik'] : [$request->role];
         if ($request->ajax()) {
             $user_role = $this->user_role;
             return DataTables::of(User::with('poliklinik')->whereIn('role', $role)->get())
@@ -56,10 +56,11 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         $data['user_role']  = $this->user_role;
         $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
+        $data['jabatan'] = $request->jabatan == 'dokter' ? 'dokter' : 'user';
         return view('user.create', $data);
     }
 
@@ -76,7 +77,7 @@ class UserController extends Controller
         if ($request->role == 'dokter') {
             DokterPoliklinik::create(['user_id' => $user->id, 'poliklinik_id' => $request->poliklinik_id]);
         }
-        $role = in_array($request->role, ['administrator', 'kasir', 'hrd', 'keuangan', 'admin_medis', 'bagian_gudang', 'pimpinan', 'bagian_pendaftaran', 'poliklinik']) ? 'user' : $request->role;
+        $role = in_array($request->role, ['administrator', 'kasir', 'hrd', 'keuangan', 'admin_medis', 'bagian_gudang', 'pimpinan', 'bagian_pendaftaran', 'poliklinik','apoteker']) ? 'user' : $request->role;
         return redirect(route('user.index', ['jabatan' => $role]))->with('message', 'Pengguna Bernama ' . $request->name . ' Berhasil Ditambahkan');
     }
 
@@ -100,11 +101,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, Request $request)
     {
         $data['user_role']  = $this->user_role;
         $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
         $data['user']       = User::findOrFail($id);
+        $data['jabatan'] = $request->jabatan == 'dokter' ? 'dokter' : 'user';
         return view('user.edit', $data);
     }
 
@@ -123,10 +125,10 @@ class UserController extends Controller
         } else {
             $data = $request->except('password');
         }
-        
+
         $user = User::findOrFail($id);
         $user->update($data);
-        $role = in_array($request->role, ['administrator', 'kasir', 'poliklinik','akutansi']) ? 'user' : $request->role;
+        $role = in_array($request->role, ['administrator', 'kasir', 'poliklinik','akutansi','apoteker']) ? 'user' : $request->role;
         return redirect(route('user.index', ['jabatan' => $role]))->with('message', 'Pengguna Bernama ' . $request->name . ' Berhasil Diubah');
     }
 

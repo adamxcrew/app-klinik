@@ -104,6 +104,7 @@ return [
         'keuangan'      =>  'Keuangan',
         'akutansi'      => 'Akutansi',
         'hrd'           =>  'HRD',
+        'apoteker'      => 'Apoteker',
         'poliklinik'      =>  'Poliklinik',
         'bagian_pendaftaran' => 'Bagian Pendaftaran',
         'admin_medis'   =>  'Admin Medis',

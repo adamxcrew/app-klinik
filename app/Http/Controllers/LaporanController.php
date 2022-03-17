@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Poliklinik;
 use App\Exports\LaporanKunjungan;
 use Maatwebsite\Excel\Facades\Excel;
+use PDF;
+use App\Models\Setting;
+use App\Models\Pendaftaran;
 
 class LaporanController extends Controller
 {
@@ -21,5 +24,14 @@ class LaporanController extends Controller
             }
         }
         return view('laporan.kunjungan-perpoli', $data);
+    }
+
+    public function label()
+    {
+        // return view('label-cetak');
+        $data['setting']  = Setting::first();
+        $data['pendaftaran'] = Pendaftaran::with('pasien')->findOrFail(1);
+        $pdf = PDF::loadView('label-cetak', $data)->setPaper('letter', 'potrait');
+        return $pdf->stream();
     }
 }

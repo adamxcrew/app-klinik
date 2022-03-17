@@ -10,10 +10,13 @@ use App\Models\Obat;
 use App\Models\Poliklinik;
 use App\Models\Pasien;
 use App\Models\Satuan;
+use App\Models\PendaftaranObatRacik;
+use App\Models\PendaftaranObatRacikDetail;
 use App\Models\JenisPemeriksaanLab;
 use App\Models\HasilPemeriksaanLab;
 use App\Models\IndikatorPemeriksaanLab;
 use App\Models\RiwayatPenyakit;
+use App\Models\Barang;
 use DataTables;
 use PDF;
 use DB;
@@ -102,7 +105,7 @@ class PendaftaranController extends Controller
                             $unit = Poliklinik::where('id', \Auth::user()->poliklinik_id)->first();
                             if ($unit->jenis_unit == 'laboratorium') {
                                 $btn .= '<li><a href="/pendaftaran/' . $row->id . '/input-indikator"><i class="fa fa-plus-square"></i> Input Tindakan Lab</a></li>';
-                            } elseif ($unit->id == 2) {
+                            } elseif (in_array($unit->id, [2,5])) {
                                 // 2 itu adalah id poli gigi
                                 $btn .= '<li><a href="/pendaftaran/' . $row->id . '/pemeriksaan"><i class="fa fa-edit"></i> Input tindakan</a></li>';
                             } else {
@@ -384,11 +387,13 @@ class PendaftaranController extends Controller
         $data['dokter']             = Pegawai::pluck('nama', 'id');
         $data['satuan']             = Satuan::pluck('satuan', 'id');
         $data['poliklinik']         = Poliklinik::pluck('nama', 'id');
+        $data['pendaftaranResepRacik'] = PendaftaranObatRacik::where('pendaftaran_id', $id);
         $data['jenisPemeriksaanLaboratorium'] = Tindakan::pluck('tindakan', 'id');
         $data['riwayatKunjungan']   = Pendaftaran::with('poliklinik', 'dokter', 'perusahaanAsuransi')
             ->where('pasien_id', $data['pendaftaran']->pasien->id)
             ->where('id', '!=', $id)
             ->get();
+        $data['barang'] = Barang::pluck('nama_barang', 'id');
         return view('pendaftaran.pemeriksaan', $data);
     }
 }

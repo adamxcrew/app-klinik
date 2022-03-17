@@ -41,6 +41,9 @@
     <div class="col-sm-2">
         {!! Form::select('iterasi',[1=>'Ya',0=>'Tidak'], null, ['class'=>'form-control']) !!}
     </div>
+    <div class="col-sm-1">
+        {!! Form::text('quota', null, ['class'=>'form-control','Placeholder'=>'Quota']) !!}
+    </div>
 </div>
 <div class="form-group">
     <label class="col-sm-2 control-label">Penunjang</label>

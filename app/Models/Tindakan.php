@@ -8,7 +8,7 @@ class Tindakan extends Model
 {
     protected $table = "tindakan";
 
-    protected $fillable = ['kode','tindakan','tarif_umum','tarif_bpjs','tarif_perusahaan','pembagian_tarif', 'jenis'];
+    protected $fillable = ['kode','tindakan','tarif_umum','tarif_bpjs','tarif_perusahaan','pembagian_tarif', 'jenis','iterasi','quota'];
 
     public function getPembagianTarifAttribute($value)
     {

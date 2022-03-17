@@ -62,7 +62,9 @@
                     <th width="10">No</th>
                     <th>Detail Layanan</th>
                     <th>Jumlah</th>
-                    <th>Fee</th>
+                    <th>Biaya</th>
+                    <th>Diskon</th>
+                    <th>Subtotal</th>
                     <th width="10"></th>
                   </tr>
                   @php $jumlah = 0; $nomor = 1 @endphp
@@ -70,13 +72,15 @@
                     <tr>
                       <td>{{$nomor}}</td>
                       <td>{{$row->tindakan->tindakan}}</td>
-                      <td>1</td>
+                      <td>{{$row->qty}}</td>
                       <td style="text-align:right">{{convert_rupiah($row->fee)}}</td>
+                      <td>{{$row->discount}}</td>
+                      <td>{{convert_rupiah(($row->fee*$row->qty)-$row->discount)}}</td>
                       <td>
                         <button type="button" class="btn btn-danger btn-sm"><i class='fa fa-trash' aria-hidden='true'></i></button>
                       </td>
                     </tr>
-                    @php $jumlah += $row->fee ; $nomor++ @endphp
+                    @php $jumlah += ($row->fee*$row->qty)-$row->discount; $nomor++ @endphp
                   @endforeach
                   @foreach($userInfo->resep as $row)
                     <tr>
@@ -97,7 +101,7 @@
                     @php $jumlah += $harga ; $nomor++ @endphp
                   @endforeach
                   <tr style="text-align:right">
-                    <td colspan=3>Total Pembayaran</td>
+                    <td colspan=4>Total Pembayaran</td>
                     <td colspan="2">{{convert_rupiah($jumlah)}}</td>
                   </tr>
                 </table>

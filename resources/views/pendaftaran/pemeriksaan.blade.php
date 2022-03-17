@@ -100,12 +100,18 @@
                   <div id="daftar_diagnosa"></div>
 
                   <hr style="border:1px dashed">
-                  <h4>Daftar Obat Non Racik <button style="float: right" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-obat-racik">
+                  <h4>Daftar Obat Non Racik <button style="float: right" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-obat-non-racik">
                     Input Obat Non Racik
                   </button></h4>
                   <hr>
 
                   <div id="daftar_obat_racik"></div>
+                  <h4>Daftar Obat Racik <button style="float: right" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-obat-racik">
+                    Input Obat Racik
+                  </button></h4>
+                  <hr>
+
+                  <div id="daftar_obat_non_racik"></div>
 
 
                   <hr style="border:1px dashed">
@@ -123,7 +129,7 @@
   </div>
 
   <!-- Modal Tindakan -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -165,7 +171,7 @@
   </div>
 
 <!-- Modal Obat Non Racik -->
-<div class="modal fade" id="modal-obat-racik" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-obat-non-racik" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -210,8 +216,78 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-        <button type="button" class="btn btn-primary" onClick="simpan_daftar_obat_racik()">Simpan</button>
+        <button type="button" class="btn btn-primary" onClick="simpan_daftar_obat_non_racik()">Simpan</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Obat Non Racik -->
+<div class="modal fade" id="modal-obat-racik" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Form Input Obat Racik</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+
+            {{ Form::open(['url'=>'pendaftaran-resep-racik']) }}
+            {{ Form::hidden('pendaftaran_id',$pendaftaran->id) }}
+            <table class="table table-bordered inner2 form-racik-1101">
+              <tr>
+                <th>Jumlah Kemasan</th>
+                <th>Jenis Kemasan</th>
+                <th>Aturan Pakai  
+                  <button type="button" class="btn btn-sm btn-danger" style="float: right" onClick="add_obat_racik()">
+                  <i class="fa fa-plus-square" aria-hidden="true"></i>
+                </button></th>
+              </tr>
+              <tr>
+                <td>
+                  {{ Form::text('jumlah_kemasan[1][]',null,['class'=>'form-control','placeholder'=>'Jumlah Kemasan'])}}
+                </td>
+                <td>
+                  {{ Form::select('jenis_kemasan[1][]',['Botol'=>'Botol','Kapsul'=>'Kapsul'],null,['class'=>'form-control','placeholder'=>'Pilih'])}}
+                </td>
+                <td>
+                  {{ Form::text('aturan_pakai[1][]',null,['class'=>'form-control','placeholder'=>'Aturan Pakai'])}}
+                </td>
+              </tr>
+              <tr>
+                <th colspan="3">Komposisi Obat</th>
+              </tr>
+              <tr class="inner-1">
+                <td colspan="2">
+                  <select name="barang_id[1][]" class='form-control barang_id_txt' style="width:100%">
+                </td>
+                <td>
+                 
+                  <div class="row">
+                    <div class="col-md-5">
+                      {{ Form::text('jumlah[1][]',null,['class'=>'form-control','placeholder'=>'Jumlah'])}}
+                    </div>
+                    <div class="col-md-5">
+                      <button type="button" class="btn btn-sm btn-danger" onClick="add_komposisi(1)">
+                        <i class="fa fa-plus-square" aria-hidden="true"></i>
+                      </button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+        <button type="submit" class="btn btn-primary">Simpan</button>
+      </div>
+      {{ Form::close()}}
     </div>
   </div>
 </div>
@@ -373,12 +449,15 @@
 
 
 @push('scripts')
-<script src="{{asset('adminlte/bower_components/select2/dist/js/select2.min.js')}}"></script>
+{{-- <script src="{{asset('adminlte/bower_components/select2/dist/js/select2.min.js')}}"></script> --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 <script>
   $(document).ready(function(){
+    $('.barang').select2();
     load_daftar_tindakan();
     load_daftar_diagnosa();
     load_daftar_obat_racik();
+    load_daftar_obat_non_racik();
     load_rujukan_internal()
     
 
@@ -406,6 +485,31 @@
 
     $('#barang_id').select2({
     placeholder: 'Cari Barang',
+    tags: true,
+    ajax: {
+      url: '/ajax/select2Barang',
+      dataType: 'json',
+      delay: 250,
+      processResults: function(data) {
+        return {
+          results: $.map(data, function(item) {
+            return {
+              text: item.nama_barang,
+              harga: item.harga,
+              id: item.id
+            }
+          })
+        };
+      },
+      cache: true
+    }
+  });
+
+
+
+  $('.barang_id_txt').select2({
+    placeholder: 'Cari Barang',
+    tags: true,
     ajax: {
       url: '/ajax/select2Barang',
       dataType: 'json',
@@ -447,6 +551,9 @@
     }
   });
   });
+
+
+
 
    // KELOLA TINDAKAN =======================
   function load_daftar_tindakan(){
@@ -539,9 +646,93 @@
 
   // END KELOLA DATA DIAGNOSA ===========================
 
+  // KELOLA OBAT RACIK
+  function load_daftar_obat_racik(){
+    $.ajax({
+    url: "/pendaftaran-resep-racik/<?php echo $pendaftaran->id;?>",
+    method: 'GET',
+    success: function (response) {
+        $("#daftar_obat_non_racik").html(response);
+      }
+    });
+  }
+
+  function hapus_daftar_obat_racik(id){
+    $.ajax({
+      url: "/pendaftaran-resep-racik/"+id,
+    data: {"_token": "{{ csrf_token() }}"},
+    method: 'DELETE',
+    success: function (response) {
+        load_daftar_obat_racik();
+      }
+    });
+  }
+
+  function add_komposisi(id){
+    $.ajax({
+      url: "/pendaftaran-resep-racik/add_komposisi",
+      method: 'GET',
+      data:{id:id},
+      success: function (response) {
+        console.log(response);
+          $(response).insertAfter( ".inner-"+id );
+          create_select_barang(id);
+        }
+      });
+  }
+
+  function create_select_barang(id){
+    $('.barang_id_txt_'+id).select2({
+          placeholder: 'Cari Barang',
+          tags: true,
+          ajax: {
+            url: '/ajax/select2Barang',
+            dataType: 'json',
+            delay: 250,
+            processResults: function(data) {
+              return {
+                results: $.map(data, function(item) {
+                  return {
+                    text: item.nama_barang,
+                    harga: item.harga,
+                    id: item.id
+                  }
+                })
+              };
+            },
+            cache: true
+          }
+        });
+  }
+
+  function hapus_komposisi(id){
+    $(".komposisi-"+id).remove();
+  }
+
+  function add_obat_racik(){
+    var id = 2;
+    $.ajax({
+      url: "/pendaftaran-resep-racik/add_obat_racik",
+      data:{id:id},
+      method: 'GET',
+      success: function (response) {
+        console.log(response);
+          $(response).insertAfter( ".inner2" );
+          create_select_barang(2);
+        }
+      });
+  }
+
+  function hapus_obat_racik_form(item){
+    console.log(item);
+    $(".form-racik-"+item).hide();
+  }
+
+  //END KELOLA OBAT RACIK
+
    // KELOLA DATA Obat Non Racik ===========================
 
-   function load_daftar_obat_racik(){
+   function load_daftar_obat_non_racik(){
     $.ajax({
     url: "/pendaftaran-resep/<?php echo $pendaftaran->id;?>",
     method: 'GET',
@@ -552,7 +743,7 @@
   }
 
 
-  function simpan_daftar_obat_racik(){
+  function simpan_daftar_obat_non_racik(){
     let barang_id = $('#barang_id').select2('data')[0].id
     let jumlah = $('#jumlah').val()
     let satuan = $('#satuan').val()
@@ -570,19 +761,19 @@
         jenis: 'racik'
       },
       success: (response) => {
-        $('#modal-obat-racik').modal('hide')
+        $('#modal-obat-non-racik').modal('hide')
         load_daftar_obat_racik();
       }
     })
   }
 
-  function hapus_daftar_obat_racik(id){
+  function hapus_daftar_obat_non_racik(id){
     $.ajax({
     url: "/pendaftaran-resep/"+id,
     data: {"_token": "{{ csrf_token() }}"},
     method: 'DELETE',
     success: function (response) {
-        load_daftar_obat_racik();
+        load_daftar_obat_non_racik();
       }
     });
   }
@@ -719,4 +910,5 @@
 @push('css')
   <link rel="stylesheet" href="{{asset('adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
   <link href="{{asset('/select2/dist/css/select2.min.css')}}" rel="stylesheet" />
+  
 @endpush

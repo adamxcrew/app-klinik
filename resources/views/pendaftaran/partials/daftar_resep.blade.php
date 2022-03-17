@@ -21,7 +21,7 @@
             <td>{{ $row->aturan_pakai }}</td>
             <td>{{ convert_rupiah($row->harga) }}</td>
             <td>{{ convert_rupiah($row->jumlah * $row->harga) }}</td>
-            <td><button onClick="hapus_daftar_obat_racik({{$row->id}})" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
+            <td><button onClick="hapus_daftar_obat_non_racik({{$row->id}})" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
         </tr>
         @endforeach
     @endif
