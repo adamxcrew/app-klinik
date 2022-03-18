@@ -67,6 +67,11 @@
         ['icon' => 'fa fa-user-circle-o', 'link' => '/pendaftaran', 'label' => 'Data Pasien Antri']
       ];
 
+      $apoteker = [
+        ['icon' => 'fa fa-user', 'link' => '/home', 'label' => 'Dashboard'],
+        ['icon' => 'fa fa-user-circle-o', 'link' => '/pendaftaran', 'label' => 'Data Pasien']
+      ];
+
       $hrd = [
         ['icon' => 'fa fa-user', 'link' => '/home', 'label' => 'Dashboard'],
         ['icon' => 'fa fa-user-circle-o', 'link' => '/pegawai', 'label' => 'Data Pegawai'],
@@ -144,6 +149,7 @@
         'bagian_gudang'   => $bagian_gudang,
         'admin_medis'     => $admin_medis,
         'pimpinan'        => $pimpinan,
+        'apoteker'        => $apoteker,
         'bagian_pendaftaran' => $bagian_pendaftaran,
         'laboratorium' => $laboratorium,
         'poliklinik' => $poliklinik

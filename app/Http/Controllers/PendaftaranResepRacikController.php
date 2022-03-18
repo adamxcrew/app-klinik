@@ -53,7 +53,7 @@ class PendaftaranResepRacikController extends Controller
      */
     public function show($id)
     {
-        $data['pendaftaranResepRacik'] = PendaftaranObatRacik::where('pendaftaran_id', $id);
+        $data['pendaftaranResepRacik'] = PendaftaranObatRacik::with('detail.barang')->where('pendaftaran_id', $id);
         return view('pendaftaran.partials.daftar_resep_racik', $data);
     }
 

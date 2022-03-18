@@ -249,13 +249,13 @@
               </tr>
               <tr>
                 <td>
-                  {{ Form::text('jumlah_kemasan[1][]',null,['class'=>'form-control','placeholder'=>'Jumlah Kemasan'])}}
+                  {{ Form::text('jumlah_kemasan[1][]',null,['class'=>'form-control','placeholder'=>'Jumlah Kemasan','required'=>'required'])}}
                 </td>
                 <td>
                   {{ Form::select('jenis_kemasan[1][]',['Botol'=>'Botol','Kapsul'=>'Kapsul'],null,['class'=>'form-control','placeholder'=>'Pilih'])}}
                 </td>
                 <td>
-                  {{ Form::text('aturan_pakai[1][]',null,['class'=>'form-control','placeholder'=>'Aturan Pakai'])}}
+                  {{ Form::text('aturan_pakai[1][]',null,['class'=>'form-control','placeholder'=>'Aturan Pakai','required'=>'required'])}}
                 </td>
               </tr>
               <tr>
@@ -263,13 +263,13 @@
               </tr>
               <tr class="inner-1">
                 <td colspan="2">
-                  <select name="barang_id[1][]" class='form-control barang_id_txt' style="width:100%">
+                  <select name="barang_id[1][]" class='form-control barang_id_txt' required style="width:100%">
                 </td>
                 <td>
                  
                   <div class="row">
                     <div class="col-md-5">
-                      {{ Form::text('jumlah[1][]',null,['class'=>'form-control','placeholder'=>'Jumlah'])}}
+                      {{ Form::text('jumlah[1][]',null,['class'=>'form-control','placeholder'=>'Jumlah','required'=>'required'])}}
                     </div>
                     <div class="col-md-5">
                       <button type="button" class="btn btn-sm btn-danger" onClick="add_komposisi(1)">
@@ -762,7 +762,7 @@
       },
       success: (response) => {
         $('#modal-obat-non-racik').modal('hide')
-        load_daftar_obat_racik();
+        load_daftar_obat_non_racik();
       }
     })
   }
@@ -773,7 +773,7 @@
     data: {"_token": "{{ csrf_token() }}"},
     method: 'DELETE',
     success: function (response) {
-        load_daftar_obat_non_racik();
+      load_daftar_obat_non_racik();
       }
     });
   }

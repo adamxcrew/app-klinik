@@ -11,13 +11,13 @@
     </tr>
     <tr>
       <td>
-        {{ Form::text('jumlah_kemasan['.$id.'][]',null,['class'=>'form-control','placeholder'=>'Jumlah Kemasan'])}}
+        {{ Form::text('jumlah_kemasan['.$id.'][]',null,['class'=>'form-control','placeholder'=>'Jumlah Kemasan','required'=>'required'])}}
       </td>
       <td>
-        {{ Form::select('jenis_kemasan['.$id.'][]',['Botol'=>'Botol','Kapsul'=>'Kapsul'],null,['class'=>'form-control','placeholder'=>'Pilih'])}}
+        {{ Form::select('jenis_kemasan['.$id.'][]',['Botol'=>'Botol','Kapsul'=>'Kapsul'],null,['class'=>'form-control','placeholder'=>'Pilih','required'=>'required'])}}
       </td>
       <td>
-        {{ Form::text('aturan_pakai['.$id.'][]',null,['class'=>'form-control','placeholder'=>'Aturan Pakai'])}}
+        {{ Form::text('aturan_pakai['.$id.'][]',null,['class'=>'form-control','placeholder'=>'Aturan Pakai','required'=>'required'])}}
       </td>
     </tr>
     <tr>
@@ -25,13 +25,13 @@
     </tr>
     <tr class="inner-{{$id}}">
       <td colspan="2">
-        <select name="barang_id[{{$id}}][]" class='form-control barang_id_txt_{{$id}}' style="width:100%">
+        <select required="required" name="barang_id[{{$id}}][]" class='form-control barang_id_txt_{{$id}}' style="width:100%">
       </td>
       <td>
        
         <div class="row">
           <div class="col-md-5">
-            {{ Form::text('jumlah['.$id.'][]',null,['class'=>'form-control','placeholder'=>'Jumlah'])}}
+            {{ Form::text('jumlah['.$id.'][]',null,['class'=>'form-control','placeholder'=>'Jumlah','required'=>'required'])}}
           </div>
           <div class="col-md-5">
             <button type="button" class="btn btn-sm btn-danger" onClick="add_komposisi({{$id}})">
