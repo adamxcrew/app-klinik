@@ -110,13 +110,14 @@ class PasienController extends Controller
             $file = $request->file('image');
             $fileName = str_replace(' ', '', $file->getClientOriginalName());
             $path = $file->storeAs('public/pasien', $fileName);
+            $data['foto']        = $fileName;
         }
 
         $wilayah_administratif = \DB::table('view_wilayah_administratif_indonesia')
             ->where('village_id', $request->wilayah_administratif)
             ->first();
         $data                = $request->all();
-        $data['foto']        = $fileName;
+        
         $data['village_id']  = $wilayah_administratif->village_id;
         $data['district_id'] = $wilayah_administratif->district_id;
         $data['province_id'] = $wilayah_administratif->province_id;
