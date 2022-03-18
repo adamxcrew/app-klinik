@@ -117,7 +117,7 @@ class PasienController extends Controller
             ->where('village_id', $request->wilayah_administratif)
             ->first();
         $data                = $request->all();
-        
+
         $data['village_id']  = $wilayah_administratif->village_id;
         $data['district_id'] = $wilayah_administratif->district_id;
         $data['province_id'] = $wilayah_administratif->province_id;

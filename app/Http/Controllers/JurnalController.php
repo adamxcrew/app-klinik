@@ -51,10 +51,23 @@ class JurnalController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(JurnalStoreRequest $request)
+    public function store(Request $request)
     {
-        $request['user_id'] = \Auth::user()->id;
-        Jurnal::create($request->all());
+        $index = count($request->tanggal)-1;
+        $user_id = \Auth::user()->id;
+        for ($i = 0; $i <= $index; $i++) {
+            $data = [
+                'user_id' => $user_id,
+                'tanggal' => $request->tanggal[$i],
+                'akun_id' => $request->akun_id[$i],
+                'nominal' => $request->nominal[$i],
+                'keterangan' => $request->keterangan[$i],
+                'tipe' => $request->tipe[$i],
+                'periode' => $request->periode,
+            ];
+            Jurnal::create($data);
+        }
+
         return redirect(route('jurnal.index'));
     }
 
@@ -108,5 +121,12 @@ class JurnalController extends Controller
         $jurnal = Jurnal::findOrFail($id);
         $jurnal->delete();
         return redirect(route('jurnal.index'))->with('message', 'Data Berhasil Dihapus');
+    }
+
+    public function add_form()
+    {
+        $data['akunList'] = Akun::pluck('nama', 'id');
+        $data['id'] = rand(1, 1000);
+        return view('jurnal.form_child', $data);
     }
 }

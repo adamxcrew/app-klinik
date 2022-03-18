@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Tambah Akun')
+@section('title','Input Jurnal Umum')
 @section('content')
 <div class="content-wrapper">
   <section class="content-header">
@@ -29,3 +29,24 @@
   </section>
 </div>
 @endsection
+@push('scripts')
+<script>
+  function copy_form(){
+    $.ajax({
+      url: "/jurnal/add_form",
+      cache: false,
+      success: function(html){
+        console.log(html);
+        $( ".new" ).after( html );
+      }
+    });
+  }
+
+
+  function hapus_form(id){
+    console.log(id);
+    $(".wraper-"+id).remove();
+  }
+</script>
+@endpush
+

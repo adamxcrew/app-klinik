@@ -42,7 +42,7 @@ class PendaftaranResepRacikController extends Controller
                 $index++;
             }
         }
-        return redirect('pendaftaran/'.$request->pendaftaran_id.'/pemeriksaan');
+        return redirect('pendaftaran/' . $request->pendaftaran_id . '/pemeriksaan');
     }
 
     /**

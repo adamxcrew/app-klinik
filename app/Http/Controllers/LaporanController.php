@@ -11,6 +11,7 @@ use App\Models\Setting;
 use App\Models\Pendaftaran;
 use App\Models\PendaftaranObatRacik;
 use App\Models\PendaftaranObatRacikDetail;
+
 class LaporanController extends Controller
 {
     public function laporanKunjunganPerPoli(Request $request)
@@ -29,11 +30,11 @@ class LaporanController extends Controller
 
     public function label($id)
     {
-        // return view('label-cetak');
+
         $data['setting']  = Setting::first();
         $data['pendaftaran'] = Pendaftaran::with('pasien')->findOrFail($id);
         $data['obatRacik'] = PendaftaranObatRacik::where('pendaftaran_id', $id)->get();
-        return $data;
+        //return view('label-cetak',$data);
         $pdf = PDF::loadView('label-cetak', $data)->setPaper('letter', 'potrait');
         return $pdf->stream();
     }

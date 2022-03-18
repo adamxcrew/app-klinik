@@ -116,7 +116,6 @@ class PendaftaranController extends Controller
                         }
                     } elseif (auth()->user()->role == 'apoteker') {
                         $btn .= '<li><a href="/pendaftaran/' . $row->id . '/cetak_label"><i class="fa fa-plus-square"></i> Cetak Label</a></li>';
-                    
                     } elseif (auth()->user()->role == 'kasir') {
                         if ($row->status_pembayaran == 1) {
                             $btn = '<a class="btn btn-danger btn-sm btn-block" target="new" href="/pembayaran/' . $row->id . '/kwitansi"><i class="fa fa-print"></i> Kwitansi</a></div>';

@@ -145,6 +145,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('hasil-pemeriksaan-lab', 'HasilPemeriksaanLabController');
     Route::resource('tindakan-bhp', 'TindakanBHPController');
     Route::resource('akun', 'AkunController');
+    Route::get('/jurnal/add_form','JurnalController@add_form');
     Route::resource('jurnal', 'JurnalController');
     Route::resource('komponengaji', 'KomponenGajiController');
     Route::get('gaji/{id}/cetak', 'GajiController@cetak');

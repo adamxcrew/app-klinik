@@ -12,7 +12,8 @@ class PendaftaranObatRacik extends Model
 
 
 
-    public function detail(){
+    public function detail()
+    {
         return $this->hasMany(\App\Models\PendaftaranObatRacikDetail::class);
     }
 }
