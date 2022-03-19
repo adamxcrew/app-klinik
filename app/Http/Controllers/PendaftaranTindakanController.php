@@ -41,9 +41,6 @@ class PendaftaranTindakanController extends Controller
         }
 
 
-
-
-
         $user_id = [$request->dokter, $request->asisten];
         $pelaksana = ['Dokter', 'Asisten'];
         $jumlah_fee = [
@@ -64,6 +61,7 @@ class PendaftaranTindakanController extends Controller
         }
 
         $request['fee'] = $tindakan['tarif_' . strtolower($jenisPendaftaran)];
+        $request['qty'] = 1;
 
                 // cek apakah tindakan tersebut iterasi
         if ($tindakan->iterasi == 1) {

@@ -56,9 +56,14 @@ class AjaxController extends Controller
     {
         $data = \DB::table('barang')
             ->select('id', 'nama_barang', 'harga')
-            ->where('nama_barang', 'like', "%" . $request->q . "%")
-            ->limit(20)
-            ->get();
+            ->where('nama_barang', 'like', "%" . $request->q . "%");
+
+        if ($request->has('pelayanan')) {
+            if (strtoupper($request->pelayanan) == 'BPJS') {
+                $data = $data->where('pelayanan', 'bpjs');
+            }
+        }
+        $data = $data->limit(20)->get();
         return response()->json($data);
     }
 

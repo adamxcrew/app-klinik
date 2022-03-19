@@ -30,8 +30,10 @@ class PendaftaranResepRacikController extends Controller
             $barang = $request->barang_id[$i];
             $index = 0;
             foreach ($barang as $item) {
+                $baramItem = Barang::findOrFail((int)$request->barang_id[$i][$index]);
                 $detailData = [
                     'pendaftaran_obat_racik_id' => $pendaftaranObatRacik->id,
+                    'harga' => $baramItem->harga_jual,
                     'barang_id' => (int)$request->barang_id[$i][$index],
                     'jumlah' => (int)$request->jumlah[$i][$index],
                 ];

@@ -53,7 +53,7 @@ class JurnalController extends Controller
      */
     public function store(Request $request)
     {
-        $index = count($request->tanggal)-1;
+        $index = count($request->tanggal) - 1;
         $user_id = \Auth::user()->id;
         for ($i = 0; $i <= $index; $i++) {
             $data = [

@@ -4,7 +4,17 @@
         <div class="input-group">
             <span class="input-group-addon">Rp</span>
             {!! Form::number('jumlah_bayar', null, ['class'=>'form-control','Placeholder'=>'Jumlah Pembayaran']) !!}
-            <span class="input-group-addon">.00</span>
+            {{-- <span class="input-group-addon">.00</span> --}}
+          </div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-4 control-label">Kembalian</label>
+    <div class="col-sm-8">
+        <div class="input-group">
+            <span class="input-group-addon">Rp</span>
+            {!! Form::number('kembalian', null, ['class'=>'form-control','Placeholder'=>'Kembalian']) !!}
+            {{-- <span class="input-group-addon">.00</span> --}}
           </div>
     </div>
 </div>

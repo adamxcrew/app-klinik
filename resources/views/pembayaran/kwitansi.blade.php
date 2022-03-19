@@ -165,6 +165,7 @@
             <p style="margin-bottom:50px;padding-left:30px">Kasir</p>
             <p style="margin-bottom:-10px;margin-left:30px"><strong>{{ Auth::user()->name }}</strong></p>
             <p style="">Dokter Pemeriksa</p>
+            <p style=""></p>
         </div>
     </div>
     

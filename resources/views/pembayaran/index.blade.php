@@ -88,17 +88,20 @@
                       <td>{{$row->barang->nama_barang}} ( {{$row->satuan}} {{$row->aturan_pakai}}) </td>
                       <td>{{$row->jumlah}}</td>
                       @php
-                        $harga = $row->harga* $row->jumlah;
+                        $harga = $row->harga;
                         if($harga <= 0 ){
                           $harga = $row->barang->harga;
                         }
                       @endphp
-                      <td style="text-align:right">{{ convert_rupiah($harga)}}</td>
+                       <td style="text-align:right">{{ convert_rupiah($harga)}}</td>
+         
+                      <td>0</td>
+                      <td style="text-align:right">{{ convert_rupiah($harga*$row->jumlah)}}</td>
                       <td>
                         <button type="button" class="btn btn-danger btn-sm"><i class='fa fa-trash' aria-hidden='true'></i></button>
                       </td>
                     </tr>
-                    @php $jumlah += $harga ; $nomor++ @endphp
+                    @php $jumlah += $harga*$row->jumlah ; $nomor++ @endphp
                   @endforeach
                   <tr style="text-align:right">
                     <td colspan=4>Total Pembayaran</td>

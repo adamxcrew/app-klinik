@@ -83,4 +83,8 @@ class Pendaftaran extends Model
     {
         return $this->belongsTo('App\Models\Tindakan', 'tindakan_id', 'id');
     }
+
+    public function jenisLayanan(){
+        return $this->belongsTo('App\Models\PerusahaanAsuransi','jenis_layanan','id');
+    }
 }

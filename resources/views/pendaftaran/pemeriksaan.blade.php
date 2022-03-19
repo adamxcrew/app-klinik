@@ -487,7 +487,7 @@
     placeholder: 'Cari Barang',
     tags: true,
     ajax: {
-      url: '/ajax/select2Barang',
+      url: '/ajax/select2Barang?pelayanan={{ $pendaftaran->jenisLayanan->nama_perusahaan}}',
       dataType: 'json',
       delay: 250,
       processResults: function(data) {
@@ -511,7 +511,7 @@
     placeholder: 'Cari Barang',
     tags: true,
     ajax: {
-      url: '/ajax/select2Barang',
+      url: '/ajax/select2Barang?pelayanan={{ $pendaftaran->jenisLayanan->nama_perusahaan}}',
       dataType: 'json',
       delay: 250,
       processResults: function(data) {
@@ -686,7 +686,7 @@
           placeholder: 'Cari Barang',
           tags: true,
           ajax: {
-            url: '/ajax/select2Barang',
+            url: '/ajax/select2Barang?pelayanan={{ $pendaftaran->jenisLayanan->nama_perusahaan}}',
             dataType: 'json',
             delay: 250,
             processResults: function(data) {
