@@ -39,7 +39,7 @@ class TindakanController extends Controller
                 return $btn;
             })
             ->editColumn('kode', function ($row) {
-                return $row->icd->code;
+                return $row->icd->code??'-';
             })
             ->editColumn('jenis', function ($row) {
                 return config('datareferensi.jenis_tindakan')[$row->jenis];
@@ -90,6 +90,7 @@ class TindakanController extends Controller
     {
         $data['barang']     = Barang::all();
         $data['tindakan']   = Tindakan::findOrFail($id);
+        return view('tindakan.show', $data);
         if ($data['tindakan']->jenis == 'tindakan_laboratorium') {
             return view('tindakan.indikator', $data);
         } else {

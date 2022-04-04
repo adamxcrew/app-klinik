@@ -314,3 +314,11 @@ function checkDataGigi($kodeGigi, $pendaftaranId)
         return false;
     }
 }
+
+
+function rekapKehadiranSetahun($pegawai_id, $tahun, $status_kehadiran)
+{
+    return \DB::table('kehadiran_pegawai')
+    ->where('pegawai_id', $pegawai_id)
+    ->where('status', $status_kehadiran)->whereRaw('left(tanggal,4)=' . $tahun . '')->count();
+}

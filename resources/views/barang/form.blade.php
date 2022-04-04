@@ -70,7 +70,7 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">Pelayanan</label>
     <div class="col-sm-2">
-        {!! Form::select('aktif',['umum'=>'Umum','ppjs'=>'BPJS'], null, ['class'=>'form-control']) !!}
+        {!! Form::select('pelayanan',['umum'=>'Umum','bpjs'=>'BPJS'], null, ['class'=>'form-control']) !!}
     </div>
 </div>
 <div class="form-group">

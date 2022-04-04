@@ -31,7 +31,8 @@ class Pendaftaran extends Model
         'total_bayar',
         'user_id_kasir',
         'tindakan_id',
-        'keterangan_pembayaran'
+        'keterangan_pembayaran',
+        'anamnesa'
     ];
 
     public function pasien()
@@ -84,7 +85,8 @@ class Pendaftaran extends Model
         return $this->belongsTo('App\Models\Tindakan', 'tindakan_id', 'id');
     }
 
-    public function jenisLayanan(){
-        return $this->belongsTo('App\Models\PerusahaanAsuransi','jenis_layanan','id');
+    public function jenisLayanan()
+    {
+        return $this->belongsTo('App\Models\PerusahaanAsuransi', 'jenis_layanan', 'id');
     }
 }

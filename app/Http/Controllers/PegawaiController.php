@@ -82,6 +82,7 @@ class PegawaiController extends Controller
         $data['pegawai_shift'] = PegawaiShift::where('pegawai_id', $id)->get();
         $data['pegawai'] = Pegawai::findOrFail($id);
         $data['komponen_gaji'] = KomponenGaji::pluck('nama_komponen', 'id');
+        $data['statusKehadiran'] = config('datareferensi.status_kehadiran');
         return view('pegawai.show', $data);
     }
 

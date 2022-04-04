@@ -78,6 +78,7 @@
                   <hr>
 
                   <a href="/pendaftaran/{{ $pendaftaran->id }}/selesai" class="btn btn-danger btn-lg">Tandai Selesai Pelayanan</a>
+                  <a href="/pendaftaran/{{ $pendaftaran->id }}/cetak_rekamedis" class="btn btn-danger btn-lg">Cetak Rekamedis</a>
                   <a href="/pendaftaran" class="btn btn-danger btn-lg">Kembali</a>
               </div>
             </div>
@@ -85,6 +86,15 @@
           <div class="col-xs-6">
             <div class="box">
               <div class="box-body">
+                @if(Auth::user()->poliklinik_id == env("POLI_TUMBUH_KEMBANG_ID", "somedefaultvalue"))
+                <hr style="border:1px dashed">
+                <h4>Catatan Harian <button style="float: right" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-catatan-harian">
+                  Input Catatan Harian
+                </button></h4>
+                <hr>
+                <div id="catatan_harian"></div>
+                <hr style="border:1px dashed">
+              @else
                   <h4>Daftar Tindakan <button style="float: right" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
                     Input Tindakan
                   </button></h4>
@@ -120,13 +130,50 @@
                   </button></h4>
                   <hr>
                   <div id="rujukan_internal"></div>
-                  <hr style="border:1px dashed">
+                  @endif
               </div>
             </div>
           </div>
         </div>
       </section>
   </div>
+
+
+    <!-- Modal Tindakan -->
+<div class="modal fade" id="modal-catatan-harian" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Form Input Catatan Harian</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered table-bordered">
+          <tr>
+            <td>Tanggal</td>
+            <td>
+              <input type="date" name="tanggal" class="form-control tanggal_txt" placeholder="Tanggal">
+            </td>
+          </tr>
+          <tr>
+            <td>Catatan</td>
+            <td>
+              {!! Form::textarea('catatan_harian', null, ['class'=>'form-control catatan', 'placeholder'=>'Catatan Harian']) !!}
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+        <button type="button" class="btn btn-primary" onClick="simpan_catatan_harian()">Simpan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
   <!-- Modal Tindakan -->
 <div class="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -252,7 +299,7 @@
                   {{ Form::text('jumlah_kemasan[1][]',null,['class'=>'form-control','placeholder'=>'Jumlah Kemasan','required'=>'required'])}}
                 </td>
                 <td>
-                  {{ Form::select('jenis_kemasan[1][]',['Botol'=>'Botol','Kapsul'=>'Kapsul'],null,['class'=>'form-control','placeholder'=>'Pilih'])}}
+                  {{ Form::select('jenis_kemasan[1][]',$satuan,null,['class'=>'form-control','placeholder'=>'Pilih'])}}
                 </td>
                 <td>
                   {{ Form::text('aturan_pakai[1][]',null,['class'=>'form-control','placeholder'=>'Aturan Pakai','required'=>'required'])}}
@@ -459,6 +506,7 @@
     load_daftar_obat_racik();
     load_daftar_obat_non_racik();
     load_rujukan_internal()
+    load_catatan_harian();
     
 
     $('#tindakan_id').select2({
@@ -602,6 +650,60 @@
   // END KELOLA TINDAKAN =======================
 
 
+
+
+// CATATAN HARIAN
+  function simpan_catatan_harian(){
+    var tanggal = $(".tanggal_txt").val();
+    var catatan = $(".catatan").val();
+    
+    $.ajax({
+      url: "/pendaftaran-catatan-harian",
+      method: 'POST',
+      data: {
+        tanggal:tanggal,
+        _token: '{{csrf_token()}}',
+        catatan:catatan,
+        pendaftaran_id: '{{$pendaftaran->id}}'
+      },
+      success: (response) => {
+        $('#modal-catatan-harian').modal('hide');
+        load_catatan_harian();
+      }
+    })
+  }
+
+  function load_catatan_harian(){
+    $.ajax({
+    url: "/pendaftaran-catatan-harian/<?php echo $pendaftaran->id;?>",
+    method: 'GET',
+    success: function (response) {
+        $("#catatan_harian").html(response);
+      }
+    });
+  }
+
+  function hapus_catatan_harian(id){
+    $.ajax({
+    url: "/pendaftaran-catatan-harian/"+id,
+    data: {"_token": "{{ csrf_token() }}"},
+    method: 'DELETE',
+    success: function (response) {
+      load_catatan_harian();
+      }
+    });
+  }
+
+
+
+
+
+
+
+
+
+
+
   // KELOLA DATA DIAGNOSA ==========================================
   function load_daftar_diagnosa(){
     $.ajax({
@@ -706,6 +808,7 @@
   }
 
   function hapus_komposisi(id){
+    console.log(id);
     $(".komposisi-"+id).remove();
   }
 

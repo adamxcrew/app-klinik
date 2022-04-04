@@ -14,7 +14,7 @@
         {{ Form::text('jumlah_kemasan['.$id.'][]',null,['class'=>'form-control','placeholder'=>'Jumlah Kemasan','required'=>'required'])}}
       </td>
       <td>
-        {{ Form::select('jenis_kemasan['.$id.'][]',['Botol'=>'Botol','Kapsul'=>'Kapsul'],null,['class'=>'form-control','placeholder'=>'Pilih','required'=>'required'])}}
+        {{ Form::select('jenis_kemasan['.$id.'][]',$satuan,null,['class'=>'form-control','placeholder'=>'Pilih','required'=>'required'])}}
       </td>
       <td>
         {{ Form::text('aturan_pakai['.$id.'][]',null,['class'=>'form-control','placeholder'=>'Aturan Pakai','required'=>'required'])}}

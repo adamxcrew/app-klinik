@@ -19,4 +19,9 @@ class PendaftaranResep extends Model
     {
         return $this->belongsTo('App\Models\Barang');
     }
+
+
+    public function satuanObat(){
+        return $this->belongsTo(\App\Models\Satuan::class, 'satuan', 'id');
+    }
 }

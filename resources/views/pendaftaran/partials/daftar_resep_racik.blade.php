@@ -14,7 +14,7 @@
         @foreach($pendaftaranResepRacik->get() as $row)
         <tr>
             <td>{{ $loop->iteration }}</td>
-            <td>{{ $row->jumlah_kemasan}} - {{ $row->kemasan}}</td>
+            <td>{{ $row->jumlah_kemasan}} - {{ $row->satuan->satuan }}</td>
             <td>{{ $row->aturan_pakai}}</td>
             <td>
                 {{-- {{ $row->detail}} --}}

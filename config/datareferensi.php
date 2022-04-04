@@ -84,7 +84,9 @@ return [
         'tidak hadir'  => 'Tidak Hadir',
         'izin'         => 'Izin',
         'sakit'        => ' Sakit',
-        'terlambat'    => 'Terlambat'
+        'cuti'         => 'Cuti',
+        'terlambat'    => 'Terlambat',
+        'default'      => 'Defaults',
     ],
 
     'status_pelayanan' => [

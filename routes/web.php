@@ -25,6 +25,7 @@ Route::middleware(['auth'])->group(function () {
     // route master pendaftaran
     Route::get('pendaftaran/{id}/cetak', 'PendaftaranController@cetak')->name('pendaftaran.cetak');
     Route::get('pendaftaran/{id}/selesai', 'PendaftaranController@selesai');
+    Route::get('pendaftaran/{id}/cetak_rekamedis', 'PendaftaranController@cetakRekamedis');
     Route::get('pendaftaran/{id}/input_tanda_vital', 'PendaftaranController@input_tanda_vital')->name('pendaftaran.input_tanda_vital');
     Route::put('pendaftaran/{id}/input_tanda_vital_store', 'PendaftaranController@input_tanda_vital_store')->name('pendaftaran.input_tanda_vital_store');
     Route::get('pendaftaran/{id}/pemeriksaan/{jenis}', 'PendaftaranController@pemeriksaan')->name('pendaftaran.pemeriksaan_tindakan');
@@ -46,6 +47,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pendaftaran-resep-racik/add_obat_racik','PendaftaranResepRacikController@addObatRacikForm');
     Route::resource('pendaftaran-resep-racik', 'PendaftaranResepRacikController');
     Route::resource('pendaftaran-rujukan', 'PendaftaranRujukanLabController');
+    Route::resource('pendaftaran-catatan-harian', 'PendaftaranCatatanHarianController');
+  
 
 
 

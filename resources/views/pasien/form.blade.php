@@ -220,13 +220,13 @@
     <div class="col-md-3">
         <div class="form-group">
             <label>Penjamin</label>
-            {!! Form::select('penjamin', $penjamin, null, ['class'=>'form-control','Placeholder'=>'Pendidikan']) !!}
+            {!! Form::select('penjamin', $penjamin, null, ['class'=>'form-control penjamin','Placeholder'=>'Pendidikan','onChange'=>'cekJenisPenjamin()']) !!}
         </div>
     </div>
     <div class="col-md-3">
         <div class="form-group">
             <label>Nomor Asuransi</label>
-            {!! Form::text('nomor_asuransi', null, ['class'=>'form-control','Placeholder'=>'Nomor asuransi']) !!}
+            {!! Form::text('nomor_asuransi', null, ['class'=>'form-control nomor_asuransi','Placeholder'=>'Nomor asuransi']) !!}
         </div>
     </div>
 </div>
@@ -366,6 +366,13 @@ $( document ).ready(function() {
         }
     });
 });
+
+function cekJenisPenjamin(){
+    var penjamin = $(".penjamin").val();
+    if(penjamin==2){
+        $(".nomor_asuransi").attr("required","required");
+    }
+}
 </script>
 @endpush
 

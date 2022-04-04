@@ -16,4 +16,8 @@ class PendaftaranObatRacik extends Model
     {
         return $this->hasMany(\App\Models\PendaftaranObatRacikDetail::class);
     }
+
+    public function satuan(){
+        return $this->belongsTo(\App\Models\Satuan::class, 'kemasan', 'id');
+    }
 }

@@ -9,7 +9,7 @@
           {{ Form::text('jumlah['.$id.'][]',null,['class'=>'form-control','placeholder'=>'Jumlah','required'=>'required'])}}
         </div>
         <div class="col-md-5">
-          <button type="button" class="btn btn-sm btn-danger" onClick="hapus_komposisi({{$id}})">
+          <button type="button" class="btn btn-sm btn-danger" onClick="hapus_komposisi({{$komposisi_item}})">
             <i class="fa fa-trash" aria-hidden="true"></i>
           </button>
         </div>

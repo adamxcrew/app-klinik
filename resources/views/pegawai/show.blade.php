@@ -30,12 +30,15 @@
             <ul class="nav nav-tabs">
               <li role="presentation" class="{{ ($_GET['tab'] == 'komponen_gaji') ? 'active':''}}"><a href="/pegawai/{{$pegawai->id}}?tab=komponen_gaji" >Komponen Gaji</a></li>
               <li role="presentation" class="{{ ($_GET['tab'] == 'jadwal_kerja') ? 'active':''}}"><a href="/pegawai/{{$pegawai->id}}?tab=jadwal_kerja" >Jadwal Kerja</a></li>
+              <li role="presentation" class="{{ ($_GET['tab'] == 'lain_lain') ? 'active':''}}"><a href="/pegawai/{{$pegawai->id}}?tab=lain_lain" >Lain Lain</a></li>
             </ul>
             <hr>
             @if($_GET['tab']=='komponen_gaji')
             @include('pegawai.komponen_gaji')
             @elseif($_GET['tab']=='jadwal_kerja')
             @include('pegawai.jadwal_kerja')
+            @elseif($_GET['tab']=='lain_lain')
+            @include('pegawai.lain_lain')
             @endif
           </div>
         </div>

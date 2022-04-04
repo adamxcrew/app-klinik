@@ -16,7 +16,7 @@ class LaporanFeeTindakanController extends Controller
     {
         $awal = date('Y-m-d H:i:s', strtotime($start));
         $akhir = date('Y-m-d H:i:s', strtotime($end));
-        //$data = PendaftaranFeeTindakan::with(['tindakan', 'pendaftaran', 'user']);
+        $data = PendaftaranFeeTindakan::with(['tindakan', 'pendaftaran', 'user']);
 
 
 
@@ -78,7 +78,7 @@ class LaporanFeeTindakanController extends Controller
         ->join('pegawai', 'pegawai.id', 'pendaftaran_fee_tindakan.user_id')
         ->get();
 
-        return $data;
+
         if ($request->ajax()) {
             return $this->dataLaporan($request->startDate, $request->endDate);
         }

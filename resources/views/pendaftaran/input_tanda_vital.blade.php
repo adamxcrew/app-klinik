@@ -95,6 +95,12 @@
                       </div>
                     </div>
 
+                    <div class="col-md-8">
+                      <div class="form-group col-sm-11">
+                        <label>Anamnesa</label>
+                        {!! Form::textarea('anamnesa', null, ['rows'=>3,'class'=>'form-control','placeholder'=>'Anamnesa']) !!}
+                      </div>
+                    </div>
 
                   </div>
               </div>

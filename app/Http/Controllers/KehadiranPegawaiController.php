@@ -35,17 +35,37 @@ class KehadiranPegawaiController extends Controller
         $data['kelompok_pegawai_id'] = $request->kelompok_pegawai_id;
 
         if ($request->ajax()) {
-            $kehadiran_pegawai = Pegawai::leftJoin('kehadiran_pegawai', function ($join) {
+            $detes = $this->displayDates($data['tanggal_awal'], $data['tanggal_akhir']);
+            $defaultShift = Shift::firstOrCreate(['nama_shift' => 'Default'], ['jam_masuk' => '00:00','jam_pulang' => '00:00','toleransi_terlambat_masuk' => '0','toleransi_terlambat_pulang' => 0]);
+            foreach ($detes as $date) {
+            // cek datanya sudah ada atau belum
+                foreach (Pegawai::all() as $p) {
+                    $params = [
+                        'jam_masuk'     =>  '00:00',
+                        'jam_keluar'    =>  '00:00',
+                        'scan_masuk'    =>  '00:00',
+                        'scan_pulang'   =>  '00:00',
+                        'status'        =>  'default',
+                        'shift_id'      =>  $defaultShift->id
+                    ];
+                    KehadiranPegawai::firstOrCreate(['pegawai_id' => $p->id,'tanggal' => $date], $params);
+                }
+            }
+
+
+            $kehadiran_pegawai = Pegawai::select('kehadiran_pegawai.*','pegawai.nama','pegawai.nip','shift.nama_shift')->leftJoin('kehadiran_pegawai', function ($join) {
                 $start   = $_GET['tanggal_awal'] ?? date('Y-m-d');
                 $end   = $_GET['tanggal_akhir'] ?? date('Y-m-d');
 
                 $join->on('pegawai.id', '=', 'kehadiran_pegawai.pegawai_id');
                 $join->whereBetween('kehadiran_pegawai.tanggal', [$start, $end]);
             })
+
                 ->leftJoin('shift', function ($join) {
                     $join->on('shift.id', '=', 'kehadiran_pegawai.shift_id');
                 })->get();
 
+    
             if ($request->kelompok_pegawai_id) {
                 $pegawai = Pegawai::where('kelompok_pegawai_id', $request->kelompok_pegawai_id)->first();
                 $kehadiran_pegawai = $kehadiran_pegawai->where('pegawai_id', $pegawai->id);
@@ -55,11 +75,10 @@ class KehadiranPegawaiController extends Controller
 
             return DataTables::of($kehadiran_pegawai)
                 ->addColumn('action', function ($row) {
-                    $id = (isset($row->id)) ? $row->id : '';
-                    $btn = \Form::open(['url' => 'kehadiran-pegawai/' . $id . '', 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
+                    $btn = \Form::open(['url' => 'kehadiran-pegawai/' . $row->id . '', 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
                     $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
                     $btn .= \Form::close();
-                    $btn .= '<a class="btn btn-danger btn-sm" href="/kehadiran-pegawai/' . $id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> ';
+                    $btn .= '<a class="btn btn-danger btn-sm" href="/kehadiran-pegawai/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> ';
                     return $btn;
                 })
                 ->addColumn('jam_masuk', function ($row) {
@@ -84,6 +103,20 @@ class KehadiranPegawaiController extends Controller
         }
 
         return view('kehadiran-pegawai.index', $data);
+    }
+
+
+    public function displayDates($date1, $date2, $format = 'Y-m-d')
+    {
+        $dates = array();
+        $current = strtotime($date1);
+        $date2 = strtotime($date2);
+        $stepVal = '+1 day';
+        while ($current <= $date2) {
+            $dates[] = date($format, $current);
+            $current = strtotime($stepVal, $current);
+        }
+        return $dates;
     }
 
     public function export_excel(Request $request)

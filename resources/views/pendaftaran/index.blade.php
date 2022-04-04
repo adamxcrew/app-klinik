@@ -147,12 +147,13 @@
                   <thead>
                       <tr>
                         <th width="10">Nomor</th>
-                        <th>Nomor Pendaftaran</th>
+                        <th>Nomor Rekamedis</th>
+                        <th>Waktu & Nomor Antrian</th>
                         <th>Nama Pasien</th>
                         <th>Poliklinik Tujuan</th>
                         <th>Jenis Layanan</th>
                         <th>Status Pelayanan</th>
-                        <th width="170">#</th>
+                        <th width="120">#</th>
                       </tr>
                   </thead>
               </table>
@@ -209,7 +210,8 @@
           ajax: "/pendaftaran?tanggal_awal={{$tanggal_awal}}&tanggal_akhir={{$tanggal_akhir}}&poliklinik_id={{$poliklinik_id}}&type=web",
           columns: [
             {data: 'DT_RowIndex', orderable: false, searchable: false},
-            { data: 'kode', name: 'kode' },
+            { data: 'pasien.nomor_rekam_medis', name: 'pasien.nomor_rekam_medis' },
+            { data: 'nomor_antrian_waktu', name: 'nomor_antrian_waktu' },
             { data: 'pasien.nama', name: 'pasien.nama' },
             { data: 'poliklinik.nama', name: 'poliklinik.nama' },
             { data: 'jenis_layanan', name: 'jenis_layanan' },
@@ -234,7 +236,7 @@
           data: {poliklinik_id:$("#poliklinik_id").val(),} ,
           success: function (response) {
             console.log(response.nomor_antrian);
-              responsiveVoice.speak("Nomor Antrian, "+response.nomor_antrian+", silahkan menuju ke, Poli umum", "Indonesian Male", {
+              responsiveVoice.speak("Nomor Antrian, "+response.nomor_antrian+", silahkan menuju ke, Poli umum", "Indonesian Female", {
                 rate: 0.9,
                 pitch: 1,
                 volume: 1
