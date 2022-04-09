@@ -58,7 +58,8 @@ class PendaftaranController extends Controller
         $awal = date('Y-m-d H:i:s', strtotime($data['tanggal_awal']));
         $akhir = date('Y-m-d H:i:s', strtotime($data['tanggal_akhir']));
 
-        $pendaftaran = Pendaftaran::select('pendaftaran.*', 'nomor_antrian.nomor_antrian')->with('pasien', 'perusahaanAsuransi')
+        $pendaftaran = Pendaftaran::select('pendaftaran.*', 'nomor_antrian.nomor_antrian')
+        ->with('pasien', 'perusahaanAsuransi')
         ->join('nomor_antrian', 'nomor_antrian.pendaftaran_id', 'pendaftaran.id')
             ->with('poliklinik')
             ->whereBetween(DB::raw('DATE(pendaftaran.created_at)'), [$awal, $akhir]);
@@ -82,7 +83,7 @@ class PendaftaranController extends Controller
 
         // filter berdasarkan poliklinik
         if ($request->poliklinik_id != null) {
-            $pendaftaran->where('poliklinik_id', $request->poliklinik_id);
+            $pendaftaran->where('nomor_antrian.poliklinik_id', $request->poliklinik_id);
         }
 
         if ($request->ajax()) {
@@ -293,7 +294,7 @@ class PendaftaranController extends Controller
                             ->whereDate('created_at', date('Y-m-d'))
                             ->max('nomor_antrian');
         $antrian = NomorAntrian::where('pendaftaran_id', $id)->first();
-        $antrian->update(['nomor_antrian' => ($nomor + 1),'poliklinik_id' => $request->poliklinik_id]);
+        $antrian->update(['dokter_id'=>$request->dokter_id,'nomor_antrian' => ($nomor + 1),'poliklinik_id' => $request->poliklinik_id]);
 
         return redirect('/pendaftaran/' . $id . '/cetak');
         //return redirect(route('pendaftaran.index'))->with('message', 'Data Pendaftaran Pasien Bernama ' . ucfirst($pendaftaran->pasien->nama) . ' Berhasil Di Update');
@@ -302,6 +303,7 @@ class PendaftaranController extends Controller
     public function cetak($id)
     {
         $data['pasien'] = Pendaftaran::find($id);
+        $data['antrian'] = NomorAntrian::where('pendaftaran_id',$id)->first();
         return view('pendaftaran.nomor-antrian', $data);
     }
 

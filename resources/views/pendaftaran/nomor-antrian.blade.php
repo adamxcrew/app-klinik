@@ -23,7 +23,7 @@
                                 <strong style="font-size: 20px;">Nomor Antrian</strong>
                             </div>
                             <div class="col-md-6 text-right">
-                                <strong class="label-nomor-antrian">{{ substr($pasien->kode,11, 5) }}</strong>
+                                <strong class="label-nomor-antrian">{{ $antrian->nomor_antrian }}</strong>
                             </div>
                         </div>
                         

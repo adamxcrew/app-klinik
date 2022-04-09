@@ -123,7 +123,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="exampleFormControlInput1">Perusahaan Penjamin</label>
-                                {{ Form::select('jenis_layanan', $perusahaan_asuransi , null,['class'=>'form-control']) }}
+                                {{ Form::select('jenis_layanan', $perusahaan_asuransi , null,['class'=>'form-control jenis_layanan']) }}
                             </div>
                         </div>
 
@@ -322,6 +322,7 @@
                         $('.alamat_penanggung_jawab ').val(response.alamat_penanggung_jawab);
                         $('.hubungan_pasien').val(response.hubungan_pasien);
                         $('.nomor_hp_penanggung_jawab').val(response.nomor_hp_penanggung_jawab);
+                        $(".jenis_layanan").val(response.penjamin).change();
 
                         $('.before-select').hide();
                         $('.after-select').show();
