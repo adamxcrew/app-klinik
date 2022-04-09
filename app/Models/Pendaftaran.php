@@ -30,6 +30,7 @@ class Pendaftaran extends Model
         'metode_pembayaran',
         'total_bayar',
         'user_id_kasir',
+        'jumlah_bayar',
         'tindakan_id',
         'keterangan_pembayaran',
         'anamnesa'

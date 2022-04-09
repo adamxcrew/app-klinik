@@ -39,10 +39,10 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">Tindakan Iterasi</label>
     <div class="col-sm-2">
-        {!! Form::select('iterasi',[1=>'Ya',0=>'Tidak'], null, ['class'=>'form-control']) !!}
+        {!! Form::select('iterasi',[1=>'Ya',0=>'Tidak'], null, ['class'=>'form-control iterasi','onChange'=>'apakah_iterasi()']) !!}
     </div>
     <div class="col-sm-1">
-        {!! Form::text('quota', null, ['class'=>'form-control','Placeholder'=>'Quota']) !!}
+        {!! Form::text('quota', null, ['class'=>'form-control quota','Placeholder'=>'Quota']) !!}
     </div>
 </div>
 <div class="form-group">
@@ -93,6 +93,21 @@
 <script src="{{asset('datatables/datatables.min.js') }}"></script>
 
 <script>
+        $(function() {
+            apakah_iterasi();
+        });
+
+
+    function apakah_iterasi(){
+        var iterasi = $(".iterasi").val();
+        if(iterasi=='0')
+        {
+            $(".quota").val(0);
+            $(".quota").attr('disabled','disabled');
+        }else{
+            $('.quota').removeAttr("disabled")
+        }
+    }
     $('#kode').select2({
         placeholder: 'Cari Kode Nine',
         multiple: false,

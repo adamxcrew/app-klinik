@@ -63,28 +63,56 @@ class PendaftaranTindakanController extends Controller
         $request['fee'] = $tindakan['tarif_' . strtolower($jenisPendaftaran)];
         $request['qty'] = 1;
 
-                // cek apakah tindakan tersebut iterasi
         if ($tindakan->iterasi == 1) {
-            // cek apakah dia punya quota
-            $paketIterasi = PaketIterasi::where('pasien_id', $pendaftaran->pasien_id)
-                            ->where('tindakan_id', $tindakan->id)
-                            ->where('quota', '>', 0)
-                            ->first();
+            // cek apakah dia masih punya quota
+
+            $paketIterasi = PaketIterasi::where('pendaftaran_id', $pendaftaran->id)->where('tindakan_id', $tindakan->id)->first();
             if ($paketIterasi) {
-                $request['qty'] = 1;
-                // kurangi quota paket iterasi
-                $paketIterasi->update(['quota' => ($paketIterasi->quota - 1)]);
-                // insert riwayat
-                RiwayatPenggunaanTindakanIterasi::create(['pendaftaran_id' => $pendaftaran->id,'paket_iterasi_id' => $paketIterasi->id]);
-                $request['discount'] = $request['fee'];
+                // kalau sudah ada maka kurangi stock nya
             } else {
-                PaketIterasi::create(['pasien_id' => $pendaftaran->pasien_id, 'quota' => ($tindakan->quota - 1),'tindakan_id' => $tindakan->id,'pendaftaran_id' => $pendaftaran->id]);
+                $request['pasien_id'] = $pendaftaran->pasien_id;
+                $request['quota'] = $tindakan->quota;
+                //return $request->all();
+                $paketIterasi = PaketIterasi::create($request->all());
+                $request['paket_iterasi_id'] = $paketIterasi->id;
+                // set sisa quota dikurang 1 karna sedang digunakan
+                $request['quota'] = $tindakan->quota - 1;
+                RiwayatPenggunaanTindakanIterasi::create($request->all());
+                // set quota yang akan ditagihkan sesuai dengan data master
                 $request['qty'] = $tindakan->quota;
-                RiwayatPenggunaanTindakanIterasi::create(['pendaftaran_id' => $pendaftaran->id,'paket_iterasi_id' => $paketIterasi->id]);
             }
         }
 
         PendaftaranTindakan::create($request->all());
+
+
+
+
+
+        //         // cek apakah tindakan tersebut iterasi
+        // if ($tindakan->iterasi == 1) {
+        //     // cek apakah dia punya quota
+        //     $paketIterasi = PaketIterasi::where('pasien_id', $pendaftaran->pasien_id)
+        //                     ->where('tindakan_id', $tindakan->id)
+        //                     ->where('quota', '>', 0)
+        //                     ->first();
+        //     if ($paketIterasi) {
+        //         $request['qty'] = 1;
+        //         // kurangi quota paket iterasi
+        //         $paketIterasi->update(['quota' => ($paketIterasi->quota - 1)]);
+        //         // insert riwayat
+        //         RiwayatPenggunaanTindakanIterasi::create(['pendaftaran_id' => $pendaftaran->id,'paket_iterasi_id' => $paketIterasi->id]);
+        //         $request['discount'] = $request['fee'];
+        //     } else {
+        //         return 'create new';
+        //         $paketIterasi = PaketIterasi::create(['pasien_id' => $pendaftaran->pasien_id, 'quota' => ($tindakan->quota),'tindakan_id' => $tindakan->id,'pendaftaran_id' => $pendaftaran->id]);
+        //         $request['qty'] = $tindakan->quota;
+        //         RiwayatPenggunaanTindakanIterasi::create(['pendaftaran_id' => $pendaftaran->id,'paket_iterasi_id' => $paketIterasi->id]);
+        //     }
+        // }
+
+        // return $request->all();
+        // PendaftaranTindakan::create($request->all());
     }
 
     /**
@@ -107,10 +135,16 @@ class PendaftaranTindakanController extends Controller
      */
     public function destroy($id)
     {
+        // hapus data dari tabel riwayat_penggunaan_tindakan_iterasi
+        // hapus data dari tabel paket_iterasi
+
         $pendaftaranTindakan = PendaftaranTindakan::with('pendaftaran')->findOrFail($id);
-        PaketIterasi::where('pasien_id', $pendaftaranTindakan->pendaftaran->pasien_id)
-                    ->where('tindakan_id', $pendaftaranTindakan->tindakan_id)
-                    ->delete();
+        //return $pendaftaranTindakan;
+        $paketIterasi = PaketIterasi::where('pendaftaran_id', $pendaftaranTindakan->pendaftaran_id)
+                    ->where('tindakan_id', $pendaftaranTindakan->tindakan_id)->first();
+                    // return $paketIterasi;
+        RiwayatPenggunaanTindakanIterasi::where('paket_iterasi_id', $paketIterasi->id)->delete();
         $pendaftaranTindakan->delete();
+        $paketIterasi->delete();
     }
 }

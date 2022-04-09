@@ -39,7 +39,7 @@ class TindakanController extends Controller
                 return $btn;
             })
             ->editColumn('kode', function ($row) {
-                return $row->icd->code??'-';
+                return $row->icd->code ?? '-';
             })
             ->editColumn('jenis', function ($row) {
                 return config('datareferensi.jenis_tindakan')[$row->jenis];
@@ -76,6 +76,9 @@ class TindakanController extends Controller
     public function store(TindakanStoreRequest $request)
     {
         $request['pembagian_tarif'] = serialize($request->pembagian_tarif);
+        if ($request->iterasi == 0) {
+            $request['quota'] = 0;
+        }
         Tindakan::create($request->all());
         return redirect(route('tindakan.index'))->with('message', 'Data Tindakan Berhasil Disimpan');
     }
@@ -124,6 +127,9 @@ class TindakanController extends Controller
     {
         $tindakan = Tindakan::findOrFail($id);
         $request['pembagian_tarif'] = serialize($request->pembagian_tarif);
+        if ($request->iterasi == 0) {
+            $request['quota'] = 0;
+        }
         $tindakan->update($request->all());
         return redirect(route('tindakan.index'))->with('message', 'Data tindakan Berhasil Di Update');
     }

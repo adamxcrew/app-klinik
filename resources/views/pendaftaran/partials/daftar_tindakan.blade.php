@@ -19,10 +19,10 @@
             <td>{{ $loop->iteration }}</td>
             <td>{{ $row->tindakan->icd->code }}</td>
             <td>{{ $row->tindakan->tindakan }}</td>
-            <td>{{ $row->fee }}</td>
+            <td>{{ rupiah($row->fee) }}</td>
             <td>{{ $row->qty }}</td>
-            <td>{{ $row->discount }}</td>
-            <td>{{ ($row->qty*$row->fee)-$row->discount }}</td>
+            <td>{{ rupiah($row->discount) }}</td>
+            <td>{{ rupiah(($row->qty*$row->fee)-$row->discount) }}</td>
             <td><button onClick="hapus_daftar_tindakan({{$row->id}})" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
         </tr>
         @endforeach

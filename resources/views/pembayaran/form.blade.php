@@ -3,7 +3,7 @@
     <div class="col-sm-8">
         <div class="input-group">
             <span class="input-group-addon">Rp</span>
-            {!! Form::number('jumlah_bayar', null, ['class'=>'form-control','Placeholder'=>'Jumlah Pembayaran']) !!}
+            {!! Form::number('jumlah_bayar', null, ['class'=>'form-control jumlah_bayar','onKeyUp'=>'hitung_kembalian()','Placeholder'=>'Jumlah Pembayaran']) !!}
             {{-- <span class="input-group-addon">.00</span> --}}
           </div>
     </div>
@@ -13,7 +13,7 @@
     <div class="col-sm-8">
         <div class="input-group">
             <span class="input-group-addon">Rp</span>
-            {!! Form::number('kembalian', null, ['class'=>'form-control','Placeholder'=>'Kembalian']) !!}
+            {!! Form::number('kembalian', null, ['class'=>'form-control kembalian','Placeholder'=>'Kembalian']) !!}
             {{-- <span class="input-group-addon">.00</span> --}}
           </div>
     </div>

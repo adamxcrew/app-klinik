@@ -16,7 +16,7 @@
 
   <section class="content">
     <div class="row">
-      <div class="col-xs-6">
+      <div class="col-xs-7">
         <div class="box">
 
           <div class="box-body">
@@ -62,7 +62,7 @@
                     <th width="10">No</th>
                     <th>Detail Layanan</th>
                     <th>Jumlah</th>
-                    <th>Biaya</th>
+                    <th width="100">Biaya</th>
                     <th>Diskon</th>
                     <th>Subtotal</th>
                     <th width="10"></th>
@@ -80,8 +80,11 @@
                         <button type="button" class="btn btn-danger btn-sm"><i class='fa fa-trash' aria-hidden='true'></i></button>
                       </td>
                     </tr>
-                    @php $jumlah += ($row->fee*$row->qty)-$row->discount; $nomor++ @endphp
+                    @php 
+                    $jumlah += ($row->fee*$row->qty)-$row->discount; 
+                    $nomor++ @endphp
                   @endforeach
+
                   @foreach($userInfo->resep as $row)
                     <tr>
                       <td>{{$nomor}}</td>
@@ -105,14 +108,17 @@
                   @endforeach
                   <tr style="text-align:right">
                     <td colspan=4>Total Pembayaran</td>
-                    <td colspan="2">{{convert_rupiah($jumlah)}}</td>
+                    <td colspan="2">
+                      {{convert_rupiah($jumlah)}}
+                      <input type="hidden" name="jumlah_bayar" class="total_bayar" value="{{$jumlah}}">
+                    </td>
                   </tr>
                 </table>
             </div>
         </div>
 
       </div>
-      <div class="col-xs-6">
+      <div class="col-xs-5">
         <div class="box">
           <div class="box-body">
               <h2 class="text-center"><strong>Pembayaran</strong></h2>
@@ -133,5 +139,15 @@
   $(function() {
     console.log('ok');
   });
+
+  function hitung_kembalian(){
+      var total_bayar = $(".total_bayar").val();
+      var jumlah_bayar = $(".jumlah_bayar").val();
+      // console.log(total_bayar);
+      // console.log(jumlah_bayar);
+      // var total = total_bayar-jumlah_bayar;
+      // console.log(total);
+      $('.kembalian').val(total_bayar-jumlah_bayar);
+    }
 </script>
 @endpush

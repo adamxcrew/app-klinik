@@ -53,7 +53,7 @@ class KehadiranPegawaiController extends Controller
             }
 
 
-            $kehadiran_pegawai = Pegawai::select('kehadiran_pegawai.*','pegawai.nama','pegawai.nip','shift.nama_shift')->leftJoin('kehadiran_pegawai', function ($join) {
+            $kehadiran_pegawai = Pegawai::select('kehadiran_pegawai.*', 'pegawai.nama', 'pegawai.nip', 'shift.nama_shift')->leftJoin('kehadiran_pegawai', function ($join) {
                 $start   = $_GET['tanggal_awal'] ?? date('Y-m-d');
                 $end   = $_GET['tanggal_akhir'] ?? date('Y-m-d');
 
@@ -65,7 +65,7 @@ class KehadiranPegawaiController extends Controller
                     $join->on('shift.id', '=', 'kehadiran_pegawai.shift_id');
                 })->get();
 
-    
+
             if ($request->kelompok_pegawai_id) {
                 $pegawai = Pegawai::where('kelompok_pegawai_id', $request->kelompok_pegawai_id)->first();
                 $kehadiran_pegawai = $kehadiran_pegawai->where('pegawai_id', $pegawai->id);

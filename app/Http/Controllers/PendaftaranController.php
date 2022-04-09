@@ -413,7 +413,8 @@ class PendaftaranController extends Controller
         return view('pendaftaran.pemeriksaan', $data);
     }
 
-    public function cetakRekamedis($id){
+    public function cetakRekamedis($id)
+    {
         $data['pendaftaran']        = Pendaftaran::with('pasien', 'jenisLayanan')->find($id);
         $data['riwayatKunjungan']   = Pendaftaran::with('poliklinik', 'dokter', 'perusahaanAsuransi')
         ->where('pasien_id', $data['pendaftaran']->pasien->id)
