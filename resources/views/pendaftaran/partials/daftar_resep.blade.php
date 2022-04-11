@@ -17,7 +17,7 @@
         <tr>
             <td>{{ $loop->iteration }}</td>
             <td>{{ $row->barang->nama_barang}}</td>
-            <td>{{ $row->jumlah .' '.$row->satuan}}</td>
+            <td>{{ $row->jumlah .' '.$row->barang->satuanTerkecil->satuan}}</td>
             <td>{{ $row->aturan_pakai }}</td>
             <td>{{ convert_rupiah($row->harga) }}</td>
             <td>{{ convert_rupiah($row->jumlah * $row->harga) }}</td>

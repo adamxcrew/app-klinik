@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Barang;
+use App\Models\Satuan;
 use App\Models\PendaftaranObatRacik;
 use App\Models\PendaftaranObatRacikDetail;
 use Session;
@@ -86,6 +87,7 @@ class PendaftaranResepRacikController extends Controller
         $data['barang'] = Barang::pluck('nama_barang', 'id');
         $data['table_item'] = rand(2, 1000);
         $data['id'] = $index_table;
+        $data['satuan']             = Satuan::pluck('satuan', 'id');
         return view('pendaftaran.partials.add_obat_racik_form', $data);
     }
 }

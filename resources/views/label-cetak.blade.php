@@ -14,7 +14,7 @@
 <?php 
 $no=1;
 ?>
-@foreach ($obatRacik as $item)
+@foreach ($dataCetak as $item)
 <div class="pembatas">
     <h3>{{ $setting->nama_instansi }} {{ $setting->nomor_telpon }}</h3>
     <p>
@@ -24,7 +24,8 @@ $no=1;
     <p>{{ date("d/m/Y", strtotime($pendaftaran->pasien->tanggal_lahir))}} </p>
 </div>
 @if($no==3)
-<hr>
+<div style="page-break-before:always;"> </div>
+<?php $no=0;?>
 @endif
 <?php $no++;?>
 @endforeach

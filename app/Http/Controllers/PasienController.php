@@ -213,6 +213,7 @@ class PasienController extends Controller
             "pasien"   => $pendaftaran->pasien->nama,
             "tindakan" => $tindakan,
             "diagnosa" => $diagnosa,
+            'pendaftaran' => $pendaftaran,
             "obat"     => $obat,
             "poliklinik" => $pendaftaran->poliklinik->nama,
             "dokter" => $pendaftaran->dokter->name,

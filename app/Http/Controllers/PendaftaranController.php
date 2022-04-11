@@ -153,6 +153,9 @@ class PendaftaranController extends Controller
                     }
                     return "Tidak ada";
                 })
+                ->addColumn('nama', function ($row) {
+                    return $row->pasien->inisial . ' . ' . $row->pasien->nama;
+                })
                 ->addColumn('status_pelayanan', function ($row) use ($status_pelayanan) {
                     return $status_pelayanan[$row->status_pelayanan];
                 })
@@ -294,7 +297,7 @@ class PendaftaranController extends Controller
                             ->whereDate('created_at', date('Y-m-d'))
                             ->max('nomor_antrian');
         $antrian = NomorAntrian::where('pendaftaran_id', $id)->first();
-        $antrian->update(['dokter_id'=>$request->dokter_id,'nomor_antrian' => ($nomor + 1),'poliklinik_id' => $request->poliklinik_id]);
+        $antrian->update(['dokter_id' => $request->dokter_id,'nomor_antrian' => ($nomor + 1),'poliklinik_id' => $request->poliklinik_id]);
 
         return redirect('/pendaftaran/' . $id . '/cetak');
         //return redirect(route('pendaftaran.index'))->with('message', 'Data Pendaftaran Pasien Bernama ' . ucfirst($pendaftaran->pasien->nama) . ' Berhasil Di Update');
@@ -303,7 +306,7 @@ class PendaftaranController extends Controller
     public function cetak($id)
     {
         $data['pasien'] = Pendaftaran::find($id);
-        $data['antrian'] = NomorAntrian::where('pendaftaran_id',$id)->first();
+        $data['antrian'] = NomorAntrian::where('pendaftaran_id', $id)->first();
         return view('pendaftaran.nomor-antrian', $data);
     }
 
@@ -409,7 +412,7 @@ class PendaftaranController extends Controller
         $data['jenisPemeriksaanLaboratorium'] = Tindakan::pluck('tindakan', 'id');
         $data['riwayatKunjungan']   = Pendaftaran::with('poliklinik', 'dokter', 'perusahaanAsuransi')
             ->where('pasien_id', $data['pendaftaran']->pasien->id)
-            ->where('id', '!=', $id)
+            //->where('id', '!=', $id)
             ->get();
         $data['barang'] = Barang::pluck('nama_barang', 'id');
         return view('pendaftaran.pemeriksaan', $data);

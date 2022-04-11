@@ -139,7 +139,7 @@ class AjaxController extends Controller
     public function select2ICD(Request $request)
     {
         $data = \DB::table('tbm_icd')
-            ->select('id', 'indonesia')
+            ->select('id', 'indonesia', 'kode')
             ->where('indonesia', 'like', "%" . $request->q . "%")
             ->orWhere('kode', 'like', "%" . $request->q . "%")
             ->limit(20)

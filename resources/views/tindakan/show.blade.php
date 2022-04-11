@@ -39,11 +39,11 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Kode ICD</label>
-                                    {{ Form::text('kode',$tindakan->icd->code,['class' => 'form-control', 'disabled']) }}
+                                    {{ Form::text('kode',$tindakan->icd->code??'-',['class' => 'form-control', 'disabled']) }}
                                 </div>
                                 <div class="form-group">
                                     <label>Nama ICD</label>
-                                    {{ Form::text('kode',$tindakan->icd->desc_short,['class' => 'form-control', 'disabled']) }}
+                                    {{ Form::text('kode',$tindakan->icd->desc_short??'-',['class' => 'form-control', 'disabled']) }}
                                 </div>
                                 <div class="form-group">
                                     <label>Nama Tindakan</label>

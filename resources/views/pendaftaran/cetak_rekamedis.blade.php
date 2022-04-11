@@ -70,7 +70,7 @@
     @foreach($riwayatKunjungan as $riwayat)
     <tr>
         <td class="td">{{ tgl_indo(substr($riwayat->created_at,0,10)) }}</td>
-        <td class="td">Anamnesa</td>
+        <td class="td">{{ $riwayat->anamnesa }}</td>
         <td class="td">Diagnosa</td>
         <td class="td">Keterangan</td>
     </tr>

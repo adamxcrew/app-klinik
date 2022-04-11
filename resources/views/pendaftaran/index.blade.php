@@ -212,7 +212,7 @@
             {data: 'DT_RowIndex', orderable: false, searchable: false},
             { data: 'pasien.nomor_rekam_medis', name: 'pasien.nomor_rekam_medis' },
             { data: 'nomor_antrian_waktu', name: 'nomor_antrian_waktu' },
-            { data: 'pasien.nama', name: 'pasien.nama' },
+            { data: 'nama', name: 'nama' },
             { data: 'poliklinik.nama', name: 'poliklinik.nama' },
             { data: 'jenis_layanan', name: 'jenis_layanan' },
             { data: 'status_pelayanan', name: 'status_pelayanan' },

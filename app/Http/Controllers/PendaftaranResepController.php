@@ -19,6 +19,7 @@ class PendaftaranResepController extends Controller
         $barang                     = Barang::find($request->barang_id);
         $request['harga']           = $barang->harga_jual;
         $request['pendaftaran_id']  = $request->pendaftaran_id;
+        $request['satuan_terkecil_id'] = $request->satuan;
         return PendaftaranResep::create($request->all());
     }
 
@@ -30,7 +31,7 @@ class PendaftaranResepController extends Controller
      */
     public function show($id)
     {
-        $data['pendaftaranResep'] = PendaftaranResep::with(['barang.satuanTerkecil'])->where('pendaftaran_id', $id);
+        $data['pendaftaranResep'] = PendaftaranResep::with(['barang.satuanTerkecil'])->where('jenis', '!=', 'bhp')->where('pendaftaran_id', $id);
         return view('pendaftaran.partials.daftar_resep', $data);
     }
 

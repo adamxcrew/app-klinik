@@ -78,7 +78,7 @@
                   <hr>
 
                   <a href="/pendaftaran/{{ $pendaftaran->id }}/selesai" class="btn btn-danger btn-lg">Tandai Selesai Pelayanan</a>
-                  <a href="/pendaftaran/{{ $pendaftaran->id }}/cetak_rekamedis" class="btn btn-danger btn-lg">Cetak Rekamedis</a>
+                  <a href="/pendaftaran/{{ $pendaftaran->id }}/cetak_rekamedis" target="new" class="btn btn-danger btn-lg">Cetak Rekamedis</a>
                   <a href="/pendaftaran" class="btn btn-danger btn-lg">Kembali</a>
               </div>
             </div>
@@ -246,7 +246,7 @@
                       <input type="number" name="jumlah" id="jumlah" class="form-control" placeholder="Masukan jumlah obat">
                     </div>
                     <div class="col-md-6">
-                      {{ Form::select('satuan',$satuan,null,['class' => 'form-control','id'=>'satuan']) }}
+                      {{ Form::select('satuan',$satuan,null,['class' => 'form-control obat_non_racik_satuan','id'=>'satuan']) }}
                     </div>
                   </div>
                 </td>
@@ -340,7 +340,7 @@
 </div>
 
   <!-- Modal Diagnosa -->
-<div class="modal fade" id="modal-diagnosa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-diagnosa" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -449,6 +449,51 @@
               <td id="dokter-tujuan"></td>
             </tr>
           </table>
+
+          <h4>Tanda Tanda Vital</h4>
+          <table class="table table-bordered">
+            <tr>
+              <td>Berat Badan</td>
+              <td id="berat_badan"></td>
+            </tr>
+            <tr>
+              <td>Tekanan Darah</td>
+              <td id="tekanan_darah"></td>
+            </tr>
+            <tr>
+              <td>Suhu Tubuh</td>
+              <td id="suhu_tubuh"></td>
+            </tr>
+            <tr>
+              <td>Tinggi Badan</td>
+              <td id="tinggi_badan"></td>
+            </tr>
+            <tr>
+              <td>Nadi</td>
+              <td id="nadi"></td>
+            </tr>
+            <tr>
+              <td>RR</td>
+              <td id="rr"></td>
+            </tr>
+            <tr>
+              <td>Saturasi O2</td>
+              <td id="saturasi_o2"></td>
+            </tr>
+            <tr>
+              <td>Fungsi Penciuman</td>
+              <td id="fungsi_penciuman"></td>
+            </tr>
+            <tr>
+              <td>Status Alergi</td>
+              <td id="status_alergi"></td>
+            </tr>
+            <tr>
+              <td>Anamnesa</td>
+              <td id="anamnesa"></td>
+            </tr>
+          </table>
+
           <h4>Riwayat Tindakan</h4>
           <table class="table table-bordered">
             <thead>
@@ -487,6 +532,7 @@
           </table>
         </div>
         <div class="modal-footer">
+          <a id="cetak_rekamedis" class="btn btn-danger">Cetak</a>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
         </div>
       </div>
@@ -507,6 +553,12 @@
     load_daftar_obat_non_racik();
     load_rujukan_internal()
     load_catatan_harian();
+
+    $( "#modal-obat-non-racik").on('shown.bs.modal', function(){
+      $("#barang_id").val('');
+      $("#jumlah").val('');
+      $("#aturan_pakai").val('');
+    });
     
 
     $('#tindakan_id').select2({
@@ -541,6 +593,7 @@
       processResults: function(data) {
         return {
           results: $.map(data, function(item) {
+            console.log(item);
             return {
               text: item.nama_barang,
               harga: item.harga,
@@ -552,6 +605,24 @@
       cache: true
     }
   });
+
+
+  $('#barang_id').on('change', function (evt) {
+  if ($('#barang_id').select2('val') != null){
+    var barang_id = $('#barang_id').select2('data')[0]['id'];
+    $.ajax({
+      url: "/barang/"+barang_id,
+      type: "GET", //send it through get method
+      success: function(response) {
+        $(".obat_non_racik_satuan").val(response.satuan_terkecil_id).change();
+      },
+      error: function(xhr) {
+        //Do Something to handle error
+      }
+    });
+    
+  }
+});
 
 
 
@@ -589,7 +660,7 @@
         return {
           results: $.map(data, function(item) {
             return {
-              text: item.indonesia,
+              text: item.kode+' - '+item.indonesia,
               id: item.id
             }
           })
@@ -946,7 +1017,20 @@
       url: url,
       type: "GET",
       success: function(res) {
-        
+
+        console.log(res.pendaftaran);
+        $('#berat_badan').html(res.pendaftaran.tanda_tanda_vital.berat_badan);
+        $('#tekanan_darah').html(res.pendaftaran.tanda_tanda_vital.tekanan_darah);
+        $('#suhu_tubuh').html(res.pendaftaran.tanda_tanda_vital.suhu_tubuh);
+        $('#tinggi_badan').html(res.pendaftaran.tanda_tanda_vital.tinggi_badan);
+        $('#jenis_kasus').html(res.pendaftaran.tanda_tanda_vital.jenis_kasus);
+        $('#nadi').html(res.pendaftaran.tanda_tanda_vital.nadi);
+        $('#rr').html(res.pendaftaran.tanda_tanda_vital.rr);
+        $('#saturasi_o2').html(res.pendaftaran.tanda_tanda_vital.saturasi_o2);
+        $('#fungsi_penciuman').html(res.pendaftaran.tanda_tanda_vital.fungsi_penciuman);
+        $('#status_alergi').html(res.pendaftaran.tanda_tanda_vital);
+        $('#anamnesa').html(res.pendaftaran.anamnesa);
+        $("#cetak_rekamedis").attr('href',"/pendaftaran/"+res.pendaftaran.id+"/cetak_rekamedis");
 
         $('#tanggal-pelayanan').html(res.tanggal_pelayanan)
         $('#poliklinik-tujuan').html(res.poliklinik)
