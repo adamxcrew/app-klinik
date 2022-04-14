@@ -91,6 +91,7 @@ return [
 
     'status_pelayanan' => [
         'pendaftaran' => 'Pendaftaran',
+        'batal' => 'Batal',
         'pemeriksaan_laboratorium' => 'Rujukan Pemeriksaan Laboratorium',
         'selesai_pemeriksaan_medis' => 'Selesai Pemeriksaan Medis',
         'selesai_pelayanan' => 'Selesai Pelayanan',

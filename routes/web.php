@@ -266,6 +266,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('ajax/select2SukuBangsa', 'AjaxController@select2SukuBangsa');
     Route::get('ajax/pasien', 'AjaxController@pasien');
     Route::get('ajax/user', 'AjaxController@user');
+    Route::get('ajax/lock_bpjs','AjaxController@lock_bpjs');
     Route::post('ajax/purchase-order-edittable', 'AjaxController@purchaseOrderEditTable');
     Route::post('ajax/permintaan-barang-detail-editable', 'AjaxController@permintaanBarangDetailEditable');
     Route::post('ajax/indikator-editable', 'AjaxController@indikatorEditable');

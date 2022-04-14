@@ -12,6 +12,7 @@ use App\Models\Pendaftaran;
 use App\Models\PendaftaranObatRacik;
 use App\Models\PendaftaranObatRacikDetail;
 use App\Models\PendaftaranResep;
+
 class LaporanController extends Controller
 {
     public function laporanKunjunganPerPoli(Request $request)
@@ -34,25 +35,24 @@ class LaporanController extends Controller
         $data['setting']  = Setting::first();
         $data['pendaftaran'] = Pendaftaran::with('pasien')->findOrFail($id);
         $data['obatRacik'] = PendaftaranObatRacik::where('pendaftaran_id', $id)->get();
-        $data['pendaftaranResep'] = PendaftaranResep::where('pendaftaran_id',$id)->get();
+        $data['pendaftaranResep'] = PendaftaranResep::where('pendaftaran_id', $id)->get();
 
 
         $dataCetak = [];
 
-        foreach ($data['obatRacik'] as $row)
-        {
+        foreach ($data['obatRacik'] as $row) {
             $dataCetak[] = [
                 'barang' => 'nama_barang',
-                'jumlah'=>'1 box',
-                'aturan_pakai'=>'2x 1 hari',
+                'jumlah' => '1 box',
+                'aturan_pakai' => '2x 1 hari',
             ];
         }
 
-        foreach ($data['pendaftaranResep'] as $row2){
+        foreach ($data['pendaftaranResep'] as $row2) {
             $dataCetak[] = [
                 'barang' => 'nama_barang',
-                'jumlah'=>'1 box',
-                'aturan_pakai'=>'2x 1 hari',
+                'jumlah' => '1 box',
+                'aturan_pakai' => '2x 1 hari',
             ];
         }
 

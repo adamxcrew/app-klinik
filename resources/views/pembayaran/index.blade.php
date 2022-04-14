@@ -93,7 +93,7 @@
                       @php
                         $harga = $row->harga;
                         if($harga <= 0 ){
-                          $harga = $row->barang->harga;
+                          $harga = $row->harga;
                         }
                       @endphp
                        <td style="text-align:right">{{ convert_rupiah($harga)}}</td>

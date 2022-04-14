@@ -234,8 +234,16 @@
               <tr>
                 <td>Pilih Barang</td>
                 <td>
-                  <select name="barang_id" id="barang_id" class='form-control' style="width:100%">
-                  </select>
+                  <div class="row">
+                    <div class="col-md-7">
+                      <select name="barang_id" id="barang_id" class='form-control' style="width:100%">
+                      </select>
+                      
+                    </div>
+                    <div class="col-md-5">
+                      <input type="checkbox" onclick="check_lock_bpjs()" {{ $pendaftaran->perusahaanAsuransi->nama_perusahaan=='BPJS'?'checked=checked"':''}} id="lock_bpjs"> Kunci Obat Umum ? </div>
+                  </div>
+                 
                 </td>
               </tr>
               <tr>
@@ -583,6 +591,7 @@
       }
     });
 
+
     $('#barang_id').select2({
     placeholder: 'Cari Barang',
     tags: true,
@@ -787,6 +796,29 @@
   }
 
 
+
+  function check_lock_bpjs(){
+    if($("#lock_bpjs").is(':checked'))
+    {
+      var lock_bpjs = "yes";
+    }else{
+      var lock_bpjs = "no";
+    }
+    console.log(lock_bpjs);
+      $.ajax({
+        url: "/ajax/lock_bpjs",
+        type: "get", //send it through get method
+        data: { 
+          lock_bpjs: lock_bpjs
+        },
+        success: function(response) {
+          console.log(response);
+        },
+        error: function(xhr) {
+          //Do Something to handle error
+        }
+  });
+  }
   function simpan_daftar_diagnosa()
   {
     let diagnosa = $('#diagnosa_id').select2('data')[0].id;

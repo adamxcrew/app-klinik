@@ -58,8 +58,14 @@ class AjaxController extends Controller
             ->select('id', 'nama_barang', 'harga')
             ->where('nama_barang', 'like', "%" . $request->q . "%");
 
-        if ($request->has('pelayanan')) {
-            if (strtoupper($request->pelayanan) == 'BPJS') {
+        // if ($request->has('pelayanan')) {
+        //     if (strtoupper($request->pelayanan) == 'BPJS') {
+        //         $data = $data->where('pelayanan', 'bpjs');
+        //     }
+        // }
+
+        if (\session('lock_bpjs') != null) {
+            if (\session('lock_bpjs') == 'yes') {
                 $data = $data->where('pelayanan', 'bpjs');
             }
         }
@@ -300,5 +306,12 @@ class AjaxController extends Controller
         $antrian->sudah_dipanggil = 1;
         $antrian->save();
         return $antrian;
+    }
+
+    public function lock_bpjs(Request $request)
+    {
+
+        \session(['lock_bpjs' => $request->lock_bpjs]);
+        return session('lock_bpjs');
     }
 }

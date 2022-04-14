@@ -138,8 +138,8 @@ class PendaftaranTindakanController extends Controller
 
         $pendaftaranTindakan->delete();
         \DB::table('pendaftaran_resep')
-        ->where('tindakan_id',$pendaftaranTindakan->tindakan_id)
-        ->where('pendaftaran_id',$pendaftaranTindakan->pendaftaran_id)
+        ->where('tindakan_id', $pendaftaranTindakan->tindakan_id)
+        ->where('pendaftaran_id', $pendaftaranTindakan->pendaftaran_id)
         ->delete();
     }
 }
