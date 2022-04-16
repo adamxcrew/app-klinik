@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Barang;
 use App\Models\PendaftaranResep;
 use App\Models\Pendaftaran;
+
 class PendaftaranResepController extends Controller
 {
     /**
@@ -20,13 +21,12 @@ class PendaftaranResepController extends Controller
         $barang                     = Barang::find($request->barang_id);
         // jika jenis pelayanan bpjs dan obat umum maka set harga normal, selain itu set harga 0
 
-        if($pendaftaran->perusahaanAsuransi->nama_perusahaan == 'BPJS' && $barang->pelayanan == 'umum')
-        {
+        if ($pendaftaran->perusahaanAsuransi->nama_perusahaan == 'BPJS' && $barang->pelayanan == 'umum') {
             $request['harga']           = $barang->harga_jual;
-        }else{
+        } else {
             $request['harga']           = 0;
         }
-        
+
         $request['pendaftaran_id']  = $request->pendaftaran_id;
         $request['satuan_terkecil_id'] = $request->satuan;
         return PendaftaranResep::create($request->all());

@@ -58,10 +58,10 @@ class PendaftaranController extends Controller
         $awal = date('Y-m-d H:i:s', strtotime($data['tanggal_awal']));
         $akhir = date('Y-m-d H:i:s', strtotime($data['tanggal_akhir']));
 
-        $pendaftaran = Pendaftaran::select('pendaftaran.*', 'nomor_antrian.nomor_antrian')
+        $pendaftaran = Pendaftaran::select('pendaftaran.*', 'nomor_antrian.nomor_antrian', 'poliklinik.nama as nama_poliklinik')
         ->with('pasien', 'perusahaanAsuransi')
         ->join('nomor_antrian', 'nomor_antrian.pendaftaran_id', 'pendaftaran.id')
-            ->with('poliklinik')
+        ->join('poliklinik', 'nomor_antrian.poliklinik_id', 'poliklinik.id')
             ->whereBetween(DB::raw('DATE(pendaftaran.created_at)'), [$awal, $akhir]);
 
         if (auth()->user()->role == 'poliklinik') {
@@ -159,7 +159,12 @@ class PendaftaranController extends Controller
                 ->addColumn('status_pelayanan', function ($row) use ($status_pelayanan) {
                     return $status_pelayanan[$row->status_pelayanan];
                 })
-                ->rawColumns(['action'])
+                ->addColumn('nomor_rekam_medis', function ($row) {
+                    $checked = $row->check_list_poli_kebidanan == 1 ? 'checked' : '';
+                    $checkbox = \Auth::user()->poliklinik_id == 3 ? '<input ' . $checked . ' onclick="checklist(' . $row->id . ')" type="checkbox"> ' : '';
+                    return $checkbox . '' . $row->pasien->nomor_rekam_medis;
+                })
+                ->rawColumns(['action','nomor_rekam_medis'])
                 ->addIndexColumn()
                 ->make(true);
         }
@@ -306,7 +311,8 @@ class PendaftaranController extends Controller
     public function cetak($id)
     {
         $data['pasien'] = Pendaftaran::find($id);
-        $data['antrian'] = NomorAntrian::where('pendaftaran_id', $id)->first();
+        $data['antrian'] = NomorAntrian::with('poliklinik', 'dokter')->where('pendaftaran_id', $id)->orderBy('id', 'DESC')->first();
+
         return view('pendaftaran.nomor-antrian', $data);
     }
 
@@ -410,11 +416,12 @@ class PendaftaranController extends Controller
         $data['poliklinik']         = Poliklinik::pluck('nama', 'id');
         $data['pendaftaranResepRacik'] = PendaftaranObatRacik::where('pendaftaran_id', $id);
         $data['jenisPemeriksaanLaboratorium'] = Tindakan::pluck('tindakan', 'id');
-        $data['riwayatKunjungan']   = Pendaftaran::with('poliklinik', 'dokter', 'perusahaanAsuransi')
+        $data['riwayatKunjungan']   = Pendaftaran::with('nomorAntrian', 'perusahaanAsuransi')
             ->where('pasien_id', $data['pendaftaran']->pasien->id)
             //->where('id', '!=', $id)
             ->get();
         $data['barang'] = Barang::pluck('nama_barang', 'id');
+        //return $data['riwayatKunjungan'] ;
         return view('pendaftaran.pemeriksaan', $data);
     }
 

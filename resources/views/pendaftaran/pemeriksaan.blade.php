@@ -64,8 +64,28 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ tgl_indo(substr($riwayat->created_at, 0,10)) }}</td>
                         <td>{{ $riwayat->perusahaanAsuransi->nama_perusahaan }}</td>
-                        <td>{{ $riwayat->dokter->name }}</td>
-                        <td>{{ $riwayat->poliklinik->nama }}</td>
+                        <td>
+                          <?php
+                            $antrian = $riwayat->nomorAntrian;
+                            foreach($antrian as $a)
+                            {
+                              $dokter = \App\User::find($a->dokter_id);
+                              echo $dokter->name;
+                              echo "<br>";
+                            }
+                            ?>
+                        </td>
+                        <td>
+                          <?php
+                          $antrian = $riwayat->nomorAntrian;
+                          foreach($antrian as $a)
+                          {
+                            $poliklinik = \App\Models\Poliklinik::find($a->poliklinik_id);
+                            echo $poliklinik->nama;
+                            echo "<br>";
+                          }
+                          ?>
+                        </td>
                         <td>
                           <button type="button" data-kode="{{ $riwayat->id }}" class="btn btn-primary btn-sm kode" data-toggle="modal" data-target="#modalHistoryPendaftaran">
                             <i class='fa fa-eye' aria-hidden='true'></i>
@@ -448,14 +468,14 @@
               <td>Tanggal Pelayanan</td>
               <td id="tanggal-pelayanan"></td>
             </tr>
-            <tr>
+            {{-- <tr>
               <td>Poliklinik Tujuan</td>
               <td id="poliklinik-tujuan"></td>
-            </tr>
-            <tr>
+            </tr> --}}
+            {{-- <tr>
               <td>Dokter Yang Dituju</td>
               <td id="dokter-tujuan"></td>
-            </tr>
+            </tr> --}}
           </table>
 
           <h4>Tanda Tanda Vital</h4>

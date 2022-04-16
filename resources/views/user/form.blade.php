@@ -65,21 +65,21 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
-        // Check for form edit
-        let user = "{{ isset($user) }}"
-        if(user) {
-            $('#poliklinik').removeClass('d-none')
-        }
-
-        // For form create
+        cek_jabatan();
         $('#jabatan').change(function() {
-            let jabatan = $(this).val()
-            if(jabatan == 'poliklinik') {
-                $('#poliklinik').removeClass('d-none')
-            } else {
-                $('#poliklinik').addClass('d-none')
-            }
+            cek_jabatan();
         })
     })
+
+
+    function cek_jabatan(){
+        var jabatan = $("#jabatan").val();
+        console.log(jabatan);
+            if(jabatan == 'poliklinik') {
+                $('#poliklinik').removeClass('d-none');
+            } else {
+                $('#poliklinik').addClass('d-none');
+            }
+    }
 </script>
 @endpush

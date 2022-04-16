@@ -123,6 +123,11 @@
         ['icon' => 'fa fa-television', 'link' => '/home', 'label' => 'Dashboard'],
         ['icon' => 'fa fa-address-card', 'link' => '/pendaftaran', 'label' => 'daftar pasien antri'],
       ];
+
+      $rekamedis = [
+        ['icon' => 'fa fa-television', 'link' => '/home', 'label' => 'Dashboard'],
+        ['icon' => 'fa fa-address-card', 'link' => '/pasien', 'label' => 'Database Pasien'],
+      ];
       $pimpinan = [
         ['icon' => 'fa fa-user', 'link' => '/home', 'label' => 'Dashboard'],
         ['icon' => 'fa fa-user', 'link' => '/purchase-order', 'label' => 'Purchase Order'],
@@ -152,6 +157,7 @@
         'apoteker'        => $apoteker,
         'bagian_pendaftaran' => $bagian_pendaftaran,
         'laboratorium' => $laboratorium,
+        'rekamedis' => $rekamedis,
         'poliklinik' => $poliklinik
       ];
       ?>

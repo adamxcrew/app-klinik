@@ -278,3 +278,4 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('antrian-depan', 'AntrianController@antrianDepan');
 Route::get('pendaftaran/{id}/cetak_label','LaporanController@label');
+Route::get('ajax/checklist_poli_kebidanan','AjaxController@checkPoliKebidanan');

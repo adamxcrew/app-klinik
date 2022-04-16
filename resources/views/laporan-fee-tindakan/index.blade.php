@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Kelola Tindakan')
+@section('title','Laporan Fee Tindakan')
 @section('content')
 <div class="content-wrapper">
     <section class="content-header">
@@ -64,6 +64,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Export Laporan</h4>
       </div>
+      {{ Form::open(['url'=>'laporan-fee-tindakan/export_excel','method' =>'get']) }}
       <div class="modal-body">
         <table class="table table-bordered">
           <tr>
@@ -81,15 +82,22 @@
           <tr>
             <td>Poliklinik</td>
             <td>
-              {{Form::select('poliklinik_id',$poliklinik,null,['class'=>'form-control'])}}
+              {{Form::select('poliklinik_id',$poliklinik,null,['class'=>'form-control','placeholder'=>'-- Semua Poli --'])}}
+            </td>
+          </tr>
+          <tr>
+            <td>Nama Pelaksana</td>
+            <td>
+              {{Form::select('user_id',$users,null,['class'=>'form-control','placeholder'=>'-- Semua User --'])}}
             </td>
           </tr>
         </table>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-        <button type="button" class="btn btn-primary">Export</button>
+        <button type="submit" class="btn btn-primary">Export</button>
       </div>
+      {{Form::close()}}
     </div>
   </div>
 </div>

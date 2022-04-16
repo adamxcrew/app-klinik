@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DataTables;
 use App\Models\PendaftaranFeeTindakan;
+use App\Models\Pegawai;
+
+;
 use App\Exports\LaporanFeeTindakanExport;
 use Excel;
 use DB;
@@ -45,7 +48,7 @@ class LaporanFeeTindakanController extends Controller
                 return $row->user->nama;
             })
             ->editColumn('unit', function ($row) {
-                return $row->pendaftaran->poliklinik->nama;
+                return $row->unit->nama ?? '-';
             })
             ->addIndexColumn()
             ->make(true);
@@ -84,15 +87,12 @@ class LaporanFeeTindakanController extends Controller
         }
 
         $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
+        $data['users'] = Pegawai::pluck('nama', 'id');
         return view('laporan-fee-tindakan.index', $data);
     }
 
     public function export_excel(Request $request)
     {
-        $filter = [
-            'tanggal_mulai'     => $request->tanggal_mulai,
-            'tanggal_selesai'   => $request->tanggal_selesai,
-            'poliklinik_id'     => $request->poliklinik_id];
-        return Excel::download(new LaporanFeeTindakanExport($filter), 'LaporanFeeTindakan.xlsx');
+        return Excel::download(new LaporanFeeTindakanExport($request->tanggal_mulai, $request->tanggal_selesai, $request->user_id, $request->poliklinik_id), 'LaporanFeeTindakan.xlsx');
     }
 }

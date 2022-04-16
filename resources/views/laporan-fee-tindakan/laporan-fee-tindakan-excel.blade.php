@@ -17,7 +17,7 @@
             <tr>
                 <td>{{$loop->iteration}}</td>
                 <td>{{tgl_indo($row->created_at)}}</td>
-                <td>{{$row->pendaftaran->poliklinik->nama}}</td>
+                <td>{{$row->unit->nama??'-'}}</td>
                 <td>{{$row->pelaksana}}</td>
                 <td>{{$row->user->nama}}</td>
                 <td>{{$row->tindakan->tindakan}}</td>

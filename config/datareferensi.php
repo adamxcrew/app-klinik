@@ -111,7 +111,7 @@ return [
         'poliklinik'      =>  'Poliklinik',
         'bagian_pendaftaran' => 'Bagian Pendaftaran',
         'admin_medis'   =>  'Admin Medis',
-        // 'laboratorium'   =>  'Laboratorium',
+        'rekamedis'     =>'Rekamedis',
         'bagian_gudang' => 'Bagian Gudang'
     ],
 

@@ -37,7 +37,7 @@
 
               <?php
               $nomor_antrian = \DB::table('nomor_antrian');
-              $jumlah_antrian =   $nomor_antrian->where('poliklinik_id',Auth::user()->poliklinik_id)->count();
+              $jumlah_antrian =   $nomor_antrian->whereRaw('left(created_at,10)="'.date('Y-m-d').'"')->where('poliklinik_id',Auth::user()->poliklinik_id)->count();
               $sisa_antrian = $nomor_antrian->where('sudah_dipanggil',0)->count();
               $antrian_sekarang = $nomor_antrian->where('sudah_dipanggil',1)->orderBy('sudah_dipanggil','DESC')->first();
               ?>
@@ -47,14 +47,14 @@
                   {{-- {{ Auth::user()}} --}}
                   <input type="hidden" id="poliklinik_id" value="{{ Auth::user()->poliklinik_id}}">
                   
-                    <button type="button" class="btn btn-danger btn-lg" onclick="panggil()"><i class="fa fa-microphone"></i> Panggil</button>
+                    <button type="button" class="btn btn-danger btn-lg btn-call" onclick="panggil()"><i class="fa fa-microphone"></i> Panggil</button>
                  
                 </div>
-                <div class="col-lg-3 col-xs-6">
+                <div class="col-lg-4 col-xs-6">
                     <!-- small box -->
                     <div class="small-box bg-aqua">
                         <div class="inner">
-                            <h3>{{ $jumlah_antrian }}</h3>
+                            <h3 id="jumlah_total_antrian">{{ $jumlah_antrian }}</h3>
                             <p>Jumlah Antrian</p>
                         </div>
                         <div class="icon">
@@ -64,11 +64,11 @@
                     </div>
                 </div>
                 <!-- ./col -->
-                <div class="col-lg-3 col-xs-6">
+                <div class="col-lg-4 col-xs-6">
                     <!-- small box -->
                     <div class="small-box bg-green">
                         <div class="inner">
-                            <h3>{{ $antrian_sekarang->nomor_antrian??0 }}<sup style="font-size: 20px"></sup></h3>
+                            <h3 id="antrian_sekarang">{{ $antrian_sekarang->nomor_antrian??0 }}<sup style="font-size: 20px"></sup></h3>
             
                             <p>Antrian Saat ini</p>
                         </div>
@@ -79,26 +79,13 @@
                     </div>
                 </div>
                 <!-- ./col -->
-                <div class="col-lg-3 col-xs-6">
-                    <!-- small box -->
-                    <div class="small-box bg-yellow">
-                        <div class="inner">
-                            <h3>5</h3>
-            
-                            <p>{{ $antrian_sekarang->nomor_antrian??0 }}</p>
-                        </div>
-                        <div class="icon">
-                            <i class="ion ion-person-add"></i>
-                        </div>
-                        
-                    </div>
-                </div>
+
                 <!-- ./col -->
-                <div class="col-lg-3 col-xs-6">
+                <div class="col-lg-4 col-xs-6">
                     <!-- small box -->
                     <div class="small-box bg-red">
                         <div class="inner">
-                            <h3>{{ $sisa_antrian }}</h3>
+                            <h3 id="sisa_antrian">{{ $sisa_antrian }}</h3>
             
                             <p>Sisa antrian</p>
                         </div>
@@ -210,16 +197,31 @@
           ajax: "/pendaftaran?tanggal_awal={{$tanggal_awal}}&tanggal_akhir={{$tanggal_akhir}}&poliklinik_id={{$poliklinik_id}}&type=web",
           columns: [
             {data: 'DT_RowIndex', orderable: false, searchable: false},
-            { data: 'pasien.nomor_rekam_medis', name: 'pasien.nomor_rekam_medis' },
+            { data: 'nomor_rekam_medis', name: 'nomor_rekam_medis' },
             { data: 'nomor_antrian_waktu', name: 'nomor_antrian_waktu' },
             { data: 'nama', name: 'nama' },
-            { data: 'poliklinik.nama', name: 'poliklinik.nama' },
+            { data: 'nama_poliklinik', name: 'nama_poliklinik' },
             { data: 'jenis_layanan', name: 'jenis_layanan' },
             { data: 'status_pelayanan', name: 'status_pelayanan' },
             { data: 'action', name: 'action' }
           ]
       });
     });
+
+    function checklist(id){
+      console.log(id);
+      $.ajax({
+        url: "ajax/checklist_poli_kebidanan",
+        type: "get", //send it through get method
+        data: {pendaftaran_id:id},
+        success: function(response) {
+          console.log(response)
+        },
+        error: function(xhr) {
+          //Do Something to handle error
+        }
+      });
+    }
 
     function panggil(){
       console.log("sas");
@@ -235,12 +237,23 @@
           type: 'GET',
           data: {poliklinik_id:$("#poliklinik_id").val(),} ,
           success: function (response) {
-            console.log(response.nomor_antrian);
-              responsiveVoice.speak("Nomor Antrian, "+response.nomor_antrian+", silahkan menuju ke, Poli umum", "Indonesian Female", {
+            console.log(response);
+            // console.log(response.antrian_sekarang);
+              responsiveVoice.speak("Nomor Antrian, "+response.antrian_sekarang+", silahkan menuju ke, Poli umum", "Indonesian Female", {
                 rate: 0.9,
                 pitch: 1,
                 volume: 1
             });
+
+            $('#antrian_sekarang').text(response.antrian_sekarang);
+            $('#jumlah_total_antrian').text(response.jumlah_total_antrian);
+            $('#sisa_antrian').text(response.sisa_antrian);
+
+            if(response.sisa_antrian==0)
+            {
+              $(".btn-call").prop('disabled', true);
+            }
+
           },
           error: function () {
               //alert("error");
@@ -250,7 +263,12 @@
 
 
         }, durasi_bell);
-        //location.reload();
+
+
+
+        
+        //setTimeout(function() { location.reload() }, 10000);
+
     }
 </script>
 @endpush

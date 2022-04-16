@@ -15,12 +15,14 @@ class LaporanFeeTindakanExport implements FromView, ShouldAutoSize, WithEvents
     protected $tanggal_mulai;
     protected $tanggal_selesai;
     protected $poliklinik_id;
+    protected $user_id;
 
-    public function __construct($tanggal_mulai, $tanggal_selesai, $poliklinik_id)
+    public function __construct($tanggal_mulai, $tanggal_selesai, $user_id, $poliklinik_id)
     {
         $this->tanggal_mulai = $tanggal_mulai;
         $this->tanggal_selesai = $tanggal_selesai;
         $this->poliklinik_id = $poliklinik_id;
+        $this->user_id = $user_id;
     }
 
 
@@ -34,13 +36,31 @@ class LaporanFeeTindakanExport implements FromView, ShouldAutoSize, WithEvents
         // join poliklinik as pl on pl.id=na.poliklinik_id
         // join pegawai as pg on pg.id=p.dokter_id;"
 
-        $fee = PendaftaranFeeTindakan::with(['tindakan', 'pendaftaran', 'user'])->get();
-        return view('laporan-fee-tindakan.laporan-fee-tindakan-excel', ['fees' => $fee]);
+        $fee = PendaftaranFeeTindakan::with(['tindakan', 'pendaftaran', 'user']);
+
+        if ($this->poliklinik_id != '') {
+            $fee = $fee->where('poliklinik_id', $this->poliklinik_id);
+        }
+
+        if ($this->user_id != '') {
+            $fee = $fee->where('user_id', $this->user_id);
+        }
+        return view('laporan-fee-tindakan.laporan-fee-tindakan-excel', ['fees' => $fee->get()]);
     }
 
     public function registerEvents(): array
     {
-        $jmlData = PendaftaranFeeTindakan::count() + 1;
+
+        $fee = PendaftaranFeeTindakan::with(['tindakan', 'pendaftaran', 'user']);
+
+        if ($this->poliklinik_id != '') {
+            $fee = $fee->where('poliklinik_id', $this->poliklinik_id);
+        }
+
+        if ($this->user_id != '') {
+            $fee = $fee->where('user_id', $this->user_id);
+        }
+        $jmlData = $fee->count() + 1;
         return [
             AfterSheet::class    => function (AfterSheet $event) use ($jmlData) {
                 $cellRange = 'A1:G1'; // All headers

@@ -215,8 +215,9 @@ class PasienController extends Controller
             "diagnosa" => $diagnosa,
             'pendaftaran' => $pendaftaran,
             "obat"     => $obat,
-            "poliklinik" => $pendaftaran->poliklinik->nama,
-            "dokter" => $pendaftaran->dokter->name,
+            //"poliklinik" => $pendaftaran->poliklinik->nama,
+            // "dokter" => $pendaftaran->dokter->name,
+            'nomor_antrian' => $pendaftaran->with('nomor_antrian'),
             "tanggal_pelayanan" => tgl_indo(substr($pendaftaran->created_at, 0, 10))
         ];
 

@@ -8,7 +8,7 @@ class PendaftaranFeeTindakan extends Model
 {
     protected $table = "pendaftaran_fee_tindakan";
 
-    protected $fillable = ['tindakan_id','pendaftaran_id','jumlah_fee','user_id','pelaksana'];
+    protected $fillable = ['tindakan_id','pendaftaran_id','jumlah_fee','user_id','pelaksana','poliklinik_id'];
 
     public function tindakan()
     {
@@ -18,6 +18,11 @@ class PendaftaranFeeTindakan extends Model
     public function pendaftaran()
     {
         return $this->belongsTo('App\Models\Pendaftaran');
+    }
+
+    public function unit()
+    {
+        return $this->belongsTo('App\Models\Poliklinik', 'poliklinik_id', 'id');
     }
 
     public function user()

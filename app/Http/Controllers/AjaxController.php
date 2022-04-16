@@ -302,10 +302,25 @@ class AjaxController extends Controller
 
     public function nomorAntrialCall(Request $request)
     {
+        $total_antrian = \App\Models\NomorAntrian::whereRaw("left(created_at,10)='" . date('Y-m-d') . "'")
+                ->where('poliklinik_id', $request->poliklinik_id)
+                ->count();
+
+        $antrian_sekarang = \App\Models\NomorAntrian::whereRaw("left(created_at,10)='" . date('Y-m-d') . "'")
+                            ->where('poliklinik_id', $request->poliklinik_id)
+                            ->where('sudah_dipanggil', 0)
+                            ->first();
+
         $antrian = \App\Models\NomorAntrian::where('sudah_dipanggil', 0)->where('poliklinik_id', $request->poliklinik_id)->first();
         $antrian->sudah_dipanggil = 1;
         $antrian->save();
-        return $antrian;
+
+        $hasil = [
+            'jumlah_total_antrian' => $total_antrian,
+            'antrian_sekarang' => $antrian_sekarang->nomor_antrian,
+            'sisa_antrian' => $total_antrian-$antrian_sekarang->nomor_antrian
+        ];
+        return $hasil;
     }
 
     public function lock_bpjs(Request $request)
@@ -313,5 +328,13 @@ class AjaxController extends Controller
 
         \session(['lock_bpjs' => $request->lock_bpjs]);
         return session('lock_bpjs');
+    }
+
+    public function checkPoliKebidanan(Request $request)
+    {
+        $pendaftaran = \App\Models\Pendaftaran::find($request->pendaftaran_id);
+        $value = $pendaftaran->check_list_poli_kebidanan == 0 ? 1 : 0;
+        $pendaftaran->update(['check_list_poli_kebidanan' => $value]);
+        return $value;
     }
 }

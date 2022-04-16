@@ -11,11 +11,9 @@ class Pendaftaran extends Model
     protected $fillable = [
         'kode',
         'pasien_id',
-        'dokter_id',
         'jenis_layanan',
         'status_pembayaran',
         'status_pelayanan',
-        'poliklinik_id',
         'tanda_tanda_vital',
         'jenis_pendaftaran',
         'jenis_rujukan',
@@ -33,7 +31,8 @@ class Pendaftaran extends Model
         'jumlah_bayar',
         'tindakan_id',
         'keterangan_pembayaran',
-        'anamnesa'
+        'anamnesa',
+        'check_list_poli_kebidanan'
     ];
 
     public function pasien()
@@ -89,5 +88,11 @@ class Pendaftaran extends Model
     public function jenisLayanan()
     {
         return $this->belongsTo('App\Models\PerusahaanAsuransi', 'jenis_layanan', 'id');
+    }
+
+
+    public function nomorAntrian()
+    {
+        return $this->hasMany('App\Models\NomorAntrian');
     }
 }

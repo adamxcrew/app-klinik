@@ -57,7 +57,7 @@
                                 <small class="small-label-antrian">Bagian</small>
                             </div>
                             <div class="col-md-6 text-right">
-                                {{ $pasien->poliklinik->nama }}
+                                {{ $antrian->poliklinik->nama }}
                             </div>
                         </div>
 
@@ -67,7 +67,7 @@
                                 <small class="small-label-antrian">Dokter</small>
                             </div>
                             <div class="col-md-6 text-right">
-                                {{ $pasien->dokter->name }}
+                                {{ $antrian->dokter->name }}
                             </div>
                         </div>
 
