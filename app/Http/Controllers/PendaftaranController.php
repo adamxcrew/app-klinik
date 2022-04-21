@@ -189,9 +189,12 @@ class PendaftaranController extends Controller
 
     public function input_indikator($id)
     {
-        $data['pendaftaran']            = Pendaftaran::with('pasien', 'tindakan')->find($id);
+        //$data['pendaftaran']            = NomorAntrian::with('pendaftaran')->where('pendaftaran_id',$id)->where('poliklinik_id',\Auth::user()->poliklinik_id)->first();
+        $data['pendaftaran']            = Pendaftaran::with('pasien')->find($id);
+        $nomorAntrian                   = NomorAntrian::where('pendaftaran_id', $id)->where('poliklinik_id', \Auth::user()->poliklinik_id)->first();
+        $data['tindakan']               = Tindakan::where('id', $nomorAntrian->tindakan_id)->first();
         $data['hasilPemeriksaan']       = HasilPemeriksaanLab::where('pendaftaran_id', $id)->get();
-        $data['indikatorPemeriksaan']   = IndikatorPemeriksaanLab::where('tindakan_id', $data['pendaftaran']->tindakan_id)->get();
+        $data['indikatorPemeriksaan']   = IndikatorPemeriksaanLab::where('tindakan_id', $nomorAntrian->tindakan_id)->get();
         return view('pendaftaran.indikator', $data);
     }
 
@@ -208,6 +211,11 @@ class PendaftaranController extends Controller
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
+
+            \DB::table('nomor_antrian')
+            ->where('pendaftaran_id',$pendaftaranId)
+            ->where('poliklinik_id',\Auth::user()->poliklinik_id)
+            ->update(['status_pemeriksaan'=>'Selesai']);
         }
 
         RujukanInternal::where('pendaftaran_id', $pendaftaranId)->update(['status' => 'Selesai']);
@@ -218,8 +226,12 @@ class PendaftaranController extends Controller
     {
         $listIndikator = HasilPemeriksaanLab::where('pendaftaran_id', $id)->get();
 
-        $data['pendaftaran'] = Pendaftaran::with('pasien')->find($id);
+        $data['pendaftaran'] = NomorAntrian::where('pendaftaran_id', $id)
+        ->where('poliklinik_id', \Auth::user()->poliklinik_id)
+        ->with('poliklinik','dokter')
+        ->first();
         // $data['jenisPemeriksaan'] = JenisPemeriksaanLab::findOrFail($id);
+
         $data['indikatorPemeriksaan'] = IndikatorPemeriksaanLab::all();
         $data['listIndikator'] = $listIndikator;
         $data['carbon'] = new Carbon();
@@ -335,6 +347,8 @@ class PendaftaranController extends Controller
     public function pemeriksaanRiwayatPenyakit(Request $request, $id)
     {
         $request['pendaftaran_id'] = $id;
+        $pendaftaran = Pendaftaran::findOrFail($id);
+        $request['pasien_id'] = $pendaftaran->pasien_id;
         RiwayatPenyakit::create($request->all());
         return view('pendaftaran.ajax-table-riwayat-penyakit');
     }
@@ -350,7 +364,8 @@ class PendaftaranController extends Controller
     public function resumeRiwayatPenyakit(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(RiwayatPenyakit::where('pendaftaran_id', $request->id)->get())
+            $pendaftaran = Pendaftaran::with('pasien.riwayatPenyakit')->findOrFail($request->id);
+            return DataTables::of($pendaftaran->pasien->riwayatPenyakit)
                 ->editColumn('kode', function ($row) {
                     return $row->tbmIcd->kode;
                 })
@@ -410,11 +425,11 @@ class PendaftaranController extends Controller
 
     public function pemeriksaan($id)
     {
-        $data['pendaftaran']        = Pendaftaran::with('pasien', 'jenisLayanan')->find($id);
-        $data['dokter']             = Pegawai::pluck('nama', 'id');
-        $data['satuan']             = Satuan::pluck('satuan', 'id');
-        $data['poliklinik']         = Poliklinik::pluck('nama', 'id');
-        $data['pendaftaranResepRacik'] = PendaftaranObatRacik::where('pendaftaran_id', $id);
+        $data['pendaftaran']            = Pendaftaran::with('pasien', 'jenisLayanan')->find($id);
+        $data['dokter1']                = User::where('role', 'dokter')->pluck('name', 'id');
+        $data['satuan']                 = Satuan::pluck('satuan', 'id');
+        $data['poliklinik1']            = Poliklinik::pluck('nama', 'id');
+        $data['pendaftaranResepRacik']  = PendaftaranObatRacik::where('pendaftaran_id', $id);
         $data['jenisPemeriksaanLaboratorium'] = Tindakan::pluck('tindakan', 'id');
         $data['riwayatKunjungan']   = Pendaftaran::with('nomorAntrian', 'perusahaanAsuransi')
             ->where('pasien_id', $data['pendaftaran']->pasien->id)

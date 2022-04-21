@@ -51,4 +51,9 @@ class Pasien extends Model
     {
         return $this->hasMany('App\Models\RujukanInternal');
     }
+
+    public function riwayatPenyakit()
+    {
+        return $this->hasMany('App\Models\RiwayatPenyakit', 'pasien_id', 'id');
+    }
 }

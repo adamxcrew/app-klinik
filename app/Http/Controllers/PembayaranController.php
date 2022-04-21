@@ -30,7 +30,7 @@ class PembayaranController extends Controller
         $data['pendaftaran'] = Pendaftaran::with('pasien', 'perusahaanAsuransi')->where('id', $id)->first();
         $awal = substr($data['pendaftaran']->created_at, 0, 10) . " 00:00:00";
         $akhir = substr($data['pendaftaran']->created_at, 0, 10) . " 23:59:00";
-        $data['tindakans'] = PendaftaranTindakan::with('tindakan', 'pendaftaran')->where('pendaftaran_id', $data['pendaftaran']->id)->whereBetween('created_at', [$awal, $akhir])->get();
+        $data['tindakans'] = PendaftaranTindakan::with('tindakan', 'pendaftaran')->where('pendaftaran_id', $data['pendaftaran']->id)->get();
         $data['penjamin'] = $data['pendaftaran']->perusahaanAsuransi->nama_perusahaan;
         $data['obats'] = PendaftaranResep::with('barang')->where('pendaftaran_id', $data['pendaftaran']->id)->get();
         $pdf = PDF::loadView('pembayaran.kwitansi', $data)->setPaper('A5', 'landscape');

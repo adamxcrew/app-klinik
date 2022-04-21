@@ -14,6 +14,7 @@ class Pendaftaran extends Model
         'jenis_layanan',
         'status_pembayaran',
         'status_pelayanan',
+        'status_alergi',
         'tanda_tanda_vital',
         'jenis_pendaftaran',
         'jenis_rujukan',
@@ -93,6 +94,6 @@ class Pendaftaran extends Model
 
     public function nomorAntrian()
     {
-        return $this->hasMany('App\Models\NomorAntrian');
+        return $this->hasMany('App\Models\NomorAntrian', 'pendaftaran_id', 'id');
     }
 }

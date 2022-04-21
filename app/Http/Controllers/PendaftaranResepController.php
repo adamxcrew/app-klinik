@@ -25,6 +25,7 @@ class PendaftaranResepController extends Controller
             $request['harga']           = $barang->harga_jual;
         } else {
             $request['harga']           = 0;
+            $request['is_bpjs']         = true;
         }
 
         $request['pendaftaran_id']  = $request->pendaftaran_id;

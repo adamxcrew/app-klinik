@@ -40,16 +40,6 @@
                     <td>:</td>
                     <th>{{ $userInfo->perusahaanAsuransi->nama_perusahaan }}</th>
                 </tr>
-                <tr>
-                    <td>Dokter Yang Menangani</td>
-                    <td>:</td>
-                    <th>{{ $userInfo->dokter->name }}</th>
-                </tr>
-                <tr>
-                    <td>Poliklinik</td>
-                    <td>:</td>
-                    <th>{{ $userInfo->poliklinik->nama }}</th>
-                </tr>
               </thead>
             </table>
           </div>
@@ -99,7 +89,7 @@
                        <td style="text-align:right">{{ convert_rupiah($harga)}}</td>
          
                       <td>0</td>
-                      <td style="text-align:right">{{ convert_rupiah($harga*$row->jumlah)}}</td>
+                      <td style="text-align:left">{{ convert_rupiah($harga*$row->jumlah)}}</td>
                       <td>
                         <button type="button" class="btn btn-danger btn-sm"><i class='fa fa-trash' aria-hidden='true'></i></button>
                       </td>

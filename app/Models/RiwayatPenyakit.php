@@ -8,7 +8,7 @@ class RiwayatPenyakit extends Model
 {
     protected $table = "pendaftaran_riwayat_penyakit";
 
-    protected $fillable = ['tbm_icd','pendaftaran_id'];
+    protected $fillable = ['tbm_icd','pendaftaran_id','pasien_id'];
 
     public function pendaftaran()
     {

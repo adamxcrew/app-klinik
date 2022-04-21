@@ -34,7 +34,7 @@ class PasienController extends Controller
     public function __construct()
     {
         $this->agama              = config('datareferensi.agama');
-        $this->jenisIdentitas              = config('datareferensi.jenis_identitas');
+        $this->jenisIdentitas     = config('datareferensi.jenis_identitas');
         $this->jenjang_pendidikan = config('datareferensi.jenjang_pendidikan');
         $this->status_pernikahan  = config('datareferensi.status_pernikahan');
         $this->kewarganegaraan    = config('datareferensi.kewarganegaraan');
@@ -205,19 +205,21 @@ class PasienController extends Controller
 
     public function riwayatKunjungan($idPendaftaran)
     {
-        $tindakan = PendaftaranTindakan::with('tindakan.icd')->where('pendaftaran_id', $idPendaftaran)->get();
-        $diagnosa = PendaftaranDiagnosa::with('icd')->where('pendaftaran_id', $idPendaftaran)->get();
-        $obat = PendaftaranResep::with('barang')->where('pendaftaran_id', $idPendaftaran)->get();
-        $pendaftaran = Pendaftaran::with('pasien', 'poliklinik', 'dokter')->find($idPendaftaran);
+        $tindakan       = PendaftaranTindakan::with('tindakan.icd')->where('pendaftaran_id', $idPendaftaran)->get();
+        $diagnosa       = PendaftaranDiagnosa::with('icd')->where('pendaftaran_id', $idPendaftaran)->get();
+        $obat           = PendaftaranResep::with('barang')->where('pendaftaran_id', $idPendaftaran)->get();
+        //$pendaftaran    = Pendaftaran::with('nomorAntrian.poliklinik','pasien', 'poliklinik', 'dokter')->find($idPendaftaran);
+
+        $pendaftaran    = Pendaftaran::with(['nomorAntrian' => function ($antrian) {
+            $antrian->with(['poliklinik', 'dokter'])->get();
+        }])->find($idPendaftaran);
+
         $riwayatKunjungan = [
             "pasien"   => $pendaftaran->pasien->nama,
             "tindakan" => $tindakan,
             "diagnosa" => $diagnosa,
             'pendaftaran' => $pendaftaran,
             "obat"     => $obat,
-            //"poliklinik" => $pendaftaran->poliklinik->nama,
-            // "dokter" => $pendaftaran->dokter->name,
-            'nomor_antrian' => $pendaftaran->with('nomor_antrian'),
             "tanggal_pelayanan" => tgl_indo(substr($pendaftaran->created_at, 0, 10))
         ];
 

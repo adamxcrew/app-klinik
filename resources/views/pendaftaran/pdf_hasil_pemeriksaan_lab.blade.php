@@ -45,25 +45,25 @@
                 <td>Nama</td>
                 <td>: {{$pendaftaran->dokter->name}}</td>
                 <td>Nama</td>
-                <td>: {{$pendaftaran->pasien->nama}}</td>
+                <td>: {{$pendaftaran->pendaftaran->pasien->nama}}</td>
             </tr>
             <tr style="background-color : #EEEEEE">
                 <td></td>
                 <td></td>
                 <td style="vertical-align:top">Alamat</td>
-                <td>: {{$pendaftaran->pasien->alamat}} </td>
+                <td>: {{$pendaftaran->pendaftaran->pasien->alamat}} </td>
             </tr>
             <tr>
                 <td>Pembayaran</td>
                 <td>: Tunai</td>
                 <td>Jenis Kelamin</td>
-                <td>: {{ucWords ($pendaftaran->pasien->jenis_kelamin)}}</td>
+                <td>: {{ucWords ($pendaftaran->pendaftaran->pasien->jenis_kelamin)}}</td>
             </tr>
             <tr style="background-color : #EEEEEE">
                 <td></td>
                 <td></td>
                 <td>Umur</td>
-                <td>: {{$carbon::parse($pendaftaran->pasien->tanggal_lahir)->age}} tahun</td>
+                <td>: {{$carbon::parse($pendaftaran->pendaftaran->pasien->tanggal_lahir)->age}} tahun</td>
             </tr>
             <tr>
                 <td>Tanggal, Jam</td>

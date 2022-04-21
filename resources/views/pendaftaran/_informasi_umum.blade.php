@@ -65,7 +65,7 @@
                                 <strong>Tujuan Poliklinik</strong>
                             </div>
                             <div class="col-md-7">
-                                : {{ $pendaftaran->poliklinik->nama }}
+                                : {{ $pendaftaran->nomorAntrian??'-' }}
                             </div>
                         </div>
 

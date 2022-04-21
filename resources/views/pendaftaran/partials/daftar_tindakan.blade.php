@@ -17,7 +17,7 @@
         @foreach($pendaftaranTindakan->get() as $row)
         <tr>
             <td>{{ $loop->iteration }}</td>
-            <td>{{ $row->tindakan->icd->code }}</td>
+            <td>{{ $row->tindakan->icd->code??'-' }}</td>
             <td>{{ $row->tindakan->tindakan }}</td>
             <td>{{ rupiah($row->fee) }}</td>
             <td>{{ $row->qty }}</td>

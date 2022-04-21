@@ -73,8 +73,8 @@
                 <td>{{ $loop->iteration }}</td>
                 <td><button class="badge badge-success kode" data-kode="{{ $p->id }}">{{ $p->kode }}</button></td>
                 <td>{{ substr($p->created_at, 0, 10) }}</td>
-                <td>{{ $p->poliklinik->nama }}</td>
-                <td>{{ $p->dokter->name }}</td>
+                <td>{{ $p->poliklinik->nama??'-' }}</td>
+                <td>{{ $p->dokter->name??'-' }}</td>
                 <td>{{ $p->perusahaanAsuransi->nama_perusahaan }}</td>
               </tr>
               @endforeach

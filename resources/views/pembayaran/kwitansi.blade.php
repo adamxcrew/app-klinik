@@ -86,7 +86,7 @@
             <tbody class="dotted" style="text-align:left">
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $tindakan->tindakan->tindakan }} - {{ $tindakan->pendaftaran->dokter->name }}</td>
+                    <td>{{ $tindakan->tindakan->tindakan }} </td>
                     <td>{{ $tindakan->qty }}</td>
                     <td>-</td>
                     <td>{{ convert_rupiah($tindakan->fee) }}</td>

@@ -218,13 +218,13 @@
             <tr>
               <td>Dokter</td>
               <td>
-                {!! Form::select('dokter', $dokter, null, ['class'=>'form-control', 'id' => 'dokter']) !!}
+                {!! Form::select('dokter', $dokter1, null, ['class'=>'form-control', 'id' => 'dokter']) !!}
               </td>
             </tr>
             <tr>
               <td>Asistensi</td>
               <td>
-                {!! Form::select('asisten', $dokter, null, ['class'=>'form-control', 'id' => 'asisten']) !!}
+                {!! Form::select('asisten', $dokter1, null, ['class'=>'form-control', 'id' => 'asisten']) !!}
               </td>
             </tr>
           </table>
@@ -417,14 +417,14 @@
               <table class="table table-bordered table-bordered">
                 <tr>
                   <td width="200">Pilih Unit</td>
-                  <td>
-                    {{ Form::select('poliklinik_id',$poliklinik,null,['class'=>'form-control poliklinik_id'])}}
+                  <td> 
+                    {{ Form::select('poliklinik_id',$poliklinik1,null,['class'=>'form-control poliklinik_id'])}}
                   </td>
                 </tr>
                 <tr>
                   <td width="200">Dokter Perujuk</td>
                   <td>
-                    {{ Form::select('user_id',$dokter,null,['class'=>'form-control user_id'])}}
+                    {{ Form::select('user_id',$dokter1,null,['class'=>'form-control user_id'])}}
                   </td>
                 </tr>
                 <tr>
@@ -464,7 +464,7 @@
         </div>
         <div class="modal-body">
           <table class="table table-bordered table-bordered">
-            <tr>
+            <tr id="tujuan">
               <td>Tanggal Pelayanan</td>
               <td id="tanggal-pelayanan"></td>
             </tr>
@@ -1064,13 +1064,14 @@
     $('#riwayat-tindakan').html(null)
     $('#riwayat-diagnosa').html(null)
     $('#riwayat-obat').html(null)
+    $('#tujuan').html(null)
 
     $.ajax({
       url: url,
       type: "GET",
       success: function(res) {
 
-        console.log(res.pendaftaran);
+        console.log(res.pendaftaran.nomor_antrian);
         $('#berat_badan').html(res.pendaftaran.tanda_tanda_vital.berat_badan);
         $('#tekanan_darah').html(res.pendaftaran.tanda_tanda_vital.tekanan_darah);
         $('#suhu_tubuh').html(res.pendaftaran.tanda_tanda_vital.suhu_tubuh);
@@ -1086,14 +1087,31 @@
 
         $('#tanggal-pelayanan').html(res.tanggal_pelayanan)
         $('#poliklinik-tujuan').html(res.poliklinik)
-        $('#dokter-tujuan').html(res.dokter)
+        $('#dokter-tujuan').html(res.dokter);
+
+
+         // Detail Poliklinik
+         res.pendaftaran.nomor_antrian.forEach(el => {
+          let poliklinik = el.poliklinik.nama
+          let dokter = el.dokter.name
+          
+          let content = `
+            <tr>
+              <td>Poliklinik</td>
+              <td>${poliklinik} | ${dokter}</td>
+            </tr>
+          `
+
+          //$('#riwayat-tindakan').append(content)
+          $('#tujuan').after(content);
+        });
 
         
 
         // Detail riwayat tindakan
         res.tindakan.forEach(el => {
           let namaTindakan = el.tindakan.tindakan
-          let kode = el.tindakan.icd.code
+          let kode = el.tindakan.kode==null?'-':el.tindakan.icd.code
           
           let content = `
             <tr>
