@@ -463,6 +463,13 @@
           </button>
         </div>
         <div class="modal-body">
+
+          <div id="hasil_riwayat"></div>
+
+
+
+
+
           <table class="table table-bordered table-bordered">
             <tr id="tujuan">
               <td>Tanggal Pelayanan</td>
@@ -478,86 +485,7 @@
             </tr> --}}
           </table>
 
-          <h4>Tanda Tanda Vital</h4>
-          <table class="table table-bordered">
-            <tr>
-              <td>Berat Badan</td>
-              <td id="berat_badan"></td>
-            </tr>
-            <tr>
-              <td>Tekanan Darah</td>
-              <td id="tekanan_darah"></td>
-            </tr>
-            <tr>
-              <td>Suhu Tubuh</td>
-              <td id="suhu_tubuh"></td>
-            </tr>
-            <tr>
-              <td>Tinggi Badan</td>
-              <td id="tinggi_badan"></td>
-            </tr>
-            <tr>
-              <td>Nadi</td>
-              <td id="nadi"></td>
-            </tr>
-            <tr>
-              <td>RR</td>
-              <td id="rr"></td>
-            </tr>
-            <tr>
-              <td>Saturasi O2</td>
-              <td id="saturasi_o2"></td>
-            </tr>
-            <tr>
-              <td>Fungsi Penciuman</td>
-              <td id="fungsi_penciuman"></td>
-            </tr>
-            <tr>
-              <td>Status Alergi</td>
-              <td id="status_alergi"></td>
-            </tr>
-            <tr>
-              <td>Anamnesa</td>
-              <td id="anamnesa"></td>
-            </tr>
-          </table>
 
-          <h4>Riwayat Tindakan</h4>
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>Kode ICD 9</th>
-                <th>Nama Tindakan</th>
-              </tr>
-            </thead>
-            <tbody id="riwayat-tindakan">
-            </tbody>
-          </table>
-
-          <h4>Riwayat Diagnosa</h4>
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>Kode ICD</th>
-                <th>Nama Diagnosa</th>
-              </tr>
-            </thead>
-            <tbody id="riwayat-diagnosa">
-            </tbody>
-          </table>
-
-          <h4>Riwayat Pemberian Obat</h4>
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>Nama Obat</th>
-                <th>Jumlah</th>
-                <th>Keterangan</th>
-              </tr>
-            </thead>
-            <tbody id="riwayat-obat">
-            </tbody>
-          </table>
         </div>
         <div class="modal-footer">
           <a id="cetak_rekamedis" class="btn btn-danger">Cetak</a>
@@ -1070,90 +998,92 @@
       url: url,
       type: "GET",
       success: function(res) {
+        $("#hasil_riwayat").html(res);
+        console.log(res);
 
-        console.log(res.pendaftaran.nomor_antrian);
-        $('#berat_badan').html(res.pendaftaran.tanda_tanda_vital.berat_badan);
-        $('#tekanan_darah').html(res.pendaftaran.tanda_tanda_vital.tekanan_darah);
-        $('#suhu_tubuh').html(res.pendaftaran.tanda_tanda_vital.suhu_tubuh);
-        $('#tinggi_badan').html(res.pendaftaran.tanda_tanda_vital.tinggi_badan);
-        $('#jenis_kasus').html(res.pendaftaran.tanda_tanda_vital.jenis_kasus);
-        $('#nadi').html(res.pendaftaran.tanda_tanda_vital.nadi);
-        $('#rr').html(res.pendaftaran.tanda_tanda_vital.rr);
-        $('#saturasi_o2').html(res.pendaftaran.tanda_tanda_vital.saturasi_o2);
-        $('#fungsi_penciuman').html(res.pendaftaran.tanda_tanda_vital.fungsi_penciuman);
-        $('#status_alergi').html(res.pendaftaran.tanda_tanda_vital);
-        $('#anamnesa').html(res.pendaftaran.anamnesa);
+        // console.log(res.pendaftaran.nomor_antrian);
+        // $('#berat_badan').html(res.pendaftaran.tanda_tanda_vital.berat_badan);
+        // $('#tekanan_darah').html(res.pendaftaran.tanda_tanda_vital.tekanan_darah);
+        // $('#suhu_tubuh').html(res.pendaftaran.tanda_tanda_vital.suhu_tubuh);
+        // $('#tinggi_badan').html(res.pendaftaran.tanda_tanda_vital.tinggi_badan);
+        // $('#jenis_kasus').html(res.pendaftaran.tanda_tanda_vital.jenis_kasus);
+        // $('#nadi').html(res.pendaftaran.tanda_tanda_vital.nadi);
+        // $('#rr').html(res.pendaftaran.tanda_tanda_vital.rr);
+        // $('#saturasi_o2').html(res.pendaftaran.tanda_tanda_vital.saturasi_o2);
+        // $('#fungsi_penciuman').html(res.pendaftaran.tanda_tanda_vital.fungsi_penciuman);
+        // $('#status_alergi').html(res.pendaftaran.tanda_tanda_vital);
+        // $('#anamnesa').html(res.pendaftaran.anamnesa);
         $("#cetak_rekamedis").attr('href',"/pendaftaran/"+res.pendaftaran.id+"/cetak_rekamedis");
 
-        $('#tanggal-pelayanan').html(res.tanggal_pelayanan)
-        $('#poliklinik-tujuan').html(res.poliklinik)
-        $('#dokter-tujuan').html(res.dokter);
+        // $('#tanggal-pelayanan').html(res.tanggal_pelayanan)
+        // $('#poliklinik-tujuan').html(res.poliklinik)
+        // $('#dokter-tujuan').html(res.dokter);
 
 
-         // Detail Poliklinik
-         res.pendaftaran.nomor_antrian.forEach(el => {
-          let poliklinik = el.poliklinik.nama
-          let dokter = el.dokter.name
+        //  // Detail Poliklinik
+        //  res.pendaftaran.nomor_antrian.forEach(el => {
+        //   let poliklinik = el.poliklinik.nama
+        //   let dokter = el.dokter.name
           
-          let content = `
-            <tr>
-              <td>Poliklinik</td>
-              <td>${poliklinik} | ${dokter}</td>
-            </tr>
-          `
+        //   let content = `
+        //     <tr>
+        //       <td>Poliklinik</td>
+        //       <td>${poliklinik} | ${dokter}</td>
+        //     </tr>
+        //   `
 
-          //$('#riwayat-tindakan').append(content)
-          $('#tujuan').after(content);
-        });
+        //   //$('#riwayat-tindakan').append(content)
+        //   $('#tujuan').after(content);
+        // });
 
         
 
-        // Detail riwayat tindakan
-        res.tindakan.forEach(el => {
-          let namaTindakan = el.tindakan.tindakan
-          let kode = el.tindakan.kode==null?'-':el.tindakan.icd.code
+        // // Detail riwayat tindakan
+        // res.tindakan.forEach(el => {
+        //   let namaTindakan = el.tindakan.tindakan
+        //   let kode = el.tindakan.kode==null?'-':el.tindakan.icd.code
           
-          let content = `
-            <tr>
-              <td>${kode}</td>
-              <td>${namaTindakan}</td>
-            </tr>
-          `
+        //   let content = `
+        //     <tr>
+        //       <td>${kode}</td>
+        //       <td>${namaTindakan}</td>
+        //     </tr>
+        //   `
 
-          $('#riwayat-tindakan').append(content)
-        });
+        //   $('#riwayat-tindakan').append(content)
+        // });
 
-        // Detail riwayat diagnosa
-        res.diagnosa.forEach(el => {
-          let namaTindakan = el.icd.indonesia
-          let kode = el.icd.kode
+        // // Detail riwayat diagnosa
+        // res.diagnosa.forEach(el => {
+        //   let namaTindakan = el.icd.indonesia
+        //   let kode = el.icd.kode
           
-          let content = `
-            <tr>
-              <td>${kode}</td>
-              <td>${namaTindakan}</td>
-            </tr>
-          `
+        //   let content = `
+        //     <tr>
+        //       <td>${kode}</td>
+        //       <td>${namaTindakan}</td>
+        //     </tr>
+        //   `
 
-          $('#riwayat-diagnosa').append(content)
-        });
+        //   $('#riwayat-diagnosa').append(content)
+        // });
 
        
-        // Detail riwayat obat
-        res.obat.forEach(el => {
-          let namaObat = el.barang.nama_barang
-          let jumlah = el.jumlah
-          let keterangan = el.barang.keterangan
+        // // Detail riwayat obat
+        // res.obat.forEach(el => {
+        //   let namaObat = el.barang.nama_barang
+        //   let jumlah = el.jumlah
+        //   let keterangan = el.barang.keterangan
           
-          let content = `
-            <tr>
-              <td>${namaObat}</td>
-              <td>${jumlah}</td>
-              <td>${keterangan}</td>
-            </tr>
-          `
-          $('#riwayat-obat').append(content)
-        });
+        //   let content = `
+        //     <tr>
+        //       <td>${namaObat}</td>
+        //       <td>${jumlah}</td>
+        //       <td>${keterangan}</td>
+        //     </tr>
+        //   `
+        //   $('#riwayat-obat').append(content)
+        // });
 
       },
       error: function(err) {

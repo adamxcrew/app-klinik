@@ -117,6 +117,8 @@
           ['icon' => 'fa fa-plus-square-o', 'link' => '/pendaftaran/create', 'label' => 'Pendaftaran Pasien Lama'],
           ['icon' => 'fa fa-users', 'link' => '/pasien', 'label' => 'Database Pasien'],
           ['icon' => 'fa fa-calendar', 'link' => '/laporan/kunjungan-perpoli', 'label' => 'Kunjungan Perpoli'],
+          ['icon' => 'fa fa-user-md', 'link' => '/user?jabatan=dokter', 'label' => 'Data Dokter'],
+          
       ];
 
       $admin_medis = [

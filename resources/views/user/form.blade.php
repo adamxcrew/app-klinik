@@ -28,19 +28,21 @@
     {{-- <div class="col-sm-5">
         {!! Form::select('poliklinik_id',$poliklinik, $poliklinik, ['class'=>'form-control']) !!}
     </div> --}}
-    <div class="col-sm-5">
+    <div class="col-sm-4">
         {!! Form::text('spesialis',null, ['class'=>'form-control','Placeholder'=>'Spesialis']) !!}
     </div>
 </div>
 @endif
 
 
+@if(Auth::user()->role!='bagian_pendaftaran')
 <div class="form-group">
     <label for="inputName" class="col-sm-2 control-label">Level User</label>
     <div class="col-sm-4">
         {!! Form::select('role',$user_role, $_GET['jabatan'], ['class'=>'form-control', 'id' => 'jabatan']) !!}
     </div>
 </div>
+@endif
 <div class="form-group d-none" id="poliklinik">
     <label for="inputName" class="col-sm-2 control-label">Poliklinik</label>
     <div class="col-sm-4">

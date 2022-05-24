@@ -63,7 +63,7 @@
                     <div class="row">
                         <div class="col-md-10">
                             @if(isset($tindakan))
-                                {!! Form::text('pembagian_tarif['.$row.'-'.$j.']', null, ['class'=>'form-control','Placeholder'=>'Masukan Tarif ...']) !!}
+                                {!! Form::text('pembagian_tarif['.$row.'-'.$j.']', null, ['class'=>'form-control','required'=>'required','Placeholder'=>'Masukan Tarif ...']) !!}
                             @else
                                 <input name="pembagian_tarif[{{ $row.'-'.$j }}]" value="0" type="text" class="form-control" placeholder="Masukan Tarif ...">
                             @endif

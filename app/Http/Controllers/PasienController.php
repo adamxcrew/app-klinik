@@ -223,6 +223,8 @@ class PasienController extends Controller
             "tanggal_pelayanan" => tgl_indo(substr($pendaftaran->created_at, 0, 10))
         ];
 
-        return $riwayatKunjungan;
+        \Log::info($riwayatKunjungan);
+
+        return view('pasien.riwayat_kunjungan', $riwayatKunjungan);
     }
 }

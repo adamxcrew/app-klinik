@@ -56,15 +56,15 @@
 </head>
 <body style="font-family: 'sans-serif;">
     <div style="text-align:center">
-        <h2><u>NOMOR ANTRIAN POLIKLINIK</u></h2>
-        <h2>{{ $pasien->pasien->nomor_rekam_medis }}</h2>
-        <h2 style="margin-top: -15px">{{ $pasien->pasien->nama }}</h2>
-        <h4 style="margin-top: 70px;margin-bottom:-60px">NO. URUT</h4>
+        <h2 style="font-size: 3em"><u>NOMOR ANTRIAN POLIKLINIK</u></h2>
+        <h2 style="font-size: 4em">{{ $pasien->pasien->nomor_rekam_medis }}</h2>
+        <h2 style="margin-top: -15px;font-size: 4em">{{ $pasien->pasien->nama }}</h2>
+        <h4 style="margin-top: 70px;margin-bottom:-60px;font-size: 3em">NO. URUT</h4>
         <h1 style="font-size: 5em">{{ $pasien->nomor_antrian }}</h1>
         <h1 style="font-size: 4em;margin-bottom:-20px">{{ $pasien->poliklinik->nama }}</h1>
-        <h1>{{ $pasien->dokter->name }}</h1>
-        <h2 style="margin-top: 50px"><u>SILAHKAN MENGANTRI</u></h2>
-        <h2>KLINIK DR.NURDIN WAHID</h2>
+        <h1 style="font-size: 3em">{{ $pasien->dokter->name }}</h1>
+        <h2 style="margin-top: 50px;font-size: 2em"><u>SILAHKAN MENGANTRI</u></h2>
+        <h2 style="font-size: 2em">KLINIK DR.NURDIN WAHID</h2>
     </div>
     {{-- <div class="content">
         <div class="content-header">

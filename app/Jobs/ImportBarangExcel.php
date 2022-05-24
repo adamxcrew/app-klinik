@@ -61,7 +61,14 @@ class ImportBarangExcel implements ShouldQueue
                     $jenis                      = Kategori::firstOrCreate(['nama_kategori' => $cells[8]->getValue()], ['nama_kategori' => $cells[8]->getValue(),'jenis' => $jenis_barang]);
                     $harga                      = (int) $cells[9]->getValue();
                     $margin                     = (int) $cells[10]->getValue();
-                    $untuk_penjamin             = $cells[11]->getValue();
+                    $untuk_penjamin             = explode(",", $cells[13]->getValue());
+                    //\Log::info($untuk_penjamin);
+
+                    if (in_array('BPJS', $untuk_penjamin)) {
+                        $asuransi = "bpjs";
+                    } else {
+                        $asuransi = "umum";
+                    }
 
                     $data[] = [
                         'kode'                      =>  $kode_barang,
@@ -71,7 +78,7 @@ class ImportBarangExcel implements ShouldQueue
                         'kategori_id'               =>  $jenis->id,
                         'satuan_terbesar_id'        =>  $satuan_terbesar->id,
                         'jumlah_satuan_terbesar'    =>  $jumlah_satuan_terbesar,
-                        'pelayanan'                 =>  $untuk_penjamin,
+                        'pelayanan'                 =>  $asuransi,
                         'satuan_terkecil_id'        =>  $satuan_terkecil->id,
                         'jumlah_satuan_terkecil'    =>  $jumlah_satuan_terkecil,
                         'margin'                    =>  $margin,

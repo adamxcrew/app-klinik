@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e2c4fdeef7a1b7194e56ed76f4c5a831",
+    "content-hash": "5fe2ecbdb38eca15c7047bcbf9ae0837",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2783,16 +2783,16 @@
         },
         {
             "name": "mike42/escpos-php",
-            "version": "v3.0",
+            "version": "v4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mike42/escpos-php.git",
-                "reference": "dcb569a123d75f9f6a4a927aae7625ca6b7fdcf3"
+                "reference": "74fd89a3384135c90a8c6dc4b724e03df7c0e4f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mike42/escpos-php/zipball/dcb569a123d75f9f6a4a927aae7625ca6b7fdcf3",
-                "reference": "dcb569a123d75f9f6a4a927aae7625ca6b7fdcf3",
+                "url": "https://api.github.com/repos/mike42/escpos-php/zipball/74fd89a3384135c90a8c6dc4b724e03df7c0e4f9",
+                "reference": "74fd89a3384135c90a8c6dc4b724e03df7c0e4f9",
                 "shasum": ""
             },
             "require": {
@@ -2800,10 +2800,10 @@
                 "ext-json": "*",
                 "ext-zlib": "*",
                 "mike42/gfx-php": "^0.6",
-                "php": ">=7.0.0"
+                "php": ">=7.3.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^6.5",
+                "phpunit/phpunit": "^9",
                 "squizlabs/php_codesniffer": "^3.3"
             },
             "suggest": {
@@ -2837,9 +2837,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mike42/escpos-php/issues",
-                "source": "https://github.com/mike42/escpos-php/tree/v3.0"
+                "source": "https://github.com/mike42/escpos-php/tree/v4.0"
             },
-            "time": "2019-10-13T06:27:43+00:00"
+            "time": "2022-05-23T11:05:09+00:00"
         },
         {
             "name": "mike42/gfx-php",

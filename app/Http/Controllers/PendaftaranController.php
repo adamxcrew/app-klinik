@@ -213,9 +213,9 @@ class PendaftaranController extends Controller
             ]);
 
             \DB::table('nomor_antrian')
-            ->where('pendaftaran_id',$pendaftaranId)
-            ->where('poliklinik_id',\Auth::user()->poliklinik_id)
-            ->update(['status_pemeriksaan'=>'Selesai']);
+            ->where('pendaftaran_id', $pendaftaranId)
+            ->where('poliklinik_id', \Auth::user()->poliklinik_id)
+            ->update(['status_pemeriksaan' => 'Selesai']);
         }
 
         RujukanInternal::where('pendaftaran_id', $pendaftaranId)->update(['status' => 'Selesai']);
@@ -228,7 +228,7 @@ class PendaftaranController extends Controller
 
         $data['pendaftaran'] = NomorAntrian::where('pendaftaran_id', $id)
         ->where('poliklinik_id', \Auth::user()->poliklinik_id)
-        ->with('poliklinik','dokter')
+        ->with('poliklinik', 'dokter')
         ->first();
         // $data['jenisPemeriksaan'] = JenisPemeriksaanLab::findOrFail($id);
 
@@ -265,6 +265,7 @@ class PendaftaranController extends Controller
             )),
             'pemeriksaan_klinis'    =>  serialize($request->pemeriksaan_klinis),
             'status_pelayanan'      =>  'selesai_pemeriksaan_medis',
+            'status_alergi'         => $request->status_alergi_value,
             'anamnesa'              => $request->anamnesa,
         ];
         $pendaftaran->update($data);

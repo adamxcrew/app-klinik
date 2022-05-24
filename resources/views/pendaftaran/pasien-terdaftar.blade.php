@@ -285,8 +285,9 @@
             processResults: function (data) {
                 return {
                 results:  $.map(data, function (item) {
+                    console.log(item);
                     return {
-                        text: item.nama,
+                        text: item.nama.concat(' / '+item.nomor_rekam_medis).concat(' / '+item.nama_ibu),
                         id: item.id
                     }
                 })
