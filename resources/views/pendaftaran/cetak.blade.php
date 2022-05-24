@@ -57,8 +57,8 @@
 <body style="font-family: 'sans-serif;">
     <div style="text-align:center">
         <h2 style="font-size: 3em"><u>NOMOR ANTRIAN POLIKLINIK</u></h2>
-        <h2 style="font-size: 4em">{{ $pasien->pasien->nomor_rekam_medis }}</h2>
-        <h2 style="margin-top: -15px;font-size: 4em">{{ $pasien->pasien->nama }}</h2>
+        <h2 style="font-size: 4em;margin-bottom:-20px">{{ $pasien->pasien->nomor_rekam_medis }}</h2>
+        <h2 style="margin-top: -15px;font-size: 4em;margin-bottom:-20px">{{ $pasien->pasien->nama }}</h2>
         <h4 style="margin-top: 70px;margin-bottom:-60px;font-size: 3em">NO. URUT</h4>
         <h1 style="font-size: 5em">{{ $pasien->nomor_antrian }}</h1>
         <h1 style="font-size: 4em;margin-bottom:-20px">{{ $pasien->poliklinik->nama }}</h1>
