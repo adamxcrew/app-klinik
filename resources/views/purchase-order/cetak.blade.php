@@ -127,7 +127,7 @@
                 <?php $total +=  ($row->harga*$row->qty)-$row->diskon ?>
                 @endforeach
                 <tr>
-                    <td colspan="6">Diskon</td>
+                    <td colspan="5">Diskon</td>
                     <td colspan="2">{{rupiah($purchase_order->diskon)}}</td>
                 </tr>
             </table>
