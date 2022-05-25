@@ -59,7 +59,7 @@
             <table style="width: 100%">
                 <tr>
                     <td style="width: 50%">
-                        <img src="image/{{ $setting->logo }}" alt="" style="width:100%">
+                        <img src="image/{{ $setting->logo }}" alt="" style="width:30%">
                     </td>
                     <td  style="width: 50%">
                         <table  style="width: 100%">
