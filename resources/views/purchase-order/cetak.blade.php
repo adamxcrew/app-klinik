@@ -39,12 +39,11 @@
         }
         .detail-harga{
             width: 100%;
-            padding-top: 50px;
+            padding-top: 30px;
             font-size:15px
         }
         .syarat-dan-ketentuan{
             width: 100%;
-            padding-top: 15px;
             font-size:15px
         }
     </style>
@@ -109,7 +108,6 @@
             <table cellspacing="1" cellpadding="10" class="table-barang">
                 <tr>
                     <th>No</th>
-                    <th>Kode Barang</th>
                     <th>Barang</th>
                     <th>Jumlah</th>
                     <th>Desc Item</th>
@@ -120,7 +118,6 @@
                 @foreach($purchase_order_detail as $row)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $row->barang->kode }}</td>
                     <td>{{ $row->barang->nama_barang }}</td>
                     <td>{{ $row->qty }} {{ $row->barang->satuanTerbesar->satuan }}</td>
                     <td>{{ rupiah($row->diskon) }}</td>
