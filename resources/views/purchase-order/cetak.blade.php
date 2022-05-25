@@ -122,7 +122,7 @@
                     <td>{{ $row->qty }} {{ $row->barang->satuanTerbesar->satuan }}</td>
                     <td>{{ rupiah($row->diskon) }}</td>
                     <td>{{rupiah($row->barang->harga)}}</td>
-                    <td>{{ rupiah(($row->harga*$row->diskon)-$row->qty) }}</td>
+                    <td>{{ rupiah(($row->harga*$row->diskon)*$row->qty) }}</td>
                 </tr>
                 <?php $total +=  ($row->harga-$row->diskon)*$row->qty ?>
                 @endforeach
