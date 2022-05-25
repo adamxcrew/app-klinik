@@ -84,6 +84,7 @@
                                       <th>Nama Barang</th>
                                       <th>Jumlah</th>
                                       <th>Harga PO</th>
+                                      <th>Diskon</th>
                                       <th width="200">Catatan ( Opsional )</th>
                                       @if($purchase_order->status_po=='menunggu_persetujuan')
                                         <th width="80">Action</th>
@@ -98,6 +99,7 @@
                                       <td>{{ $row->barang->nama_barang }}</td>
                                       <td>{{ $row->qty }}</td>
                                       <td>@currency($row->harga)</td>
+                                      <td>{{ rupiah($row->diskon) }}</td>
                                       <td>
                                           {!! Form::text('catatan', $row->catatan, ['class'=>'form-control catatan-'.$row->id,'Placeholder'=>'Keterangan']) !!}
                                       </td>
@@ -112,12 +114,21 @@
                                   @endforeach
                               </tbody>
                               <tfoot>
+                                <tr>
+                                    <td></td>
+                                    <td colspan="4" style="text-align:right"><b>Diskon</b></td>
+                                    <td colspan="2">
+                                        <span id="total">
+                                            {{$purchase_order->diskon}}
+                                        </span>
+                                    </td>
+                                </tr>
                                   <tr>
                                       <td></td>
-                                      <td colspan="2" style="text-align:right"><b>Total</b></td>
+                                      <td colspan="4" style="text-align:right"><b>Total</b></td>
                                       <td colspan="2">
                                           <span id="total">
-                                            @currency($total)
+                                            @currency($total-$purchase_order->diskon)
                                           </span>
                                       </td>
                                   </tr>

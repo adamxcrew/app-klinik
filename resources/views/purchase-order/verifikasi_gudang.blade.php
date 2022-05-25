@@ -55,6 +55,8 @@
                                       <th>Jumlah Diminta</th>
                                       <th>Jumlah Diterima</th>
                                       <th>Harga PO</th>
+                                      <th>Diskon Per Item</th>
+                                      <th>Subtotal</th>
                                   </tr>
                               </thead>
                               <tbody>
@@ -71,15 +73,22 @@
                                           </a>
                                       </td>
                                       <td>@currency($row->harga)</td>
+                                      <td>{{ rupiah($row->diskon) }}</td>
+                                      <td>{{ rupiah(($row->harga*$row->qty)-$row->diskon) }}</td>
                                   </tr>
                                   <?php $total += $row->harga * $row->qty;?>
                                   @endforeach
                               </tbody>
                               <tfoot>
+                                <tr>
+                                    <td></td>
+                                    <td colspan="6" class="text-right">Diskon</td>
+                                    <td colspan="1">{{$purchase_order->diskon}}</td>
+                                </tr>
                                   <tr>
                                       <td></td>
-                                      <td colspan="3">Total</td>
-                                      <td colspan="2">@currency($total)</td>
+                                      <td colspan="6" class="text-right">Total</td>
+                                      <td colspan="1">@currency($total)</td>
                                   </tr>
                               </tfoot>
                           </table>
