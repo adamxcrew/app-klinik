@@ -57,7 +57,7 @@
                 @endif
             </td>
             <td>{{ rupiah($row->diskon)}}</td>
-            <td>{{ rupiah(($row->harga- $row->diskon)-$row->qty) }}</td>
+            <td>{{ rupiah(($row->harga-$row->diskon)*$row->qty) }}</td>
             @if(isset($purchase_order))
                 @if($purchase_order->status_po=='approve_by_pimpinan')
                     <td>{{ $row->catatan}}</td>
