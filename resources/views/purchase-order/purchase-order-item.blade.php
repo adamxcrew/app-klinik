@@ -86,7 +86,7 @@
             $total += ($row->harga-$row->diskon) * $row->qty;
         }
         else{
-            $total += $row->harga * $row->qty;
+            $total += ($row->harga-$row->diskon) * $row->qty;
         }
         
         ?>

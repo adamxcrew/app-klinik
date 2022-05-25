@@ -136,7 +136,7 @@
         <div class="detail-harga">
             <table style="width: 100%">
                 <tr align="right">
-                    <td style="width: 70%:"><strong>Subtotal</strong></td>
+                    <td style="width: 70%:"><strong>Total</strong></td>
                     <td style="width: 30%:">@currency($total-$purchase_order->diskon)</td>
                 </tr>
             </table>
