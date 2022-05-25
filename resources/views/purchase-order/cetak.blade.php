@@ -110,7 +110,7 @@
                     <th>No</th>
                     <th>Barang</th>
                     <th>Jumlah</th>
-                    <th>Desc Item</th>
+                    <th>Disc Item</th>
                     <th>Harga</th>
                     <th>Subtotal</th>
                 </tr>
@@ -122,9 +122,9 @@
                     <td>{{ $row->qty }} {{ $row->barang->satuanTerbesar->satuan }}</td>
                     <td>{{ rupiah($row->diskon) }}</td>
                     <td>{{rupiah($row->barang->harga)}}</td>
-                    <td>{{ rupiah(($row->harga*$row->qty)-$row->diskon) }}</td>
+                    <td>{{ rupiah(($row->harga*$row->diskon)-$row->qty) }}</td>
                 </tr>
-                <?php $total +=  ($row->harga*$row->qty)-$row->diskon ?>
+                <?php $total +=  ($row->harga*$row->diskon)-$row->qty ?>
                 @endforeach
                 <tr>
                     <td colspan="5">Diskon</td>
