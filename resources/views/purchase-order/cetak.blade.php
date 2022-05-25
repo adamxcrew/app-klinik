@@ -154,7 +154,7 @@
                     <td>Penanggung Jawab</td>
                 </tr>
                 <tr>
-                    <td style="width: 50%;height:190px">ENI KONIAH<hr></td>
+                    <td style="width: 50%;height:190px">{{ Auth::user()->name }}<hr></td>
                 </tr>
             </table>
         </div>
