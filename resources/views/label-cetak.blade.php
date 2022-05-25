@@ -1,13 +1,13 @@
 <style>
     body{
-        font-size:12px;
+        font-size:14px;
     }
     .pembatas{
         border: 1px solid black;
         padding:10px;
-        width: 200px;
+        width: 230px;
         float: left;
-        margin-left:-10px;
+        margin-left:-30px;
         page-break-after:always;
     }
 </style>
