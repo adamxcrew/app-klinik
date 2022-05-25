@@ -59,7 +59,8 @@ class LaporanController extends Controller
         $data['dataCetak'] = $dataCetak;
 
         //return view('label-cetak',$data);
-        $pdf = PDF::loadView('label-cetak', $data)->setPaper('letter', 'potrait');
+        $customPaper = array(0,0,210,230);
+        $pdf = PDF::loadView('label-cetak', $data)->setPaper($customPaper, 'potrait');
         return $pdf->stream();
     }
 }
