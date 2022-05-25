@@ -145,6 +145,9 @@ $(document).ready(function () {
 function copyDiskon(){
   var valDis = $(".disc").val();
   $("#diskon").val(valDis);
+  var total         = $("#jumlah_total").val();
+  var diskon        = $(".disc").val();
+  $(".txt_diskon").html(total - diskon);
 }
 function ubah_baris(barang_id = null, nama_barang = null, harga = null, qty = null){
     $("#barang option").remove()
@@ -176,6 +179,8 @@ function list_barang(){
 
   });
 }
+
+
 
 function tambah_barang()
 {

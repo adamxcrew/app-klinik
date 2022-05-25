@@ -133,11 +133,8 @@
   function hitung_kembalian(){
       var total_bayar = $(".total_bayar").val();
       var jumlah_bayar = $(".jumlah_bayar").val();
-      // console.log(total_bayar);
-      // console.log(jumlah_bayar);
-      // var total = total_bayar-jumlah_bayar;
-      // console.log(total);
-      $('.kembalian').val(total_bayar-jumlah_bayar);
+      var biaya_tambahan = $(".biaya_tambahan").val();
+      $('.kembalian').val(total_bayar-(jumlah_bayar-biaya_tambahan));
     }
 </script>
 @endpush

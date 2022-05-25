@@ -19,6 +19,9 @@ class AddPendaftaran extends Migration
         Schema::table('purchase_order_detail', function (Blueprint $table) {
             $table->integer('diskon')->after('harga');
         });
+        Schema::table('pendaftaran', function (Blueprint $table) {
+            $table->integer('biaya_tambahan')->after('jumlah_bayar')->default(0);
+        });
     }
 
     /**

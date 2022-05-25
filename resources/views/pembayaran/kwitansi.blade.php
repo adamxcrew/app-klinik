@@ -43,7 +43,7 @@
                 <td width="25px">&nbsp;</td>
                 <td>Tanggal Kunjungan</td>
                 <td width="2px">:</td>
-                <td>{{ tgl_indo(substr($pendaftaran->created_at, 0, 10)) }}</td>
+                <td width="100">{{ tgl_indo(substr($pendaftaran->created_at, 0, 10)) }}</td>
             </tr>
             <tr>
                 <td>Penjamin</td>
@@ -75,6 +75,7 @@
                 $total = 0;
                 $totalTindakan = 0;
                 $totalObat = 0;
+                $nomor=1;
             @endphp
 
             {{-- Data tagihan tindakan --}}
@@ -85,7 +86,7 @@
             @foreach($tindakans as $tindakan)
             <tbody class="dotted" style="text-align:left">
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $nomor }}</td>
                     <td>{{ $tindakan->tindakan->tindakan }} </td>
                     <td>{{ $tindakan->qty }}</td>
                     <td>-</td>
@@ -96,6 +97,7 @@
                 </tr>
                 @php
                     $totalTindakan += ($tindakan->fee*$tindakan->qty)-$tindakan->discount;
+                    $nomor++;
                 @endphp
             </tbody>
             @endforeach
@@ -108,17 +110,15 @@
             @foreach($obats as $obat)
             <tbody class="dotted" style="text-align:left">
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $nomor }}</td>
                     <td>{{ $obat->barang->nama_barang }}</td>
                     <td>{{ $obat->jumlah }}</td>
                     <td>{{ convert_rupiah($obat->harga) }}</td>
                     <td>-</td>
-                    {{-- <td>-</td>
-                    <td>{{ $penjamin != 'UMUM' ? convert_rupiah($obat->harga) : '-' }}</td>
-                    <td>{{ $penjamin == 'UMUM' ? convert_rupiah($obat->jumlah * $obat->harga) : '-' }}</td> --}}
                 </tr>
                 @php
-                    $totalObat += $obat->jumlah * $obat->harga
+                    $totalObat += $obat->jumlah * $obat->harga;
+                    $nomor++;
                 @endphp
             </tbody>
             @endforeach
@@ -131,28 +131,29 @@
             <tbody class="dotted" style="text-align: left">
                 <tr>
                     <td></td>
+                    <td>BIAYA TAMBAHAN</td>
+                    <td></td>
+                    <td></td>
+                    
+            
+                    <td colspan="2">RP. {{ rupiah($pendaftaran->biaya_tambahan) }}</td>
+                </tr>
+
+                <tr>
+                    <td></td>
                     <td>TOTAL</td>
                     <td></td>
                     <td></td>
                     
             
-                    <td width="60">{{ $penjamin != 'UMUM' ? convert_rupiah($total) : '-' }}</td>
-                    <td width="60">{{ $penjamin == 'UMUM' ? convert_rupiah($total) : '-' }}</td>
+                    <td width="60">{{ $penjamin != 'UMUM' ? convert_rupiah($total+ $pendaftaran->biaya_tambahan) : '-' }}</td>
+                    <td width="60">{{ $penjamin == 'UMUM' ? convert_rupiah($total+ $pendaftaran->biaya_tambahan) : '-' }}</td>
                 </tr>
             </tbody>
-            {{-- <tbody class="dotted" style="text-align: left">
-                <tr>
-                    <td></td>
-                    <td width="300px">TOTAL YANG HARUS DIBAYAR PASIEN</td>
-                    <td></td>
-                    <td></td>
-                    <td>{{ $penjamin == 'UMUM' ? convert_rupiah($total) : '-' }}</td>
-                </tr>
-            </tbody> --}}
             <tbody class="dotted">
                 <tr>
                     <td></td>
-                    <td colspan="5"><i>TERBILANG #{{ strtoupper(terbilang($total)) }}#</i></td>
+                    <td colspan="5"><i>TERBILANG #{{ strtoupper(terbilang($total + $pendaftaran->biaya_tambahan)) }}#</i></td>
                     <td></td>
                     <td></td>
                 </tr>
@@ -164,8 +165,8 @@
         <div style="float: right">
             <p style="margin-bottom:50px;padding-left:30px">Kasir</p>
             <p style="margin-bottom:-10px;margin-left:30px"><strong>{{ Auth::user()->name }}</strong></p>
-            <p style="">Dokter Pemeriksa</p>
-            <p style=""></p>
+            {{-- <p style="">Dokter Pemeriksa</p>
+            <p style=""></p> --}}
         </div>
     </div>
     

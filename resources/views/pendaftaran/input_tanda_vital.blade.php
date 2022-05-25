@@ -20,19 +20,19 @@
               <div class="box-body">
                   @include('validation_error')
                   <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                       <div class="form-group col-sm-11">
                         <label>Berat Badan</label>
-                        {!! Form::text('berat_badan', null, ['class'=>'form-control','Placeholder'=>'Berat Badan']) !!}
+                        {!! Form::text('berat_badan', null, ['class'=>'form-control berat_badan','Placeholder'=>'Berat Badan','onKeyUp'=>'hitungIMT()']) !!}
                       </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                       <div class="form-group col-sm-11">
                         <label>Tinggi Badan</label>
-                        {!! Form::text('tinggi_badan', null, ['class'=>'form-control','Placeholder'=>'Tekanan Darah']) !!}
+                        {!! Form::text('tinggi_badan', null, ['class'=>'form-control tinggi_badan','Placeholder'=>'Tinggi Badan','onKeyUp'=>'hitungIMT()']) !!}
                       </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                       <div class="form-group col-sm-11">
                         <label>Tekanan Darah</label>
                         {!! Form::text('tekanan_darah', null, ['class'=>'form-control','Placeholder'=>'Tekanan Darah']) !!}
@@ -40,19 +40,19 @@
                     </div>
 
 
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                       <div class="form-group col-sm-11">
                         <label>Suhu Tubuh</label>
                         {!! Form::text('suhu_tubuh', null, ['class'=>'form-control','Placeholder'=>'Suhu Tubuh']) !!}
                       </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                       <div class="form-group col-sm-11">
                         <label>Nadi</label>
                         {!! Form::text('nadi', null, ['class'=>'form-control','Placeholder'=>'Nadi']) !!}
                       </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                       <div class="form-group col-sm-11">
                         <label>RR</label>
                         {!! Form::text('rr', null, ['class'=>'form-control','Placeholder'=>'RR']) !!}
@@ -61,19 +61,51 @@
 
 
 
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                       <div class="form-group col-sm-11">
                         <label>Saturasi O2</label>
                         {!! Form::text('saturasi_o2', null, ['class'=>'form-control','Placeholder'=>'Saturasi O2']) !!}
                       </div>
                     </div>
-                    <div class="col-md-4">
+
+                    <div class="col-md-3">
                       <div class="form-group col-sm-11">
                         <label>Fungsi Penciuman</label>
                         {!! Form::select('fungsi_penciuman',['Normal'=>'Normal','Tidak Normal'=>'Tidak Normal'], null, ['class'=>'form-control','Placeholder'=>'Fungsi Penciuman']) !!}
                       </div>
                     </div>
-                    <div class="col-md-4">
+
+
+                    <div class="col-md-3">
+                      <div class="form-group col-sm-11">
+                        <label>Lingkar Perut</label>
+                        {!! Form::text('lingkar_perut', null, ['class'=>'form-control','Placeholder'=>'Lingkar Perut']) !!}
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="form-group col-sm-11">
+                        <label>DJJ</label>
+                        {!! Form::text('djj', null, ['class'=>'form-control','Placeholder'=>'DJJ']) !!}
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="form-group col-sm-11">
+                        <label>TFU</label>
+                        {!! Form::text('tfu', null, ['class'=>'form-control','Placeholder'=>'TFU']) !!}
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="form-group col-sm-11">
+                        <label>IMT</label>
+                        {!! Form::text('imt', null, ['class'=>'form-control imt','Placeholder'=>'imt','readonly'=>'readonly']) !!}
+                      </div>
+                    </div>
+
+
+                    <div class="col-md-3">
                       <div class="form-group col-sm-11">
                         <label>Status Alergi</label>
                         <div class="row">
@@ -88,12 +120,13 @@
                     </div>
 
 
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                       <div class="form-group col-sm-11">
                         <label>Jenis Kasus</label>
                         {!! Form::select('jenis_kasus',['baru'=>'Jenis Kasus Baru','lama'=>'Jenis Kasus Lama'], null, ['class'=>'form-control']) !!}
                       </div>
                     </div>
+
 
                     <div class="col-md-8">
                       <div class="form-group col-sm-11">
@@ -929,6 +962,20 @@
             return true;
         });
     });
+
+
+  function hitungIMT(){
+    console.log("menghitung IMT");
+    var berat_badan   = $(".berat_badan").val();
+    var tinggi_badan  = $(".tinggi_badan").val();
+    if(berat_badan!='' && tinggi_badan!='')
+    {
+      var imt           = berat_badan/ ((tinggi_badan*2)/100);
+      $(".imt").val(imt.toFixed(2));
+    }
+    
+  }
+
 
 	function getRiwayatPenyakit() {
         $('#riwayat-penyakit-table').DataTable({

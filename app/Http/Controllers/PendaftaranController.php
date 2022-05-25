@@ -261,7 +261,11 @@ class PendaftaranController extends Controller
                 'rr',
                 'saturasi_o2',
                 'fungsi_penciuman',
-                'status_alergi_value'
+                'status_alergi_value',
+                'lingkar_perut',
+                'djj',
+                'tfu',
+                'imt'
             )),
             'pemeriksaan_klinis'    =>  serialize($request->pemeriksaan_klinis),
             'status_pelayanan'      =>  'selesai_pemeriksaan_medis',

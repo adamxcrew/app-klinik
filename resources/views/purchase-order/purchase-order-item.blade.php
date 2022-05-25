@@ -5,7 +5,7 @@
             <th scope="col">Nama Barang</th>
             <th scope="col">Jumlah</th>
             <th scope="col">Harga (PO)</th>
-            <th scope="col">Diskon</th>
+            <th scope="col">Diskon Item</th>
             <th scope="col">Subtotal</th>
             @if(isset($purchase_order))
                 @if($purchase_order->status_po=='approve_by_pimpinan')
@@ -83,11 +83,7 @@
         <?php
         if(isset($purchase_order))
         {
-            // if($row->approval==1)
-            // {
-            //     $total += $row->harga * $row->qty;
-            // }
-            $total += $row->harga * $row->qty;
+            $total += ($row->harga-$row->diskon) * $row->qty;
         }
         else{
             $total += $row->harga * $row->qty;
@@ -109,13 +105,16 @@
     <tr>
         <td></td>
         <td colspan="4" class="text-right">Diskon</td>
-        <th colspan="2" class="text-right"><input type="text" name="" placeholder="Diskon" value="{{ $diskon }}" onKeyUp="copyDiskon()" class="form-control disc text-right" ></th>
+        <th colspan="2" class="text-right">
+            <input type="text" name="diskon" placeholder="Diskon" value="{{ $diskon }}" onKeyUp="copyDiskon()" class="form-control disc text-right" >
+            <input value="{{ $total }}" type="hidden" id="jumlah_total">
+        </th>
     </tr>
     <tfoot>
         <tr>
             <td></td>
             <td colspan="4" class="text-right">Total</td>
-            <th colspan="2" class="text-right">@currency($total)</th>
+            <th colspan="2" class="text-right txt_diskon">{{ rupiah($total-$diskon) }}</th>
         </tr>
     </tfoot>
 </table>

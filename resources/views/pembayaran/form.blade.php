@@ -1,20 +1,28 @@
 <div class="form-group">
-    <label class="col-sm-4 control-label">Jumlah Bayar</label>
+    <label class="col-sm-4 control-label">Jumlah Bayar *</label>
     <div class="col-sm-8">
         <div class="input-group">
             <span class="input-group-addon">Rp</span>
             {!! Form::number('jumlah_bayar', null, ['class'=>'form-control jumlah_bayar','onKeyUp'=>'hitung_kembalian()','Placeholder'=>'Jumlah Pembayaran']) !!}
-            {{-- <span class="input-group-addon">.00</span> --}}
           </div>
     </div>
 </div>
+<div class="form-group">
+    <label class="col-sm-4 control-label">Biaya Tambahan *</label>
+    <div class="col-sm-8">
+        <div class="input-group">
+            <span class="input-group-addon">Rp</span>
+            {!! Form::number('biaya_tambahan', 0, ['class'=>'form-control biaya_tambahan','onKeyUp'=>'hitung_kembalian()','Placeholder'=>'Biaya Tambahan']) !!}
+          </div>
+    </div>
+</div>
+
 <div class="form-group">
     <label class="col-sm-4 control-label">Kembalian</label>
     <div class="col-sm-8">
         <div class="input-group">
             <span class="input-group-addon">Rp</span>
             {!! Form::number('kembalian', null, ['class'=>'form-control kembalian','Placeholder'=>'Kembalian']) !!}
-            {{-- <span class="input-group-addon">.00</span> --}}
           </div>
     </div>
 </div>

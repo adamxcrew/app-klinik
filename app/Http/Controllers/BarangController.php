@@ -59,7 +59,7 @@ class BarangController extends Controller
                     return $row->jumlah_satuan_terkecil . ' ' . $row->satuanTerkecil->satuan;
                 })
                 ->addColumn('harga_ppn', function ($row) {
-                    return convert_rupiah($row->harga + ($row->harga * 0.1));
+                    return convert_rupiah($row->harga + ($row->harga * 0.11));
                 })
                 ->addColumn('harga_jual', function ($row) {
                     // $harga_ppn = $row->harga + ($row->harga * 0.1); /// harga + ppn 10%

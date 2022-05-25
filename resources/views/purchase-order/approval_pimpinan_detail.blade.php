@@ -26,10 +26,10 @@
     <section class="content">
       @include('alert')
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-3">
             <div class="box">
                 <div class="box-header text-center" style="border-bottom: 1px solid;padding-top: 0;">
-                    <h3>Persetujuan Purchase Order</h3>
+                    <h3>Persetujuan PO</h3>
                 </div>
                 <div class="box-body">
                     {{ Form::open(['route' => ['purchase-order.approval', $purchase_order->id]]) }}
@@ -57,7 +57,7 @@
             </div>
           </div>
 
-          <div class="col-md-8">
+          <div class="col-md-9">
               <div class="box">
                   <div class="box-header text-center">
                       <h3>Keterangan Purchase Order</h3>
@@ -85,6 +85,7 @@
                                       <th>Jumlah</th>
                                       <th>Harga PO</th>
                                       <th>Diskon</th>
+                                      <th>Subtotal</th>
                                       <th width="200">Catatan ( Opsional )</th>
                                       @if($purchase_order->status_po=='menunggu_persetujuan')
                                         <th width="80">Action</th>
@@ -100,6 +101,7 @@
                                       <td>{{ $row->qty }}</td>
                                       <td>@currency($row->harga)</td>
                                       <td>{{ rupiah($row->diskon) }}</td>
+                                      <td>{{ rupiah(($row->harga-$row->diskon)*$row->qty) }}</td>
                                       <td>
                                           {!! Form::text('catatan', $row->catatan, ['class'=>'form-control catatan-'.$row->id,'Placeholder'=>'Keterangan']) !!}
                                       </td>
@@ -110,13 +112,13 @@
                                         </td>
                                       @endif
                                   </tr>
-                                  <?php $total += $row->harga * $row->qty;?>
+                                  <?php $total += ($row->harga-$row->diskon) * $row->qty;?>
                                   @endforeach
                               </tbody>
                               <tfoot>
                                 <tr>
                                     <td></td>
-                                    <td colspan="4" style="text-align:right"><b>Diskon</b></td>
+                                    <td colspan="5" style="text-align:right"><b>Diskon</b></td>
                                     <td colspan="2">
                                         <span id="total">
                                             {{$purchase_order->diskon}}
@@ -125,7 +127,7 @@
                                 </tr>
                                   <tr>
                                       <td></td>
-                                      <td colspan="4" style="text-align:right"><b>Total</b></td>
+                                      <td colspan="5" style="text-align:right"><b>Total</b></td>
                                       <td colspan="2">
                                           <span id="total">
                                             @currency($total-$purchase_order->diskon)

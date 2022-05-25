@@ -33,7 +33,8 @@ class Pendaftaran extends Model
         'tindakan_id',
         'keterangan_pembayaran',
         'anamnesa',
-        'check_list_poli_kebidanan'
+        'check_list_poli_kebidanan',
+        'biaya_tambahan'
     ];
 
     public function pasien()
