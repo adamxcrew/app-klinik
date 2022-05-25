@@ -92,7 +92,13 @@
 										{{ Form::text('qty', null, ['class' => 'form-control qty ', 'id' => 'qty', 'placeholder' => 'qty', 'required']) }}
 									</div>
 								</div>
-								<div class="col-md-4">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                      <label>Diskon Item</label>
+                                      {{ Form::text('', 0, ['class' => 'form-control diskon', 'id' => 'diskon', 'placeholder' => 'Diskon', 'required']) }}
+                                    </div>
+                                  </div>
+								<div class="col-md-2">
 									<div class="form-group">
 										<button type="button" onClick="tambah_barang()"
 											class="btn btn-primary " style="margin-top: 25px;"><i

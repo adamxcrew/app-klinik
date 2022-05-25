@@ -182,7 +182,10 @@ class PurchaseOrderController extends Controller
     {
         $data['setting']               = Setting::find(1);
         $data['purchase_order']        = PurchaseOrder::find($id);
-        $data['purchase_order_detail'] = PurchaseOrderDetail::where('purchase_order_id', $data['purchase_order']->id)->where('approval', 1)->get();
+        $data['purchase_order_detail'] = PurchaseOrderDetail::where('purchase_order_id', $data['purchase_order']->id)
+                                        ->with('barang.satuanTerbesar')
+                                        ->where('approval', 1)
+                                        ->get();
         $pdf = PDF::loadView('purchase-order.cetak', $data)->setPaper('A4');
         return $pdf->stream();
     }

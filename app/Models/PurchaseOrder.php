@@ -8,7 +8,7 @@ class PurchaseOrder extends Model
 {
     protected $table = 'purchase_order';
 
-    protected $fillable = ['kode', 'tanggal', 'supplier_id','status_po', 'alasan'];
+    protected $fillable = ['kode', 'tanggal', 'supplier_id','status_po', 'alasan','diskon'];
 
     public function supplier()
     {

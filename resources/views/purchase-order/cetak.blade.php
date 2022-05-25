@@ -44,7 +44,7 @@
         }
         .syarat-dan-ketentuan{
             width: 100%;
-            padding-top: 150px;
+            padding-top: 15px;
             font-size:15px
         }
     </style>
@@ -112,7 +112,9 @@
                     <th>Kode Barang</th>
                     <th>Barang</th>
                     <th>Jumlah</th>
+                    <th>Desc Item</th>
                     <th>Harga</th>
+                    <th>Subtotal</th>
                 </tr>
                 <?php $total = 0; ?>
                 @foreach($purchase_order_detail as $row)
@@ -120,11 +122,17 @@
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $row->barang->kode }}</td>
                     <td>{{ $row->barang->nama_barang }}</td>
-                    <td>{{ $row->qty }}</td>
-                    <td>@currency($row->barang->harga)</td>
+                    <td>{{ $row->qty }} {{ $row->barang->satuanTerbesar->satuan }}</td>
+                    <td>{{ rupiah($row->diskon) }}</td>
+                    <td>{{rupiah($row->barang->harga)}}</td>
+                    <td>{{ rupiah(($row->harga*$row->qty)-$row->diskon) }}</td>
                 </tr>
-                <?php $total +=  $row->barang->harga * $row->qty?>
+                <?php $total +=  ($row->harga*$row->qty)-$row->diskon ?>
                 @endforeach
+                <tr>
+                    <td colspan="6">Diskon</td>
+                    <td colspan="2">{{rupiah($purchase_order->diskon)}}</td>
+                </tr>
             </table>
         </div>
 
@@ -132,7 +140,7 @@
             <table style="width: 100%">
                 <tr align="right">
                     <td style="width: 70%:"><strong>Subtotal</strong></td>
-                    <td style="width: 30%:">@currency($total)</td>
+                    <td style="width: 30%:">@currency($total-$purchase_order->diskon)</td>
                 </tr>
             </table>
         </div>
@@ -143,8 +151,13 @@
                     <td style="width: 100%:">Syarat dan ketentuan</td>
                 </tr> --}}
                 <tr>
-                    <td style="width: 50%:"><hr></td>
-                    <td style="width: 50%:" align="right">{{ date('d-m-Y') }}</td>
+                    <td>Bogor, {{ tgl_indo(date('Y-m-d')) }}</td>
+                </tr>
+                <tr>
+                    <td>Penanggung Jawab</td>
+                </tr>
+                <tr>
+                    <td style="width: 50%;height:190px">ENI KONIAH<hr></td>
                 </tr>
             </table>
         </div>

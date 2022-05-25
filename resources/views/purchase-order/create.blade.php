@@ -34,6 +34,8 @@
               <div class="box-body">
                 {{ Form::open(['route' => 'purchase-order.store']) }}
                 {{ Form::hidden('kode',generateKodePurchaseOrder()) }}
+                <input type="hidden" name="diskon" id="diskon">
+
                   <div class="row">
 
                     <div class="col-md-12">
@@ -43,14 +45,13 @@
                     </div>
                         <div class="form-group">
                             <label>Tanggal Pengajuan</label>
-                            {{ Form::date('tanggal',null,['class' => 'form-control', 'required']) }}
+                            {{ Form::date('tanggal',date('Y-m-d'),['class' => 'form-control', 'required']) }}
                         </div>
                    
                         <div class="form-group">
                             <label>Supplier</label>
                             {{ Form::select('supplier_id', $supplier, null,['class' => 'form-control']) }}
                         </div>
-                        
                     </div>
                   </div>
 
@@ -86,11 +87,17 @@
                     </div>
                     <div class="col-md-2">
                       <div class="form-group">
+                        <label>Diskon Item</label>
+                        {{ Form::text('', 0, ['class' => 'form-control diskon', 'id' => 'diskon', 'placeholder' => 'Diskon', 'required']) }}
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="form-group">
                         <label>Qty</label>
                         {{ Form::text('qty', null, ['class' => 'form-control qty', 'id' => 'qty', 'placeholder' => 'qty', 'required']) }}
                       </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                       <div class="form-group">
                         <button type="button" onClick="tambah_barang()" class="btn btn-primary" style="margin-top: 25px;"><i class="fa fa-plus"></i> Tambah</button>
                       </div>
@@ -134,6 +141,11 @@ $(document).ready(function () {
     });
 });
 
+
+function copyDiskon(){
+  var valDis = $(".disc").val();
+  $("#diskon").val(valDis);
+}
 function ubah_baris(barang_id = null, nama_barang = null, harga = null, qty = null){
     $("#barang option").remove()
     $("#barang").append(new Option(nama_barang, barang_id))
@@ -170,6 +182,7 @@ function tambah_barang()
   var barang_id = $(".barang").val();
   var qty       = $(".qty").val();
   var harga     = $(".harga").val();
+  var diskon     = $(".diskon").val();
   if(barang_id == '' || qty == '' || harga == '')
   {
     return alert('Barang , jumlah, atau harga Tidak Boleh Kosong');
@@ -180,7 +193,8 @@ function tambah_barang()
       data: {
           _token: $('meta[name="csrf-token"]').attr('content'),
           barang_id: barang_id,
-		  harga:harga,
+		      harga:harga,
+          diskon: diskon,
           qty: qty
       },
       success: function (response) {

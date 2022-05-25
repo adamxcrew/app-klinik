@@ -5,6 +5,8 @@
             <th scope="col">Nama Barang</th>
             <th scope="col">Jumlah</th>
             <th scope="col">Harga (PO)</th>
+            <th scope="col">Diskon</th>
+            <th scope="col">Subtotal</th>
             @if(isset($purchase_order))
                 @if($purchase_order->status_po=='approve_by_pimpinan')
                     <th>Catatan</th>
@@ -42,18 +44,20 @@
             <td>
                 @if(isset($purchase_order))
                     @if(in_array($purchase_order->status_po,['selesai_po','approve_by_pimpinan']))
-                            @currency($row->harga)
+                            {{ rupiah($row->harga) }}
                     @else
                         <a href="#" class="editableRow" data-pk = '{{$row->id}}' data-name = 'harga'>
-                            @currency($row->harga)
+                            {{ rupiah($row->harga) }}
                         </a>
                     @endif
                 @else
                     <a href="#" class="editableRow" data-pk = '{{$row->id}}' data-name = 'harga'>
-                        @currency($row->harga)
+                        {{ rupiah($row->harga)}}
                     </a>
                 @endif
             </td>
+            <td>{{ rupiah($row->diskon)}}</td>
+            <td>{{ rupiah(($row->harga* $row->qty)-$row->diskon) }}</td>
             @if(isset($purchase_order))
                 @if($purchase_order->status_po=='approve_by_pimpinan')
                     <td>{{ $row->catatan}}</td>
@@ -92,11 +96,26 @@
         ?>
         @endforeach
     </tbody>
+    <?php
+    if(isset($purchase_order))
+    {
+        $diskon = $purchase_order->diskon;
+    }
+    else{
+        $diskon = 0;
+    }
+    
+    ?>
+    <tr>
+        <td></td>
+        <td colspan="4" class="text-right">Diskon</td>
+        <th colspan="2" class="text-right"><input type="text" name="" placeholder="Diskon" value="{{ $diskon }}" onKeyUp="copyDiskon()" class="form-control disc text-right" ></th>
+    </tr>
     <tfoot>
         <tr>
             <td></td>
-            <td colspan="2" class="text-align: left">Total</td>
-            <td colspan="2">@currency($total)</td>
+            <td colspan="4" class="text-right">Total</td>
+            <th colspan="2" class="text-right">@currency($total)</th>
         </tr>
     </tfoot>
 </table>

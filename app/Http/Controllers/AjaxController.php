@@ -44,7 +44,7 @@ class AjaxController extends Controller
     public function select2Pasien(Request $request)
     {
         $data = \DB::table('pasien')
-            ->select('id', 'nama','nomor_rekam_medis','nama_ibu','tanggal_lahir')
+            ->select('id', 'nama', 'nomor_rekam_medis', 'nama_ibu', 'tanggal_lahir')
             ->where('nama', 'like', "%" . $request->q . "%")
             ->orWhere('nama_ibu', 'like', "%" . $request->q . "%")
             ->orWhere('nomor_rekam_medis', 'like', "%" . $request->q . "%")

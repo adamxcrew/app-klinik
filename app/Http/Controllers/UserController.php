@@ -28,7 +28,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $role = $request->role == 'user' ? ['administrator','apoteker','rekamedis', 'admin','akutansi', 'kasir', 'keuangan', 'hrd', 'bagian_gudang', 'admin_medis', 'poliklinik'] : [$request->role];
+        $role = $request->role == 'user' ? ['administrator','apoteker','rekamedis', 'admin','akutansi', 'kasir', 'keuangan', 'hrd', 'bagian_gudang', 'admin_medis', 'poliklinik','pimpinan'] : [$request->role];
         if ($request->ajax()) {
             $user_role = $this->user_role;
             return DataTables::of(User::with('poliklinik')->whereIn('role', $role)->get())
