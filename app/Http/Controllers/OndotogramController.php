@@ -7,6 +7,7 @@ use App\Models\PendaftaranTindakan;
 use App\Models\Tindakan;
 use Illuminate\Http\Request;
 use PDF;
+use App\Models\Satuan;
 
 class OndotogramController extends Controller
 {
@@ -15,7 +16,7 @@ class OndotogramController extends Controller
         $data['pendaftaran'] = Pendaftaran::findOrFail($pendaftaranId);
         $data['pendaftaran_gigi'] = PendaftaranTindakan::with(['tbm', 'tindakan'])->where('pendaftaran_id', $pendaftaranId)->get();
         $data['total'] = count($data['pendaftaran_gigi']);
-
+        $data['satuan']                 = Satuan::pluck('satuan', 'id');
         return view('ondotogram.index', $data);
     }
 
@@ -50,8 +51,12 @@ class OndotogramController extends Controller
         $date_now = date('Y-m-d');
         $date_diff = date_diff(date_create($date_birth), date_create($date_now));
         $data['umur'] = $date_diff->format('%y');
-        $pdf = PDF::loadView('ondotogram.cetak-hasil', $data);
 
+        \DB::table('pendaftaran')
+        ->where('id', $pendaftaranId)
+        ->update(['status_pelayanan' => 'selesai']);
+
+        $pdf = PDF::loadView('ondotogram.cetak-hasil', $data);
         return $pdf->stream();
     }
 

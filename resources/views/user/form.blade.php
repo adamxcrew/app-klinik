@@ -24,10 +24,6 @@
 @if($_GET['jabatan']=='dokter')
 <div class="form-group">
     <label for="inputEmail" class="col-sm-2 control-label">Spesialis</label>
-
-    {{-- <div class="col-sm-5">
-        {!! Form::select('poliklinik_id',$poliklinik, $poliklinik, ['class'=>'form-control']) !!}
-    </div> --}}
     <div class="col-sm-4">
         {!! Form::text('spesialis',null, ['class'=>'form-control','Placeholder'=>'Spesialis']) !!}
     </div>
@@ -47,6 +43,12 @@
     <label for="inputName" class="col-sm-2 control-label">Poliklinik</label>
     <div class="col-sm-4">
         {!! Form::select('poliklinik_id',$poliklinik, null, ['class'=>'form-control']) !!}
+    </div>
+</div>
+<div class="form-group d-none" id="custom_info">
+    <label for="inputName" class="col-sm-2 label-custom">Custom</label>
+    <div class="col-sm-4">
+        {!! Form::text('custom_info', null, ['class'=>'form-control custom_info']) !!}
     </div>
 </div>
 <div class="form-group">
