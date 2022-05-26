@@ -1,13 +1,14 @@
 <style>
     body{
-        font-size:16px;
+        font-size:11px;
     }
     .pembatas{
-        /* border: 1px solid black; */
-        padding:0px;
-        width: 320px;
-        float: left;
+      
+    
+        width: 200%;
         margin-left:-30px;
+        margin-top:-40px;
+        margin-bottom:-30px;
         text-transform: uppercase;
         page-break-after:always;
     }
@@ -15,16 +16,16 @@
 
 @foreach ($dataCetak as $item)
 <div class="pembatas">
-    <h3>{{ $setting->nama_instansi }} ( {{ $setting->nomor_telpon }} )</h3>
     <p>
+        <b>{{ $setting->nama_instansi }} ( {{ $setting->nomor_telpon }} )</b><br>
         Apoteker : {{ Auth::user()->name }}<br>
-        SIPA : 1234567890/ 123456789
+        SIPA : 1234567890/ 123456789<br>
+        {{ $pendaftaran->pasien->nomor_rekam_medis}} - {{ $pendaftaran->pasien->nama}}
+        <br>
+    {{ date("d/m/Y", strtotime($pendaftaran->pasien->tanggal_lahir))}}<br>
+    Sample Text Sample Text Sample<br>
+    2 x 1 diminum sesudah makan
     </p>
-    <p>{{ $pendaftaran->pasien->nomor_rekam_medis}} - {{ $pendaftaran->pasien->nama}} <br>
-    {{ date("d/m/Y", strtotime($pendaftaran->pasien->tanggal_lahir))}} </p>
-
-    <p>Sample Text Sample Text Sample</p>
-    <p>2 x 1 diminum sesudah makan</p>
 </div>
 
 @endforeach
