@@ -22,7 +22,8 @@ class LaporanTransaksiController extends Controller
         $akhir = date('Y-m-d H:i:s', strtotime($data['tanggal_akhir']));
 
         $pendaftaran = Pendaftaran::with('pasien', 'perusahaanAsuransi')
-            ->whereBetween(DB::raw('DATE(pendaftaran.created_at)'), [$awal, $akhir]);
+            ->whereBetween(DB::raw('DATE(pendaftaran.created_at)'), [$awal, $akhir])
+            ->where('status_pembayaran', 1);
 
         if ($request->ajax()) {
             return DataTables::of($pendaftaran->get())

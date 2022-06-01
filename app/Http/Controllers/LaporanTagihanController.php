@@ -8,6 +8,7 @@ use DataTables;
 use App\Models\PendaftaranTindakan;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\PerusahaanAsuransi;
+use App\Models\ViewLaporanPendaftaranTindakan;
 
 class LaporanTagihanController extends Controller
 {
@@ -19,50 +20,45 @@ class LaporanTagihanController extends Controller
     public function index(Request $request)
     {
         $data['periode'] = $request->periode ?? date('Y-m');
-        $laporanTagihan = PendaftaranTindakan::with(['pendaftaran', 'tindakan']);
+
+        // select cast(na.created_at as date) as tanggal,
+        // p.nomor_rekam_medis,
+        // p.nama as nama_pasien,
+        // pa.nama_perusahaan as perusahaan_asuransi,
+        // t.tindakan as nama_tindakan,
+        // pk.nama as poliklinik,
+        // pt.fee as biaya_tindakan,pt.qty,pt.discount,
+        // (pt.fee-pt.discount)*pt.qty as tarif_total
+        // from nomor_antrian as na
+        // join pendaftaran as pd on pd.id=na.pendaftaran_id
+        // join pendaftaran_tindakan as pt on na.pendaftaran_id=pt.pendaftaran_id
+        // join pasien as p on p.id=pd.pasien_id
+        // join poliklinik as pk on pk.id=na.poliklinik_id
+        // join perusahaan_asuransi as pa on pa.id=pd.jenis_layanan
+        // join tindakan as t on t.id=pt.tindakan_id;
+
+
+
+
+
+        $laporanTagihan = ViewLaporanPendaftaranTindakan::query();
 
         if ($request->periode) {
-            $laporanTagihan->whereRaw("left(created_at,7)='" . $request->periode . "'");
+            $laporanTagihan->whereRaw("left(tanggal,7)='" . $request->periode . "'");
         }
 
         if ($request->has('nama_perusahaan')) {
-            $jenis_layanan = $request->nama_perusahaan;
-            $laporanTagihan->whereHas('pendaftaran', function ($query) use ($jenis_layanan) {
-                return $query->where('pendaftaran.jenis_layanan', '=', $jenis_layanan);
-            });
+            if($request->nama_perusahaan !='')
+            {
+                $laporanTagihan->where('jenis_layanan', $request->nama_perusahaan);
+            }
+            
         }
 
         if ($request->ajax()) {
-            return DataTables::of($laporanTagihan->get())
-                ->addColumn('created_at', function ($row) {
-                    return tgl_indo(substr($row->created_at, 0, 10));
-                })
-                ->addColumn('nomor_rekam_medis', function ($row) {
-                    return $row->pendaftaran->pasien->nomor_rekam_medis;
-                })
-                ->addColumn('nama_pasien', function ($row) {
-                    return $row->pendaftaran->pasien->nama;
-                })
-                ->addColumn('tarif_tindakan', function ($row) {
-                    $tarif = null;
-
-                    if ($row->pendaftaran->perusahaanAsuransi->nama_perusahaan == 'UMUM') {
-                        $tarif = $row->tindakan->tarif_umum;
-                    } elseif ($row->pendaftaran->perusahaanAsuransi->nama_perusahaan == 'BPJS') {
-                        $tarif = $row->tindakan->tarif_bpjs;
-                    } else {
-                        $tarif = $row->tindakan->tarif_perusahaan;
-                    }
-                    return $tarif;
-                })
-                ->addColumn('dokter', function ($row) {
-                    return $row->pendaftaran->dokter->name;
-                })
-                ->addColumn('poliklinik', function ($row) {
-                    return $row->pendaftaran->poliklinik->nama;
-                })
-                ->addColumn('nama_perusahaan', function ($row) {
-                    return $row->pendaftaran->perusahaanAsuransi->nama_perusahaan;
+            return DataTables::of($laporanTagihan)
+                ->addColumn('tanggal', function ($row) {
+                    return tgl_indo($row->tanggal);
                 })
                 ->rawColumns(['action'])
                 ->addIndexColumn()

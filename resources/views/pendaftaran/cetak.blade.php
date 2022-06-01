@@ -55,6 +55,7 @@
     </style>
 </head>
 <body style="font-family: 'sans-serif;">
+    @foreach($pasiens as $pasien)
     <div style="text-align:center">
         <h2 style="font-size: 3em"><u>NOMOR ANTRIAN POLIKLINIK</u></h2>
         <h2 style="font-size: 4em;margin-bottom:-20px">{{ $pasien->pasien->nomor_rekam_medis }}</h2>
@@ -66,79 +67,6 @@
         <h2 style="margin-top: 50px;font-size: 2em"><u>SILAHKAN MENGANTRI</u></h2>
         <h2 style="font-size: 2em">KLINIK DR.NURDIN WAHID</h2>
     </div>
-    {{-- <div class="content">
-        <div class="content-header">
-            <div class="header-left">
-                <span>Nomor Antrian</span>
-            </div>
-            <div class="header-right">
-                <label class="nomor-antrian">{{ substr($pasien->kode,11, 5) }}</label>
-            </div>
-        </div>
-
-        <div class="content-body">
-
-            <div class="content-spac">
-                <div class="text-left">
-                    <span class="text-left-info">Nama Pasien</span><br>
-                    <small class="text-small">Pasien detail</small>
-                </div>
-                <div class="text-right">
-                    <span class="text-right-info">{{ $pasien->pasien->nama }}</span>
-                </div>
-            </div>
-
-            <div class="content-spac">
-                <div class="text-left">
-                    <span class="text-left-info">Nomo Pendaftaran</span><br>
-                    <small class="text-small">Pendaftaran</small>
-                </div>
-                <div class="text-right">
-                    <span class="text-right-info">{{ $pasien->kode }}</span>
-                </div>
-            </div>
-
-            <div class="content-spac">
-                <div class="text-left">
-                    <span class="text-left-info">Poliklinik</span><br>
-                    <small class="text-small">Bagian</small>
-                </div>
-                <div class="text-right">
-                    <span class="text-right-info">{{ $pasien->poliklinik->nama }}</span>
-                </div>
-            </div>
-
-            <div class="content-spac">
-                <div class="text-left">
-                    <span class="text-left-info">Nama Dokter</span><br>
-                    <small class="text-small">Dokter</small>
-                </div>
-                <div class="text-right">
-                    <span class="text-right-info">{{ $pasien->dokter->name }}</span>
-                </div>
-            </div>
-
-            <div class="content-spac">
-                <div class="text-left">
-                    <span class="text-left-info">Jenis Layanan</span><br>
-                    <small class="text-small">Jenis</small>
-                </div>
-                <div class="text-right">
-                    <span class="text-right-info">{{ $pasien->jenis_layanan }}</span>
-                </div>
-            </div>
-
-            <div class="content-spac">
-                <div class="text-left">
-                    <span class="text-left-info">Tanggal Pendaftaran</span><br>
-                    <small class="text-small">tanggal</small>
-                </div>
-                <div class="text-right">
-                    <span class="text-right-info">{{ tgl_indo(substr($pasien->created_at, 0 ,10)) }}</span>
-                </div>
-            </div>
-
-        </div>
-    </div> --}}
+    @endforeach
 </body>
 </html>

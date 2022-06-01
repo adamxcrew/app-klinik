@@ -34,6 +34,7 @@
                         <th>Tarif Umum</th>
                         <th>Tarif BPJS</th>
                         <th>Tarif Perusahaan</th>
+                        <th>Pelayanan</th>
                         <th width="100">#</th>
                       </tr>
                   </thead>
@@ -64,6 +65,7 @@
                 { data: 'tarif_umum', name: 'harga' },
                 { data: 'tarif_bpjs', name: 'tarif_bpjs' },
                 { data: 'tarif_perusahaan', name: 'tarif_perusahaan' },
+                { data: 'pelayanan', name: 'pelayanan' },
                 { data: 'action', name: 'action' }
             ]
         });

@@ -56,98 +56,158 @@
     {{-- <hr style="width: 100%; border: 1px dotted black"> --}}
 
     <div style="margin: -10px;margin-left:-40px">
-        <table style="transform:scale(.9);width: 100%;border-top: 1px dotted black;text-align:left">
+        <table style="transform:scale(.9);width: 100%;border-top: 1px dotted black">
             <thead class="dotted">
                 <tr>
-                    <th>NO</th>
-                    <th width="380">KETERANGAN</th>
-                    <th>QTY</th>
-                    <th width="110">TARIF OBAT</th>
-                    <th width="110">TARIF TINDAKAN</th>
-                    {{-- <th>DISC</th> --}}
-                    {{-- <th>TAGIHAN PENJAMIN</th>
-                    <th>TAGIHAN PASIEN</th> --}}
+                    <th width="30" style="text-align:left">NO</th>
+                    <th width="250" style="text-align:left">ITEM PEMBAYARAN</th>
+                    <th width="65" style="text-align:left">TARIF</th>
+                    <th width="65" style="text-align:left">QTY</th>
+                    <th width="65" style="text-align:left">DISKON</th>
+                    <th width="65" style="text-align:left">SUBTOTAL</th>
+                    <th width="70" style="text-align:left">KETERANGAN</th>
                 </tr>
             </thead>
-
-            {{-- Deklarasi variabel untuk menampung data --}}
             @php
                 $total = 0;
                 $totalTindakan = 0;
                 $totalObat = 0;
                 $nomor=1;
             @endphp
-
-            {{-- Data tagihan tindakan --}}
-            {{-- <tr>
-                <th></th>
-                <th>TINDAKAN</th>
-            </tr> --}}
             @foreach($tindakans as $tindakan)
-            <tbody class="dotted" style="text-align:left">
+            <tbody class="dotted">
+                <?php
+                  if($pendaftaran->perusahaanAsuransi->nama_perusahaan=='BPJS' && $tindakan->tindakan->pelayanan=='bpjs'){
+                    $feeTindakan = 0;
+                    $keterangan = "BPJS";
+                  }else{
+                    $feeTindakan = $tindakan->fee;
+                    $keterangan  = "-";
+                  }
+                  ?>
+
                 <tr>
                     <td>{{ $nomor }}</td>
                     <td>{{ $tindakan->tindakan->tindakan }} </td>
+                    <td>{{ rupiah($feeTindakan) }}</td>
                     <td>{{ $tindakan->qty }}</td>
-                    <td>-</td>
-                    <td>{{ convert_rupiah($tindakan->fee) }}</td>
-                    {{-- <td>-</td>
-                    <td>{{ ($penjamin == 'UMUM') ? '-' : (($penjamin == 'BPJS') ? convert_rupiah($tindakan->fee) : convert_rupiah($tindakan->fee)) }}</td>
-                    <td>{{ $penjamin == 'UMUM' ? convert_rupiah($tindakan->fee) : '-' }}</td> --}}
+                    <td>{{ rupiah($tindakan->discount) }}</td>
+                    <td>{{ rupiah(($feeTindakan-$tindakan->discount)*$tindakan->qty) }}</td>
+                    <td>Tindakan</td>
                 </tr>
                 @php
-                    $totalTindakan += ($tindakan->fee*$tindakan->qty)-$tindakan->discount;
+                    $total += ($feeTindakan-$tindakan->discount)*$tindakan->qty;
                     $nomor++;
                 @endphp
             </tbody>
             @endforeach
 
-            {{-- Data tagihan obat --}}
-            {{-- <tr>
-                <th></th>
-                <th>OBAT</th>
-            </tr> --}}
-            @foreach($obats as $obat)
-            <tbody class="dotted" style="text-align:left">
+            @foreach($bhps as $bhp)
+            <?php
+                    if($pendaftaran->perusahaanAsuransi->nama_perusahaan=='BPJS' && $bhp->barang->pelayanan=='bpjs'){
+                    $hargaBHP = 0;
+                    $keterangan = "BPJS";
+                  }else{
+                    $hargaBHP = $bhp->harga;
+                    $keterangan  = "-";
+                  }
+                    ?>
+            <tbody class="dotted">
                 <tr>
                     <td>{{ $nomor }}</td>
-                    <td>{{ $obat->barang->nama_barang }}</td>
-                    <td>{{ $obat->jumlah }}</td>
-                    <td>{{ convert_rupiah($obat->harga) }}</td>
-                    <td>-</td>
+                    <td>{{ $bhp->barang->nama_barang }}</td>
+                    <td>{{ rupiah($hargaBHP) }}</td>
+                    <td>{{ $bhp->jumlah }}</td>
+                    <td>0</td>
+                    <td>{{ rupiah($hargaBHP*$bhp->jumlah) }}</td>
+                    <td>BHP</td>
                 </tr>
                 @php
-                    $totalObat += $obat->jumlah * $obat->harga;
+                    $total += $hargaBHP*$bhp->jumlah;
                     $nomor++;
                 @endphp
             </tbody>
             @endforeach
 
-            {{-- Hitung total hasil dari semua harga tindakan dan obat --}}
-            @php
-             $total = $totalTindakan + $totalObat   
-            @endphp
-            
-            <tbody class="dotted" style="text-align: left">
+
+            @foreach($nonRaciks as $non)
+            <?php
+            if($pendaftaran->perusahaanAsuransi->nama_perusahaan=='BPJS' && $non->barang->pelayanan=='bpjs'){
+            $hargaObatNonRacik = 0;
+            $keterangan = "BPJS";
+          }else{
+            $hargaObatNonRacik = $non->harga;
+            $keterangan  = "-";
+          }
+            ?>
+            <tbody class="dotted">
+                <tr>
+                    <td>{{ $nomor }}</td>
+                    <td>{{ $non->barang->nama_barang }}</td>
+                    <td>{{ rupiah($hargaObatNonRacik) }}</td>
+                    <td>{{ $non->jumlah }}</td>
+                    <td>0</td>
+                    <td>{{ rupiah($hargaObatNonRacik*$non->jumlah) }}</td>
+                    <td>Obat Non Racik</td>
+                </tr>
+                @php
+                    $total += $non->jumlah * $hargaObatNonRacik;
+                    $nomor++;
+                @endphp
+            </tbody>
+            @endforeach
+
+
+
+            @foreach($obatRacik as $racik)
+                @foreach($racik->detail as $itm)
+                    <?php
+                if($pendaftaran->perusahaanAsuransi->nama_perusahaan=='BPJS' && $itm->barang->pelayanan=='bpjs'){
+                    $hargaObatRacik = 0;
+                    $keterangan = "BPJS";
+                }else{
+                    $hargaObatRacik = $itm->harga;
+                    $keterangan  = "-";
+                }
+                ?>
+                <tbody class="dotted">
+                    <tr>
+                        <td>{{ $nomor }}</td>
+                        <td>{{ $itm->barang->nama_barang }}</td>
+                        <td>{{ rupiah($hargaObatRacik) }}</td>
+                        <td>{{ $itm->jumlah }}</td>
+                        <td>0</td>
+                        <td>{{ rupiah($hargaObatRacik*$itm->jumlah) }}</td>
+                        <td>Obat Racik</td>
+                    </tr>
+                    @php
+                        $total += $itm->jumlah * $hargaObatRacik;
+                        $nomor++;
+                    @endphp
+                </tbody>
+                @endforeach
+            @endforeach
+
+            <tbody class="dotted">
                 <tr>
                     <td></td>
                     <td>BIAYA TAMBAHAN</td>
                     <td></td>
                     <td></td>
-                    
-            
-                    <td colspan="2">RP. {{ rupiah($pendaftaran->biaya_tambahan) }}</td>
+                    <td></td>
+                    <td colspan="2" style="font-weight: bold">{{ rupiah($pendaftaran->biaya_tambahan) }}</td>
                 </tr>
-
+            </tbody>
+            <tbody class="dotted">
                 <tr>
                     <td></td>
                     <td>TOTAL</td>
                     <td></td>
                     <td></td>
+                    <td></td>
                     
             
-                    <td width="60">{{ $penjamin != 'UMUM' ? convert_rupiah($total+ $pendaftaran->biaya_tambahan) : '-' }}</td>
-                    <td width="60">{{ $penjamin == 'UMUM' ? convert_rupiah($total+ $pendaftaran->biaya_tambahan) : '-' }}</td>
+                    <td width="60" style="font-weight: bold">{{ rupiah($total+$pendaftaran->biaya_tambahan) }}</td>
                 </tr>
             </tbody>
             <tbody class="dotted">

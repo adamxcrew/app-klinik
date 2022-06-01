@@ -4,6 +4,7 @@
         <div class="input-group">
             <span class="input-group-addon">Rp</span>
             {!! Form::number('jumlah_bayar', null, ['class'=>'form-control jumlah_bayar','onKeyUp'=>'hitung_kembalian()','Placeholder'=>'Jumlah Pembayaran']) !!}
+            <input type="hidden" name="total_bayar" id="total_bayar">
           </div>
     </div>
 </div>

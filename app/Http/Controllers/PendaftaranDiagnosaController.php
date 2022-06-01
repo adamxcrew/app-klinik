@@ -17,7 +17,8 @@ class PendaftaranDiagnosaController extends Controller
      */
     public function store(Request $request)
     {
-        $request['pendaftaran_id'] = $request->pendaftaran_id;
+        $request['pendaftaran_id']  = $request->pendaftaran_id;
+        $request['poliklinik_id']   = \Auth::user()->poliklinik_id;
         return PendaftaranDiagnosa::create($request->all());
     }
 

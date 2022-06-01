@@ -77,9 +77,19 @@ class Pendaftaran extends Model
         return $this->hasMany('App\Models\PendaftaranTindakan');
     }
 
-    public function resep()
+    public function obatRacik()
     {
-        return $this->hasMany('App\Models\PendaftaranResep');
+        return $this->hasMany('App\Models\PendaftaranObatRacik');
+    }
+
+    public function resepNonRacik()
+    {
+        return $this->hasMany('App\Models\PendaftaranResep')->where('jenis', 'non racik');
+    }
+
+    public function resepBhp()
+    {
+        return $this->hasMany('App\Models\PendaftaranResep')->where('jenis', 'bhp');
     }
 
     public function tindakan()

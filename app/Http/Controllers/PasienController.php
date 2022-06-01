@@ -145,10 +145,21 @@ class PasienController extends Controller
         $data['privilage_khusus']   = $this->privilage_khusus;
         $data['hubungan_pasien']    = $this->hubungan_pasien;
         $data['penjamin']           = PerusahaanAsuransi::pluck('nama_perusahaan', 'id');
-
-        $data['pasien'] = Pasien::findOrFail($id);
-        $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
-        $data['provinces'] = Province::pluck('name', 'id');
+        $data['pasien']             = Pasien::with('paketIterasi.tindakan')->findOrFail($id);
+        $data['poliklinik']         = Poliklinik::pluck('nama', 'id');
+        $data['provinces']          = Province::pluck('name', 'id');
+        $data['riwayatKunjungan'] = \DB::select("select na.id,
+                                    p.kode,
+                                    pa.nomor_rekam_medis,
+                                    pa.nama as nama_pasien,
+                                    cast(p.created_at as Date) as tanggal_kunjungan,
+                                    po.nama as poliklinik,
+                                    pas.nama_perusahaan as perusahaan_penjamin
+                                    from nomor_antrian as na
+                                    join pendaftaran as p on p.id=na.pendaftaran_id
+                                    join pasien as pa on pa.id=p.pasien_id
+                                    join poliklinik as po on po.id=na.poliklinik_id
+                                    join perusahaan_asuransi as pas on pas.id=p.jenis_layanan");
         return view('pasien.show', $data);
     }
 

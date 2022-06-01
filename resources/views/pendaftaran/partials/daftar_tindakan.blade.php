@@ -18,7 +18,11 @@
         <tr>
             <td>{{ $loop->iteration }}</td>
             <td>{{ $row->tindakan->icd->code??'-' }}</td>
-            <td>{{ $row->tindakan->tindakan }}</td>
+            <td>{{ $row->tindakan->tindakan }}<br>
+                @foreach($row->tindakan->bhp as $bhp)
+                 {{ ' --- '.$bhp->barang->nama_barang }} x {{ $bhp->jumlah }}<br>
+                @endforeach
+            </td>
             <td>{{ rupiah($row->fee) }}</td>
             <td>{{ $row->qty }}</td>
             <td>{{ rupiah($row->discount) }}</td>

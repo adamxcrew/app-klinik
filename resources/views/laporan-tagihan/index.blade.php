@@ -30,8 +30,8 @@
                           <div class="col-md-3">
                             {!! Form::month('periode', $periode, ['class'=>'form-control periode','id'=>'NoIconDemo','placeholder'=>'Tanggal Mulai']) !!}
                           </div>
-                          <div class="col-md-3">
-                            {!! Form::select('nama_perusahaan', $perusahaan, request()->has('nama_perusahaan') ? request()->get('nama_perusahaan') : '', ['class'=>'form-control']) !!}
+                          <div class="col-md-4">
+                            {!! Form::select('nama_perusahaan', $perusahaan, request()->has('nama_perusahaan') ? request()->get('nama_perusahaan') : '', ['class'=>'form-control','placeholder'=>'-- Semua Perusahaan Penjamin --']) !!}
                           </div>
                           <div class="col-md-5">
                               <button type="submit" class="btn btn-danger" style="margin-right: 10px"><i class="fa fa-cogs" aria-hidden="true"></i>Filter Laporan</button>
@@ -52,11 +52,8 @@
                   <th>Nama Pasien</th>
                   <th>Nama Tindakan</th>
                   <th>Tarif Tindakan</th>
-                  {{-- <th>Kode ICD</th>
-                  <th>Indonesia</th> --}}
-                  <th>Dokter</th>
                   <th>Poliklinik</th>
-                  <th>Perusahaan</th>
+                  <th>Perusahaan Penjamin</th>
                 </tr>
               </thead>
             </table>
@@ -101,8 +98,8 @@
           searchable: false
         },
         {
-          data: 'created_at',
-          name: 'created_at'
+          data: 'tanggal',
+          name: 'tanggal'
         },
         {
           data: 'nomor_rekam_medis',
@@ -113,24 +110,20 @@
           name: 'nama_pasien'
         },
         {
-          data: 'tindakan.tindakan',
-          name: 'tindakan.tindakan'
+          data: 'nama_tindakan',
+          name: 'nama_tindakan'
         },
         {
-          data: 'tarif_tindakan',
-          name: 'tarif_tindakan'
-        },
-        {
-          data: 'dokter',
-          name: 'dokter'
+          data: 'tarif_total',
+          name: 'tarif_total'
         },
         {
           data: 'poliklinik',
           name: 'poliklinik'
         },
         {
-          data: 'nama_perusahaan',
-          name: 'nama_perusahaan'
+          data: 'perusahaan_asuransi',
+          name: 'perusahaan_asuransi'
         },
       ]
     });

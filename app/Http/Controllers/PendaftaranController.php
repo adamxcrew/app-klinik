@@ -17,6 +17,7 @@ use App\Models\HasilPemeriksaanLab;
 use App\Models\IndikatorPemeriksaanLab;
 use App\Models\RiwayatPenyakit;
 use App\Models\Barang;
+use App\Models\PendaftaranResep;
 use App\Models\RujukanInternal;
 use DataTables;
 use PDF;
@@ -78,7 +79,7 @@ class PendaftaranController extends Controller
         }
 
         if (auth()->user()->role == 'bagian_pendaftaran') {
-            $pendaftaran->where('status_pelayanan', 'pendaftaran');
+            //$pendaftaran->where('status_pelayanan', 'pendaftaran');
         }
 
         // filter berdasarkan poliklinik
@@ -335,10 +336,10 @@ class PendaftaranController extends Controller
 
     public function print($id)
     {
-        $data['pasien'] = Pendaftaran::where('pendaftaran.id', $id)
+        $data['pasiens'] = Pendaftaran::where('pendaftaran.id', $id)
         ->with('dokter')
         ->leftJoin('nomor_antrian', 'nomor_antrian.pendaftaran_id', 'pendaftaran.id')
-        ->first();
+        ->get();
         $pdf = PDF::loadView('pendaftaran.cetak', $data);
         return $pdf->stream();
     }
@@ -454,5 +455,26 @@ class PendaftaranController extends Controller
        // return view('pendaftaran.cetak_rekamedis', $data);
         $pdf = PDF::loadView('pendaftaran.cetak_rekamedis', $data);
         return $pdf->stream();
+    }
+
+
+    public function logRiwayatIterasi($id){
+        $data['riwayat'] = \App\Models\RiwayatPenggunaanTindakanIterasi::all();
+        return view('pasien.log_riwayat_iterasi',$data);
+    }
+
+    public function logRiwayatKunjungan($id){
+        $data['pendaftaran']    = NomorAntrian::with('pendaftaran')->findOrFail($id);
+        $data['tindakan']       = PendaftaranTindakan::with('tindakan')
+                                ->where('pendaftaran_id',$data['pendaftaran']->pendaftaran_id)
+                                ->get();
+        $data['diagnosa']       = PendaftaranDiagnosa::with('icd')
+                                ->where('pendaftaran_id',$data['pendaftaran']->pendaftaran_id)
+                                ->get();
+
+        $data['obatNonRacik']   = PendaftaranResep::with('barang')
+                                ->where('pendaftaran_id',$data['pendaftaran']->pendaftaran_id)
+                                ->get();
+        return view('pasien.riwayat_kunjungan_detail',$data);
     }
 }

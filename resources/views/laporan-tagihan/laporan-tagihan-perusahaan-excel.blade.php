@@ -3,11 +3,10 @@
         <tr>
             <th>No</th>
             <th>Tanggal</th>
-            <th>CM</th>
+            <th>Nomor Rekamedis</th>
             <th>Nama Pasien</th>
             <th>Nama Tindakan</th>
             <th>Tarif Tindakan</th>
-            <th>Dokter</th>
             <th>Poliklinik</th>
             <th>Perusahaan</th>
         </tr>

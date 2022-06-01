@@ -39,12 +39,12 @@
                       <tr>
                         <th width="10">Nomor</th>
                         <th>Tanggal</th>
-                        <th>Unit</th>
+                        <th width="200">Unit</th>
                         <th>Pelaksana</th>
                         <th>Nama Pelaksana</th>
                         <th>Nama Tindakan</th>
                         <th>Tarif Tindakan</th>
-                        <th>Nomor Pendaftaran</th>
+                        {{-- <th>Nomor Pendaftaran</th> --}}
                         <th>Jenis Pelayanan</th>
                       </tr>
                   </thead>
@@ -140,7 +140,7 @@
 				{ data: 'nama_pelaksana', name: 'nama_pelaksana' },
 				{ data: 'nama_tindakan', name: 'nama_tindakan' },
 				{ data: 'jumlah_fee', name: 'jumlah_fee' },
-				{ data: 'nomor_pendaftaran', name: 'nomor_pendaftaran' },
+				// { data: 'nomor_pendaftaran', name: 'nomor_pendaftaran' },
 				{ data: 'jenis_pelayanan', name: 'jenis_pelayanan' },
 			]
 		});

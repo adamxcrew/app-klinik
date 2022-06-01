@@ -16,14 +16,14 @@
         @foreach($fees as $row)
             <tr>
                 <td>{{$loop->iteration}}</td>
-                <td>{{tgl_indo($row->created_at)}}</td>
-                <td>{{$row->unit->nama??'-'}}</td>
+                <td>{{$row->tanggal}}</td>
+                <td>{{$row->unit??'-'}}</td>
                 <td>{{$row->pelaksana}}</td>
-                <td>{{$row->user->nama}}</td>
-                <td>{{$row->tindakan->tindakan}}</td>
-                <td>{{convert_rupiah($row->jumlah_fee)}}</td>
-                <td>{{$row->pendaftaran->kode}}</td>
-                <td>{{$row->pendaftaran->perusahaanAsuransi->nama_perusahaan}}</td>
+                <td>{{$row->nama_pelaksana}}</td>
+                <td>{{$row->nama_tindakan}}</td>
+                <td>{{$row->jumlah_fee}}</td>
+                <td>{{$row->nomor_pendaftaran}}</td>
+                <td>{{$row->jenis_pelayanan}}</td>
             </tr>
         @endforeach
     </tbody>

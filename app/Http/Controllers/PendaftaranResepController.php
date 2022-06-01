@@ -18,18 +18,12 @@ class PendaftaranResepController extends Controller
     public function store(Request $request)
     {
         $pendaftaran = Pendaftaran::find($request->pendaftaran_id);
-        $barang                     = Barang::find($request->barang_id);
-        // jika jenis pelayanan bpjs dan obat umum maka set harga normal, selain itu set harga 0
-
-        if ($pendaftaran->perusahaanAsuransi->nama_perusahaan == 'BPJS' && $barang->pelayanan == 'umum') {
-            $request['harga']           = $barang->harga_jual;
-        } else {
-            $request['harga']           = 0;
-            $request['is_bpjs']         = true;
-        }
-
-        $request['pendaftaran_id']  = $request->pendaftaran_id;
-        $request['satuan_terkecil_id'] = $request->satuan;
+        $barang                         = Barang::find($request->barang_id);
+        $request['is_bpjs']             = $pendaftaran->perusahaanAsuransi->nama_perusahaan == 'BPJS' ? true : false;
+        $request['jenis']               = 'non racik';
+        $request['harga']               = $barang->harga_jual;
+        $request['pendaftaran_id']      = $request->pendaftaran_id;
+        $request['satuan_terkecil_id']  = $request->satuan;
         return PendaftaranResep::create($request->all());
     }
 

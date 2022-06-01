@@ -8,6 +8,7 @@
             <th>Nama Pasien</th>
             <th>Jenis Layanan</th>
             <th>Total Transaksi</th>
+            <th>Biaya Tambahan</th>
             <th>Jenis Pembayaran</th>
             <th>Nama Kasir</th>
         </tr>
@@ -26,7 +27,8 @@
             <td>{{ $laporan->pasien->nomor_rekam_medis }}</td>
             <td>{{ $laporan->pasien->nama }}</td>
             <td>{{ $laporan->perusahaanAsuransi->nama_perusahaan }}</td>
-            <td>{{ convert_rupiah($laporan->total_bayar) }}</td>
+            <td>{{ rupiah($laporan->total_bayar) }}</td>
+            <td>{{ rupiah($laporan->biaya_tambahan) }}</td>
             <td>{{ $laporan->metode_pembayaran }}</td>
             <td>{{ $laporan->userkasir->name }}</td>
         </tr>
@@ -38,7 +40,7 @@
         <tr>
             <th colspan="6"></th>
             <th>TOTAL</th>
-            <th>{{ convert_rupiah($total) }}</th>
+            <th>{{ rupiah($total) }}</th>
         </tr>
     </tbody>
 </table>

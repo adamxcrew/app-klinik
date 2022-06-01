@@ -46,6 +46,12 @@
     </div>
 </div>
 <div class="form-group">
+    <label class="col-sm-2 control-label">Pelayanan</label>
+    <div class="col-sm-2">
+        {!! Form::select('pelayanan',['umum'=>'Umum','bpjs'=>'BPJS'], null, ['class'=>'form-control']) !!}
+    </div>
+</div>
+<div class="form-group">
     <label class="col-sm-2 control-label">Penunjang</label>
     <div class="col-sm-2">
         {!! Form::select('penunjang',[1=>'Ya',0=>'Tidak'], null, ['class'=>'form-control']) !!}

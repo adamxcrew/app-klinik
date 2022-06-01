@@ -239,7 +239,7 @@
           success: function (response) {
             console.log(response);
             // console.log(response.antrian_sekarang);
-              responsiveVoice.speak("Nomor Antrian, "+response.antrian_sekarang+", silahkan menuju ke, Poli umum", "Indonesian Female", {
+              responsiveVoice.speak("Nomor Antrian, "+response.antrian_sekarang+", silahkan menuju ke, "+response.poliklinik_tujuan+"", "Indonesian Female", {
                 rate: 0.9,
                 pitch: 1,
                 volume: 1

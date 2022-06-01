@@ -224,7 +224,7 @@
             <tr>
               <td>Asistensi</td>
               <td>
-                {!! Form::select('asisten', $dokter1, null, ['class'=>'form-control', 'id' => 'asisten']) !!}
+                {!! Form::select('asisten', $dokter1, null, ['class'=>'form-control', 'id' => 'asisten','placeholder'=>'-- Tidak Ada --']) !!}
               </td>
             </tr>
           </table>
@@ -663,6 +663,7 @@
       method: 'POST',
       data: {
         tindakan_id: tindakan_id,
+        poliklinik_id: {{ Auth::user()->poliklinik_id }},
         dokter: dokter,
         "_token": "{{ csrf_token() }}",
         asisten: asisten,

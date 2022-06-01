@@ -19,9 +19,11 @@
           <div class="col-xs-12">
             <div class="box">
               <div class="box-body">
-                <a href="{{route('purchase-order.create')}}" class="btn btn-info btn-social btn-flat"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
-                  Form Purchase Order</a>
-                <hr>
+                @if(in_array(\Auth::user()->role,['bagian_gudang','admin']))
+                  <a href="{{route('purchase-order.create')}}" class="btn btn-info btn-social btn-flat"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                    Form Purchase Order</a>
+                  <hr>
+                @endif
                 @include('alert')
                 <table class="table table-bordered table-striped" id="purchase-order-table">
                   <thead>

@@ -19,48 +19,25 @@ class LaporanFeeTindakanExport implements FromView, ShouldAutoSize, WithEvents
 
     public function __construct($tanggal_mulai, $tanggal_selesai, $user_id, $poliklinik_id)
     {
-        $this->tanggal_mulai = $tanggal_mulai;
-        $this->tanggal_selesai = $tanggal_selesai;
-        $this->poliklinik_id = $poliklinik_id;
-        $this->user_id = $user_id;
+        $this->tanggal_mulai    = $tanggal_mulai;
+        $this->tanggal_selesai  = $tanggal_selesai;
+        $this->poliklinik_id    = $poliklinik_id;
+        $this->user_id          = $user_id;
     }
 
 
     public function view(): View
     {
 
-        // $sql = "select pft.jumlah_fee,p.kode as nomor_pendaftaran,pl.nama  as nama_poliklinik,p.created_at as tanggal,pg.nama as nama_dokter
-        // from pendaftaran_fee_tindakan as pft
-        // join nomor_antrian as na on na.pendaftaran_id=pft.pendaftaran_id
-        // join pendaftaran as p on p.id=pft.pendaftaran_id
-        // join poliklinik as pl on pl.id=na.poliklinik_id
-        // join pegawai as pg on pg.id=p.dokter_id;"
 
-        $fee = PendaftaranFeeTindakan::with(['tindakan', 'pendaftaran', 'user']);
+        $fee = $this->data();
 
-        if ($this->poliklinik_id != '') {
-            $fee = $fee->where('poliklinik_id', $this->poliklinik_id);
-        }
-
-        if ($this->user_id != '') {
-            $fee = $fee->where('user_id', $this->user_id);
-        }
         return view('laporan-fee-tindakan.laporan-fee-tindakan-excel', ['fees' => $fee->get()]);
     }
 
     public function registerEvents(): array
     {
-
-        $fee = PendaftaranFeeTindakan::with(['tindakan', 'pendaftaran', 'user']);
-
-        if ($this->poliklinik_id != '') {
-            $fee = $fee->where('poliklinik_id', $this->poliklinik_id);
-        }
-
-        if ($this->user_id != '') {
-            $fee = $fee->where('user_id', $this->user_id);
-        }
-        $jmlData = $fee->count() + 1;
+        $jmlData = $this->data()->count() + 1;
         return [
             AfterSheet::class    => function (AfterSheet $event) use ($jmlData) {
                 $cellRange = 'A1:G1'; // All headers
@@ -76,5 +53,37 @@ class LaporanFeeTindakanExport implements FromView, ShouldAutoSize, WithEvents
                 ]);
             },
         ];
+    }
+
+
+    public function data()
+    {
+        $fee = PendaftaranFeeTindakan::select(
+            'pendaftaran.created_at as tanggal',
+            'users.name as nama_pelaksana',
+            'pendaftaran_fee_tindakan.pelaksana',
+            'pendaftaran_fee_tindakan.jumlah_fee',
+            'pendaftaran.kode as nomor_pendaftaran',
+            'poliklinik.nama as unit',
+            'perusahaan_asuransi.nama_perusahaan as jenis_pelayanan',
+            'tindakan.tindakan as nama_tindakan'
+        )
+        ->join('nomor_antrian', 'nomor_antrian.pendaftaran_id', 'pendaftaran_fee_tindakan.pendaftaran_id')
+        ->join('pendaftaran', 'pendaftaran.id', 'pendaftaran_fee_tindakan.pendaftaran_id')
+        ->join('poliklinik', 'poliklinik.id', 'nomor_antrian.poliklinik_id')
+        ->join('perusahaan_asuransi', 'perusahaan_asuransi.id', 'pendaftaran.jenis_layanan')
+        ->join('tindakan', 'tindakan.id', 'pendaftaran_fee_tindakan.tindakan_id')
+        ->join('users', 'users.id', 'pendaftaran_fee_tindakan.user_id')
+        ->whereBetween(\DB::raw('left(nomor_antrian.created_at,10)'), [$this->tanggal_mulai,$this->tanggal_selesai]);
+
+        if ($this->poliklinik_id != '') {
+            $fee = $fee->where('nomor_antrian.poliklinik_id', $this->poliklinik_id);
+        }
+
+        if ($this->user_id != '') {
+            $fee = $fee->where('users.id', $this->user_id);
+        }
+
+        return $fee;
     }
 }

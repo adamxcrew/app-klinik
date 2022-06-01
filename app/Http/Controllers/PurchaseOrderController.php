@@ -27,7 +27,12 @@ class PurchaseOrderController extends Controller
             if (\Auth::user()->role == 'bagian_gudang') {
                 $detailUrl = '/purchase-order/verifikasi/';
             }
-            return DataTables::of(PurchaseOrder::with('supplier')->get())
+
+            $purchase_order = PurchaseOrder::with('supplier');
+            if (\Auth::user()->role == 'akutansi') {
+                $purchase_order = $purchase_order->whereIn('status_po', ['approve_by_pimpinan','selesai_po']);
+            }
+            return DataTables::of($purchase_order->get())
                 ->addColumn('action', function ($row) {
                     $btn = "";
 

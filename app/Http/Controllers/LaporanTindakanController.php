@@ -21,15 +21,37 @@ class LaporanTindakanController extends Controller
     {
         $data['periode'] = $request->periode ?? date('Y-m');
 
-        $pendaftaranTindakan = DB::select(
-            "SELECT pendaftaran_tindakan.created_at,pendaftaran.poliklinik_id,pendaftaran.dokter_id,pasien.nomor_rekam_medis,pendaftaran_tindakan.id,pasien.nama,perusahaan_asuransi.nama_perusahaan,tindakan.tindakan, SUM(tindakan.tarif_umum) as tarif_total
-            FROM pendaftaran_tindakan
-            JOIN pendaftaran on pendaftaran.id = pendaftaran_tindakan.pendaftaran_id
-            JOIN pasien on pasien.id = pendaftaran.pasien_id
-            JOIN perusahaan_asuransi on perusahaan_asuransi.id = pendaftaran.jenis_layanan
-            JOIN tindakan on tindakan.id = pendaftaran_tindakan.tindakan_id
-            GROUP BY pendaftaran.id"
-        );
+        // $pendaftaranTindakan = DB::select(
+        //     "SELECT pendaftaran_tindakan.created_at,
+        //     pendaftaran.poliklinik_id,
+        //     pendaftaran.dokter_id,
+        //     pasien.nomor_rekam_medis,
+        //     pendaftaran_tindakan.id,
+        //     pasien.nama,
+        //     perusahaan_asuransi.nama_perusahaan,
+        //     tindakan.tindakan, SUM(tindakan.tarif_umum) as tarif_total
+        //     FROM pendaftaran_tindakan
+        //     JOIN pendaftaran on pendaftaran.id = pendaftaran_tindakan.pendaftaran_id
+        //     JOIN pasien on pasien.id = pendaftaran.pasien_id
+        //     JOIN perusahaan_asuransi on perusahaan_asuransi.id = pendaftaran.jenis_layanan
+        //     JOIN tindakan on tindakan.id = pendaftaran_tindakan.tindakan_id
+        //     GROUP BY pendaftaran.id"
+        // );
+
+        $pendaftaranTindakan = DB::select("select cast(na.created_at as date) as tanggal,
+        (pt.fee-pt.discount)*pt.qty as tarif_total,
+        p.nomor_rekam_medis,
+        p.nama as nama_pasien,
+        pa.nama_perusahaan as perusahaan_asuransi,
+        t.tindakan as nama_tindakan,
+        pk.nama as poliklinik
+        from nomor_antrian as na
+        join pendaftaran as pd on pd.id=na.pendaftaran_id
+        join pendaftaran_tindakan as pt on na.pendaftaran_id=pt.pendaftaran_id
+        join pasien as p on p.id=pd.pasien_id
+        join poliklinik as pk on pk.id=na.poliklinik_id
+        join perusahaan_asuransi as pa on pa.id=pd.jenis_layanan
+        join tindakan as t on t.id=pt.tindakan_id");
 
         if ($request->ajax()) {
             return DataTables::of($pendaftaranTindakan)

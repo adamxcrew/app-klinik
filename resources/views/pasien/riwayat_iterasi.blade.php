@@ -1,23 +1,22 @@
-<table class="table table-bordered" id="tabel-data2">
+<table class="table table-bordered" id="tabel-data">
     <thead>
         <tr>
-            <th>Tanggal</th>
-            <th>Nomor Pendaftaran</th>
-            <th>Perusahaan Penjamin</th>
-            <th>Poliklinik</th>
-            <th>#</th>
+            <th width="10">Nomor</th>
+            <th>Nama Tindakan</th>
+            <th>Quota</th>
+            <th>Biaya</th>
+            <th width="100">#</th>
         </tr>
     </thead>
-
     <tbody>
-        @foreach($riwayatKunjungan as $row)
+        @foreach($pasien->paketIterasi as $iterasi)
             <tr>
-                <td>{{ $row->tanggal_kunjungan }}</td>
-                <td>{{ $row->kode }}</td>
-                <td>{{ $row->perusahaan_penjamin }}</td>
-                <td>{{ $row->poliklinik }}</td>
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $iterasi->tindakan->tindakan }}</td>
+                <td>{{ $iterasi->quota }}</td>
+                <th>{{ $iterasi->biaya }}</th>
                 <td>
-                    <button type="button" onClick="lihatRiwayat({{$row->id}})" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    <button type="button" onClick="lihatRiwayatPakai({{$iterasi->id}})" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                         Lihat Riwayat
                       </button>
                 </td>
@@ -31,13 +30,13 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Detail Kunjungan</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Riwayat Penggunaan Iterasi</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-            <div id="riwayat"></div>
+            <div id="riwayat-iterasi"></div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
@@ -47,24 +46,21 @@
   </div>
 
 
-
-
 @push('scripts')
 <script src="{{asset('adminlte/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 <script>
     $(document).ready(function(){
-        $('#tabel-data2').DataTable();
+        $('#tabel-data').DataTable();
     });
 
 
-    function lihatRiwayat(id){
-        console.log(id);
+    function lihatRiwayatPakai(id){
         $.ajax({
-        url: "/log-riwayat-kunjungan/"+id,
+        url: "/log-riwayat-iterasi/"+id,
         type: 'GET',
         success: function(res) {
-            $("#riwayat").html(res);
+            $("#riwayat-iterasi").html(res);
         }
     });
     }
