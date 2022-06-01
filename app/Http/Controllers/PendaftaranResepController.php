@@ -23,6 +23,7 @@ class PendaftaranResepController extends Controller
         $request['jenis']               = 'non racik';
         $request['harga']               = $barang->harga_jual;
         $request['pendaftaran_id']      = $request->pendaftaran_id;
+        $request['poliklinik_id']       = \Auth::user()->poliklinik_id;
         $request['satuan_terkecil_id']  = $request->satuan;
         return PendaftaranResep::create($request->all());
     }

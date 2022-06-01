@@ -57,7 +57,8 @@ class Pasien extends Model
         return $this->hasMany('App\Models\RiwayatPenyakit', 'pasien_id', 'id');
     }
 
-    public function paketIterasi(){
+    public function paketIterasi()
+    {
         return $this->hasMany('App\Models\PaketIterasi');
     }
 }

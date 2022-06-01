@@ -55,37 +55,15 @@
                         <th>No</th>
                         <th>Tanggal</th>
                         <th>Penjamin</th>
-                        <th>Dokter</th>
                         <th>Poliklinik</th>
                         <th width="30"></th>
                     </tr>
                     @foreach($riwayatKunjungan as $riwayat)
                       <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ tgl_indo(substr($riwayat->created_at, 0,10)) }}</td>
-                        <td>{{ $riwayat->perusahaanAsuransi->nama_perusahaan }}</td>
-                        <td>
-                          <?php
-                            $antrian = $riwayat->nomorAntrian;
-                            foreach($antrian as $a)
-                            {
-                              $dokter = \App\User::find($a->dokter_id);
-                              echo $dokter->name;
-                              echo "<br>";
-                            }
-                            ?>
-                        </td>
-                        <td>
-                          <?php
-                          $antrian = $riwayat->nomorAntrian;
-                          foreach($antrian as $a)
-                          {
-                            $poliklinik = \App\Models\Poliklinik::find($a->poliklinik_id);
-                            echo $poliklinik->nama;
-                            echo "<br>";
-                          }
-                          ?>
-                        </td>
+                        <td>{{ tgl_indo($riwayat->tanggal_kunjungan) }}</td>
+                        <td>{{ $riwayat->perusahaan_penjamin }}</td>
+                        <td>{{ $riwayat->poliklinik }}</td>
                         <td>
                           <button type="button" data-kode="{{ $riwayat->id }}" class="btn btn-primary btn-sm kode" data-toggle="modal" data-target="#modalHistoryPendaftaran">
                             <i class='fa fa-eye' aria-hidden='true'></i>
@@ -987,14 +965,7 @@
   // Handle detail riwayat kunjungan
   $('.kode').on('click', function() {
     let idPendaftaran = $(this).attr('data-kode')
-    let url = "/pasien/riwayatKunjungan/" + idPendaftaran
-
-    // Empty table before request ajax
-    $('#riwayat-tindakan').html(null)
-    $('#riwayat-diagnosa').html(null)
-    $('#riwayat-obat').html(null)
-    $('#tujuan').html(null)
-
+    let url = "/log-riwayat-kunjungan/" + idPendaftaran
     $.ajax({
       url: url,
       type: "GET",

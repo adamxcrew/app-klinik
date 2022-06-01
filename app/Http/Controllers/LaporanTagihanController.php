@@ -48,11 +48,9 @@ class LaporanTagihanController extends Controller
         }
 
         if ($request->has('nama_perusahaan')) {
-            if($request->nama_perusahaan !='')
-            {
+            if ($request->nama_perusahaan != '') {
                 $laporanTagihan->where('jenis_layanan', $request->nama_perusahaan);
             }
-            
         }
 
         if ($request->ajax()) {

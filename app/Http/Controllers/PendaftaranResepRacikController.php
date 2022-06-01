@@ -25,6 +25,7 @@ class PendaftaranResepRacikController extends Controller
                 'pendaftaran_id' => $request->pendaftaran_id,
                 'jumlah_kemasan' => $request->jumlah_kemasan[$i][0],
                 'aturan_pakai' => $request->aturan_pakai[$i][0],
+                'poliklinik_id' => \Auth::user()->poliklinik_id,
                 'kemasan' => $request->jenis_kemasan[$i][0]
             ];
             $pendaftaranObatRacik = PendaftaranObatRacik::create($dataObatRacik);

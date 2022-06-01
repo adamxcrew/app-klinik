@@ -11,7 +11,8 @@ class RiwayatPenggunaanTindakanIterasi extends Model
     protected $fillable = ['pendaftaran_id','paket_iterasi_id'];
 
 
-    public function pendaftaran(){
+    public function pendaftaran()
+    {
         return $this->belongsTo('App\Models\Pendaftaran');
     }
 }

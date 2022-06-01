@@ -437,10 +437,22 @@ class PendaftaranController extends Controller
         $data['poliklinik1']            = Poliklinik::pluck('nama', 'id');
         $data['pendaftaranResepRacik']  = PendaftaranObatRacik::where('pendaftaran_id', $id);
         $data['jenisPemeriksaanLaboratorium'] = Tindakan::pluck('tindakan', 'id');
-        $data['riwayatKunjungan']   = Pendaftaran::with('nomorAntrian', 'perusahaanAsuransi')
-            ->where('pasien_id', $data['pendaftaran']->pasien->id)
-            //->where('id', '!=', $id)
-            ->get();
+        // $data['riwayatKunjungan']   = Pendaftaran::with('nomorAntrian', 'perusahaanAsuransi')
+        //     ->where('pasien_id', $data['pendaftaran']->pasien->id)
+        //     //->where('id', '!=', $id)
+        //     ->get();
+        $data['riwayatKunjungan'] =     \DB::select("select na.id,
+                                        p.kode,
+                                        pa.nomor_rekam_medis,
+                                        pa.nama as nama_pasien,
+                                        cast(p.created_at as Date) as tanggal_kunjungan,
+                                        po.nama as poliklinik,
+                                        pas.nama_perusahaan as perusahaan_penjamin
+                                        from nomor_antrian as na
+                                        join pendaftaran as p on p.id=na.pendaftaran_id
+                                        join pasien as pa on pa.id=p.pasien_id
+                                        join poliklinik as po on po.id=na.poliklinik_id
+                                        join perusahaan_asuransi as pas on pas.id=p.jenis_layanan");
         $data['barang'] = Barang::pluck('nama_barang', 'id');
         //return $data['riwayatKunjungan'] ;
         return view('pendaftaran.pemeriksaan', $data);
@@ -458,23 +470,25 @@ class PendaftaranController extends Controller
     }
 
 
-    public function logRiwayatIterasi($id){
+    public function logRiwayatIterasi($id)
+    {
         $data['riwayat'] = \App\Models\RiwayatPenggunaanTindakanIterasi::all();
-        return view('pasien.log_riwayat_iterasi',$data);
+        return view('pasien.log_riwayat_iterasi', $data);
     }
 
-    public function logRiwayatKunjungan($id){
+    public function logRiwayatKunjungan($id)
+    {
         $data['pendaftaran']    = NomorAntrian::with('pendaftaran')->findOrFail($id);
         $data['tindakan']       = PendaftaranTindakan::with('tindakan')
-                                ->where('pendaftaran_id',$data['pendaftaran']->pendaftaran_id)
+                                ->where('pendaftaran_id', $data['pendaftaran']->pendaftaran_id)
                                 ->get();
         $data['diagnosa']       = PendaftaranDiagnosa::with('icd')
-                                ->where('pendaftaran_id',$data['pendaftaran']->pendaftaran_id)
+                                ->where('pendaftaran_id', $data['pendaftaran']->pendaftaran_id)
                                 ->get();
 
         $data['obatNonRacik']   = PendaftaranResep::with('barang')
-                                ->where('pendaftaran_id',$data['pendaftaran']->pendaftaran_id)
+                                ->where('pendaftaran_id', $data['pendaftaran']->pendaftaran_id)
                                 ->get();
-        return view('pasien.riwayat_kunjungan_detail',$data);
+        return view('pasien.riwayat_kunjungan_detail', $data);
     }
 }
