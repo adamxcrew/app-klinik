@@ -25,10 +25,6 @@ class AddPoliklinikId extends Migration
             $table->integer('poliklinik_id')->nullable();
         });
 
-        Schema::table('pendaftaran_obat_racik', function (Blueprint $table) {
-            $table->integer('poliklinik_id')->nullable();
-        });
-
         Schema::table('pendaftaran_resep', function (Blueprint $table) {
             $table->integer('poliklinik_id')->nullable();
         });
