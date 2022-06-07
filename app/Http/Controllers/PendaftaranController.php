@@ -460,11 +460,17 @@ class PendaftaranController extends Controller
 
     public function cetakRekamedis($id)
     {
+        $data['nomorAntrian']       = NomorAntrian::where('id', $id)->first();
+        //$id                         = $data['nomorAntrian']->pendaftaran_id;
         $data['pendaftaran']        = Pendaftaran::with('pasien', 'jenisLayanan')->find($id);
         $data['riwayatKunjungan']   = Pendaftaran::with('poliklinik', 'dokter', 'perusahaanAsuransi')
         ->where('pasien_id', $data['pendaftaran']->pasien->id)
         ->get();
        // return view('pendaftaran.cetak_rekamedis', $data);
+        $data['pendaftaranTindakan']    = PendaftaranTindakan::where('pendaftaran_id', $id)->get();
+        $data['pendaftaranDiagnosa']    = PendaftaranDiagnosa::where('pendaftaran_id', $id)->get();
+        $data['pendaftaranResep']       = PendaftaranResep::where('pendaftaran_id', $id)->get();
+        $data['riwayatPenyakit']        = RiwayatPenyakit::where('pasien_id', $data['pendaftaran']->pasien_id)->get();
         $pdf = PDF::loadView('pendaftaran.cetak_rekamedis', $data);
         return $pdf->stream();
     }

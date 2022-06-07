@@ -101,7 +101,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Export Stock Opname</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Export Laporan Transaksi</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -123,6 +123,10 @@
                     @endforeach
                   </select>
                 </td>
+              </tr>
+              <tr>
+                <td>Poliklinik</td>
+                <td>{{ Form::select('poliklinik_id',$poliklinik,null,['class' => 'form-control','placeholder'=>'-- Semua Poli --'])}}</td>
               </tr>
             </table>
           </div>

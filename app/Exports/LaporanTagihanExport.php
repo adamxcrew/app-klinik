@@ -17,33 +17,55 @@ class LaporanTagihanExport implements FromView, ShouldAutoSize, WithEvents
     public function __construct($periode, $perusahaan = null)
     {
         $this->periode = $periode;
+        $this->perusahaan = $perusahaan;
     }
 
     public function view(): View
     {
-        $laporanTagihan = PendaftaranTindakan::with(['pendaftaran', 'tindakan'])
-            ->whereRaw("left(created_at,7)='" . $this->periode . "'");
 
-        if ($this->perusahaan != null) {
-            $jenis_layanan = $this->nama_perusahaan;
-            $laporanTagihan->whereHas('pendaftaran', function ($query) use ($jenis_layanan) {
-                return $query->where('pendaftaran.jenis_layanan', '=', $jenis_layanan);
-            });
+        $data['laporanTagihan'] = $this->data();
+        return view('laporan-tagihan.laporan-tagihan-perusahaan-excel', $data);
+    }
+
+    public function data()
+    {
+        // $laporanTagihan = PendaftaranTindakan::with(['pendaftaran', 'tindakan'])
+        // ->whereRaw("left(created_at,7)='" . $this->periode . "'");
+
+        // if ($this->perusahaan != null) {
+        //     $jenis_layanan = $this->perusahaan;
+
+        //     $laporanTagihan->whereHas('pendaftaran', function ($query) use ($jenis_layanan) {
+        //         return $query->where('pendaftaran.jenis_layanan', '=', $jenis_layanan);
+        //     });
+        // }
+        // return $laporanTagihan->get();
+
+
+        $laporanTagihan = \App\Models\ViewLaporanPendaftaranTindakan::query();
+
+        if ($this->periode) {
+            $laporanTagihan->whereRaw("left(tanggal,7)='" . $this->periode . "'");
         }
-        $laporanTagihan = $laporanTagihan->get();
 
-        return view('laporan-tagihan.laporan-tagihan-perusahaan-excel', compact('laporanTagihan'));
+
+        if ($this->perusahaan != '') {
+            $laporanTagihan->where('jenis_layanan', $this->perusahaan);
+        }
+
+
+        return $laporanTagihan->get();
     }
 
     public function registerEvents(): array
     {
-        $jmlData = PendaftaranTindakan::count() + 1;
+        $jmlData = count($this->data()) + 1;
         return [
             AfterSheet::class    => function (AfterSheet $event) use ($jmlData) {
-                $cellRange = 'A1:G1'; // All headers
+                $cellRange = 'A1:H1'; // All headers
                 $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(10)->setBold(true);
 
-                $event->sheet->getStyle('A1:I' . $jmlData)->applyFromArray([
+                $event->sheet->getStyle('A1:H' . $jmlData)->applyFromArray([
                     'borders' => [
                         'allBorders' => [
                             'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,

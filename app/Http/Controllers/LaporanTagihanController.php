@@ -65,6 +65,7 @@ class LaporanTagihanController extends Controller
 
         if ($request->has('action')) {
             if ($request->action == 'download') {
+                \Log::info($request->nama_perusahaan);
                 return Excel::download(new LaporanTagihanExport($request->periode, $request->nama_perusahaan ?? null), 'Laporan Tagihan Perusahaan ' . date('F Y', strtotime($request->periode)) . '.xlsx');
             }
         }

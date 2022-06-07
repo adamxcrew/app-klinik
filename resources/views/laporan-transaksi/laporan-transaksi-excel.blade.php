@@ -9,6 +9,7 @@
             <th>Jenis Layanan</th>
             <th>Total Transaksi</th>
             <th>Biaya Tambahan</th>
+            <th>Subtotal</th>
             <th>Jenis Pembayaran</th>
             <th>Nama Kasir</th>
         </tr>
@@ -29,18 +30,19 @@
             <td>{{ $laporan->perusahaanAsuransi->nama_perusahaan }}</td>
             <td>{{ rupiah($laporan->total_bayar) }}</td>
             <td>{{ rupiah($laporan->biaya_tambahan) }}</td>
+            <td>{{ rupiah($laporan->biaya_tambahan+$laporan->total_bayar) }}</td>
             <td>{{ $laporan->metode_pembayaran }}</td>
             <td>{{ $laporan->userkasir->name }}</td>
         </tr>
         @php 
-            $total += $laporan->total_bayar;
+            $total += $laporan->total_bayar+$laporan->biaya_tambahan;
         @endphp
         @endforeach
 
         <tr>
-            <th colspan="6"></th>
+            <th colspan="7"></th>
             <th>TOTAL</th>
-            <th>{{ rupiah($total) }}</th>
+            <th colspan="3">{{ rupiah($total) }}</th>
         </tr>
     </tbody>
 </table>

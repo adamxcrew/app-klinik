@@ -40,6 +40,7 @@
             <div id="riwayat"></div>
         </div>
         <div class="modal-footer">
+            <a href="" id="resume-medis" class="btn btn-primary">Cetak Resume Medis</a>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
         </div>
       </div>
@@ -65,6 +66,7 @@
         type: 'GET',
         success: function(res) {
             $("#riwayat").html(res);
+            $("#resume-medis").attr("href", "/pendaftaran/"+id+"/cetak_rekamedis");
         }
     });
     }

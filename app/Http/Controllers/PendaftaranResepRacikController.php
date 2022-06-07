@@ -8,6 +8,8 @@ use App\Models\Satuan;
 use App\Models\PendaftaranObatRacik;
 use App\Models\PendaftaranObatRacikDetail;
 use Session;
+use App\Models\Pendaftaran;
+use App\Models\CatatanBarangKeluar;
 
 class PendaftaranResepRacikController extends Controller
 {
@@ -28,6 +30,7 @@ class PendaftaranResepRacikController extends Controller
                 'poliklinik_id' => \Auth::user()->poliklinik_id,
                 'kemasan' => $request->jenis_kemasan[$i][0]
             ];
+            $pendaftaran = Pendaftaran::findOrFail($request->pendaftaran_id);
             $pendaftaranObatRacik = PendaftaranObatRacik::create($dataObatRacik);
             $barang = $request->barang_id[$i];
             $index = 0;
@@ -39,10 +42,21 @@ class PendaftaranResepRacikController extends Controller
                     'barang_id' => (int)$request->barang_id[$i][$index],
                     'jumlah' => (int)$request->jumlah[$i][$index],
                 ];
+                $obatRacikDetail = PendaftaranObatRacikDetail::create($detailData);
+
+
+                CatatanBarangKeluar::create([
+                    'barang_id'                     =>  (int)$request->barang_id[$i][$index],
+                    'qty'                           =>  (int)$request->jumlah[$i][$index],
+                    'perusahaan_penjamin_id'        =>  $pendaftaran->perusahaanAsuransi->id,
+                    'harga_jual'                    =>  $baramItem->harga_jual,
+                    'harga_modal'                   =>  $baramItem->harga,
+                    'relation_id'                   =>  $obatRacikDetail->id
+                ]);
 
                 //return $detailData;
 
-                PendaftaranObatRacikDetail::insert($detailData);
+
                 $index++;
             }
         }

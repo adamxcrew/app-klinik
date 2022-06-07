@@ -79,7 +79,7 @@
                       <td>{{$row->tindakan->tindakan}}</td>
                       <td>{{$row->qty}}</td>
                       <td style="text-align:right">{{rupiah($feeTindakan)}}</td>
-                      <td>{{$row->discount}}</td>
+                      <td><input value="{{$row->discount}}" style="width:70px" type="text" class="form-control"></td>
                       <td>{{rupiah(($feeTindakan*$row->qty)-$row->discount)}}</td>
                       <td>{{ $keterangan }}</td>
                       {{-- <td>

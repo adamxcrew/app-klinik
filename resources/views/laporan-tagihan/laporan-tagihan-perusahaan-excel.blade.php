@@ -15,16 +15,13 @@
         @foreach($laporanTagihan as $laporan)
         <tr>
             <td>{{ $loop->iteration }}</td>
-            <td>{{ tgl_indo(substr($laporan->created_at, 0, 10)) }}</td>
-            <td>{{ $laporan->pendaftaran->pasien->nomor_rekam_medis }}</td>
-            <td>{{ $laporan->pendaftaran->pasien->nama }}</td>
-            <td>{{ $laporan->tindakan->tindakan }}</td>
-            <td>{{ ($laporan->pendaftaran->perusahaanAsuransi->nama_perusahaan == 'UMUM') ? convert_rupiah($laporan->tindakan->tarif_umum) : 
-                    (($laporan->pendaftaran->perusahaanAsuransi->nama_perusahaan == 'BPJS') ? convert_rupiah($laporan->tindakan->tarif_bpjs) : 
-                    convert_rupiah($laporan->tindakan->tarif_perusahaan)) }}</td>
-            <td>{{ $laporan->pendaftaran->dokter->name }}</td>
-            <td>{{ $laporan->pendaftaran->poliklinik->nama }}</td>
-            <td>{{ $laporan->pendaftaran->perusahaanAsuransi->nama_perusahaan }}</td>
+            <td>{{ tgl_indo($laporan->tanggal) }}</td>
+            <td>{{ $laporan->nomor_rekam_medis }}</td>
+            <td>{{ $laporan->nama_pasien }}</td>
+            <td>{{ $laporan->nama_tindakan }}</td>
+            <td>{{ (rupiah($laporan->tarif_total)) }}</td>
+            <td>{{ $laporan->poliklinik }}</td>
+            <td>{{ $laporan->perusahaan_asuransi }}</td>
         </tr>
         @endforeach
     </tbody>

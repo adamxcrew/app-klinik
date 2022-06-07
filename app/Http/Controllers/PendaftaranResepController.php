@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Barang;
 use App\Models\PendaftaranResep;
 use App\Models\Pendaftaran;
+use App\Models\CatatanBarangKeluar;
 
 class PendaftaranResepController extends Controller
 {
@@ -25,7 +26,16 @@ class PendaftaranResepController extends Controller
         $request['pendaftaran_id']      = $request->pendaftaran_id;
         $request['poliklinik_id']       = \Auth::user()->poliklinik_id;
         $request['satuan_terkecil_id']  = $request->satuan;
-        return PendaftaranResep::create($request->all());
+        $pendaftaranResep = PendaftaranResep::create($request->all());
+        CatatanBarangKeluar::create([
+            'barang_id'                     =>  $request->barang_id,
+            'qty'                           =>  $request->jumlah,
+            'perusahaan_penjamin_id'        =>  $pendaftaran->perusahaanAsuransi->id,
+            'harga_jual'                    =>  $barang->harga_jual,
+            'harga_modal'                   =>  $barang->harga,
+            'relation_id'                   =>  $pendaftaranResep->id
+        ]);
+        return $pendaftaranResep;
     }
 
     /**

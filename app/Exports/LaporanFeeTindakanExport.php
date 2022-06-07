@@ -28,10 +28,7 @@ class LaporanFeeTindakanExport implements FromView, ShouldAutoSize, WithEvents
 
     public function view(): View
     {
-
-
         $fee = $this->data();
-
         return view('laporan-fee-tindakan.laporan-fee-tindakan-excel', ['fees' => $fee->get()]);
     }
 

@@ -31,36 +31,125 @@
 
 <table>
     <tr>
-        <td width="80">No RM</td>
-        <td width="150"> : {{ $pendaftaran->pasien->nomor_rekam_medis}}</td>
-        <td width="80">Alamat</td>
-        <td width="150"> : {{ $pendaftaran->pasien->alamat }}</td>
+        <td width="100">Nama Pasien</td>
+        <td> : {{ $pendaftaran->pasien->nama }}</td>
+        <td>TGL / Jam Kunjungan</td>
+        <td> : {{ tgl_indo(substr($pendaftaran->created_at,0,10)) }} /  {{ substr($pendaftaran->created_at,11,5)}} </td>
     </tr>
     <tr>
-        <td width="100">Nama</td>
-        <td> : {{ $pendaftaran->pasien->nama }}</td>
-        <td>No Telpon</td>
-        <td> : {{ $pendaftaran->pasien->nomor_hp }}</td>
+        <td width="80">No RM</td>
+        <td width="150"> : {{ $pendaftaran->pasien->nomor_rekam_medis}}</td>
+        <td width="80">Nomor Kartu</td>
+        <td width="150"> : {{ $pendaftaran->pasien->nik }}</td>
+    </tr>
+    <tr>
+        <td>Tanggal Lahir</td>
+        <td> : {{ $pendaftaran->pasien->tempat_lahir.', '. tgl_indo($pendaftaran->pasien->tanggal_lahir) }}</td>
+        <td>NIK</td>
+        <td> : {{ ucfirst($pendaftaran->pasien->nomor_ktp) }}</td>
+    </tr>
+    <tr>
+        <td>Alamat</td>
+        <td> : {{ $pendaftaran->pasien->alamat }}</td>
+        <td>Peserta</td>
+        <td> : -</td>
     </tr>
     <tr>
         <td>Jenis Kelamin</td>
         <td> : {{ ucfirst($pendaftaran->pasien->jenis_kelamin) }}</td>
-        <td>Riwayat Penyakit</td>
-        <td> : -</td>
+        <td>Perusahaan</td>
+        <td> : {{ $pendaftaran->perusahaanAsuransi->nama_perusahaan }}</td>
     </tr>
     <tr>
-        <td>TTL</td>
-        <td> : {{ $pendaftaran->pasien->tempat_lahir.', '. tgl_indo($pendaftaran->pasien->tanggal_lahir) }}</td>
-        <td>Alergi Obat</td>
-        <td> : -</td>
+        <td>AO</td>
+        <td> : </td>
+        <td>Ibu Kandung</td>
+        <td> : {{ ucfirst($pendaftaran->pasien->nama_ibu) }}</td>
     </tr>
 </table>
 
 <br><br>
 
-
-
 <table class="table">
+    <tr valign="top">
+        <td class="td">Riwayat Penyakit</td>
+        <td class="td">
+            @foreach($riwayatPenyakit as $rwp)
+                - {{ $rwp->tbmIcd->indonesia}}<br>
+            @endforeach
+        </td>
+    </tr>
+    <tr>
+        <td class="td">Riwayat Alergi</td>
+        <td class="td"></td>
+    </tr>
+    <tr>
+        <td class="td">Anamnesa</td>
+        <td class="td">{{ $pendaftaran->anamnesa }}</td>
+    </tr>
+    <tr>
+        <td class="td">Pemeriksaan</td>
+        <td class="td"></td>
+    </tr>
+
+    <tr>
+        <td class="td">Pemeriksaan Fisik</td>
+        <td class="td">
+            @foreach($pendaftaran->pemeriksaan_klinis as $keyPm => $valPm)
+                - {{  str_replace('"','',$keyPm)}} : {{ $valPm}} <br>
+            @endforeach
+        </td>
+    </tr>
+    <tr>
+        <td class="td">Diagnosa</td>
+        <td class="td">
+            @foreach($pendaftaranDiagnosa as $pd)
+                - {{ $pd->icd->indonesia }}<br>
+            @endforeach
+        </td>
+    </tr>
+    <tr valign="top">
+        <td class="td">Tindakan</td>
+        <td class="td">
+            @foreach($pendaftaranTindakan as $t)
+                - {{ $t->tindakan->tindakan }}<br>
+            @endforeach
+        </td>
+    </tr>
+    <tr>
+        <td class="td">Laboratorium</td>
+        <td class="td">
+            -
+        </td>
+    </tr>
+    <tr>
+        <td class="td">Terapi Obat</td>
+        <td class="td">
+            @foreach($pendaftaranResep as $pr)
+                - {{ $pr->barang->nama_barang }} {{ $pr->barang->satuanTerkecil->satuan}} @ {{ $pr->jumlah }} | {{ $pr->aturan_pakai }}<br>
+            @endforeach
+        </td>
+    </tr>
+    <tr>
+        <td class="td">Keterangan</td>
+        <td class="td">
+            - Surat Sakit/ Sehat<br>
+            - Surat Rujukan<br>
+            - Lain nya :  ................................
+        </td>
+    </tr>
+</table>
+
+
+<div class="ttd" style="margin-left:550px;margin-top:50px;font-weight:bold;text-align:center">
+<p>Tanda tangan</p>
+
+<p style="margin-top:100px;">{{ $nomorAntrian->dokter->name }}</p>
+</div>
+
+
+
+{{-- <table class="table">
     <tr>
         <th class="th">Tanggal</th>
         <th class="th">Anamnesa</th>
@@ -75,4 +164,4 @@
         <td class="td">Keterangan</td>
     </tr>
     @endforeach
-</table>
+</table> --}}

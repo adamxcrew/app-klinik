@@ -14,11 +14,13 @@ class LaporanTransaksiExport implements FromView, ShouldAutoSize, WithEvents
 {
     public $tanggal;
     public $nama_shift;
+    public $poliklinik_id;
 
-    public function __construct($tanggal, $nama_shift)
+    public function __construct($tanggal, $nama_shift, $poliklinik_id)
     {
         $this->tanggal = $tanggal;
         $this->nama_shift = $nama_shift;
+        $this->poliklinik_id = $poliklinik_id;
     }
 
     public function view(): View
@@ -50,10 +52,10 @@ class LaporanTransaksiExport implements FromView, ShouldAutoSize, WithEvents
         ->count() + 2;
         return [
             AfterSheet::class    => function (AfterSheet $event) use ($jmlData) {
-                $cellRange = 'A1:J1'; // All headers
+                $cellRange = 'A1:K1'; // All headers
                 $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(10)->setBold(true);
 
-                $event->sheet->getStyle('A1:J' . $jmlData)->applyFromArray([
+                $event->sheet->getStyle('A1:K' . $jmlData)->applyFromArray([
                     'borders' => [
                         'allBorders' => [
                             'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,

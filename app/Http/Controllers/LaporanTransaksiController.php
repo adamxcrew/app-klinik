@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
+use App\Models\Poliklinik;
 
 class LaporanTransaksiController extends Controller
 {
@@ -46,11 +47,12 @@ class LaporanTransaksiController extends Controller
         }
 
         $data['shift'] = config('datareferensi.kasir_shift');
+        $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
         return view('laporan-transaksi.index', $data);
     }
 
     public function export(Request $request)
     {
-        return Excel::download(new LaporanTransaksiExport($request->tanggal, $request->nama_shift), 'Laporan Transaksi ' . date('Y-m-d') . '.xlsx');
+        return Excel::download(new LaporanTransaksiExport($request->tanggal, $request->nama_shift, $request->poliklinik_id), 'Laporan Transaksi ' . date('Y-m-d') . '.xlsx');
     }
 }
