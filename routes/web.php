@@ -132,9 +132,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('barang/export_excel', 'BarangController@export_excel')->name('barang.export_excel');
-    ROute::post('barang/import','BarangController@import_excel');
+    Route::post('barang/import','BarangController@import_excel');
     Route::resource('barang', 'BarangController');
     Route::resource('user', 'UserController');
+    ROute::post('pasien/import','PasienController@import_excel');
     Route::resource('pasien', 'PasienController');
     Route::resource('diagnosa', 'DiagnosaController');
     Route::resource('poliklinik', 'PoliklinikController');

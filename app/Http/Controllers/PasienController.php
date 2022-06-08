@@ -18,6 +18,8 @@ use App\Models\PendaftaranResep;
 use App\Models\PendaftaranTindakan;
 use App\Models\PerusahaanAsuransi;
 use PDF;
+use App\Jobs\ImportPasienExcel;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PasienController extends Controller
 {
@@ -53,9 +55,43 @@ class PasienController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(Pasien::all())
+            // $search = $request->input('search.value');
+            // $columns = $request->get('columns');
+
+            // $pageSize = ($request->length) ? $request->length : 10;
+
+            // $itemQuery = \DB::table('pasien');
+
+            // //$itemQuery->orderBy('items_id', 'asc');
+            // $itemCounter = $itemQuery->get();
+            // $count_total = $itemCounter->count();
+
+            // $count_filter = 0;
+            // if ($search != '') {
+            //     $itemQuery->where('brands.nama', 'LIKE', '%' . $search . '%')
+            //             ->orWhere('items.nomor_rekam_medis', 'LIKE', '%' . $search . '%')
+            //             ->orWhere('items.nama_ibu', 'LIKE', '%' . $search . '%');
+            //     $count_filter = $itemQuery->count();
+            // }
+
+            // $itemQuery->select('nama','nomor_rekam_medis','nomor_ktp','nama_ibu','tempat_lahir','tanggal_lahir','id');
+
+            // $start = ($request->start) ? $request->start : 0;
+            // $itemQuery->skip($start)->take($pageSize);
+            // $items = $itemQuery->get();
+
+            // if ($count_filter == 0) {
+            //     $count_filter = $count_total;
+            // }
+
+
+
+            $pasien = Pasien::select('id', 'nama', 'nomor_rekam_medis', 'nomor_ktp', 'nama_ibu', 'tempat_lahir', 'tanggal_lahir')->get();
+
+            return DataTables::of($pasien)
                 ->addColumn('tempat_tanggal_lahir', function ($row) {
-                    return $row->tempat_lahir . ', ' . tgl_indo($row->tanggal_lahir);
+                    //return $row->tempat_lahir . ', ' . tgl_indo($row->tanggal_lahir);
+                    return $row->tempat_lahir;
                 })
                 ->addColumn('action', function ($row) {
                     $btn = \Form::open(['url' => 'pasien/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right']);
@@ -237,5 +273,17 @@ class PasienController extends Controller
         \Log::info($riwayatKunjungan);
 
         return view('pasien.riwayat_kunjungan', $riwayatKunjungan);
+    }
+
+
+    public function import_excel(Request $request)
+    {
+        $file = $request->file('file');
+        $nama_file = $file->getClientOriginalName();
+        $destinationPath = 'uploads';
+        $file->move($destinationPath, $nama_file);
+        $filePath = $destinationPath . '/' . $nama_file;
+        ImportPasienExcel::dispatch($nama_file);
+        //return redirect('barang')->with('message', 'Import Data Sedang Diproses, Check Hasilnya Berkala');
     }
 }

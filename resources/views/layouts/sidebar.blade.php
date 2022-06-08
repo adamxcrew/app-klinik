@@ -138,6 +138,7 @@
       ];
       $poliklinik = [
         ['icon' => 'fa fa-book', 'link' => '/antrian', 'label' => 'Antrian'],
+        ['icon' => 'fa fa-list-ul', 'link' => '/surat-sehat-sakit', 'label' => 'Data Surat Sehat Dan Sakit'],
         ['icon' => 'fa fa-address-card', 'link' => '/pendaftaran', 'label' => 'Data Pasien Antri']
       ];
 
@@ -159,9 +160,9 @@
         'pimpinan'        => $pimpinan,
         'apoteker'        => $apoteker,
         'bagian_pendaftaran' => $bagian_pendaftaran,
-        'laboratorium' => $laboratorium,
-        'rekamedis' => $rekamedis,
-        'poliklinik' => $poliklinik
+        'laboratorium'    => $laboratorium,
+        'rekamedis'       => $rekamedis,
+        'poliklinik'      => $poliklinik
       ];
       ?>
 
