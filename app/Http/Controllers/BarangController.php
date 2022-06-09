@@ -160,11 +160,13 @@ class BarangController extends Controller
 
     public function import_excel(Request $request)
     {
-        $file = $request->file('file');
-        $nama_file = $file->getClientOriginalName();
-        $destinationPath = 'uploads';
-        $file->move($destinationPath, $nama_file);
-        $filePath = $destinationPath . '/' . $nama_file;
+        // $file = $request->file('file');
+        // $nama_file = $file->getClientOriginalName();
+        // $destinationPath = 'uploads';
+        // $file->move($destinationPath, $nama_file);
+        // $filePath = $destinationPath . '/' . $nama_file;
+        //$filePath = "uploads/template_import_barang_ok.xlsx";
+        $nama_file = "template_import_barang_ok.xlsx";
         ImportBarangExcel::dispatch($nama_file);
         return redirect('barang')->with('message', 'Import Data Sedang Diproses, Check Hasilnya Berkala');
     }

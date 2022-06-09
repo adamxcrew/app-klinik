@@ -58,10 +58,12 @@ class ImportBarangExcel implements ShouldQueue
                     $satuan_terbesar            = Satuan::firstOrCreate(['satuan' => $cells[5]->getValue()], ['satuan' => $cells[5]->getValue()]);
                     $jumlah_satuan_terkecil     = $cells[6]->getValue();
                     $satuan_terkecil            = Satuan::firstOrCreate(['satuan' => $cells[7]->getValue()], ['satuan' => $cells[7]->getValue()]);
-                    $jenis                      = Kategori::firstOrCreate(['nama_kategori' => $cells[8]->getValue()], ['nama_kategori' => $cells[8]->getValue(),'jenis' => $jenis_barang]);
+                    $jenis                      = $cells[9]->getValue();
                     $harga                      = (int) $cells[9]->getValue();
-                    $margin                     = (int) $cells[10]->getValue();
-                    $untuk_penjamin             = explode(",", $cells[13]->getValue());
+                    $margin                     = (int) $cells[11]->getValue();
+                    $pbf                        = \App\Models\PedagangBesarFarmasi::firstOrCreate(['nama_pbf' => $cells[12]->getValue()], ['nama_pbf' => $cells[12]->getValue(),'jenis' => $jenis_barang]);
+                    $untuk_penjamin             = explode("/", $cells[13]->getValue());
+                    $kategori                   = Kategori::firstOrCreate(['nama_kategori' => $cells[14]->getValue()], ['nama_kategori' => $cells[5]->getValue(),'jenis' => $jenis_barang]);
                     //\Log::info($untuk_penjamin);
 
                     if (in_array('BPJS', $untuk_penjamin)) {
@@ -70,23 +72,26 @@ class ImportBarangExcel implements ShouldQueue
                         $asuransi = "umum";
                     }
 
-                    $data[] = [
+                    $data = [
                         'kode'                      =>  $kode_barang,
                         'nama_barang'               =>  $nama_barang,
                         'keterangan'                =>  null,
                         'harga'                     =>  $harga,
-                        'kategori_id'               =>  $jenis->id,
+                        'kategori_id'               =>  $kategori->id,
                         'satuan_terbesar_id'        =>  $satuan_terbesar->id,
                         'jumlah_satuan_terbesar'    =>  $jumlah_satuan_terbesar,
                         'pelayanan'                 =>  $asuransi,
                         'satuan_terkecil_id'        =>  $satuan_terkecil->id,
                         'jumlah_satuan_terkecil'    =>  $jumlah_satuan_terkecil,
                         'margin'                    =>  $margin,
-                        'pbf_id'                    =>  0,
+                        'pbf_id'                    =>  $pbf->id,
                         'aktif'                     =>  1
                     ];
+                    $matchThese = ['nama_barang' => $nama_barang];
+                    Barang::updateOrCreate($matchThese, $data);
                 }
-                Barang::insert($data);
+                //Barang::insert($data);
+
                 $nomor++;
             }
         }

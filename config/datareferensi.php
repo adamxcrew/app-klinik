@@ -187,9 +187,7 @@ return [
     'object_fee' => [
         'klinik'            =>  'Klinik',
         'dokter'            =>  'Dokter',
-        'perawat'           =>  'Perawat',
-        'asisten_perawat'   =>  'Asisten Perawat',
-        'bidan'             =>  'Bidan'
+        'asisten'           =>  'Asisten'
     ],
 
     'bank' => [

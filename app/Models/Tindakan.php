@@ -8,7 +8,7 @@ class Tindakan extends Model
 {
     protected $table = "tindakan";
 
-    protected $fillable = ['kode','tindakan','tarif_umum','tarif_bpjs','tarif_perusahaan','pembagian_tarif', 'jenis','iterasi','quota','pelayanan'];
+    protected $fillable = ['kode','tindakan','tarif_umum','tarif_bpjs','tarif_perusahaan','pembagian_tarif', 'jenis','iterasi','quota','pelayanan','poliklinik_id'];
 
     public function getPembagianTarifAttribute($value)
     {
@@ -28,5 +28,9 @@ class Tindakan extends Model
     public function bhp()
     {
         return $this->hasMany('App\Models\TindakanBHP');
+    }
+    public function poliklinik()
+    {
+        return $this->belongsTo('App\Models\Poliklinik');
     }
 }

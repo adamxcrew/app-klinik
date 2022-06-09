@@ -30,14 +30,14 @@ class PendaftaranTindakanController extends Controller
         $request['poliklinik_id'] = \Auth::user()->poliklinik_id;
 
         // apakah umum, BPJS atau lain
-        $jenisPendaftaran   = $pendaftaran->perusahaanAsuransi->nama_perusahaan;
-        if ($jenisPendaftaran == 'BPJS') {
-            $jenisPendaftaran = 'Bpjs';
-        } elseif ($jenisPendaftaran == 'UMUM') {
-            $jenisPendaftaran = 'Umum';
-        } else {
-            $jenisPendaftaran = "Perusahaan";
-        }
+        $jenisPendaftaran   =  strtolower($pendaftaran->perusahaanAsuransi->nama_perusahaan);
+        // if ($jenisPendaftaran == 'BPJS') {
+        //     $jenisPendaftaran = 'Bpjs';
+        // } elseif ($jenisPendaftaran == 'UMUM') {
+        //     $jenisPendaftaran = 'Umum';
+        // } else {
+        //     $jenisPendaftaran = "Perusahaan";
+        // }
 
         $listTarif      = $tindakan->pembagian_tarif;
 

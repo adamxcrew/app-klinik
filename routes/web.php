@@ -132,7 +132,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('barang/export_excel', 'BarangController@export_excel')->name('barang.export_excel');
-    Route::post('barang/import','BarangController@import_excel');
+    Route::get('barang/import','BarangController@import_excel');
     Route::resource('barang', 'BarangController');
     Route::resource('user', 'UserController');
     ROute::post('pasien/import','PasienController@import_excel');
@@ -144,6 +144,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('unit-stock', 'UnitStockController');
     Route::resource('satuan', 'SatuanController');
     Route::resource('harilibur', 'HariLiburController');
+    Route::get('tindakan/import', 'TindakanController@import');
     Route::resource('tindakan', 'TindakanController');
     Route::resource('indikator-pemeriksaan-lab', 'IndikatorPemeriksaanLabController');
     Route::resource('hasil-pemeriksaan-lab', 'HasilPemeriksaanLabController');
@@ -283,3 +284,4 @@ Route::get('ajax/checklist_poli_kebidanan','AjaxController@checkPoliKebidanan');
 Route::get('log-riwayat-iterasi/{id}','PendaftaranController@logRiwayatIterasi');
 Route::get('log-riwayat-kunjungan/{id}','PendaftaranController@logRiwayatKunjungan');
 Route::get('laporan-barang-keluar','LaporanController@laporanBarangKeluar');
+Route::get('import-tarif','TindakanController@import_tarif');

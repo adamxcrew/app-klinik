@@ -48,7 +48,7 @@
           <ul class="nav navbar-nav">
             <li class="{{ Request::segment(1) == 'home' ? 'active' : '' }}"><a href="{{ url('home') }}">Dashboard</a></li>
             @if(Auth::user()->role == 'poliklinik')
-            <li class="{{ Request::segment(1) == 'antrian' ? 'active' : '' }}"><a href="{{ url('antrian') }}">Antrian</a></li>
+            <li class="{{ Request::segment(1) == 'surat-sehat-sakit' ? 'active' : '' }}"><a href="{{ url('surat-sehat-sakit') }}">Surat Sehat Sakit</a></li>
             <li class="{{ Request::segment(1) == 'pendaftaran' ? 'active' : '' }}"><a href="{{ url('pendaftaran') }}">Data Pasien Antri</a></li>
             @endif
 

@@ -34,6 +34,7 @@
                         <th>Tarif Umum</th>
                         <th>Tarif BPJS</th>
                         <th>Tarif Perusahaan</th>
+                        <th>Poliklinik</th>
                         <th>Pelayanan</th>
                         <th width="100">#</th>
                       </tr>
@@ -66,6 +67,7 @@
                 { data: 'tarif_bpjs', name: 'tarif_bpjs' },
                 { data: 'tarif_perusahaan', name: 'tarif_perusahaan' },
                 { data: 'pelayanan', name: 'pelayanan' },
+                { data: 'poliklinik.nama', name: 'poliklinik.nama' },
                 { data: 'action', name: 'action' }
             ]
         });

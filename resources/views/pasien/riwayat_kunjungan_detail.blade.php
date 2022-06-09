@@ -75,7 +75,7 @@
       <tr>
         <td>{{ $loop->iteration }}</td>
         <td>{{$td->tindakan->tindakan}}</td>
-        <td>{{$td->tindakan->icd->desc_short}}</td>
+        <td>{{$td->tindakan->icd->desc_short??'-'}}</td>
       </tr>
     @endforeach
   </tbody>

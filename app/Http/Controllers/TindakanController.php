@@ -10,6 +10,7 @@ use App\Models\Poliklinik;
 use App\Models\TindakanBHP;
 use App\Models\Barang;
 use App\Http\Requests\TindakanStoreRequest;
+use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 
 class TindakanController extends Controller
 {
@@ -29,7 +30,7 @@ class TindakanController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(Tindakan::all())
+            return DataTables::of(Tindakan::with('poliklinik')->get())
             ->addColumn('action', function ($row) {
                 $btn = "<a href='/tindakan/" . $row->id . "' class='btn btn-danger btn-sm ' style='margin-right:10px'><i class='fa fa-eye'></i></a>";
                 $btn .= \Form::open(['url' => 'tindakan/' . $row->id, 'method' => 'DELETE','style' => 'float:right;margin-right:5px']);
@@ -62,7 +63,7 @@ class TindakanController extends Controller
     public function create()
     {
         $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
-        $data['jenis']      = ['Umum','Perusahaan','Bpjs'];
+        $data['jenis']      = ['umum','perusahaan','bpjs'];
         $data['object']     = $this->object_fee;
         return view('tindakan.create', $data);
     }
@@ -111,7 +112,7 @@ class TindakanController extends Controller
         $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
         $data['tindakan']   = Tindakan::findOrFail($id);
         $data['object']     = $this->object_fee;
-        $data['jenis']      = ['Umum','Perusahaan','Bpjs'];
+        $data['jenis']      = ['umum','perusahaan','bpjs'];
         return view('tindakan.edit', $data);
     }
 
@@ -145,5 +146,181 @@ class TindakanController extends Controller
         TindakanBHP::where('tindakan_id', $tindakan->id)->delete();
         $tindakan->delete();
         return redirect(route('tindakan.index'))->with('message', 'Data tindakan Berhasil Dihapus');
+    }
+
+
+    public function import_tarif()
+    {
+
+
+        $tindakans = Tindakan::all();
+        foreach ($tindakans as $row) {
+                    $tindakan                   = Tindakan::find($row->id);
+                    $umum                       = $tindakan->tarif_umum;
+                    $perusahaan                 = $tindakan->tarif_perusahaan;
+                    $bpjs                       = $tindakan->tarif_bpjs;
+
+                    $klinik_umum    = (50 / 100) * (int) $umum;
+                    $dokter_umum    = (50 / 100) * (int) $umum;
+                    $perawat_umum   = (10 / 100) * (int) $klinik_umum;
+
+                    $klinik_bpjs    = (50 / 100) * (int) $bpjs;
+                    $dokter_bpjs    = (50 / 100) * (int) $bpjs;
+                    $perawat_bpjs   = (10 / 100) * (int) $klinik_bpjs;
+
+                    $klinik_perusahaan    = (50 / 100) * (int) $perusahaan;
+                    $dokter_perusahaan    = (50 / 100) * (int) $perusahaan;
+                    $perawat_perusahaan   = (10 / 100) * (int) $klinik_perusahaan;
+
+                    $pembagian_tarif = [
+                        'klinik-umum' => $klinik_umum - $perawat_umum,
+                        'dokter-umum' => $dokter_umum,
+                        'asisten-umum' => $perawat_umum,
+                        'klinik-bpjs' => $klinik_bpjs - $perawat_bpjs,
+                        'dokter-bpjs' => $dokter_bpjs,
+                        'asisten-bpjs' => $perawat_bpjs,
+                        'klinik-perusahaan' => $klinik_perusahaan - $perawat_perusahaan,
+                        'dokter-perusahaan' => $dokter_perusahaan,
+                        'asisten-perusahaan' => $perawat_perusahaan
+                    ];
+
+       
+
+            $tindakan->update(['pembagian_tarif'=>serialize($pembagian_tarif)]);
+        }
+        return 'ok';
+        $reader = ReaderEntityFactory::createXLSXReader();
+        $filepath = public_path('uploads/tarif_tindakan.xlsx');
+        $reader->open($filepath);
+        foreach ($reader->getSheetIterator() as $sheet) {
+            $data = [];
+            foreach ($sheet->getRowIterator() as $row) {
+                $cells                      = $row->getCells();
+
+                $poliklinik                 = Poliklinik::where('nama', $cells[17])->first();
+                \Log::info($cells[1]);
+                //dd($cells);
+                if ($poliklinik != null) {
+                    $tindakan                   = $cells[1];
+                    $umum                       = (string) $cells[2];
+                    $perusahaan                 = (string) $cells[7];
+                    $bpjs                       = (string) $cells[12];
+
+                    $klinik_umum    = (50 / 100) * (int) $umum;
+                    $dokter_umum    = (50 / 100) * (int) $umum;
+                    $perawat_umum   = (10 / 100) * (int) $umum;
+
+                    $klinik_bpjs    = (50 / 100) * (int) $bpjs;
+                    $dokter_bpjs    = (50 / 100) * (int) $bpjs;
+                    $perawat_bpjs   = (10 / 100) * (int) $bpjs;
+
+                    $klinik_perusahaan    = (50 / 100) * (int) $perusahaan;
+                    $dokter_perusahaan    = (50 / 100) * (int) $perusahaan;
+                    $perawat_perusahaan   = (10 / 100) * (int) $perusahaan;
+
+                    $pembagian_tarif = [
+                        'klinik-umum' => $klinik_umum - $perawat_umum,
+                        'dokter-umum' => $dokter_umum,
+                        'asisten-umum' => $perawat_umum,
+                        'klinik-bpjs' => $klinik_bpjs - $perawat_bpjs,
+                        'dokter-bpjs' => $dokter_bpjs,
+                        'asisten-bpjs' => $perawat_bpjs,
+                        'klinik-perusahaan' => $klinik_perusahaan - $perawat_perusahaan,
+                        'dokter-perusahaan' => $dokter_perusahaan,
+                        'asisten-perusahaan' => $perawat_perusahaan
+                    ];
+
+                    \Log::info($pembagian_tarif);
+
+                    $dataTindakan = [
+                        'tindakan'              =>  $tindakan,
+                        'kode'                  =>  null,
+                        'poliklinik_id'         =>  $poliklinik->id,
+                        'tarif_umum'            =>  $umum,
+                        'tarif_perusahaan'      =>  $perusahaan,
+                        'tarif_bpjs'            =>  $bpjs,
+                        'iterasi'               =>  0,
+                        'quota'                 =>  0,
+                        'penunjang'             =>  0,
+                        'pembagian_tarif'       =>  serialize($pembagian_tarif),
+                        'jenis_tindakan_medis'  =>  0
+                    ];
+                    Tindakan::updateOrCreate(['tindakan' => $tindakan,'poliklinik_id' => $poliklinik->id], $dataTindakan);
+                }
+            }
+        }
+    }
+
+    public function import()
+    {
+        // Tindakan::truncate();
+        // TindakanBHP::truncate();
+        // Barang::truncate();
+        $reader = ReaderEntityFactory::createXLSXReader();
+        // $filepath = public_path('uploads/tindakan_umum.xlsx');
+        // $filepath = public_path('uploads/tindakan_lab.xlsx');
+        //$filepath = public_path('uploads/tindakan_kebinanan.xlsx');
+        $filepath = public_path('uploads/tindakan_gigi.xlsx');
+
+
+
+        $reader->open($filepath);
+        foreach ($reader->getSheetIterator() as $sheet) {
+            $data = [];
+            foreach ($sheet->getRowIterator() as $row) {
+                $cells                      = $row->getCells();
+                $nomor          = $cells[0];
+                $nama_tindakan  = $cells[1];
+                $nama_bhp       = $cells[2];
+                $jumlah         = $cells[3];
+                $satuan         = $cells[4];
+                $tarif          = $cells[5] ?? 0;
+
+                if ($nomor != '') {
+                    // lakukan insert data tindakan
+                    $tindakan = Tindakan::create([
+                        'kode'              =>  null,
+                        'tindakan'          =>  $nama_tindakan,
+                        'poliklinik_id'     =>  4,
+                        'tarif_umum'        =>  $tarif,
+                        'tarif_bpjs'        =>  $tarif,
+                        'tarif_perusahaan'  =>  $tarif,
+                        'iterasi'           =>  0,
+                        'penunjang'         =>  0,
+                        'quota'             =>  0,
+                        'jenis'             => 'tindakan_medis',
+                        'pelayanan'         => 'umum'
+                    ]);
+                }
+
+                // insert barang
+                $pbf        = \App\Models\PedagangBesarFarmasi::firstOrCreate(['nama_pbf' => 'Default'], ['nama_pbf' => 'Default']);
+                $kategori   = \App\Models\Kategori::firstOrCreate(['nama_kategori' => 'Default'], ['nama_kategori' => 'Default']);
+                $satuan     = \App\Models\Satuan::firstOrCreate(['satuan' => $satuan], ['satuan' => $satuan]);
+                $barang = [
+                    'kode'                      =>  null,
+                    'nama_barang'               =>  $nama_bhp,
+                    'keterangan'                =>  '',
+                    'harga'                     =>  0,
+                    'kategori_id'               =>  $kategori->id, // alkes
+                    'satuan_terbesar_id'        =>  1,
+                    'satuan_terkecil_id'        =>  $satuan->id,
+                    'jenis_barang'              =>  'alkes',
+                    'margin'                    =>  0,
+                    'pelayanan'                 =>  'umum',
+                    'jumlah_satuan_terbesar'    =>  0,
+                    'jumlah_satuan_terkecil'    =>  0,
+                    'pbf_id'                    =>  $pbf->id
+                ];
+
+                $brg = \App\Models\Barang::create($barang);
+                TindakanBHP::create([
+                    'barang_id'     => $brg->id,
+                    'tindakan_id'   => $tindakan->id,
+                    'jumlah'        => $jumlah]);
+            }
+        }
+
+        dd($data);
     }
 }
