@@ -15,12 +15,14 @@ class KunjunganPasienPerPoliExport implements FromView, ShouldAutoSize, WithEven
 {
     public $tanggal_awal;
     public $tanggal_akhir;
+    public $perusahaan_asuransi_id;
 
 
-    public function __construct($tanggal_awal, $tanggal_akhir)
+    public function __construct($tanggal_awal, $tanggal_akhir, $perusahaan_asuransi_id)
     {
         $this->tanggal_awal = $tanggal_awal;
         $this->tanggal_akhir = $tanggal_akhir;
+        $this->perusahaan_asuransi_id = $perusahaan_asuransi_id;
     }
 
 

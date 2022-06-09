@@ -9,10 +9,10 @@
     @foreach($laporan as $row)
         <tr>
             <td>{{ substr($row->created_at,0,10) }}</td>
-            <td>{{ $row->pasien->nomor_rekam_medis }}</td>
-            <td>{{ $row->pasien->nama }}</td>
-            <td>{{ $row->poliklinik->nama }}</td>
-            <td>{{ $row->perusahaanAsuransi->nama_perusahaan }}</td>
+            <td>{{ $row->nomor_rekam_medis }}</td>
+            <td>{{ $row->nama }}</td>
+            <td>{{ $row->nama_poliklinik}}</td>
+            <td>{{ $row->nama_perusahaan_asuransi }}</td>
         </tr>
     @endforeach
 </table>

@@ -16,12 +16,14 @@ class LaporanKunjunganPasien implements FromView, ShouldAutoSize, WithEvents, Wi
 {
     public $tanggal_awal;
     public $tanggal_akhir;
+    public $perusahaan_asuransi_id;
 
 
-    public function __construct($tanggal_awal, $tanggal_akhir)
+    public function __construct($tanggal_awal, $tanggal_akhir, $perusahaan_asuransi_id)
     {
         $this->tanggal_awal = $tanggal_awal;
         $this->tanggal_akhir = $tanggal_akhir;
+        $this->perusahaan_asuransi_id = $perusahaan_asuransi_id;
     }
 
 
@@ -30,12 +32,8 @@ class LaporanKunjunganPasien implements FromView, ShouldAutoSize, WithEvents, Wi
      */
     public function view(): View
     {
-        $pendaftaran = Pendaftaran::with('pasien', 'perusahaanAsuransi', 'poliklinik')
-            ->whereBetween(DB::raw('DATE(pendaftaran.created_at)'), [$this->tanggal_awal, $this->tanggal_akhir])
-            ->orderBy('created_at')
-            ->get();
-
-        return view('laporan.kunjungan-pasien-excel', ['laporan' => $pendaftaran]);
+        $data['laporan'] = $this->data();
+        return view('laporan.kunjungan-pasien-excel', $data);
     }
 
     public function title(): string
@@ -63,5 +61,20 @@ class LaporanKunjunganPasien implements FromView, ShouldAutoSize, WithEvents, Wi
                 ]);
             },
         ];
+    }
+
+    public function data()
+    {
+        $filterPerusahaanAsuransi = "";
+        if ($this->perusahaan_asuransi_id != 0) {
+            $filterPerusahaanAsuransi = " and pas.id='" . $this->perusahaan_asuransi_id . "'";
+        }
+        return \DB::select("select p.created_at as tanggal,ps.nomor_rekam_medis,ps.nama,pk.nama as nama_poliklinik,pas.nama_perusahaan as nama_perusahaan_asuransi
+        from nomor_antrian as na join pendaftaran as p on p.id=na.pendaftaran_id
+        join pasien as ps on ps.id=p.pasien_id
+        join poliklinik as pk on pk.id=na.poliklinik_id
+        join perusahaan_asuransi as pas on pas.id=p.jenis_layanan
+        where left(p.created_at,10) between '" . $this->tanggal_awal . "' and '" . $this->tanggal_akhir . "' $filterPerusahaanAsuransi
+        GROUP by na.id");
     }
 }

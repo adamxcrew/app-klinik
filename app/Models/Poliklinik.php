@@ -13,11 +13,15 @@ class Poliklinik extends Model
 
 
 
-    public function scopeKunjunganPasienPerPoli($query, $tanggal_awal, $tanggal_akhir)
+    public function scopeKunjunganPasienPerPoli($query, $tanggal_awal, $tanggal_akhir, $perusahaan_asuransi)
     {
-        return $query->leftJoin('nomor_antrian', function ($join) use ($tanggal_awal, $tanggal_akhir) {
+        return $query->leftJoin('nomor_antrian', function ($join) use ($tanggal_awal, $tanggal_akhir, $perusahaan_asuransi) {
             $join->on('nomor_antrian.poliklinik_id', '=', 'poliklinik.id');
             $join->whereBetween(DB::raw('DATE(nomor_antrian.created_at)'), [$tanggal_awal,$tanggal_akhir]);
+            if ($perusahaan_asuransi != 0) {
+                $join->on('pendaftaran.id', '', 'nomor_antrian.pendaftaran_id');
+                $join->where('pendaftaran.layanan', $perusahaan_asuransi);
+            }
         })
         ->selectRaw('poliklinik.nama,poliklinik.nomor_poli, count(nomor_antrian.id) as jumlah_kunjungan')
         ->groupBy('poliklinik.id');

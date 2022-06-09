@@ -136,8 +136,8 @@ class SuratSehatSakitController extends Controller
      */
     public function print($id)
     {
-        $data['surat'] = SuratSehatSakit::with(['pasien'])->findOrFail($id);
-        $data['instansi'] = PerusahaanAsuransi::findOrFail($data['surat']->pasien->penjamin);
+        $data['surat']      = SuratSehatSakit::with(['pasien'])->findOrFail($id);
+        $data['instansi']   = PerusahaanAsuransi::findOrFail(1);
 
         $dateOfBirth = $data['surat']->pasien->tanggal_lahir;
         $today = date('Y-m-d');

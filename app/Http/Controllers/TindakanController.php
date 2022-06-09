@@ -184,9 +184,9 @@ class TindakanController extends Controller
                         'asisten-perusahaan' => $perawat_perusahaan
                     ];
 
-       
 
-            $tindakan->update(['pembagian_tarif'=>serialize($pembagian_tarif)]);
+
+                    $tindakan->update(['pembagian_tarif' => serialize($pembagian_tarif)]);
         }
         return 'ok';
         $reader = ReaderEntityFactory::createXLSXReader();

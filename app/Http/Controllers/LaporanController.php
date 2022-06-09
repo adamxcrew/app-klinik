@@ -22,12 +22,17 @@ class LaporanController extends Controller
     {
         $data['tanggal_awal']           = $request->tanggal_awal ?? date('Y-m-d');
         $data['tanggal_akhir']          = $request->tanggal_akhir ?? date('Y-m-d');
-        $data['perusahaan_penjamin_id'] = $request->perusahaan_penjamin_id ?? 1;
-        $data['laporan']        = Poliklinik::KunjunganPasienPerPoli($data['tanggal_awal'], $data['tanggal_akhir'])->get();
+        $data['perusahaan_penjamin_id'] = $request->perusahaan_penjamin_id ?? null;
+        $data['laporan']                = \DB::select("select po.nomor_poli,po.nama,count(p.id) as jumlah_kunjungan
+                                            from poliklinik as po left join nomor_antrian as na on na.poliklinik_id=po.id
+                                            left join pendaftaran as p on p.id=na.pendaftaran_id and p.jenis_layanan='" . $data['perusahaan_penjamin_id'] . "' 
+                                            and left(na.created_at,10) BETWEEN '" . $data['tanggal_awal'] . "' and '" . $data['tanggal_akhir'] . "'
+                                            group by po.id");
+        //$data['laporan']        = Poliklinik::KunjunganPasienPerPoli($data['tanggal_awal'], $data['tanggal_akhir'], $data['perusahaan_penjamin_id'])->get();
         if ($request->has('type')) {
             if ($request->type == 'excel') {
                 $nama_file = 'laporan-kunjungan-pasien-perpoli-periode-' . $data['tanggal_awal'] . '-sampai-' . $data['tanggal_akhir'] . '.xlsx';
-                return Excel::download(new LaporanKunjungan($data['tanggal_awal'], $data['tanggal_akhir']), $nama_file);
+                return Excel::download(new LaporanKunjungan($data['tanggal_awal'], $data['tanggal_akhir'], $data['perusahaan_penjamin_id']), $nama_file);
             }
         }
         $data['perusahaan_asuransi'] = PerusahaanAsuransi::pluck('nama_perusahaan', 'id');
