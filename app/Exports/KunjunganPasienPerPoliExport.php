@@ -31,8 +31,8 @@ class KunjunganPasienPerPoliExport implements FromView, ShouldAutoSize, WithEven
      */
     public function view(): View
     {
-        $kunjungan = Poliklinik::KunjunganPasienPerPoli($this->tanggal_awal, $this->tanggal_akhir)->get();
-        return view('laporan.kunjungan-perpoli-excel', ['laporan' => $kunjungan]);
+        $data['laporan']    = $this->data();
+        return view('laporan.kunjungan-perpoli-excel', $data);
     }
 
     public function title(): string
@@ -42,7 +42,7 @@ class KunjunganPasienPerPoliExport implements FromView, ShouldAutoSize, WithEven
 
     public function registerEvents(): array
     {
-        $jmlData = Poliklinik::count() + 1;
+        $jmlData = count($this->data())+1;
         return [
             AfterSheet::class    => function (AfterSheet $event) use ($jmlData) {
                 $cellRange = 'A1:G1'; // All headers
@@ -58,5 +58,15 @@ class KunjunganPasienPerPoliExport implements FromView, ShouldAutoSize, WithEven
                 ]);
             },
         ];
+    }
+
+
+    public function data()
+    {
+        return \DB::select("select po.nomor_poli,po.nama,count(p.id) as jumlah_kunjungan
+                            from poliklinik as po left join nomor_antrian as na on na.poliklinik_id=po.id
+                            left join pendaftaran as p on p.id=na.pendaftaran_id and p.jenis_layanan='" . $this->perusahaan_asuransi_id . "' 
+                            and left(na.created_at,10) BETWEEN '" . $this->tanggal_awal . "' and '" . $this->tanggal_akhir . "'
+                            group by po.id");
     }
 }

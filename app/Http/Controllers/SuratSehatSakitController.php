@@ -137,16 +137,17 @@ class SuratSehatSakitController extends Controller
     public function print($id)
     {
         $data['surat']      = SuratSehatSakit::with(['pasien'])->findOrFail($id);
-        $data['instansi']   = PerusahaanAsuransi::findOrFail(1);
-
-        $dateOfBirth = $data['surat']->pasien->tanggal_lahir;
-        $today = date('Y-m-d');
-        $diff = date_diff(date_create($dateOfBirth), date_create($today));
+        $dateOfBirth        = $data['surat']->pasien->tanggal_lahir;
+        $today              = date('Y-m-d');
+        $diff               = date_diff(date_create($dateOfBirth), date_create($today));
         $data['age'] = $diff->format('%y');
 
         if ($data['surat']->tipe_surat == 'surat sehat') {
             $pdf = PDF::loadView('surat-sehat-sakit.cetak-surat-sehat', $data);
         } else {
+            $datediff = strtotime($data['surat']->tanggal_selesai) - strtotime($data['surat']->tanggal_mulai);
+
+            $data['selama'] = round($datediff / (60 * 60 * 24));
             $pdf = PDF::loadView('surat-sehat-sakit.cetak-surat-sakit', $data);
         }
         return $pdf->stream();

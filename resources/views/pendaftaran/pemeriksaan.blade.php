@@ -90,6 +90,10 @@
           <div class="col-xs-6">
             <div class="box">
               <div class="box-body">
+                <h4>Input Anamnesa</h4>
+                <hr>
+                <textarea class="form-control anamnesa" onKeyUp="simpan_anamnesa()" placeholder="Anamnesa Pasien">{{ $pendaftaran->anamnesa }}</textarea>
+                <hr style="border:1px dashed">
                 @if(Auth::user()->poliklinik_id == env("POLI_TUMBUH_KEMBANG_ID", "somedefaultvalue"))
                 <hr style="border:1px dashed">
                 <h4>Catatan Harian <button style="float: right" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-catatan-harian">
@@ -968,6 +972,30 @@
   }
   // END RUJUKAN LABORATORIUM
 
+
+
+  function simpan_anamnesa(){
+    console.log("simpan anamnesa");
+    var poliklinik_id                     = $(".poliklinik_id").val();
+    var anamnesa                          = $(".anamnesa").val();
+    $.ajax({
+      url: '/ajax/simpan-anamnesa',
+      data: {
+        "_token": "{{ csrf_token() }}",
+        pendaftaran_id: '{{$pendaftaran->id}}',
+        anamnesa:anamnesa
+      },
+      type: "GET",
+      success: function(res) {
+        $("#hasil_riwayat").html(res);
+        console.log(res);
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    })
+  }
+
   // Handle detail riwayat kunjungan
   $('.kode').on('click', function() {
     let idPendaftaran = $(this).attr('data-kode')
@@ -978,91 +1006,6 @@
       success: function(res) {
         $("#hasil_riwayat").html(res);
         console.log(res);
-
-        // console.log(res.pendaftaran.nomor_antrian);
-        // $('#berat_badan').html(res.pendaftaran.tanda_tanda_vital.berat_badan);
-        // $('#tekanan_darah').html(res.pendaftaran.tanda_tanda_vital.tekanan_darah);
-        // $('#suhu_tubuh').html(res.pendaftaran.tanda_tanda_vital.suhu_tubuh);
-        // $('#tinggi_badan').html(res.pendaftaran.tanda_tanda_vital.tinggi_badan);
-        // $('#jenis_kasus').html(res.pendaftaran.tanda_tanda_vital.jenis_kasus);
-        // $('#nadi').html(res.pendaftaran.tanda_tanda_vital.nadi);
-        // $('#rr').html(res.pendaftaran.tanda_tanda_vital.rr);
-        // $('#saturasi_o2').html(res.pendaftaran.tanda_tanda_vital.saturasi_o2);
-        // $('#fungsi_penciuman').html(res.pendaftaran.tanda_tanda_vital.fungsi_penciuman);
-        // $('#status_alergi').html(res.pendaftaran.tanda_tanda_vital);
-        // $('#anamnesa').html(res.pendaftaran.anamnesa);
-        $("#cetak_rekamedis").attr('href',"/pendaftaran/"+res.pendaftaran.id+"/cetak_rekamedis");
-
-        // $('#tanggal-pelayanan').html(res.tanggal_pelayanan)
-        // $('#poliklinik-tujuan').html(res.poliklinik)
-        // $('#dokter-tujuan').html(res.dokter);
-
-
-        //  // Detail Poliklinik
-        //  res.pendaftaran.nomor_antrian.forEach(el => {
-        //   let poliklinik = el.poliklinik.nama
-        //   let dokter = el.dokter.name
-          
-        //   let content = `
-        //     <tr>
-        //       <td>Poliklinik</td>
-        //       <td>${poliklinik} | ${dokter}</td>
-        //     </tr>
-        //   `
-
-        //   //$('#riwayat-tindakan').append(content)
-        //   $('#tujuan').after(content);
-        // });
-
-        
-
-        // // Detail riwayat tindakan
-        // res.tindakan.forEach(el => {
-        //   let namaTindakan = el.tindakan.tindakan
-        //   let kode = el.tindakan.kode==null?'-':el.tindakan.icd.code
-          
-        //   let content = `
-        //     <tr>
-        //       <td>${kode}</td>
-        //       <td>${namaTindakan}</td>
-        //     </tr>
-        //   `
-
-        //   $('#riwayat-tindakan').append(content)
-        // });
-
-        // // Detail riwayat diagnosa
-        // res.diagnosa.forEach(el => {
-        //   let namaTindakan = el.icd.indonesia
-        //   let kode = el.icd.kode
-          
-        //   let content = `
-        //     <tr>
-        //       <td>${kode}</td>
-        //       <td>${namaTindakan}</td>
-        //     </tr>
-        //   `
-
-        //   $('#riwayat-diagnosa').append(content)
-        // });
-
-       
-        // // Detail riwayat obat
-        // res.obat.forEach(el => {
-        //   let namaObat = el.barang.nama_barang
-        //   let jumlah = el.jumlah
-        //   let keterangan = el.barang.keterangan
-          
-        //   let content = `
-        //     <tr>
-        //       <td>${namaObat}</td>
-        //       <td>${jumlah}</td>
-        //       <td>${keterangan}</td>
-        //     </tr>
-        //   `
-        //   $('#riwayat-obat').append(content)
-        // });
-
       },
       error: function(err) {
         console.log(err);

@@ -24,7 +24,6 @@ class SuratSakitStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'selama'          =>  'required',
             'tanggal_mulai'   =>  'required',
             'tanggal_selesai' =>  'required',
         ];

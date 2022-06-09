@@ -50,15 +50,15 @@
                     <td >:</td>
                     <th align="left">{{ ucfirst($surat->pasien->alamat) }}</th>
                 </tr>   
-                <tr>
+                {{-- <tr>
                     <td style="padding-right: 20px">Instansi</td>
                     <td >:</td>
                     <th align="left">{{ $instansi->nama_perusahaan }}</th>
-                </tr>   
+                </tr>    --}}
             </table>
         </div>
         <p>Berdasarkan hasil pemeriksaan yang dilakukan, pasien tersebut dalam keadaan sakit, sehingga perlu </p>
-        <p>istirahat selama <b>{{ $surat->selama }}</b> hari, mulai tanggal <b>{{ date('d F Y', strtotime($surat->tanggal_mulai)) }}</b> s/d <b>{{ date('d F Y', strtotime($surat->tanggal_selesai)) }}.</b></p>
+        <p>istirahat selama <b>{{ $selama }}</b> hari, mulai tanggal <b>{{ date('d F Y', strtotime($surat->tanggal_mulai)) }}</b> s/d <b>{{ date('d F Y', strtotime($surat->tanggal_selesai)) }}.</b></p>
         
         {{-- <table>
             <tr>
@@ -71,7 +71,7 @@
         <p>Demikian surat keterangan ini diberikan untuk diketahui dan dipergunakan sebagaimana mestinya.</p>
         <div style="float: right">
             <p style="margin-right:90px;margin-bottom:70px">Bogor, .................</p>
-            <p style="margin-left: 5px">Dokter Pemeriksa</p>
+            <p style="margin-left: 5px">{{ $surat->user->name }}</p>
         </div>
     </div>
     

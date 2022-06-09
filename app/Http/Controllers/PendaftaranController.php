@@ -437,10 +437,6 @@ class PendaftaranController extends Controller
         $data['poliklinik1']            = Poliklinik::pluck('nama', 'id');
         $data['pendaftaranResepRacik']  = PendaftaranObatRacik::where('pendaftaran_id', $id);
         $data['jenisPemeriksaanLaboratorium'] = Tindakan::pluck('tindakan', 'id');
-        // $data['riwayatKunjungan']   = Pendaftaran::with('nomorAntrian', 'perusahaanAsuransi')
-        //     ->where('pasien_id', $data['pendaftaran']->pasien->id)
-        //     //->where('id', '!=', $id)
-        //     ->get();
         $data['riwayatKunjungan'] =     \DB::select("select na.id,
                                         p.kode,
                                         pa.nomor_rekam_medis,

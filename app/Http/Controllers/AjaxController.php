@@ -13,7 +13,7 @@ use App\Models\PermintaanBarangInternalDetail;
 use App\User;
 use App\Models\Pasien;
 use App\Models\Pegawai;
-
+use App\Models\Pendaftaran;
 class AjaxController extends Controller
 {
     public function dropdownDokterBerdasarkanPoliklinik(Request $request)
@@ -54,17 +54,24 @@ class AjaxController extends Controller
     }
 
 
+    public function simpanAnamnesa(Request $request)
+    {
+        $pendaftaran = Pendaftaran::find($request->pendaftaran_id);
+        $pendaftaran->update(['anamnesa' =>$request->anamnesa]);
+    }
+
+
     public function select2Barang(Request $request)
     {
         $data = \DB::table('barang')
             ->select('id', 'nama_barang', 'harga')
             ->where('nama_barang', 'like', "%" . $request->q . "%");
 
-        // if ($request->has('pelayanan')) {
-        //     if (strtoupper($request->pelayanan) == 'BPJS') {
-        //         $data = $data->where('pelayanan', 'bpjs');
-        //     }
-        // }
+        if ($request->has('pelayanan')) {
+            if (strtoupper($request->pelayanan) == 'BPJS') {
+                $data = $data->where('pelayanan', 'bpjs');
+            }
+        }
 
         if (\session('lock_bpjs') != null) {
             if (\session('lock_bpjs') == 'yes') {

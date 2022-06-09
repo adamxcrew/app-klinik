@@ -52,9 +52,9 @@
 
 @else
     <div class="form-group">
-        <label class="col-sm-2 control-label">Selama</label>
+        <label class="col-sm-2 control-label">Diagnosa</label>
         <div class="col-sm-10">
-            {!! Form::number('selama', null, ['class'=>'form-control','Placeholder'=>'Selama']) !!}
+            {!! Form::text('diagnosa' ,null, ['class'=>'form-control','placeholder'=>'Diagnosa']) !!}
         </div>
     </div>
     <div class="form-group">
@@ -65,12 +65,6 @@
     </div>
 @endif
 
-<div class="form-group">
-    <label class="col-sm-2 control-label">Pilihan Cetak</label>
-    <div class="col-sm-10">
-        {!! Form::select('pilihan_cetak', ['A4' => 'A4', 'A5' => 'A5'],null, ['class'=>'form-control']) !!}
-    </div>
-</div>
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
         <button type="submit" class="btn btn-danger btn btn-sm"><i class="fa fa-floppy-o" aria-hidden="true"></i> Simpan</button>

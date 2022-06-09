@@ -43,9 +43,7 @@ class LaporanKunjunganPasien implements FromView, ShouldAutoSize, WithEvents, Wi
 
     public function registerEvents(): array
     {
-        $jmlData = Pendaftaran::with('pasien', 'perusahaanAsuransi', 'poliklinik')
-        ->whereBetween(DB::raw('DATE(pendaftaran.created_at)'), [$this->tanggal_awal, $this->tanggal_akhir])
-        ->count() + 1;
+        $jmlData = count($this->data()) + 1;
         return [
             AfterSheet::class    => function (AfterSheet $event) use ($jmlData) {
                 $cellRange = 'A1:G1'; // All headers
@@ -65,11 +63,8 @@ class LaporanKunjunganPasien implements FromView, ShouldAutoSize, WithEvents, Wi
 
     public function data()
     {
-        $filterPerusahaanAsuransi = "";
-        if ($this->perusahaan_asuransi_id != 0) {
-            $filterPerusahaanAsuransi = " and pas.id='" . $this->perusahaan_asuransi_id . "'";
-        }
-        return \DB::select("select p.created_at as tanggal,ps.nomor_rekam_medis,ps.nama,pk.nama as nama_poliklinik,pas.nama_perusahaan as nama_perusahaan_asuransi
+        $filterPerusahaanAsuransi = " and pas.id='" . $this->perusahaan_asuransi_id . "'";
+        return \DB::select("select p.created_at,ps.nomor_rekam_medis,ps.nama,pk.nama as nama_poliklinik,pas.nama_perusahaan as nama_perusahaan_asuransi
         from nomor_antrian as na join pendaftaran as p on p.id=na.pendaftaran_id
         join pasien as ps on ps.id=p.pasien_id
         join poliklinik as pk on pk.id=na.poliklinik_id
