@@ -42,27 +42,29 @@ class LaporanController extends Controller
     public function label($id)
     {
 
-        $data['setting']  = Setting::first();
-        $data['pendaftaran'] = Pendaftaran::with('pasien')->findOrFail($id);
-        $data['obatRacik'] = PendaftaranObatRacik::where('pendaftaran_id', $id)->get();
-        $data['pendaftaranResep'] = PendaftaranResep::where('pendaftaran_id', $id)->get();
-
+        $data['setting']            = Setting::first();
+        $data['pendaftaran']        = Pendaftaran::with('pasien')->findOrFail($id);
+        $data['obatRacik']          = PendaftaranObatRacik::where('pendaftaran_id', $id)->get();
+        $data['pendaftaranResep']   = PendaftaranResep::where('pendaftaran_id', $id)->where('jenis','non racik')->get();
+        
+        //return $data['obatRacik'];
 
         $dataCetak = [];
-
+        $i=1;
         foreach ($data['obatRacik'] as $row) {
             $dataCetak[] = [
-                'barang' => 'nama_barang',
-                'jumlah' => '1 box',
-                'aturan_pakai' => '2x 1 hari',
+                'barang' => 'Racik - '.$i.' Qty( '.$row->jumlah_kemasan.')',
+                'jumlah' => '',
+                'aturan_pakai' => $row->aturan_pakai,
             ];
+            $i++;
         }
 
         foreach ($data['pendaftaranResep'] as $row2) {
             $dataCetak[] = [
-                'barang' => 'nama_barang',
-                'jumlah' => '1 box',
-                'aturan_pakai' => '2x 1 hari',
+                'barang' => $row2->barang->nama_barang,
+                'jumlah' => $row2->jumlah,
+                'aturan_pakai' => $row2->aturan_pakai,
             ];
         }
 

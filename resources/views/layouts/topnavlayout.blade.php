@@ -64,6 +64,7 @@
             @if(Auth::user()->role == 'kasir')
             <li class="{{ Request::segment(1) == 'pendaftaran' ? 'active' : '' }}"><a href="{{ url('pendaftaran') }}">Data Pasien Antri</a></li>
             <li class="{{ Request::segment(1) == 'laporan-transaksi' ? 'active' : '' }}"><a href="{{ url('laporan-transaksi') }}">Laporan Transaksi</a></li>
+            <li class="{{ Request::segment(1) == 'pengeluaran' ? 'active' : '' }}"><a href="{{ url('pengeluaran') }}">Data Pengeluaran</a></li>
             @endif
           </ul>
           {{-- <form class="navbar-form navbar-left" role="search">

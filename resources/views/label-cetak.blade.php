@@ -24,8 +24,8 @@
         <br>
     <b>{{ date("d/m/Y", strtotime($pendaftaran->pasien->tanggal_lahir))}}</b><br>
     {{ $pendaftaran->kode }}  {{ date('d/m/Y H:i')}} <br>ED : <br>
-    Sample Nama Obat 100 ML<br>
-    2 x 1 diminum sesudah makan
+    {{ $item['barang']}}<br>
+    {{ $item['jumlah']}} {{ $item['aturan_pakai']}}
     </p>
 </div>
 

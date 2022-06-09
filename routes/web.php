@@ -224,6 +224,7 @@ Route::middleware(['auth'])->group(function () {
      */
     Route::get('tunjangan-gaji', 'TunjanganGajiController@index');
     Route::resource('tunjangan-gaji', 'TunjanganGajiController');
+    Route::resource('pengeluaran', 'PengeluaranOperasionalController');
 
     /**
      * Surat Sehat Sakit Route
