@@ -270,8 +270,7 @@ class PendaftaranController extends Controller
             )),
             'pemeriksaan_klinis'    =>  serialize($request->pemeriksaan_klinis),
             'status_pelayanan'      =>  'selesai_pemeriksaan_medis',
-            'status_alergi'         => $request->status_alergi_value,
-            'anamnesa'              => $request->anamnesa,
+            'status_alergi'         => $request->status_alergi_value
         ];
         $pendaftaran->update($data);
         return redirect('pendaftaran/')->with('message', 'Tanda Tanda Vital Berhasil Disimpan');
