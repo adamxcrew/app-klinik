@@ -58,20 +58,26 @@
                         <th>Poliklinik</th>
                         <th width="30"></th>
                     </tr>
-                    @foreach($riwayatKunjungan as $riwayat)
-                      <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ tgl_indo($riwayat->tanggal_kunjungan) }}</td>
-                        <td>{{ $riwayat->perusahaan_penjamin }}</td>
-                        <td>{{ $riwayat->poliklinik }}</td>
-                        <td>
-                          <button type="button" data-kode="{{ $riwayat->id }}" class="btn btn-primary btn-sm kode" data-toggle="modal" data-target="#modalHistoryPendaftaran">
-                            <i class='fa fa-eye' aria-hidden='true'></i>
-                          </button>
-        
-                        </td>
-                      </tr>
-                    @endforeach
+                    @if(count($riwayatKunjungan)>0)
+                      @foreach($riwayatKunjungan as $riwayat)
+                        <tr>
+                          <td>{{ $loop->iteration }}</td>
+                          <td>{{ tgl_indo($riwayat->tanggal_kunjungan) }}</td>
+                          <td>{{ $riwayat->perusahaan_penjamin }}</td>
+                          <td>{{ $riwayat->poliklinik }}</td>
+                          <td>
+                            <button type="button" data-kode="{{ $riwayat->id }}" class="btn btn-primary btn-sm kode" data-toggle="modal" data-target="#modalHistoryPendaftaran">
+                              <i class='fa fa-eye' aria-hidden='true'></i>
+                            </button>
+          
+                          </td>
+                        </tr>
+                      @endforeach
+                    @else
+                        <tr style="text-align:center">
+                          <td colspan="5">Belum Ada Data</td>
+                        </tr>
+                    @endif
                 </table>
                   <hr>
 
@@ -238,9 +244,9 @@
                       </select>
                       
                     </div>
-                    <div class="col-md-5">
+                    {{-- <div class="col-md-5">
                       <input type="checkbox" onclick="check_lock_bpjs()" {{ $pendaftaran->perusahaanAsuransi->nama_perusahaan=='BPJS'?'checked=checked"':''}} id="lock_bpjs"> Kunci Obat Umum ? </div>
-                  </div>
+                  </div> --}}
                  
                 </td>
               </tr>
