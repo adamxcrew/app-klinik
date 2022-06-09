@@ -77,7 +77,7 @@ class PendaftaranTindakanController extends Controller
                 'tindakan_id'       =>  $request->tindakan_id,
                 'pendaftaran_id'    =>  $request->pendaftaran_id,
                 'poliklinik_id'     =>  $request->poliklinik_id ?? 0,
-                'jumlah_fee'        =>  $fee_tindakan['asisten_perawat-' . $jenisPendaftaran],
+                'jumlah_fee'        =>  $fee_tindakan['asisten-' . $jenisPendaftaran],
                 'user_id'           =>  $request->asisten,
                 'pelaksana'         => 'Asisten'
             ]);
