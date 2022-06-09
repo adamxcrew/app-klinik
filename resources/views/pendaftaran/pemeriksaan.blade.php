@@ -37,7 +37,7 @@
                     </tr>
                     <tr>
                       <td>Tempat, Tgl Lhr</td>
-                      <td>{{ $pendaftaran->pasien->tempat_lahir }}, {{ tgl_indo($pendaftaran->pasien->tanggal_lahir) }}</td>
+                      <td>{{ $pendaftaran->pasien->tempat_lahir }}, {{ $pendaftaran->pasien->tanggal_lahir }}</td>
                     </tr>
                     <tr>
                       <td>Umur</td>

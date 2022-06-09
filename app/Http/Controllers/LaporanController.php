@@ -20,8 +20,9 @@ class LaporanController extends Controller
 {
     public function laporanKunjunganPerPoli(Request $request)
     {
-        $data['tanggal_awal']   = $request->tanggal_awal ?? date('Y-m-d');
-        $data['tanggal_akhir']  = $request->tanggal_akhir ?? date('Y-m-d');
+        $data['tanggal_awal']           = $request->tanggal_awal ?? date('Y-m-d');
+        $data['tanggal_akhir']          = $request->tanggal_akhir ?? date('Y-m-d');
+        $data['perusahaan_penjamin_id'] = $request->perusahaan_penjamin_id ?? 1;
         $data['laporan']        = Poliklinik::KunjunganPasienPerPoli($data['tanggal_awal'], $data['tanggal_akhir'])->get();
         if ($request->has('type')) {
             if ($request->type == 'excel') {
@@ -29,6 +30,7 @@ class LaporanController extends Controller
                 return Excel::download(new LaporanKunjungan($data['tanggal_awal'], $data['tanggal_akhir']), $nama_file);
             }
         }
+        $data['perusahaan_asuransi'] = PerusahaanAsuransi::pluck('nama_perusahaan', 'id');
         return view('laporan.kunjungan-perpoli', $data);
     }
 
