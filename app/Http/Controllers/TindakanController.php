@@ -93,7 +93,7 @@ class TindakanController extends Controller
     public function show(Request $request, $id)
     {
         $data['tindakan']   = Tindakan::with('bhp.barang')->find($id);
-        return view('tindakan.show', $data);
+        //return view('tindakan.show', $data);
         if ($data['tindakan']->jenis == 'tindakan_laboratorium') {
             return view('tindakan.indikator', $data);
         } else {
