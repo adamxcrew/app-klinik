@@ -1,11 +1,4 @@
-<?php 
-  if(Auth::user()->role == 'poliklinik' || Auth::user()->role == 'laboratorium' || Auth::user()->role == 'admin_medis' || Auth::user()->role == 'kasir') {
-    $layout = 'topnavlayout';
-  } else {
-    $layout = 'app';
-  }
-?>
-@extends("layouts.$layout")
+@extends('layouts.app')
 @section('title','Pasien Terdaftar')
 @section('content')
 <audio id="tingtung" src="{{asset('audio/tingtung.mp3')}}"></audio>
@@ -36,10 +29,14 @@
            
 
               <?php
-              $nomor_antrian = \DB::table('nomor_antrian');
-              $jumlah_antrian =   $nomor_antrian->whereRaw('left(created_at,10)="'.date('Y-m-d').'"')->where('poliklinik_id',Auth::user()->poliklinik_id)->count();
-              $sisa_antrian = $nomor_antrian->where('sudah_dipanggil',0)->count();
-              $antrian_sekarang = $nomor_antrian->where('sudah_dipanggil',1)->orderBy('sudah_dipanggil','DESC')->first();
+              $nomor_antrian    =   \DB::table('nomor_antrian');
+              $jumlah_antrian   =   $nomor_antrian->whereRaw('left(created_at,10)="'.date('Y-m-d').'"')
+                                    ->where('poliklinik_id',Auth::user()->poliklinik_id)
+                                    ->count();
+              $sisa_antrian     =   $nomor_antrian->where('sudah_dipanggil',0)->count();
+              $antrian_sekarang =   $nomor_antrian->where('sudah_dipanggil',1)
+                                    ->orderBy('sudah_dipanggil','DESC')
+                                    ->first();
               ?>
               <div class="row-fluid">
                 @if(in_array(Auth::user()->role,['poliklinik']))

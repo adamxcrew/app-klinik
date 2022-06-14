@@ -22,33 +22,31 @@
         <tr>
             <td style="padding-right: 20px">Nama</td>
             <td>:</td>
-            <th align="left"> {{ $nomorAntrian->pendaftaran->pasien->nama }}</th>
+            <th align="left"> {{ $surat->pendaftaran->pasien->nama }}</th>
         </tr>
         <tr>
             <td style="padding-right: 20px">Tanggal Lahir, Usia</td>
             <td>:</td>
-            <th align="left">{{ $nomorAntrian->pendaftaran->pasien->tanggal_lahir }}, {{ $nomorAntrian->pendaftaran->pasien->umur }} Tahun</th>
+            <th align="left">{{ $surat->pendaftaran->pasien->tanggal_lahir }}, {{ $surat->pendaftaran->pasien->umur }} Tahun</th>
         </tr>
         <tr>
             <td style="padding-right: 20px">Alamat</td>
             <td>:</td>
-            <th align="left">{{ $nomorAntrian->pendaftaran->pasien->alamat }}</th>
+            <th align="left">{{ $surat->pendaftaran->pasien->alamat }}</th>
         </tr>
     </table>
-    <p>Hasil Pemeriksaan Mata  :</p>
-
-
+    <br><br>
     <table>
         <tr valign="top">
-            <td width="120">Pemeriksaan Penunjang</td>
+            <td width="120">Hasil Pemeriksaan Mata  :</td>
             <td>
                 <table>
                     <tr>
-                        <td width="20"><input type="checkbox"></td>
+                        <td width="20"><input type="checkbox" {{ $surat->hasil_pemeriksaan_mata=='Buta Warna'?'checked':'' }}></td>
                         <td>Buta Warna</td>
                     </tr>
                     <tr>
-                        <td><input type="checkbox"></td>
+                        <td><input {{ $surat->hasil_pemeriksaan_mata=='Tidak Buta Warna'?'checked':'' }} type="checkbox"></td>
                         <td>Tidak Buta Warna</td>
                     </tr>
                 </table>
@@ -56,11 +54,11 @@
         </tr>
         <tr>
             <td>Saran</td>
-            <td> : .......................................................................................................................</td>
+            <td> : {{ $surat->saran }}</td>
         </tr>
         <tr>
             <td>Diberikan Untuk Keperluan</td>
-            <td> : .......................................................................................................................</td>
+            <td> : {{ $surat->keperluan }}</td>
         </tr>
     </table>
 

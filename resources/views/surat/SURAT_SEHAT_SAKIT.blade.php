@@ -6,11 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Surat Keterangan Sakit</title>
-    <style>
-        body{
-            font-size: 11px;
-        }
-    </style>
 </head>
 
 <body>
@@ -22,17 +17,17 @@
         <tr>
             <td style="padding-right: 20px">Nama</td>
             <td>:</td>
-            <th align="left"> {{ $nomorAntrian->pendaftaran->pasien->nama }}</th>
+            <th align="left"> {{ $surat->pendaftaran->pasien->nama }}</th>
         </tr>
         <tr>
             <td style="padding-right: 20px">Tanggal Lahir, Usia</td>
             <td>:</td>
-            <th align="left">{{ $nomorAntrian->pendaftaran->pasien->tanggal_lahir }}, 10 Tahun</th>
+            <th align="left">{{ $surat->pendaftaran->pasien->tanggal_lahir }}, 10 Tahun</th>
         </tr>
         <tr>
             <td style="padding-right: 20px">Alamat</td>
             <td>:</td>
-            <th align="left">{{ $nomorAntrian->pendaftaran->pasien->alamat }}</th>
+            <th align="left">{{ $surat->pendaftaran->pasien->alamat }}</th>
         </tr>
     </table>
     <p>Pada pemeriksaan yang kami lakukan secara fisik diagnostik kami menerangkan : </p>
@@ -42,42 +37,42 @@
         <tr>
             <td style="padding-right: 20px">Tekanan Darah</td>
             <td>:</td>
-            <th align="left"> ...... mmHg</th>
+            <th align="left"> {{ $surat->pendaftaran->tanda_tanda_vital['tekanan_darah'] }} mmHg</th>
         </tr>
         <tr>
             <td style="padding-right: 20px">Nadi</td>
             <td>:</td>
-            <th align="left"> ...... x/Menit </th>
+            <th align="left"> {{ $surat->pendaftaran->tanda_tanda_vital['nadi'] }} x/Menit </th>
         </tr>
         <tr>
             <td style="padding-right: 20px">Tinggi Badan</td>
             <td>:</td>
-            <th align="left"> ...... Kg</th>
+            <th align="left"> {{ $surat->pendaftaran->tanda_tanda_vital['tinggi_badan'] }} Cm</th>
         </tr>
         <tr>
             <td style="padding-right: 20px">Berat Badan</td>
             <td>:</td>
-            <th align="left"> ....... CM</th>
+            <th align="left"> {{ $surat->pendaftaran->tanda_tanda_vital['berat_badan'] }} CM</th>
         </tr>
         <tr>
             <td style="padding-right: 20px">Suhu</td>
             <td>:</td>
-            <th align="left"> C</th>
+            <th align="left"> {{ $surat->pendaftaran->tanda_tanda_vital['suhu_tubuh'] }} C</th>
         </tr>
         <tr>
             <td style="padding-right: 20px">Pernafasan</td>
             <td>:</td>
-            <th align="left"> ..... X/ Menit</th>
+            <th align="left"> {{ $surat->pendaftaran->tanda_tanda_vital['pernafasan']??0 }} X/ Menit</th>
         </tr>
         <tr>
             <td style="padding-right: 20px">Kesan</td>
             <td>:</td>
-            <th align="left">Sehat / Tidak Sehat</th>
+            <th align="left">{{ $surat->kesan }}</th>
         </tr>
         <tr>
             <td style="padding-right: 20px">Keterangan Ini Untuk</td>
             <td>:</td>
-            <th align="left"></th>
+            <th align="left">{{ $surat->keperluan }}</th>
         </tr>
     </table>
 

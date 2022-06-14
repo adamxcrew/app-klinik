@@ -1,4 +1,4 @@
-@extends('layouts.topnavlayout')
+@extends('layouts.app')
 @section('title','Laporan Transaksi')
 @section('content')
 <div class="content-wrapper">

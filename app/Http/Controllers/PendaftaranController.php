@@ -74,6 +74,10 @@ class PendaftaranController extends Controller
             $pendaftaran->where('status_pelayanan', 'selesai_pelayanan');
         }
 
+        if (auth()->user()->role == 'apoteker') {
+            $pendaftaran->where('status_pembayaran', 1);
+        }
+
         if (auth()->user()->role == 'laboratorium') {
             $pendaftaran->where('status_pelayanan', 'pemeriksaan_laboratorium');
         }
@@ -192,7 +196,7 @@ class PendaftaranController extends Controller
     {
         //$data['pendaftaran']            = NomorAntrian::with('pendaftaran')->where('pendaftaran_id',$id)->where('poliklinik_id',\Auth::user()->poliklinik_id)->first();
         $data['pendaftaran']            = Pendaftaran::with('pasien')->find($id);
-        $nomorAntrian                   = NomorAntrian::where('pendaftaran_id', $id)->where('poliklinik_id', \Auth::user()->poliklinik_id)->first();
+        $nomorAntrian                   = NomorAntrian::with('poliklinik')->where('pendaftaran_id', $id)->where('poliklinik_id', \Auth::user()->poliklinik_id)->first();
         $data['tindakan']               = Tindakan::where('id', $nomorAntrian->tindakan_id)->first();
         $data['hasilPemeriksaan']       = HasilPemeriksaanLab::where('pendaftaran_id', $id)->get();
         $data['indikatorPemeriksaan']   = IndikatorPemeriksaanLab::where('tindakan_id', $nomorAntrian->tindakan_id)->get();
@@ -260,6 +264,7 @@ class PendaftaranController extends Controller
                 'tinggi_badan',
                 'nadi',
                 'rr',
+                'kesadaran',
                 'saturasi_o2',
                 'fungsi_penciuman',
                 'status_alergi_value',
@@ -296,6 +301,7 @@ class PendaftaranController extends Controller
             'pendaftaran_id'    =>  $data->id,
             'poliklinik_id'     =>  $request->poliklinik_id,
             'dokter_id'         => $request['dokter_id'],
+            'tindakan_id'       => $request->tindakan_id ?? null,
             'nomor_antrian'     =>  ($nomor + 1)
         ];
         NomorAntrian::create($nomorAntrianData);

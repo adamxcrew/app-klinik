@@ -9,8 +9,10 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 use DB;
+use App\Models\PengeluaranOperasional;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
-class LaporanTransaksiExport implements FromView, ShouldAutoSize, WithEvents
+class LaporanTransaksiExport implements FromView, ShouldAutoSize, WithEvents, withTitle
 {
     public $tanggal;
     public $nama_shift;
@@ -18,9 +20,14 @@ class LaporanTransaksiExport implements FromView, ShouldAutoSize, WithEvents
 
     public function __construct($tanggal, $nama_shift, $poliklinik_id)
     {
-        $this->tanggal = $tanggal;
-        $this->nama_shift = $nama_shift;
-        $this->poliklinik_id = $poliklinik_id;
+        $this->tanggal          = $tanggal;
+        $this->nama_shift       = $nama_shift;
+        $this->poliklinik_id    = $poliklinik_id;
+    }
+
+    public function title(): string
+    {
+        return 'Laporan Transaksi';
     }
 
     public function view(): View
@@ -37,6 +44,7 @@ class LaporanTransaksiExport implements FromView, ShouldAutoSize, WithEvents
         $data['laporan_transaksi'] = $laporan_transaksi;
         $data['jumlah_pendaftaran'] = Pendaftaran::count();
 
+        $data['pengeluaran'] = PengeluaranOperasional::all();
         return view('laporan-transaksi.laporan-transaksi-excel', $data);
     }
 
@@ -64,6 +72,7 @@ class LaporanTransaksiExport implements FromView, ShouldAutoSize, WithEvents
                     ],
                 ]);
             },
+
         ];
     }
 }

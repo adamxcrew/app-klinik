@@ -13,6 +13,9 @@
         </tr>
     </thead>
     <tbody>
+        <?php
+        $total = 0;    
+        ?>
         @foreach($fees as $row)
             <tr>
                 <td>{{$loop->iteration}}</td>
@@ -25,6 +28,11 @@
                 <td>{{$row->nomor_pendaftaran}}</td>
                 <td>{{$row->jenis_pelayanan}}</td>
             </tr>
+            <?php $total += $row->jumlah_fee;?>
         @endforeach
     </tbody>
+    <tr>
+        <td colspan="6" style="text-align:right">Total</td>
+        <td colspan="3" style="text-align:left">{{ $total }}</td>
+    </tr>
 </table>

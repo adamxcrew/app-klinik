@@ -672,7 +672,7 @@
           <div class="form-group">
             <div class="col-sm-offset-0 col-sm-10">
               <hr>
-                <button type="submit" class="btn btn-danger btn btn-sm"><i class="fa fa-floppy-o" aria-hidden="true"></i> Simpan</button>
+                <button type="submit" class="btn btn-danger btn btn-sm"><i class="fa fa-floppy-o" aria-hidden="true"></i> Simpan Dan Lanjut Ke Pemeriksaan</button>
                 <a href="/pendaftaran" class="btn btn-danger btn btn-sm"><i class="fa fa-share-square-o" aria-hidden="true"></i> Kembali</a>
             </div>
         </div>

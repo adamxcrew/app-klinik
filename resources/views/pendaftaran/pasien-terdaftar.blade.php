@@ -100,7 +100,7 @@
                                 {{ Form::select('poliklinik_id', $poliklinik, null,['class'=>'form-control poliklinik']) }}
                             </div>
                         </div>
-                        <div class="col-md-4 tindakan_lab">
+                        <div class="col-md-8 tindakan_lab">
                             <div class="form-group">
                                 <label for="exampleFormControlInput1">Tindakan Lab</label>
                                 {{ Form::select('tindakan_id', $tidakanLab, null,['class'=>'form-control']) }}
@@ -265,7 +265,7 @@
             }});
             
             // tampilkan tindakan jika yang dipilih adalah lab
-            if(poliklinik==4)
+            if(poliklinik==7)
             {
                 $(".tindakan_lab").show();
             }else{

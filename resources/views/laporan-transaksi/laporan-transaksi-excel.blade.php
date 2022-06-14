@@ -28,9 +28,9 @@
             <td>{{ $laporan->pasien->nomor_rekam_medis }}</td>
             <td>{{ $laporan->pasien->nama }}</td>
             <td>{{ $laporan->perusahaanAsuransi->nama_perusahaan }}</td>
-            <td>{{ rupiah($laporan->total_bayar) }}</td>
-            <td>{{ rupiah($laporan->biaya_tambahan) }}</td>
-            <td>{{ rupiah($laporan->biaya_tambahan+$laporan->total_bayar) }}</td>
+            <td>{{ $laporan->total_bayar }}</td>
+            <td>{{ $laporan->biaya_tambahan }}</td>
+            <td>{{ $laporan->biaya_tambahan+$laporan->total_bayar }}</td>
             <td>{{ $laporan->metode_pembayaran }}</td>
             <td>{{ $laporan->userkasir->name }}</td>
         </tr>
@@ -42,7 +42,7 @@
         <tr>
             <th colspan="7"></th>
             <th>TOTAL</th>
-            <th colspan="3">{{ rupiah($total) }}</th>
+            <th colspan="3" style="text-align:left">{{ $total }}</th>
         </tr>
     </tbody>
 </table>

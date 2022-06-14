@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\LaporanTransaksiExport;
+use App\Exports\LaporanTransaksiAllExport;
 use App\Models\Pendaftaran;
 use App\Models\PendaftaranResep;
 use App\Models\PendaftaranTindakan;
@@ -53,6 +53,6 @@ class LaporanTransaksiController extends Controller
 
     public function export(Request $request)
     {
-        return Excel::download(new LaporanTransaksiExport($request->tanggal, $request->nama_shift, $request->poliklinik_id), 'Laporan Transaksi ' . date('Y-m-d') . '.xlsx');
+        return Excel::download(new LaporanTransaksiAllExport($request->tanggal, $request->nama_shift, $request->poliklinik_id), 'Laporan Transaksi ' . date('Y-m-d') . '.xlsx');
     }
 }

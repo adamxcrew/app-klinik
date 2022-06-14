@@ -90,10 +90,10 @@
                     <span class="sr-only">Toggle Dropdown</span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">Surat Keterangan Sehat</a></li>
-                    <li><a href="#">Surat Keterangan Sakit</a></li>
-                    <li><a href="#">Surat Rujukan</a></li>
-                    <li><a href="#">Surat Keterangan Buta Warna</a></li>
+                    <li><a href="/surat/create?jenis=surat_sehat&pendaftaran_id={{$pendaftaran->id}}">Surat Keterangan Sehat</a></li>
+                    <li><a href="/surat/create?jenis=surat_sakit&pendaftaran_id={{$pendaftaran->id}}">Surat Keterangan Sakit</a></li>
+                    <li><a href="/surat/create?jenis=surat_rujukan&pendaftaran_id={{$pendaftaran->id}}">Surat Rujukan</a></li>
+                    <li><a href="/surat/create?jenis=surat_buta_warna&pendaftaran_id={{$pendaftaran->id}}">Surat Keterangan Buta Warna</a></li>
                     </ul>
                     </div>
                   <a href="/pendaftaran" class="btn btn-danger btn-lg">Kembali</a>

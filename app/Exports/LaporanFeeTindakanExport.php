@@ -34,7 +34,7 @@ class LaporanFeeTindakanExport implements FromView, ShouldAutoSize, WithEvents
 
     public function registerEvents(): array
     {
-        $jmlData = $this->data()->count() + 1;
+        $jmlData = $this->data()->count() + 2;
         return [
             AfterSheet::class    => function (AfterSheet $event) use ($jmlData) {
                 $cellRange = 'A1:G1'; // All headers

@@ -18,22 +18,22 @@
             <tr>
                 <td width="130">Nama</td>
                 <td>:</td>
-                <td align="left"> {{ $nomorAntrian->pendaftaran->pasien->nama }}</td>
+                <td align="left"> {{ $surat->pendaftaran->pasien->nama }}</td>
             </tr>
             <tr>
                 <td width="120">Tanggal Lahir, Usia</td>
                 <td>:</td>
-                <td align="left">{{ $nomorAntrian->pendaftaran->pasien->tanggal_lahir }}, 10 Tahun</td>
+                <td align="left">{{ $surat->pendaftaran->pasien->tanggal_lahir }}, 10 Tahun</td>
             </tr>
             <tr>
                 <td width="120">Jenis Kelamin</td>
                 <td>:</td>
-                <td align="left"> {{ $nomorAntrian->pendaftaran->pasien->jenis_kelamin=='pria'?'Laki Laki':'Perempuan' }}</td>
+                <td align="left"> {{ $surat->pendaftaran->pasien->jenis_kelamin=='pria'?'Laki Laki':'Perempuan' }}</td>
             </tr>
             <tr>
                 <td width="120">Alamat</td>
                 <td>:</td>
-                <td align="left">{{ $nomorAntrian->pendaftaran->pasien->alamat }}</td>
+                <td align="left">{{ $surat->pendaftaran->pasien->alamat }}</td>
             </tr>
         </table>
         Dengan hasil pemeriksaan sebagai berikut : 
@@ -41,7 +41,7 @@
             <tr>
                 <td width="130">Anamnesa</td>
                 <td>:</td>
-                <td align="left">{{ $nomorAntrian->pendaftaran->anamnesa }}</td>
+                <td align="left">{{ $surat->pendaftaran->anamnesa }}</td>
             </tr>
         </table>
         <p>Pada pemeriksaan yang kami lakukan secara fisik diagnostik kami menerangkan : </p>
@@ -51,31 +51,31 @@
             <tr>
                 <td width="120">1. Kesadaran</td>
                 <td>:</td>
-                <td width="120" align="left"> ...... mmHg</td>
+                <td width="120" align="left"> {{ $surat->pendaftaran->tanda_tanda_vital['kesadaran']??0 }} mmHg</td>
                 <td width="120">5. RR</td>
                 <td>:</td>
-                <td align="left"> ...... mmHg</td>
+                <td align="left"> {{ $surat->pendaftaran->tanda_tanda_vital['rr'] }} mmHg</td>
             </tr>
             <tr>
                 <td width="120">2. TD</td>
                 <td>:</td>
-                <td align="left"> ...... x/Menit </td>
+                <td align="left"> {{ $surat->pendaftaran->tanda_tanda_vital['tekanan_darah'] }} x/Menit </td>
                 <td width="120">6. Sp02</td>
                 <td>:</td>
-                <td align="left"> ...... mmHg</td>
+                <td align="left"> {{ $surat->pendaftaran->tanda_tanda_vital['saturasi_o2'] }} mmHg</td>
             </tr>
             <tr>
                 <td width="120">3. Nadi</td>
                 <td>:</td>
-                <td align="left"> ...... Kg</td>
+                <td align="left"> {{ $surat->pendaftaran->tanda_tanda_vital['nadi'] }} Kg</td>
                 <td width="120">7. Suhu</td>
                 <td>:</td>
-                <td align="left"> ...... Celcius</td>
+                <td align="left"> {{ $surat->pendaftaran->tanda_tanda_vital['suhu_tubuh'] }} Celcius</td>
             </tr>
             <tr>
                 <td width="120">4. Lain Lain</td>
                 <td>:</td>
-                <td align="left"></td>
+                <td align="left">{{ $surat->lain_lain }}</td>
             </tr>
         </table>
         <table>
@@ -100,15 +100,15 @@
             </tr>
             <tr>
                 <td>Diagnosa Sementara</td>
-                <td> : .......................................................................................................................</td>
+                <td> : {{ $surat->diagnosa_sementara }}</td>
             </tr>
             <tr>
                 <td>Tindakan Yang Diberikan</td>
-                <td> : .......................................................................................................................</td>
+                <td> : {{ $surat->tindakan_yang_telah_dilakukan }}</td>
             </tr>
             <tr>
                 <td>Terapi Yang Diberikan</td>
-                <td> : .......................................................................................................................</td>
+                <td> : {{ $surat->terapi_yang_telah_diberikan }}</td>
             </tr>
         </table>
 

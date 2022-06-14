@@ -96,6 +96,12 @@
                         {!! Form::text('djj', null, ['class'=>'form-control','Placeholder'=>'DJJ']) !!}
                       </div>
                     </div>
+                    <div class="col-md-3">
+                      <div class="form-group col-sm-11">
+                        <label>Kesadaran</label>
+                        {!! Form::text('kesadaran', null, ['class'=>'form-control','Placeholder'=>'kesadaran']) !!}
+                      </div>
+                    </div>
 
                     <div class="col-md-3">
                       <div class="form-group col-sm-11">
