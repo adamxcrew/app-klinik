@@ -33,7 +33,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pendaftaran/create/{pasien_id}', 'PendaftaranController@create');
     Route::resource('pendaftaran', 'PendaftaranController');
     Route::post('pendaftaran/import_excel', 'PendaftaranController@import_excel')->name('pendaftaran.import_excel');
-
+    Route::post('simpan-pemeriksaan-klinis','PendaftaranController@simpanPemeriksaanKlinis');
     // Pemeriksaan lab
     Route::get('pendaftaran/{id}/input-indikator', 'PendaftaranController@input_indikator')->name('pendaftaran.input_indikator');
     Route::get('pendaftaran/{id}/input-indikator/print', 'PendaftaranController@printHasilPemeriksaan');
@@ -48,6 +48,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('pendaftaran-resep-racik', 'PendaftaranResepRacikController');
     Route::resource('pendaftaran-rujukan', 'PendaftaranRujukanLabController');
     Route::resource('pendaftaran-catatan-harian', 'PendaftaranCatatanHarianController');
+    Route::resource('surat', 'SuratController');
   
 
 

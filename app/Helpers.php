@@ -54,6 +54,9 @@ function generateKodePurchaseOrder()
 
 function hitung_umur($date)
 {
+    if ($date == null) {
+        return '-';
+    }
     $sekarang      = Carbon\Carbon::now();
     $tanggal_lahir = Carbon\Carbon::parse($date);
     $umur = $tanggal_lahir->diffInYears($sekarang);
@@ -112,6 +115,10 @@ function terbilang($nilai)
 
 function tgl_indo($tanggal)
 {
+    if (in_array($tanggal, ['0000-00-00',null])) {
+        return '-';
+    }
+
     $bulan = array(
         1 =>   'Januari',
         'Februari',

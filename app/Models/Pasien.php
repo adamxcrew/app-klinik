@@ -61,4 +61,14 @@ class Pasien extends Model
     {
         return $this->hasMany('App\Models\PaketIterasi');
     }
+
+    protected $appends = ['umur'];
+
+    public function getUmurAttribute()
+    {
+        $tanggal_lahir  = new \DateTime($this->tanggal_lahir);
+        $now            = new \DateTime();
+        $umur           = $now->diff($tanggal_lahir);
+        return $this->tanggal_lahir == '0000-00-00' ? '0' : $umur->y;
+    }
 }

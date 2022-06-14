@@ -42,7 +42,7 @@ class KunjunganPasienPerPoliExport implements FromView, ShouldAutoSize, WithEven
 
     public function registerEvents(): array
     {
-        $jmlData = count($this->data())+1;
+        $jmlData = count($this->data()) + 1;
         return [
             AfterSheet::class    => function (AfterSheet $event) use ($jmlData) {
                 $cellRange = 'A1:G1'; // All headers

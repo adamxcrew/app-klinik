@@ -67,14 +67,14 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Penanggung Jawab *)</label>
-                                    {{ Form::text('penanggung_jawab', null,['class'=>'form-control penanggung_jawab','Placeholder'=>'Penanggung Jawab']) }}
+                                    {{ Form::text('penanggung_jawab', null,['class'=>'form-control penanggung_jawab','Placeholder'=>'Penanggung Jawab','required'=>'required']) }}
                                     @error('penanggung_jawab') <small class="text-danger">{{ $message }}</small> @enderror
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Nomor HP *)</label>
-                                    {{ Form::text('no_hp_penanggung_jawab', null,['class'=>'form-control nomor_hp_penanggung_jawab','placeholder'=>'Nomor HP']) }}
+                                    {{ Form::text('no_hp_penanggung_jawab', null,['class'=>'form-control nomor_hp_penanggung_jawab','placeholder'=>'Nomor HP','required'=>'required']) }}
                                     @error('no_hp_penanggung_jawab') <small class="text-danger">{{ $message }}</small> @enderror
                                 </div>
                             </div>
@@ -87,7 +87,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Alamat Penanggung Jawab *)</label>
-                                    {{ Form::text('alamat_penanggung_jawab', null,['class'=>'form-control alamat_penanggung_jawab','Placeholder'=>'Alamat Penanggung Jawab']) }}
+                                    {{ Form::text('alamat_penanggung_jawab', null,['class'=>'form-control alamat_penanggung_jawab','Placeholder'=>'Alamat Penanggung Jawab','required'=>'required']) }}
                                     @error('alamat_penanggung_jawab') <small class="text-danger">{{ $message }}</small> @enderror
                                 </div>
                             </div>

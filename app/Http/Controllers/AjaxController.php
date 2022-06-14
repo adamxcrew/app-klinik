@@ -14,6 +14,7 @@ use App\User;
 use App\Models\Pasien;
 use App\Models\Pegawai;
 use App\Models\Pendaftaran;
+
 class AjaxController extends Controller
 {
     public function dropdownDokterBerdasarkanPoliklinik(Request $request)
@@ -57,7 +58,7 @@ class AjaxController extends Controller
     public function simpanAnamnesa(Request $request)
     {
         $pendaftaran = Pendaftaran::find($request->pendaftaran_id);
-        $pendaftaran->update(['anamnesa' =>$request->anamnesa]);
+        $pendaftaran->update(['anamnesa' => $request->anamnesa]);
     }
 
 

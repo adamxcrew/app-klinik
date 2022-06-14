@@ -45,15 +45,15 @@ class LaporanController extends Controller
         $data['setting']            = Setting::first();
         $data['pendaftaran']        = Pendaftaran::with('pasien')->findOrFail($id);
         $data['obatRacik']          = PendaftaranObatRacik::where('pendaftaran_id', $id)->get();
-        $data['pendaftaranResep']   = PendaftaranResep::where('pendaftaran_id', $id)->where('jenis','non racik')->get();
-        
+        $data['pendaftaranResep']   = PendaftaranResep::where('pendaftaran_id', $id)->where('jenis', 'non racik')->get();
+
         //return $data['obatRacik'];
 
         $dataCetak = [];
-        $i=1;
+        $i = 1;
         foreach ($data['obatRacik'] as $row) {
             $dataCetak[] = [
-                'barang' => 'Racik - '.$i.' Qty( '.$row->jumlah_kemasan.')',
+                'barang' => 'Racik - ' . $i . ' Qty( ' . $row->jumlah_kemasan . ')',
                 'jumlah' => '',
                 'aturan_pakai' => $row->aturan_pakai,
             ];

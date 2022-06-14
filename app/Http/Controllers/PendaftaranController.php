@@ -265,10 +265,11 @@ class PendaftaranController extends Controller
                 'status_alergi_value',
                 'lingkar_perut',
                 'djj',
+                'pernafasan',
                 'tfu',
                 'imt'
             )),
-            'pemeriksaan_klinis'    =>  serialize($request->pemeriksaan_klinis),
+            // 'pemeriksaan_klinis'    =>  serialize($request->pemeriksaan_klinis),
             'status_pelayanan'      =>  'selesai_pemeriksaan_medis',
             'status_alergi'         => $request->status_alergi_value
         ];
@@ -431,6 +432,9 @@ class PendaftaranController extends Controller
     public function pemeriksaan($id)
     {
         $data['pendaftaran']            = Pendaftaran::with('pasien', 'jenisLayanan')->find($id);
+        if ($data['pendaftaran']->pemeriksaan_klinis == false) {
+            return view('pendaftaran.pemeriksaan_klinis_form', $data);
+        }
         $data['dokter1']                = User::where('role', 'dokter')->pluck('name', 'id');
         $data['satuan']                 = Satuan::pluck('satuan', 'id');
         $data['poliklinik1']            = Poliklinik::pluck('nama', 'id');
@@ -451,6 +455,13 @@ class PendaftaranController extends Controller
         $data['barang'] = Barang::pluck('nama_barang', 'id');
         //return $data['riwayatKunjungan'] ;
         return view('pendaftaran.pemeriksaan', $data);
+    }
+
+    public function simpanPemeriksaanKlinis(Request $request)
+    {
+        $pendaftaran = Pendaftaran::find($request->pendaftaran_id);
+        $pendaftaran->update(['pemeriksaan_klinis' => serialize($request->pemeriksaan_klinis)]);
+        return redirect('pendaftaran/' . $request->pendaftaran_id . '/pemeriksaan');
     }
 
     public function cetakRekamedis($id)

@@ -82,7 +82,20 @@
                   <hr>
 
                   <a href="/pendaftaran/{{ $pendaftaran->id }}/selesai" class="btn btn-danger btn-lg">Tandai Selesai Pelayanan</a>
-                  <a href="/pendaftaran/{{ $pendaftaran->id }}/cetak_rekamedis" target="new" class="btn btn-danger btn-lg">Cetak Rekamedis</a>
+                  {{-- <a href="/pendaftaran/{{ $pendaftaran->id }}/cetak_rekamedis" target="new" class="btn btn-danger btn-lg">Cetak Rekamedis</a> --}}
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-danger btn-lg">Cetak Surat</button>
+                    <button type="button" class="btn btn-danger btn-lg dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Surat Keterangan Sehat</a></li>
+                    <li><a href="#">Surat Keterangan Sakit</a></li>
+                    <li><a href="#">Surat Rujukan</a></li>
+                    <li><a href="#">Surat Keterangan Buta Warna</a></li>
+                    </ul>
+                    </div>
                   <a href="/pendaftaran" class="btn btn-danger btn-lg">Kembali</a>
               </div>
             </div>
@@ -476,7 +489,7 @@
 
         </div>
         <div class="modal-footer">
-          <a id="cetak_rekamedis" class="btn btn-danger">Cetak</a>
+          <a id="resume-medis" class="btn btn-danger" target="new">Cetak</a>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
         </div>
       </div>
@@ -530,7 +543,7 @@
 
     $('#barang_id').select2({
     placeholder: 'Cari Barang',
-    tags: true,
+    tags: false,
     ajax: {
       url: '/ajax/select2Barang?pelayanan={{ $pendaftaran->jenisLayanan->nama_perusahaan}}',
       dataType: 'json',
@@ -573,7 +586,7 @@
 
   $('.barang_id_txt').select2({
     placeholder: 'Cari Barang',
-    tags: true,
+    tags: false,
     ajax: {
       url: '/ajax/select2Barang?pelayanan={{ $pendaftaran->jenisLayanan->nama_perusahaan}}',
       dataType: 'json',
@@ -998,7 +1011,9 @@
 
   // Handle detail riwayat kunjungan
   $('.kode').on('click', function() {
-    let idPendaftaran = $(this).attr('data-kode')
+    let idPendaftaran = $(this).attr('data-kode');
+    // console.log(idPendaftaran);
+    $("#resume-medis").attr("href", "/pendaftaran/"+idPendaftaran+"/cetak_rekamedis");
     let url = "/log-riwayat-kunjungan/" + idPendaftaran
     $.ajax({
       url: url,
