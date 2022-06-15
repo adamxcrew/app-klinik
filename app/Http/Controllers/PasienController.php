@@ -86,7 +86,7 @@ class PasienController extends Controller
 
 
 
-            $pasien = Pasien::select('id', 'nama', 'nomor_rekam_medis', 'nomor_ktp', 'nama_ibu', 'tempat_lahir', 'tanggal_lahir')->get();
+            $pasien = Pasien::select('id', 'nama', 'nomor_rekam_medis', 'nomor_ktp', 'nama_ibu', 'tempat_lahir', 'tanggal_lahir');
 
             return DataTables::of($pasien)
                 ->addColumn('tempat_tanggal_lahir', function ($row) {
@@ -99,8 +99,6 @@ class PasienController extends Controller
                     $btn .= \Form::close();
                     $btn .= '<a class="btn btn-danger btn-sm" href="/pasien/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> ';
                     $btn .= '<a class="btn btn-danger btn-sm" href="/pasien/' . $row->id . '"><i class="fa fa-eye" aria-hidden="true"></i></a>';
-                    // $btn .= '<a class="btn btn-danger btn-sm" href="/pasien/' . $row->id . '/diagnosa"><i class="fa fa-user" aria-hidden="true"></i></a>';
-                    // $btn .= '<a title="Pendaftaran Baru" class="btn btn-danger btn-sm" href="/pasien/' . $row->id . '"><i class="fa fa-plus-square-o" aria-hidden="true"></i></a>';
                     return $btn;
                 })
                 ->rawColumns(['action', 'code'])

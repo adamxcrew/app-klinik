@@ -397,8 +397,11 @@ class PendaftaranController extends Controller
 
     public function selesai($id)
     {
-        $pendaftaran = Pendaftaran::findOrFail($id);
+        $pendaftaran = Pendaftaran::with('jenisLayanan')->findOrFail($id);
         $pendaftaran->update(['status_pelayanan' => 'selesai_pelayanan']);
+        if ($pendaftaran->jenisLayanan->nama_perusahaan == 'BPJS') {
+            $pendaftaran->update(['status_pembayaran' => 1,'metode_pembayaran' => 'BPJS']);
+        }
         return redirect('/pendaftaran')->with('message', 'Selesai Melakukan Pelayanan');
     }
 
@@ -511,7 +514,8 @@ class PendaftaranController extends Controller
         return view('pasien.riwayat_kunjungan_detail', $data);
     }
 
-    public function apotek_lihat_item($id){
+    public function apotek_lihat_item($id)
+    {
         $data['pendaftaran']        = Pendaftaran::find($id);
         $data['pendaftaranResep']   = PendaftaranResep::with(['barang.satuanTerkecil'])
                                         ->where('jenis', '!=', 'bhp')

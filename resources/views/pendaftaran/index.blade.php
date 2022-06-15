@@ -44,7 +44,8 @@
                   {{-- {{ Auth::user()}} --}}
                   <input type="hidden" id="poliklinik_id" value="{{ Auth::user()->poliklinik_id}}">
                   
-                    <button type="button" class="btn btn-danger btn-lg btn-call" onclick="panggil()"><i class="fa fa-microphone"></i> Panggil</button>
+                    <button type="button" class="btn btn-danger btn-lg btn-call" onclick="panggil(1)"><i class="fa fa-microphone"></i> Panggil Pasien</button>
+                    <button type="button" class="btn btn-danger btn-lg btn-call" onclick="panggil(2)"><i class="fa fa-microphone"></i> Selanjutnya</button>
                  
                 </div>
                 <div class="col-lg-4 col-xs-6">
@@ -220,8 +221,9 @@
       });
     }
 
-    function panggil(){
+    function panggil(type){
       console.log("sas");
+      // type 1 :  panggil, 2 : selanjutnya
       var bell = document.getElementById('tingtung');
         bell.pause();
         bell.currentTime = 0;
@@ -232,7 +234,7 @@
           $.ajax({
           url: '/nomor_antrian_call',
           type: 'GET',
-          data: {poliklinik_id:$("#poliklinik_id").val(),} ,
+          data: {poliklinik_id:$("#poliklinik_id").val(),type:type} ,
           success: function (response) {
             console.log(response);
             // console.log(response.antrian_sekarang);
