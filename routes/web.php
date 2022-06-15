@@ -23,6 +23,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('antrian', 'AntrianController');
 
     // route master pendaftaran
+    Route::get('pendaftaran/apotek/lihat-item/{id}','PendaftaranController@apotek_lihat_item');
     Route::get('pendaftaran/{id}/cetak', 'PendaftaranController@cetak')->name('pendaftaran.cetak');
     Route::get('pendaftaran/{id}/selesai', 'PendaftaranController@selesai');
     Route::get('pendaftaran/{id}/cetak_rekamedis', 'PendaftaranController@cetakRekamedis');

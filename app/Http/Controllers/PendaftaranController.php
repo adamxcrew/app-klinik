@@ -126,7 +126,8 @@ class PendaftaranController extends Controller
                             $btn .= '<li><a href="/pendaftaran/' . $row->id . '/input_tanda_vital"><i class="fa fa-print"></i> Input Tanda Vital</a></li>';
                         }
                     } elseif (auth()->user()->role == 'apoteker') {
-                        $btn .= '<li><a href="/pendaftaran/' . $row->id . '/cetak_label"><i class="fa fa-plus-square"></i> Cetak Label</a></li>';
+                        $btn .= '<li><a href="/pendaftaran/apotek/lihat-item/' . $row->id . '"><i class="fa fa-plus-square"></i> Cetak Label</a></li>';
+                        //$btn .= '<li><a href="/pendaftaran/' . $row->id . '/cetak_label"><i class="fa fa-plus-square"></i> Cetak Label</a></li>';
                     } elseif (auth()->user()->role == 'kasir') {
                         if ($row->status_pembayaran == 1) {
                             $btn = '<a class="btn btn-danger btn-sm btn-block" target="new" href="/pembayaran/' . $row->id . '/kwitansi"><i class="fa fa-print"></i> Kwitansi</a></div>';
@@ -508,5 +509,15 @@ class PendaftaranController extends Controller
                                 ->where('pendaftaran_id', $data['pendaftaran']->pendaftaran_id)
                                 ->get();
         return view('pasien.riwayat_kunjungan_detail', $data);
+    }
+
+    public function apotek_lihat_item($id){
+        $data['pendaftaran']        = Pendaftaran::find($id);
+        $data['pendaftaranResep']   = PendaftaranResep::with(['barang.satuanTerkecil'])
+                                        ->where('jenis', '!=', 'bhp')
+                                        ->where('pendaftaran_id', $id);
+        $data['pendaftaranResepRacik'] = PendaftaranObatRacik::with('detail.barang')
+                                        ->where('pendaftaran_id', $id);
+        return view('apotek.lihat_item', $data);
     }
 }
