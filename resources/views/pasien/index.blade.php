@@ -24,12 +24,12 @@
                     <i class="fa fa-plus-square-o" aria-hidden="true"></i>Pendaftaran Pasien Baru</a>
                   <a href="{{route('pendaftaran.create')}}" class="btn btn-success btn-social btn-flat">
                       <i class="fa fa-plus-square-o" aria-hidden="true"></i>Pendaftaran Pasien Lama</a>
-                  <button type="button" class="btn btn-warning btn-social btn-flat" data-toggle="modal" data-target="#modal-default">
+                  {{-- <button type="button" class="btn btn-warning btn-social btn-flat" data-toggle="modal" data-target="#modal-default">
                     <i class="fa fa-list"></i> Riwayat Kunjungan
                   </button>
                   <button type="button" class="btn btn-primary btn-social btn-flat" data-toggle="modal" data-target="#myModal">
                     <i class="fa fa-file-excel-o" aria-hidden="true"></i> Import Data
-                  </button>
+                  </button> --}}
                   <hr>
                 @include('alert')
               <table class="table table-bordered table-striped" id="users-table">

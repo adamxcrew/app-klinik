@@ -318,8 +318,11 @@ class AjaxController extends Controller
         $antrian = \App\Models\NomorAntrian::with('poliklinik')->where('sudah_dipanggil', 0)
                     ->where('poliklinik_id', $request->poliklinik_id)
                     ->first();
-        $antrian->sudah_dipanggil = 1;
-        $antrian->save();
+        if ($request->type == 2) {
+            $antrian->sudah_dipanggil = 1;
+            $antrian->save();
+        }
+
 
         $hasil = [
             'jumlah_total_antrian' => $total_antrian,

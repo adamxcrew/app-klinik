@@ -259,7 +259,7 @@ class TindakanController extends Controller
         $reader = ReaderEntityFactory::createXLSXReader();
         // $filepath = public_path('uploads/tindakan_umum.xlsx');
         // $filepath = public_path('uploads/tindakan_lab.xlsx');
-        //$filepath = public_path('uploads/tindakan_kebinanan.xlsx');
+        // $filepath = public_path('uploads/tindakan_kebinanan.xlsx');
         $filepath = public_path('uploads/tindakan_gigi.xlsx');
 
 
@@ -281,7 +281,7 @@ class TindakanController extends Controller
                     $tindakan = Tindakan::create([
                         'kode'              =>  null,
                         'tindakan'          =>  $nama_tindakan,
-                        'poliklinik_id'     =>  4,
+                        'poliklinik_id'     =>  1,
                         'tarif_umum'        =>  $tarif,
                         'tarif_bpjs'        =>  $tarif,
                         'tarif_perusahaan'  =>  $tarif,
@@ -313,14 +313,12 @@ class TindakanController extends Controller
                     'pbf_id'                    =>  $pbf->id
                 ];
 
-                $brg = \App\Models\Barang::create($barang);
+                $brg = \App\Models\Barang::firstOrCreate(['nama_barang'=>$nama_bhp],$barang);
                 TindakanBHP::create([
                     'barang_id'     => $brg->id,
                     'tindakan_id'   => $tindakan->id,
                     'jumlah'        => $jumlah]);
             }
         }
-
-        dd($data);
     }
 }

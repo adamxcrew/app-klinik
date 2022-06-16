@@ -39,6 +39,15 @@ class LaporanController extends Controller
         return view('laporan.kunjungan-perpoli', $data);
     }
 
+    public function jumlahPasienPerdiagnosa(){
+        $data['tanggal_awal']           = $request->tanggal_awal ?? date('Y-m-d');
+        $data['tanggal_akhir']          = $request->tanggal_akhir ?? date('Y-m-d');
+        $data['laporan'] = \DB::select("select i.indonesia,count(pt.id) as jumlah
+                from tbm_icd as i join pendaftaran_diagnosa as pt on i.id=pt.tbm_icd_id
+                group by i.id order by jumlah desc limit 10");
+        return view('laporan.pasien-per-diagnosa',$data);
+    }
+
     public function label($id)
     {
 

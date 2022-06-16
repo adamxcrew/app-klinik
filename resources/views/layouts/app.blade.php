@@ -93,6 +93,7 @@
                               ]],
                               ['icon' => 'fa fa-bars', 'link' => '#', 'label' => 'Laporan', 'submenu' => [
                                 ['icon' => 'fa fa-plus-square', 'link' => '/laporan/kunjungan-perpoli', 'label' => 'Kunjungan Perpoli'],
+                                ['icon' => 'fa fa-plus-square', 'link' => '/laporan/perdiagnosa', 'label' => 'top 10 diagnosa'],
                                 ['icon' => 'fa fa-plus-square', 'link' => '/stock-opname', 'label' => 'Stock Opname']
                               ]],
                       

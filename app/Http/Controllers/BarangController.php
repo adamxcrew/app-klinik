@@ -34,11 +34,11 @@ class BarangController extends Controller
             $count_filter  = $count_total;
             $items = Barang::with('satuanTerbesar', 'satuanTerkecil', 'kategori')->limit(10);
 
-            return DataTables::of($items)
-                ->with([
-                    'recordsTotal' => $count_total,
-                    'recordsFiltered' => $count_filter,
-                ])
+            return DataTables::of(Barang::with('satuanTerbesar', 'satuanTerkecil', 'kategori'))
+                // ->with([
+                //     'recordsTotal' => $count_total,
+                //     'recordsFiltered' => $count_filter,
+                // ])
                 ->addColumn('action', function ($row) {
                     $btn = \Form::open(['url' => 'barang/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
                     $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";

@@ -6,17 +6,24 @@ use Illuminate\Http\Request;
 use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 use Mike42\Escpos\Printer;
 use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
-
+use App\Models\Barang;
+use App\Models\TindakanBHP;
 class TestController extends Controller
 {
-    function testMikepos(Request $request)
+    function test(Request $request)
     {
-        $connector = new NetworkPrintConnector("127.0.0.1", 9100);
-        $printer = new Printer($connector);
-        try {
-            // ... Print stuff
-        } finally {
-            $printer -> close();
+        $barangDuplikat = \DB::select("select nama_barang,count(id) as jumlah
+        from barang group by nama_barang having jumlah>1");
+        foreach ($barangDuplikat as $barang)
+        {
+            $nama_barang = $barang->nama_barang;
+            $barang = Barang::where('nama_barang', $nama_barang)->get();
+            foreach ($barang as $br){
+                $bhp = TindakanBHP::where('barang_id', $br->id)->first();
+                if($bhp==null){
+                    \DB::table('barang')->where('id',$br->id)->delete();
+                }
+            }
         }
     }
 }

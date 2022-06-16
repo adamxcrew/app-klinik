@@ -186,7 +186,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('laporan')->group(function () {
         Route::get('/kunjungan-perpoli', 'LaporanController@laporanKunjunganPerPoli');
+        Route::get('perdiagnosa','LaporanController@jumlahPasienPerdiagnosa');
     });
+
 
     Route::get('laporan-tagihan', 'LaporanTagihanController@index');
     Route::get('ondotogram/{pendaftaranId}', 'OndotogramController@index');
@@ -289,3 +291,4 @@ Route::get('log-riwayat-iterasi/{id}','PendaftaranController@logRiwayatIterasi')
 Route::get('log-riwayat-kunjungan/{id}','PendaftaranController@logRiwayatKunjungan');
 Route::get('laporan-barang-keluar','LaporanController@laporanBarangKeluar');
 Route::get('import-tarif','TindakanController@import_tarif');
+Route::get('test','TestController@test');
