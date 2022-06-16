@@ -160,7 +160,20 @@
     <div class="col-md-6">
         <div class="form-group">
             <label>Desa *)</label>
-            <input class="form-control" disabled type="text" value="{{ $pasien->wilayahAdministratifIndonesia->province_name.','.$pasien->wilayahAdministratifIndonesia->regency_name.','.$pasien->wilayahAdministratifIndonesia->district_name.','.$pasien->wilayahAdministratifIndonesia->village_name}}">
+            @if(isset($pasien))
+                @if($pasien->village_id!=null)
+                <input class="form-control" disabled type="text" value="{{ $pasien->wilayahAdministratifIndonesia->province_name.','.$pasien->wilayahAdministratifIndonesia->regency_name.','.$pasien->wilayahAdministratifIndonesia->district_name.','.$pasien->wilayahAdministratifIndonesia->village_name}}">          
+                @else
+                <select name="wilayah_administratif" id="alamat" class="alamat form-control" style="height: 100px;" placeholder="Masukan Nama Desa">
+                    @if(old('wilayah_administratif'))
+                    <?php $data = App\Models\WilayahAdministratifIndonesia::where('village_id',old('wilayah_administratif'))->first() ?>
+                    <option value="{{ old('wilayah_administratif') }}" selected>{{ $data->village_name.', '.$data->district_name.', '.$data->regency_name.', '.$data->province_name }}</option>
+                    @endif
+                </select>
+                @error('wilayah_administratif') <small class="text-danger">{{ $message }}</small> @enderror
+            @endif
+            
+            @endif
         </div>
     </div>
     @endif
