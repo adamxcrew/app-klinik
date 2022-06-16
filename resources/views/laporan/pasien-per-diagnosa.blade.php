@@ -1,10 +1,10 @@
 @extends('layouts.app')
-@section('title','Laporan Kunjungan Pasien Per Poliklinik')
+@section('title',' Laporan 10 Diagnosa Terbanyak')
 @section('content')
 <div class="content-wrapper">
     <section class="content-header">
       <h1>
-        Laporan Kunjungan Pasien Per Poliklinik
+        Laporan 10 Diagnosa Terbanyak
         <small>Setting Aplikasi</small>
       </h1>
       <ol class="breadcrumb">
