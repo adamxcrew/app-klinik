@@ -25,7 +25,7 @@
                         <h3>Form Surat</h3>
                         <hr>
                         {{ Form::hidden('jenis_surat',$jenis_surat)}}
-                        {{ Form::hidden('pendaftaran_id',$pendaftaran->id)}}
+                        {{ Form::hidden('pendaftaran_id',$_GET['pendaftaran_id'])}}
                         <table class="table table-bordered">
                             <tr>
                                 <td width="200">Tekanan Darah</td>
