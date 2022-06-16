@@ -32,7 +32,7 @@
             <td>{{ $laporan->biaya_tambahan }}</td>
             <td>{{ $laporan->biaya_tambahan+$laporan->total_bayar }}</td>
             <td>{{ $laporan->metode_pembayaran }}</td>
-            <td>{{ $laporan->userKasir->name }}</td>
+            <td>{{ $laporan->userKasir->name??'-' }}</td>
         </tr>
         @php 
             $total += $laporan->total_bayar+$laporan->biaya_tambahan;
