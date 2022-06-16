@@ -57,8 +57,8 @@
                               @foreach($laporan as $lap)
                               <tr>
                                   <td>{{ $loop->iteration }}</td>
-                                  <td>{{ $pol->indonesia }}</td>
-                                  <td>{{ $pol->jumlah}}</td>
+                                  <td>{{ $lap->indonesia }}</td>
+                                  <td>{{ $lap->jumlah}}</td>
                               </tr>
                               @endforeach
                           </tbody>
