@@ -116,7 +116,7 @@ class PendaftaranController extends Controller
                             $unit = Poliklinik::where('id', \Auth::user()->poliklinik_id)->first();
                             if ($unit->jenis_unit == 'laboratorium') {
                                 $btn .= '<li><a href="/pendaftaran/' . $row->id . '/input-indikator"><i class="fa fa-plus-square"></i> Input Tindakan Lab</a></li>';
-                            } elseif (in_array($unit->id, [2,5,3])) {
+                            } elseif (in_array($unit->id, [1])) {
                                 // 2 itu adalah id poli gigi
                                 $btn .= '<li><a href="/pendaftaran/' . $row->id . '/pemeriksaan"><i class="fa fa-edit"></i> Input tindakan</a></li>';
                             } else {
