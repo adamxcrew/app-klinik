@@ -90,8 +90,8 @@ class PasienController extends Controller
 
             return DataTables::of($pasien)
                 ->addColumn('tempat_tanggal_lahir', function ($row) {
-                    //return $row->tempat_lahir . ', ' . tgl_indo($row->tanggal_lahir);
-                    return $row->tempat_lahir;
+                    return $row->tempat_lahir . ', ' . $row->tanggal_lahir;
+                    //return $row->tempat_lahir;
                 })
                 ->addColumn('action', function ($row) {
                     $btn = \Form::open(['url' => 'pasien/' . $row->id, 'method' => 'DELETE', 'style' => 'float:right']);

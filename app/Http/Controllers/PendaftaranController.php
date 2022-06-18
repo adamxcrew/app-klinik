@@ -59,11 +59,12 @@ class PendaftaranController extends Controller
         $awal = date('Y-m-d H:i:s', strtotime($data['tanggal_awal']));
         $akhir = date('Y-m-d H:i:s', strtotime($data['tanggal_akhir']));
 
-        $pendaftaran = Pendaftaran::select('pendaftaran.*', 'nomor_antrian.nomor_antrian', 'poliklinik.nama as nama_poliklinik')
-        ->with('pasien', 'perusahaanAsuransi')
-        ->join('nomor_antrian', 'nomor_antrian.pendaftaran_id', 'pendaftaran.id')
-        ->join('poliklinik', 'nomor_antrian.poliklinik_id', 'poliklinik.id')
-            ->whereBetween(DB::raw('DATE(pendaftaran.created_at)'), [$awal, $akhir]);
+        $pendaftaran = Pendaftaran::select('users.name as nama_dokter','pendaftaran.*', 'nomor_antrian.nomor_antrian', 'poliklinik.nama as nama_poliklinik')
+            ->with('pasien', 'perusahaanAsuransi')
+            ->join('nomor_antrian', 'nomor_antrian.pendaftaran_id', 'pendaftaran.id')
+            ->join('users','users.id','nomor_antrian.dokter_id')
+            ->join('poliklinik', 'nomor_antrian.poliklinik_id', 'poliklinik.id')
+                ->whereBetween(DB::raw('DATE(pendaftaran.created_at)'), [$awal, $akhir]);
 
         if (auth()->user()->role == 'poliklinik') {
             $pendaftaran->where('nomor_antrian.poliklinik_id', auth()->user()->poliklinik_id);
@@ -279,6 +280,8 @@ class PendaftaranController extends Controller
             'status_pelayanan'      =>  'selesai_pemeriksaan_medis',
             'status_alergi'         => $request->status_alergi_value
         ];
+
+
         $pendaftaran->update($data);
         return redirect('pendaftaran/')->with('message', 'Tanda Tanda Vital Berhasil Disimpan');
     }

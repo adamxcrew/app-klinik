@@ -128,6 +128,12 @@
                 <td>Poliklinik</td>
                 <td>{{ Form::select('poliklinik_id',$poliklinik,null,['class' => 'form-control','placeholder'=>'-- Semua Poli --'])}}</td>
               </tr>
+              <tr>
+                <td>Jenis Pembayaran</td>
+                <td>
+                  {!! Form::select('metode_pembayaran', array_merge(['' => '--SEMUA METODE PEMBAYARAN--'] + $metodePembayaran) ,null, ['class'=>'form-control','Placeholder'=>'Nama Obat']) !!}
+                </td>
+              </tr>
             </table>
           </div>
           <div class="modal-footer">

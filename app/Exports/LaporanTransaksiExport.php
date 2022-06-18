@@ -17,12 +17,14 @@ class LaporanTransaksiExport implements FromView, ShouldAutoSize, WithEvents, wi
     public $tanggal;
     public $nama_shift;
     public $poliklinik_id;
+    public $metode_pembayaran;
 
-    public function __construct($tanggal, $nama_shift, $poliklinik_id)
+    public function __construct($tanggal, $nama_shift, $poliklinik_id, $metode_pembayaran)
     {
         $this->tanggal          = $tanggal;
         $this->nama_shift       = $nama_shift;
         $this->poliklinik_id    = $poliklinik_id;
+        $this->metode_pembayaran    = $metode_pembayaran;
     }
 
     public function title(): string
@@ -39,9 +41,12 @@ class LaporanTransaksiExport implements FromView, ShouldAutoSize, WithEvents, wi
         $akhir  = $this->tanggal . ' ' . $selectedShift['waktu_selesai'];
         $laporan_transaksi = Pendaftaran::with('pasien', 'perusahaanAsuransi', 'userKasir')
             ->whereBetween(\DB::raw('left(created_at,16)'), [$awal, $akhir])
-            ->where('status_pembayaran', 1)
-            ->get();
-        $data['laporan_transaksi'] = $laporan_transaksi;
+            ->where('status_pembayaran', 1);
+
+        if ($this->metode_pembayaran != '') {
+            $laporan_transaksi->where('metode_pembayaran', $this->metode_pembayaran);
+        }
+        $data['laporan_transaksi'] = $laporan_transaksi->get();
         $data['jumlah_pendaftaran'] = Pendaftaran::count();
 
         $data['pengeluaran'] = PengeluaranOperasional::all();

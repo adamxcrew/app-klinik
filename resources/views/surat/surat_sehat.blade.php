@@ -22,7 +22,7 @@
         <tr>
             <td style="padding-right: 20px">Tanggal Lahir, Usia</td>
             <td>:</td>
-            <th align="left">{{ $surat->pendaftaran->pasien->tanggal_lahir }}, 10 Tahun</th>
+            <th align="left">{{ $surat->pendaftaran->pasien->tanggal_lahir }}, {{hitung_umur($surat->pendaftaran->pasien->tanggal_lahir)}} Tahun</th>
         </tr>
         <tr>
             <td style="padding-right: 20px">Alamat</td>

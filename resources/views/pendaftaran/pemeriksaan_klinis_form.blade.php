@@ -119,10 +119,10 @@
                         <label>Status Alergi</label>
                         <div class="row">
                           <div class="col-sm-1" style="width:10px;">
-                            <input type="checkbox" id = 'status_alergi' name="status_alergi">
+                            <input type="checkbox" id = 'status_alergi' name="status_alergi" {{ $pendaftaran->status_alergi!=null?'checked':''}}>
                           </div>
                           <div class="col-sm-10">
-                              {!! Form::text('status_alergi_value', null, [ 'id' => 'status_alergi_value', 'class'=>'form-control','Placeholder'=>'Status Alergi','disabled']) !!}
+                              {!! Form::text('status_alergi_value', $pendaftaran->status_alergi, [ 'id' => 'status_alergi_value', 'class'=>'form-control','Placeholder'=>'Status Alergi','disabled']) !!}
                           </div>
                         </div>
                       </div>

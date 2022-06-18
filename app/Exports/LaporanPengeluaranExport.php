@@ -17,7 +17,7 @@ class LaporanPengeluaranExport implements FromView, ShouldAutoSize, WithEvents, 
     public $nama_shift;
     public $poliklinik_id;
 
-    public function __construct($tanggal, $nama_shift, $poliklinik_id)
+    public function __construct($tanggal, $nama_shift, $poliklinik_id, $metode_pembayaran)
     {
         $this->tanggal          = $tanggal;
         $this->nama_shift       = $nama_shift;

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Tambah Surat')
+@section('title','Tambah Surat '.$jenis_surat)
 @section('content')
 <div class="content-wrapper">
     <section class="content-header">
@@ -60,7 +60,7 @@
                                 <td><input type="text" readonly="readonly" value="{{$pendaftaran->tanda_tanda_vital['saturasi_o2']??0}}" class="form-control"></td>
                             </tr>
 
-                            @if($_GET['jenis']=='surat_sakit')
+                            @if($_GET['jenis']=='surat_sehat')
                                 <tr>
                                     <td>Kesan</td>
                                     <td colspan="3">
@@ -90,6 +90,24 @@
                                     <td>Terapi Yang Telah Diberikan</td>
                                     <td  colspan="3"><input type="text" name="terapi_yang_telah_diberikan" placeholder="Terapi Yang Telah Diberikan" required="required" class="form-control"></td>
                                 </tr>
+                            @elseif($_GET['jenis']=='surat_sakit')
+                            <tr>
+                                <td>Dari Tanggal  - Sampai Tanggal</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <input type="date" name="dari_tanggal" placeholder="Dari Tanggal" required="required" class="form-control">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="date" name="sampai_tanggal" placeholder="Sampai Tanggal" required="required" class="form-control">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Diganosa</td>
+                                <td  colspan="3"><input type="text" name="diagnosa_sementara" placeholder="Diganosa" required="required" class="form-control"></td>
+                            </tr>
                             @else
                                 <tr>
                                     <td>Hasil Pemeriksaan</td>

@@ -23,7 +23,7 @@
             <tr>
                 <td width="120">Tanggal Lahir, Usia</td>
                 <td>:</td>
-                <td align="left">{{ $surat->pendaftaran->pasien->tanggal_lahir }}, 10 Tahun</td>
+                <td align="left">{{ $surat->pendaftaran->pasien->tanggal_lahir }}, {{hitung_umur($surat->pendaftaran->pasien->tanggal_lahir)}} Tahun</td>
             </tr>
             <tr>
                 <td width="120">Jenis Kelamin</td>

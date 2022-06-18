@@ -136,6 +136,7 @@
                         <th>Waktu & Nomor Antrian</th>
                         <th>Nama Pasien</th>
                         <th>Poliklinik Tujuan</th>
+                        <th>Nama Dokter</th>
                         <th>Jenis Layanan</th>
                         <th>Status Pelayanan</th>
                         <th width="120">#</th>
@@ -199,6 +200,7 @@
             { data: 'nomor_antrian_waktu', name: 'nomor_antrian_waktu' },
             { data: 'nama', name: 'nama' },
             { data: 'nama_poliklinik', name: 'nama_poliklinik' },
+            { data: 'nama_dokter', name: 'nama_dokter' },
             { data: 'jenis_layanan', name: 'jenis_layanan' },
             { data: 'status_pelayanan', name: 'status_pelayanan' },
             { data: 'action', name: 'action' }

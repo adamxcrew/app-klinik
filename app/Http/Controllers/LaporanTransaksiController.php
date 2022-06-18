@@ -47,12 +47,13 @@ class LaporanTransaksiController extends Controller
         }
 
         $data['shift'] = config('datareferensi.kasir_shift');
+        $data['metodePembayaran']   = ['cash' => 'Cash', 'transfer' => 'Transfer', 'debit' => 'Debit','bpjs' => 'BPJS'];
         $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
         return view('laporan-transaksi.index', $data);
     }
 
     public function export(Request $request)
     {
-        return Excel::download(new LaporanTransaksiAllExport($request->tanggal, $request->nama_shift, $request->poliklinik_id), 'Laporan Transaksi ' . date('Y-m-d') . '.xlsx');
+        return Excel::download(new LaporanTransaksiAllExport($request->tanggal, $request->nama_shift, $request->poliklinik_id, $request->metode_pembayaran), 'Laporan Transaksi ' . date('Y-m-d') . '.xlsx');
     }
 }

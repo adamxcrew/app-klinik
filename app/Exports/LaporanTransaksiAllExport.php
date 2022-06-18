@@ -12,12 +12,14 @@ class LaporanTransaksiAllExport implements WithMultipleSheets
     public $tanggal;
     public $nama_shift;
     public $poliklinik_id;
+    public $metode_pembayaran;
 
-    public function __construct($tanggal, $nama_shift, $poliklinik_id)
+    public function __construct($tanggal, $nama_shift, $poliklinik_id, $metode_pembayaran)
     {
         $this->tanggal = $tanggal;
         $this->nama_shift = $nama_shift;
         $this->poliklinik_id = $poliklinik_id;
+        $this->metode_pembayaran = $metode_pembayaran;
     }
     /**
     * @return \Illuminate\Support\Collection
@@ -27,8 +29,8 @@ class LaporanTransaksiAllExport implements WithMultipleSheets
     public function sheets(): array
     {
         return [
-            new LaporanTransaksiExport($this->tanggal, $this->nama_shift, $this->poliklinik_id),
-            new LaporanPengeluaranExport($this->tanggal, $this->nama_shift, $this->poliklinik_id)
+            new LaporanTransaksiExport($this->tanggal, $this->nama_shift, $this->poliklinik_id, $this->metode_pembayaran),
+            new LaporanPengeluaranExport($this->tanggal, $this->nama_shift, $this->poliklinik_id, $this->emetode_pembayaran)
         ];
     }
 }

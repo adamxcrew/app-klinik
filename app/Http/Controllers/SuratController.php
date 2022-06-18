@@ -33,8 +33,10 @@ class SuratController extends Controller
             $jenis_surat = "SURAT_RUJUKAN";
         } elseif ($request->jenis == 'surat_buta_warna') {
             $jenis_surat = "SURAT_BUTA_WARNA";
+        } elseif ($request->jenis == 'surat_sakit') {
+            $jenis_surat = "SURAT_SAKIT";
         } else {
-            $jenis_surat = "SURAT_SEHAT_SAKIT";
+            $jenis_surat = "SURAT_SEHAT";
         }
         $data['jenis_surat'] = $jenis_surat;
         $data['pendaftaran'] = Pendaftaran::with('pasien')->find($_GET['pendaftaran_id'])->first();
@@ -50,7 +52,8 @@ class SuratController extends Controller
     public function show($id)
     {
         $data['surat'] = Surat::with('pendaftaran.pasien')->find($id);
-        $pdf = PDF::loadView('surat.' . $data['surat']->jenis_surat, $data);
+        $jenis = $data['surat']->jenis_surat == 'SURAT_SEHAT_SAKIT' ? 'surat_sakit' : $data['surat']->jenis_surat;
+        $pdf = PDF::loadView('surat.' . $jenis, $data);
         return $pdf->stream();
     }
 }

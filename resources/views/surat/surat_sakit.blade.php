@@ -6,18 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Surat Keterangan Sakit</title>
-    <style>
-    
-    </style>
 </head>
 
 <body>
 
     @include('surat.kop_surat')
-    <h4 style="text-align: center">PEMERIKSAAN BUTA WARNA</h4>
-    <p>
-        Yang bertanda tangan dibawah ini dokter Klinik Pratama Rawat Inap dr Nurdin Wahid menerangkan bahwa
-    </p>
+    <h4 style="text-align: center">SURAT KETERANGAN SAKIT</h4>
+
     <table>
         <tr>
             <td style="padding-right: 20px">Nama</td>
@@ -34,35 +29,27 @@
             <td>:</td>
             <th align="left">{{ $surat->pendaftaran->pasien->alamat }}</th>
         </tr>
-    </table>
-    <br><br>
-    <table>
-        <tr valign="top">
-            <td width="120">Hasil Pemeriksaan Mata  :</td>
-            <td>
-                <table>
-                    <tr>
-                        <td width="20"><input type="checkbox" {{ $surat->hasil_pemeriksaan_mata=='Buta Warna'?'checked':'' }}></td>
-                        <td>Buta Warna</td>
-                    </tr>
-                    <tr>
-                        <td><input {{ $surat->hasil_pemeriksaan_mata=='Tidak Buta Warna'?'checked':'' }} type="checkbox"></td>
-                        <td>Tidak Buta Warna</td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
         <tr>
-            <td>Saran</td>
-            <td> : {{ $surat->saran }}</td>
-        </tr>
-        <tr>
-            <td>Diberikan Untuk Keperluan</td>
-            <td> : {{ $surat->keperluan }}</td>
+            <td style="padding-right: 20px">Instansi</td>
+            <td>:</td>
+            <th align="left">{{ $surat->instansi??'-' }}</th>
         </tr>
     </table>
+    <?php
+    $datetime1 = new DateTime($surat->dari_tanggal);
 
-    <p>Demikian surat keterangan ini kami buat dengan sebenarnya dan untuk digunakan sebagaimana mestinya .</p>
+    $datetime2 = new DateTime($surat->sampai_tanggal);
+
+    $difference = $datetime1->diff($datetime2);
+    ?>
+    <p>
+        Berdasarkan hasil pemeriksaan yang dilakukan, pasien tersebut dalam keadaan sakit, sehingga perlu istirahat selama {{ $difference->d }} hari. Terhitung tanggal {{ $surat->dari_tanggal }} .sd  {{ $surat->sampai_tanggal }}
+        <br>Diagnosa 	: {{ $surat->diagnosa_sementara}}
+        
+        <br>Demikian surat keterangan ini diberikan untuk diketahui dan dipergunakan sebagaimana mestinya.	
+    </p>
+
+    
     <div style="float: right">
         <p style="margin-right:90px;margin-bottom:70px">Cibinong, {{ date('d M Y')}}<br>Dokter Pemeriksa</p>
         <br>

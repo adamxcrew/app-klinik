@@ -321,6 +321,11 @@ class AjaxController extends Controller
         if ($request->type == 2) {
             $antrian->sudah_dipanggil = 1;
             $antrian->save();
+
+            $antrian_sekarang = \App\Models\NomorAntrian::whereRaw("left(created_at,10)='" . date('Y-m-d') . "'")
+            ->where('poliklinik_id', $request->poliklinik_id)
+            ->where('sudah_dipanggil', 0)
+            ->first();
         }
 
 
