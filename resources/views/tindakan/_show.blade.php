@@ -93,7 +93,29 @@
                         <h3>Alat Kesehatan ( Habis Pakai )</h3>
                     </div>
                     <div class="box-body">
-                        <div class="table-responsive" id="table-detail-sections">
+                        <div class="row" style="padding-bottom: 20px">
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <label>Pilih Barang</label>
+                                    <select name="barang" class="barang form-control detail-section"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Jumlah</label>
+                                    {{ Form::text('qty', null, ['class' => 'form-control qty detail-section', 'placeholder' => 'qty', 'required']) }}
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <button id="tambah_barang_detail" type="button" onClick="tambah_barang()"
+                                        class="btn btn-primary detail-section" style="margin-top: 25px;">
+                                        <i class="fa fa-plus"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive" id="table-detail-section">
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
@@ -105,15 +127,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($tindakan->bhp as $bhp)
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td></td>
-                                        <td>{{$bhp->barang->nama_barang }}</td>
-                                        <td>{{$bhp->jumlah }}</td>
-                                        <td></td>
-                                    </tr>                                        
-                                    @endforeach
+                                        <td colspan="3" style="text-align:right">Total</td>
+                                        <td>-</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

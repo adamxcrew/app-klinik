@@ -88,6 +88,9 @@ class PendaftaranTindakanController extends Controller
         $tindakanBHP = TindakanBHP::where('tindakan_id', $request->tindakan_id)->get();
         foreach ($tindakanBHP as $item) {
             $barang = Barang::find($item->barang_id);
+            if (!isset($barang->satuan_terkecil_id)) {
+                return $item->barang_id;
+            }
             PendaftaranResep::create([
                 'pendaftaran_id'        =>  $request->pendaftaran_id,
                 'barang_id'             =>  $item->barang_id,

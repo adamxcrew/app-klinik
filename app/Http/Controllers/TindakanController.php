@@ -32,7 +32,7 @@ class TindakanController extends Controller
         if ($request->ajax()) {
             return DataTables::of(Tindakan::with('poliklinik')->get())
             ->addColumn('action', function ($row) {
-                $btn = "<a href='/tindakan/" . $row->id . "' class='btn btn-danger btn-sm ' style='margin-right:10px'><i class='fa fa-eye'></i></a>";
+                $btn = "<a href='/tindakan/" . $row->id . "?tab=bhp' class='btn btn-danger btn-sm ' style='margin-right:10px'><i class='fa fa-eye'></i></a>";
                 $btn .= \Form::open(['url' => 'tindakan/' . $row->id, 'method' => 'DELETE','style' => 'float:right;margin-right:5px']);
                 $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
                 $btn .= \Form::close();
@@ -92,13 +92,13 @@ class TindakanController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $data['tindakan']   = Tindakan::with('bhp.barang')->find($id);
-        //return view('tindakan.show', $data);
-        if ($data['tindakan']->jenis == 'tindakan_laboratorium') {
-            return view('tindakan.indikator', $data);
-        } else {
-            return view('tindakan.show', $data);
-        }
+        $data['tindakan']   = Tindakan::with('bhp.barang', 'indikator')->find($id);
+        return view('tindakan.show', $data);
+        // if ($data['tindakan']->jenis == 'tindakan_laboratorium') {
+        //     return view('tindakan.indikator', $data);
+        // } else {
+        //     return view('tindakan.show', $data);
+        // }
     }
 
     /**
@@ -313,7 +313,7 @@ class TindakanController extends Controller
                     'pbf_id'                    =>  $pbf->id
                 ];
 
-                $brg = \App\Models\Barang::firstOrCreate(['nama_barang'=>$nama_bhp],$barang);
+                $brg = \App\Models\Barang::firstOrCreate(['nama_barang' => $nama_bhp], $barang);
                 TindakanBHP::create([
                     'barang_id'     => $brg->id,
                     'tindakan_id'   => $tindakan->id,
