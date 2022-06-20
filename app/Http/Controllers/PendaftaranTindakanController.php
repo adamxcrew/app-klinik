@@ -31,14 +31,10 @@ class PendaftaranTindakanController extends Controller
 
         // apakah umum, BPJS atau lain
         $jenisPendaftaran   =  strtolower($pendaftaran->perusahaanAsuransi->nama_perusahaan);
-        // if ($jenisPendaftaran == 'BPJS') {
-        //     $jenisPendaftaran = 'Bpjs';
-        // } elseif ($jenisPendaftaran == 'UMUM') {
-        //     $jenisPendaftaran = 'Umum';
-        // } else {
-        //     $jenisPendaftaran = "Perusahaan";
-        // }
-
+        if(!in_array($jenisPendaftaran,['bpjs','umum']))
+        {
+            $jenisPendaftaran = 'perusahaan';
+        }
         $listTarif      = $tindakan->pembagian_tarif;
 
         $fee_tindakan = [];
