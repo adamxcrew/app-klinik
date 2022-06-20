@@ -52,11 +52,13 @@
                     <td>Pasien {{ $pendaftaran->perusahaanAsuransi->nama_perusahaan }}</td>
                   </tr>
                 </table>
+                <a class="btn btn-danger btn-lg" href="{{ url('ondotogram/' . Request::segment(2) . '/print') }}" target="_blank"><i class="fa fa-print" aria-hidden="true"></i> Tandai Selesai & Cetak</a>
+                <a class="btn btn-danger btn-lg">Kembali</a>
               </div>
               <div class="col-md-6">
                 <h3>ONDOTOGRAM</h3>
                 <hr>
-                <table id="Table_01" style="transform:scale(.5);margin-left:-335px;margin-top:-180px;" height="680" border="0" cellpadding="0" cellspacing="0">
+                <table id="Table_01" style="transform:scale(.5);margin-left:-335px;margin-top:-180px;margin-bottom:-120px" border="0" cellpadding="0" cellspacing="0">
                   <tr>
                     <td>
                       <img data-kode="18" class="kode-gigi" src="{{ asset('images') }}/141686611-90067e00-8288-4e3d-842e-392adb7c9080_01.gif" width="151" height="181" alt=""></td>
@@ -172,10 +174,9 @@
                 </table>
               </div>
             </div>        
-            @if($total != 0)
-            <a class="btn btn-danger btn-sm" href="{{ url('ondotogram/' . Request::segment(2) . '/print') }}" target="_blank"><i class="fa fa-print" aria-hidden="true"></i> Tandai Selesai & Cetak</a>
-            <a class="btn btn-danger btn-sm">Kembali</a>
-            @endif
+         
+            
+           
             <hr>
             <div class="row">
               <div class="col-md-6">
