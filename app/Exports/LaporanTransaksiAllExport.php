@@ -30,7 +30,7 @@ class LaporanTransaksiAllExport implements WithMultipleSheets
     {
         return [
             new LaporanTransaksiExport($this->tanggal, $this->nama_shift, $this->poliklinik_id, $this->metode_pembayaran),
-            new LaporanPengeluaranExport($this->tanggal, $this->nama_shift, $this->poliklinik_id, $this->emetode_pembayaran)
+            new LaporanPengeluaranExport($this->tanggal, $this->nama_shift, $this->poliklinik_id, $this->metode_pembayaran)
         ];
     }
 }

@@ -123,7 +123,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="exampleFormControlInput1">Perusahaan Penjamin</label>
-                                {{ Form::select('jenis_layanan', $perusahaan_asuransi , null,['class'=>'form-control jenis_layanan']) }}
+                                {{ Form::select('jenis_layanan', $perusahaan_asuransi , null,['class'=>'form-control jenis_layanan','required'=>'required']) }}
                             </div>
                         </div>
 

@@ -108,20 +108,21 @@
                 <textarea class="form-control anamnesa" onKeyUp="simpan_anamnesa()" placeholder="Anamnesa Pasien">{{ $pendaftaran->anamnesa }}</textarea>
                 <hr style="border:1px dashed">
                 @if(Auth::user()->poliklinik_id == env("POLI_TUMBUH_KEMBANG_ID", "somedefaultvalue"))
-                <hr style="border:1px dashed">
+               
                 <h4>Catatan Harian <button style="float: right" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-catatan-harian">
                   Input Catatan Harian
                 </button></h4>
                 <hr>
                 <div id="catatan_harian"></div>
                 <hr style="border:1px dashed">
-              @else
+              
                   <h4>Daftar Tindakan <button style="float: right" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
                     Input Tindakan
                   </button></h4>
                   <hr>
 
                   <div id="daftar_tindakan"></div>
+                 @else
 
                   <hr style="border:1px dashed">
                   <h4>Daftar Diagnosa <button style="float: right" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-diagnosa">
