@@ -121,7 +121,7 @@
             <br>
             <br>
 
-            Nama Dokter
+            @include('surat.ttd_dokter')
         </div>
     </div>
 

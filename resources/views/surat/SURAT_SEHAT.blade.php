@@ -11,7 +11,7 @@
 <body>
 
     @include('surat.kop_surat')
-    <h4 style="text-align: center">SURAT RUJUKAN</h4>
+    <h4 style="text-align: center">SURAT SEHAT</h4>
 
     <table>
         <tr>
@@ -85,7 +85,7 @@
         <br>
         <br>
 
-        Nama Dokter
+        @include('surat.ttd_dokter')
     </div>
 
 </body>
