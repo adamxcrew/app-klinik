@@ -59,10 +59,10 @@ class PendaftaranController extends Controller
         $awal = date('Y-m-d H:i:s', strtotime($data['tanggal_awal']));
         $akhir = date('Y-m-d H:i:s', strtotime($data['tanggal_akhir']));
 
-        $pendaftaran = Pendaftaran::select('users.name as nama_dokter','pendaftaran.*', 'nomor_antrian.nomor_antrian', 'poliklinik.nama as nama_poliklinik')
+        $pendaftaran = Pendaftaran::select('users.name as nama_dokter', 'pendaftaran.*', 'nomor_antrian.nomor_antrian', 'poliklinik.nama as nama_poliklinik')
             ->with('pasien', 'perusahaanAsuransi')
             ->join('nomor_antrian', 'nomor_antrian.pendaftaran_id', 'pendaftaran.id')
-            ->join('users','users.id','nomor_antrian.dokter_id')
+            ->join('users', 'users.id', 'nomor_antrian.dokter_id')
             ->join('poliklinik', 'nomor_antrian.poliklinik_id', 'poliklinik.id')
                 ->whereBetween(DB::raw('DATE(pendaftaran.created_at)'), [$awal, $akhir]);
 
@@ -196,11 +196,11 @@ class PendaftaranController extends Controller
 
     public function input_indikator($id)
     {
-        //$data['pendaftaran']            = NomorAntrian::with('pendaftaran')->where('pendaftaran_id',$id)->where('poliklinik_id',\Auth::user()->poliklinik_id)->first();
         $data['pendaftaran']            = Pendaftaran::with('pasien')->find($id);
         $nomorAntrian                   = NomorAntrian::with('poliklinik')->where('pendaftaran_id', $id)->where('poliklinik_id', \Auth::user()->poliklinik_id)->first();
         $data['tindakan']               = Tindakan::where('id', $nomorAntrian->tindakan_id)->first();
         $data['hasilPemeriksaan']       = HasilPemeriksaanLab::where('pendaftaran_id', $id)->get();
+        $data['nomorAntrian']           = $nomorAntrian;
         $data['indikatorPemeriksaan']   = IndikatorPemeriksaanLab::where('tindakan_id', $nomorAntrian->tindakan_id)->get();
         return view('pendaftaran.indikator', $data);
     }
@@ -514,6 +514,9 @@ class PendaftaranController extends Controller
         $data['obatNonRacik']   = PendaftaranResep::with('barang')
                                 ->where('pendaftaran_id', $data['pendaftaran']->pendaftaran_id)
                                 ->get();
+        $data['pendaftaranResepRacik'] = PendaftaranObatRacik::with('detail.barang')
+                                ->where('pendaftaran_id', $data['pendaftaran']->pendaftaran_id);
+
         return view('pasien.riwayat_kunjungan_detail', $data);
     }
 

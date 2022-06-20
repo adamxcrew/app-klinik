@@ -88,19 +88,18 @@ class PendaftaranTindakanController extends Controller
         $tindakanBHP = TindakanBHP::where('tindakan_id', $request->tindakan_id)->get();
         foreach ($tindakanBHP as $item) {
             $barang = Barang::find($item->barang_id);
-            if (!isset($barang->satuan_terkecil_id)) {
-                return $item->barang_id;
+            if ($barang != null) {
+                PendaftaranResep::create([
+                    'pendaftaran_id'        =>  $request->pendaftaran_id,
+                    'barang_id'             =>  $item->barang_id,
+                    'jumlah'                =>  $item->jumlah,
+                    'satuan_terkecil_id'    =>  $barang->satuan_terkecil_id,
+                    'aturan_pakai'          =>  '-',
+                    'jenis'                 =>  'bhp',
+                    'tindakan_id'           => $request->tindakan_id,
+                    'harga'                 =>  $barang->harga_jual,
+                ]);
             }
-            PendaftaranResep::create([
-                'pendaftaran_id'        =>  $request->pendaftaran_id,
-                'barang_id'             =>  $item->barang_id,
-                'jumlah'                =>  $item->jumlah,
-                'satuan_terkecil_id'    =>  $barang->satuan_terkecil_id,
-                'aturan_pakai'          =>  '-',
-                'jenis'                 =>  'bhp',
-                'tindakan_id'           => $request->tindakan_id,
-                'harga'                 =>  $barang->harga_jual,
-            ]);
         }
         $request['fee'] = $tindakan['tarif_' . strtolower($jenisPendaftaran)];
         $request['qty'] = 1;
@@ -143,6 +142,7 @@ class PendaftaranTindakanController extends Controller
      */
     public function show($id)
     {
+        $data['pendaftaran'] = Pendaftaran::find($id);
         $data['pendaftaranTindakan'] = PendaftaranTindakan::with(['tindakan.icd','tindakan.bhp.barang'])->where('pendaftaran_id', $id);
         return view('pendaftaran.partials.daftar_tindakan', $data);
     }

@@ -17,8 +17,9 @@
         @foreach($pendaftaranTindakan->get() as $row)
         <tr>
             <td>{{ $loop->iteration }}</td>
+            {{-- <td>{{ $row->tindakan->icd->code??'-' }}</td> --}}
             <td>{{ $row->tindakan->tindakan }}<br>
-                @foreach(\App\Models\PendaftaranResep::with('barang')->where('tindakan_id',$row->tindakan->id)->where('pendaftaran_id', $pendaftaran->id)->where('jenis','bhp')->get() as $bhp)
+                @foreach($row->tindakan->bhp as $bhp)
                 <i class="fa fa-trash" onClick="hapus_bhp_tindakan({{$row->tindakan->id}},{{ $bhp->barang_id }},{{ $pendaftaran->id}})" aria-hidden="true"></i> {{ $bhp->barang->nama_barang }} x {{ $bhp->jumlah }}<br>
                 @endforeach
             </td>
@@ -28,7 +29,8 @@
             <td>{{ rupiah(($row->qty*$row->fee)-$row->discount) }}</td>
             <td>
                 <button onClick="hapus_daftar_tindakan({{$row->id}})" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                <button onClick="tambah_bhp({{$row->id}})" style="margin-top:20px;" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalCustomBHP">
+                <!-- Button trigger modal -->
+                <button style="margin-top:20px;" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalCustomBHP">
                     +
                 </button>
             </td>

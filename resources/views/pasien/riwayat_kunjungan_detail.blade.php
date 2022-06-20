@@ -1,6 +1,6 @@
 <table class="table table-bordered">
     <tr>
-        <th colspan="2">TEXT</th>
+        <th colspan="2">  INFORMASI UMUM</th>
     </tr>
     <tr>
         <td>Tanggal Kunjungan</td>
@@ -114,4 +114,34 @@
     </tr>
     @endforeach
   </tbody>
+</table>
+<h4>Riwayat Obat Racik</h4>
+<table class="table table-bordered">
+  <tr>
+      <th width="10">No</th>
+      <th>Jumlah Kemasan</th>
+      <th>Aturan Pakai</th>
+      <th>Detail</th>
+  </tr>
+  @if($pendaftaranResepRacik->count() < 1)
+  <tr>
+      <td colspan="4">Belum Ada Data</td>
+  </tr>
+  @else
+      @foreach($pendaftaranResepRacik->get() as $row)
+      <tr>
+          <td>{{ $loop->iteration }}</td>
+          <td>{{ $row->jumlah_kemasan}} - {{ $row->satuan->satuan }}</td>
+          <td>{{ $row->aturan_pakai}}</td>
+          <td>
+              @foreach($row->detail as $item)
+              - {{ $item->barang->nama_barang}} x {{ $item->jumlah}}
+              @if(count($row->detail)>1)
+              <br>
+              @endif
+              @endforeach
+          </td>
+      </tr>
+      @endforeach
+  @endif
 </table>

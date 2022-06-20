@@ -1,4 +1,4 @@
-@extends('layouts.topnavlayout')
+@extends('layouts.app')
 @section('title',"Pendaftaran $pendaftaran->kode")
 @section('content')
 <div class="content-wrapper">
@@ -453,6 +453,35 @@
     </div>
   </div>
 
+
+  <!-- Modal custom  -->
+<div class="modal fade" id="myModalCustomBHP" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Tambahkan BHP</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-9">
+            <input type="hidden" class="txt_pendaftaran_tindakan_id" value="">
+            <select name="barang_id" id="barang_id_txt_bhp" class='form-control' style="width:100%">
+            </select>
+          </div>
+          <div class="col-md-3">
+            <input type="text" id="bhp_qty_txt" class="form-control" placeholder="Qty">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+        <button type="button" class="btn btn-primary" onClick="simpan_bhp_tambahan()">Simpan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
   <!-- Modal history pendafatran -->
 <div class="modal fade" id="modalHistoryPendaftaran" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -466,27 +495,6 @@
         <div class="modal-body">
 
           <div id="hasil_riwayat"></div>
-
-
-
-
-
-          <table class="table table-bordered table-bordered">
-            <tr id="tujuan">
-              <td>Tanggal Pelayanan</td>
-              <td id="tanggal-pelayanan"></td>
-            </tr>
-            {{-- <tr>
-              <td>Poliklinik Tujuan</td>
-              <td id="poliklinik-tujuan"></td>
-            </tr> --}}
-            {{-- <tr>
-              <td>Dokter Yang Dituju</td>
-              <td id="dokter-tujuan"></td>
-            </tr> --}}
-          </table>
-
-
         </div>
         <div class="modal-footer">
           <a id="resume-medis" class="btn btn-danger" target="new">Cetak</a>
@@ -542,6 +550,29 @@
 
 
     $('#barang_id').select2({
+    placeholder: 'Cari Barang',
+    tags: false,
+    ajax: {
+      url: '/ajax/select2Barang?pelayanan={{ $pendaftaran->jenisLayanan->nama_perusahaan}}',
+      dataType: 'json',
+      delay: 250,
+      processResults: function(data) {
+        return {
+          results: $.map(data, function(item) {
+            console.log(item);
+            return {
+              text: item.nama_barang,
+              harga: item.harga,
+              id: item.id
+            }
+          })
+        };
+      },
+      cache: true
+    }
+  });
+
+  $('#barang_id_txt_bhp').select2({
     placeholder: 'Cari Barang',
     tags: false,
     ajax: {
@@ -958,6 +989,12 @@
     });
   }
 
+
+  function tambah_bhp(pendaftaran_tindakan_id){
+    console.log(pendaftaran_tindakan_id);
+    $(".txt_pendaftaran_tindakan_id").val(pendaftaran_tindakan_id);
+  }
+
   function simpan_daftar_rujukan()
   {
     var jenis_pemeriksaan_laboratorium_id = $(".jenis_pemeriksaan_laboratorium_id").val();
@@ -1007,6 +1044,39 @@
         console.log(err);
       }
     })
+  }
+
+  function hapus_bhp_tindakan(tindakan_id,barang_id,pendaftaran_id){
+        console.log(tindakan_id);
+        console.log(barang_id);
+        console.log(pendaftaran_id);
+        $.ajax({
+        url: "/ajax/pendaftaran-bhp-delete",
+        type: 'GET',
+        data:{tindakan_id:tindakan_id,barang_id,pendaftaran_id},
+        success: function(res) {
+            console.log(res);
+            load_daftar_tindakan();
+        }
+    });
+  }
+
+  function simpan_bhp_tambahan(){
+    var jumlah                    = $("#bhp_qty_txt").val();
+    var pendaftaran_tindakan_id   = $(".txt_pendaftaran_tindakan_id").val();
+    var barang_id                 = $('#barang_id_txt_bhp').select2('data')[0].id;
+    console.log(jumlah);
+    console.log(pendaftaran_tindakan_id);
+    console.log(barang_id);
+    $.ajax({
+        url: "/ajax/pendaftaran-bhp-insert",
+        type: 'GET',
+        data:{jumlah:jumlah,pendaftaran_tindakan_id:pendaftaran_tindakan_id,barang_id:barang_id},
+        success: function(res) {
+          $('#myModalCustomBHP').modal('hide');
+            load_daftar_tindakan();
+        }
+    });
   }
 
   // Handle detail riwayat kunjungan

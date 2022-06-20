@@ -12,6 +12,8 @@ use App\Models\HasilPemeriksaanLab;
 use App\Models\PermintaanBarangInternalDetail;
 use App\User;
 use App\Models\Pasien;
+use App\Models\Barang;
+use App\Models\PendaftaranResep;
 use App\Models\Pegawai;
 use App\Models\Pendaftaran;
 
@@ -351,5 +353,36 @@ class AjaxController extends Controller
         $value = $pendaftaran->check_list_poli_kebidanan == 0 ? 1 : 0;
         $pendaftaran->update(['check_list_poli_kebidanan' => $value]);
         return $value;
+    }
+
+
+    public function pendaftaranBhpDelete(Request $request)
+    {
+
+        $itemBhp = PendaftaranResep::where('barang_id', $request->barang_id)
+        ->where('pendaftaran_id', $request->pendaftaran_id)
+        ->where('tindakan_id', $request->tindakan_id)
+        ->where('jenis', 'bhp')
+        ->first();
+        return $itemBhp->delete();
+    }
+
+    public function pendaftaranBhpInsert(Request $request)
+    {
+        $barang                 = Barang::with('satuanTerkecil')->where('id', $request->barang_id)->first();
+        $pendaftaranTindakan    = \App\Models\PendaftaranTindakan::where('id', $request->pendaftaran_tindakan_id)->first();
+        return PendaftaranResep::create([
+            'barang_id'             =>  $request->barang_id,
+            'pendaftaran_id'        =>  $pendaftaranTindakan->pendaftaran_id,
+            'jumlah'                =>  $request->jumlah,
+            'satuan_terkecil_id'    =>  $barang->satuan_terkecil_id,
+            'aturan_pakai'          =>  '',
+            'jenis'                 =>  'bhp',
+            'harga'                 =>  $barang->harga_jual,
+            'tindakan_id'           =>  $pendaftaranTindakan->tindakan_id,
+            'is_bpjs'               =>  0,
+            'poliklinik_id'         =>  $pendaftaranTindakan->poliklinik_id
+
+        ]);
     }
 }
