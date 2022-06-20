@@ -455,7 +455,7 @@
 
 
   <!-- Modal custom  -->
-<div class="modal fade" id="myModalCustomBHP" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="myModalCustomBHP" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -466,7 +466,7 @@
         <div class="row">
           <div class="col-md-9">
             <input type="hidden" class="txt_pendaftaran_tindakan_id" value="">
-            <select name="barang_id" id="barang_id_txt_bhp" class='form-control' style="width:100%">
+            <select name="barang_id_txt" id="barang_id_txt_bhp" class='form-control' style="width:100%">
             </select>
           </div>
           <div class="col-md-3">

@@ -234,11 +234,12 @@ class PasienController extends Controller
             ->where('village_id', $request->wilayah_administratif)
             ->first();
         $data                = $request->all();
-
+        unset($data['nomor_rekam_medis']);
         $data['village_id']  = $wilayah_administratif->village_id;
         $data['district_id'] = $wilayah_administratif->district_id;
         $data['province_id'] = $wilayah_administratif->province_id;
         $data['regency_id']  = $wilayah_administratif->regency_id;
+
         $pasien->update($data);
         return redirect(route('pasien.index'))->with('message', 'Data Berhasil Di Update');
     }
