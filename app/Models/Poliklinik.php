@@ -9,7 +9,12 @@ class Poliklinik extends Model
 {
     protected $table = "poliklinik";
 
-    protected $fillable = ['nomor_poli','nama','keterangan','aktif','jenis_unit'];
+    protected $fillable = ['nomor_poli','nama','keterangan','aktif','jenis_unit','unit_stock_id'];
+
+    public function unitStock()
+    {
+        return $this->belongsTo('App\Models\UnitStock');
+    }
 
 
 

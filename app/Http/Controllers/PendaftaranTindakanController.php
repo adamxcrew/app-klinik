@@ -31,8 +31,7 @@ class PendaftaranTindakanController extends Controller
 
         // apakah umum, BPJS atau lain
         $jenisPendaftaran   =  strtolower($pendaftaran->perusahaanAsuransi->nama_perusahaan);
-        if(!in_array($jenisPendaftaran,['bpjs','umum']))
-        {
+        if (!in_array($jenisPendaftaran, ['bpjs','umum'])) {
             $jenisPendaftaran = 'perusahaan';
         }
         $listTarif      = $tindakan->pembagian_tarif;

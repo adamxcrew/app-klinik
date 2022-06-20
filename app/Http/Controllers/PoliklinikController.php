@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use DataTables;
 use App\Models\Poliklinik;
 use App\Http\Requests\PoliklinikStoreRequest;
+use App\Models\UnitStock;
+use App\Models\Barang;
+use App\Models\DistribusiStock;
 
 class PoliklinikController extends Controller
 {
@@ -17,7 +20,7 @@ class PoliklinikController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(Poliklinik::all())
+            return DataTables::of(Poliklinik::with('unitStock')->get())
             ->addColumn('aktif', function ($row) {
                 return $row->aktif == 1 ? 'Aktif' : 'Tidak Aktif';
             })
@@ -42,7 +45,8 @@ class PoliklinikController extends Controller
      */
     public function create()
     {
-        return view('poliklinik.create');
+        $data['unit_stock'] = UnitStock::pluck('nama_unit', 'id');
+        return view('poliklinik.create', $data);
     }
 
     /**
@@ -53,7 +57,12 @@ class PoliklinikController extends Controller
      */
     public function store(PoliklinikStoreRequest $request)
     {
-        Poliklinik::create($request->all());
+        $poliklinik = Poliklinik::create($request->all());
+        // distribusi stock
+        foreach (Barang::all() as $barang) {
+            $params = ['barang_id' => $barang->id,'unit_stock_id' => $request->unit_stock_id,'poliklinik_id' => $poliklinik->id,'jumlah_stock' => 400];
+            DistribusiStock::firstOrCreate($params, $params);
+        }
         return redirect(route('poliklinik.index'));
     }
 
@@ -66,6 +75,7 @@ class PoliklinikController extends Controller
     public function show($id)
     {
         $data['poliklinik'] = Poliklinik::findOrFail($id);
+        $data['unit_stock'] = UnitStock::pluck('nama_unit', 'id');
         return view('poliklinik.show', $data);
     }
 
@@ -78,6 +88,7 @@ class PoliklinikController extends Controller
     public function edit($id)
     {
         $data['poliklinik'] = Poliklinik::findOrFail($id);
+        $data['unit_stock'] = UnitStock::pluck('nama_unit', 'id');
         return view('poliklinik.edit', $data);
     }
 
@@ -92,6 +103,10 @@ class PoliklinikController extends Controller
     {
         $poliklinik = Poliklinik::findOrFail($id);
         $poliklinik->update($request->all());
+        foreach (Barang::all() as $barang) {
+            $params = ['barang_id' => $barang->id,'unit_stock_id' => $request->unit_stock_id,'poliklinik_id' => $id,'jumlah_stock' => 400];
+            DistribusiStock::firstOrCreate($params, $params);
+        }
         return redirect(route('poliklinik.index'))->with('message', 'Data Berhasil Di Update');
     }
 

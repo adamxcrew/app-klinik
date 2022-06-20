@@ -253,8 +253,8 @@ class TindakanController extends Controller
 
     public function import()
     {
-        // Tindakan::truncate();
-        // TindakanBHP::truncate();
+        Tindakan::truncate();
+        TindakanBHP::truncate();
         // Barang::truncate();
         $reader = ReaderEntityFactory::createXLSXReader();
         // $filepath = public_path('uploads/tindakan_umum.xlsx');

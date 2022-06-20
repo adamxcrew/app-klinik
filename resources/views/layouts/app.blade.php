@@ -86,6 +86,7 @@
                                 ['icon' => 'fa fa-list-ul', 'link' => '/unit-stock', 'label' => 'Data Unit Stock'],
                                 ['icon' => 'fa fa-user-md', 'link' => '/kategori', 'label' => 'Data Kategori'],
                                 ['icon' => 'fa fa-user-md', 'link' => '/barang', 'label' => 'Data Barang'],
+                                ['icon' => 'fa fa-user', 'link' => '/pbf', 'label' => 'Master PBF'],
                                 ['icon' => 'fa fa-list-ul', 'link' => '/perusahaan-asuransi', 'label' => 'Perusahaan Asuransi'],
                                 ['icon' => 'fa fa-list-ul', 'link' => '/icd', 'label' => 'Data ICD'],
                                 // ['icon' => 'fa fa-home', 'link' => '/kamar', 'label' => 'Data Kamar'],
@@ -189,6 +190,7 @@
                             $poliklinik = [
                               ['icon' => 'fa fa-book', 'link' => '/antrian', 'label' => 'Antrian'],
                               ['icon' => 'fa fa-list-ul', 'link' => '/surat', 'label' => 'Surat Surat'],
+                              ['icon' => 'fa fa-list-ul', 'link' => '/stock', 'label' => 'Stock Barang & BHP'],
                               ['icon' => 'fa fa-address-card', 'link' => '/pendaftaran', 'label' => 'Data Pasien Antri']
                             ];
                       

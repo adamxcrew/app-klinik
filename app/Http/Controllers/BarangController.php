@@ -11,6 +11,7 @@ use App\Http\Requests\BarangStoreRequest;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\BarangExport;
 use App\Jobs\ImportBarangExcel;
+use App\Models\DistribusiStock;
 
 class BarangController extends Controller
 {
@@ -169,5 +170,18 @@ class BarangController extends Controller
         $nama_file = "Daftar_Harga_fix.xlsx";
         ImportBarangExcel::dispatch($nama_file);
         return redirect('barang')->with('message', 'Import Data Sedang Diproses, Check Hasilnya Berkala');
+    }
+
+
+    public function stock(Request $request)
+    {
+        if ($request->ajax()) {
+            $distribusiStock = DistribusiStock::with('barang.satuanTerbesar', 'barang.satuanTerkecil', 'barang.kategori')
+                            ->where('poliklinik_id', $request->poliklinik_id);
+            return DataTables::of($distribusiStock)
+                    ->addIndexColumn()
+                    ->make(true);
+        }
+        return view('poliklinik.stock');
     }
 }

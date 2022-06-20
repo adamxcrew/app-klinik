@@ -59,11 +59,12 @@ class ImportBarangExcel implements ShouldQueue
                     $satuan_terbesar            = Satuan::firstOrCreate(['satuan' => $cells[5]->getValue()], ['satuan' => $cells[5]->getValue()]);
                     $jumlah_satuan_terkecil     = $cells[6]->getValue();
                     $satuan_terkecil            = Satuan::firstOrCreate(['satuan' => $cells[8]->getValue()], ['satuan' => $cells[7]->getValue()]);
-                    
-                    $jenis                      = $cells[9]->getValue();
+
+                    $jenis                      = strtolower($cells[1]->getValue());
                     $harga                      = (int) $cells[12]->getValue();
                     $margin                     = (int) $cells[13]->getValue();
-                    $pbf                        = \App\Models\PedagangBesarFarmasi::firstOrCreate(['nama_pbf' => $cells[14]->getValue()], ['nama_pbf' => $cells[14]->getValue(),'jenis' => $jenis_barang]);
+                    $pbf                        = \App\Models\PedagangBesarFarmasi::firstOrCreate(['nama_pbf' => $cells[14]->getValue()], ['nama_pbf' => $cells[14]->getValue()]);
+                    \Log::info($pbf);
                     $untuk_penjamin             = explode("/", $cells[13]->getValue());
                     $kategori                   = Kategori::firstOrCreate(['nama_kategori' => $cells[16]->getValue()], ['nama_kategori' => $cells[16]->getValue(),'jenis' => $jenis_barang]);
                     //\Log::info($untuk_penjamin);
@@ -78,6 +79,7 @@ class ImportBarangExcel implements ShouldQueue
                         'kode'                      =>  $kode_barang,
                         'nama_barang'               =>  $nama_barang,
                         'keterangan'                =>  null,
+                        'jenis_barang_kedua'        =>  $cells[9]->getValue(),
                         'harga'                     =>  $harga,
                         'kategori_id'               =>  $kategori->id,
                         'satuan_terbesar_id'        =>  $satuan_terbesar->id,
@@ -86,6 +88,7 @@ class ImportBarangExcel implements ShouldQueue
                         'satuan_terkecil_id'        =>  $satuan_terkecil->id,
                         'jumlah_satuan_terkecil'    =>  $jumlah_satuan_terkecil,
                         'margin'                    =>  $margin,
+                        'jenis_barang'              =>  $jenis,
                         'pbf_id'                    =>  $pbf->id,
                         'aktif'                     =>  1
                     ];

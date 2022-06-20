@@ -25,6 +25,8 @@ class Barang extends Model
         'satuan_terkecil_id',
         'margin',
         'pelayanan',
+        'pbf_id',
+        'jenis_barang_kedua',
         'jumlah_satuan_terbesar',
         'jumlah_satuan_terkecil'
     ];

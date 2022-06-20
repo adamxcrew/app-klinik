@@ -33,6 +33,7 @@
                         <th>Keterangan</th>
                         <th>Status</th>
                         <th>Jenis Unit</th>
+                        <th>Depo Stock</th>
                         <th width="60">#</th>
                       </tr>
                   </thead>
@@ -62,6 +63,7 @@
                 { data: 'keterangan', name: 'keterangan' },
                 { data: 'aktif', name: 'aktif' },
                 { data: 'jenis_unit', name: 'jenis_unit' },
+                { data: 'unit_stock.nama_unit', name: 'unit_stock.nama_unit' },
                 { data: 'action', name: 'action' }
             ]
         });

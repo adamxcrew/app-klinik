@@ -8,7 +8,7 @@ class DistribusiStock extends Model
 {
     protected $table = "distribusi_stock";
 
-    protected $fillable = ['id','unit_stock_id','barang_id','jumlah_stock'];
+    protected $fillable = ['id','unit_stock_id','barang_id','jumlah_stock','poliklinik_id'];
 
     public function barang()
     {
