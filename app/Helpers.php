@@ -32,12 +32,15 @@ function generateKodePendaftaran()
 
 function generateKodeRekamMedis()
 {
-    $latestValue = \DB::table('pasien')->max('nomor_rekam_medis');
+    $latestValue = \DB::table('pasien')
+    ->whereRaw("left(nomor_rekam_medis,3)='NMC'")
+    ->whereRaw("CHAR_LENGTH(nomor_rekam_medis)=11")
+    ->max('nomor_rekam_medis');
     if ($latestValue == null) {
-        return 'NMC-00000001';
+        return 'NMC00000001';
     } else {
         $noUrut = (int) substr($latestValue, 4, 8) + 1;
-        return 'NMC-' . sprintf("%08s", $noUrut);
+        return 'NMC' . sprintf("%08s", $noUrut);
     }
 }
 
