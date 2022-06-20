@@ -122,15 +122,13 @@
                   <hr>
 
                   <div id="daftar_tindakan"></div>
-                 @else
-
                   <hr style="border:1px dashed">
                   <h4>Daftar Diagnosa <button style="float: right" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-diagnosa">
                     Input Diganosa
                   </button></h4>
                   <hr>
                   <div id="daftar_diagnosa"></div>
-
+                 @else
                   <hr style="border:1px dashed">
                   <h4>Daftar Obat Non Racik <button style="float: right" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-obat-non-racik">
                     Input Obat Non Racik
