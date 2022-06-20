@@ -40,6 +40,7 @@ class ImportBarangExcel implements ShouldQueue
     {
 
 
+        Barang::truncate();
         $reader = ReaderEntityFactory::createXLSXReader();
         $filepath = public_path('uploads/' . $this->filePath);
         $reader->open($filepath);
@@ -57,13 +58,14 @@ class ImportBarangExcel implements ShouldQueue
                     $jumlah_satuan_terbesar     = $cells[4]->getValue();
                     $satuan_terbesar            = Satuan::firstOrCreate(['satuan' => $cells[5]->getValue()], ['satuan' => $cells[5]->getValue()]);
                     $jumlah_satuan_terkecil     = $cells[6]->getValue();
-                    $satuan_terkecil            = Satuan::firstOrCreate(['satuan' => $cells[7]->getValue()], ['satuan' => $cells[7]->getValue()]);
+                    $satuan_terkecil            = Satuan::firstOrCreate(['satuan' => $cells[8]->getValue()], ['satuan' => $cells[7]->getValue()]);
+                    
                     $jenis                      = $cells[9]->getValue();
-                    $harga                      = (int) $cells[9]->getValue();
-                    $margin                     = (int) $cells[11]->getValue();
-                    $pbf                        = \App\Models\PedagangBesarFarmasi::firstOrCreate(['nama_pbf' => $cells[12]->getValue()], ['nama_pbf' => $cells[12]->getValue(),'jenis' => $jenis_barang]);
+                    $harga                      = (int) $cells[12]->getValue();
+                    $margin                     = (int) $cells[13]->getValue();
+                    $pbf                        = \App\Models\PedagangBesarFarmasi::firstOrCreate(['nama_pbf' => $cells[14]->getValue()], ['nama_pbf' => $cells[14]->getValue(),'jenis' => $jenis_barang]);
                     $untuk_penjamin             = explode("/", $cells[13]->getValue());
-                    $kategori                   = Kategori::firstOrCreate(['nama_kategori' => $cells[14]->getValue()], ['nama_kategori' => $cells[5]->getValue(),'jenis' => $jenis_barang]);
+                    $kategori                   = Kategori::firstOrCreate(['nama_kategori' => $cells[16]->getValue()], ['nama_kategori' => $cells[16]->getValue(),'jenis' => $jenis_barang]);
                     //\Log::info($untuk_penjamin);
 
                     if (in_array('BPJS', $untuk_penjamin)) {

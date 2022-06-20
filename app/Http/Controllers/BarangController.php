@@ -166,7 +166,7 @@ class BarangController extends Controller
         // $file->move($destinationPath, $nama_file);
         // $filePath = $destinationPath . '/' . $nama_file;
         //$filePath = "uploads/template_import_barang_ok.xlsx";
-        $nama_file = "template_import_barang_ok.xlsx";
+        $nama_file = "Daftar_Harga_fix.xlsx";
         ImportBarangExcel::dispatch($nama_file);
         return redirect('barang')->with('message', 'Import Data Sedang Diproses, Check Hasilnya Berkala');
     }
