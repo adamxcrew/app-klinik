@@ -39,8 +39,8 @@ class SuratController extends Controller
             $jenis_surat = "SURAT_SEHAT";
         }
         $data['jenis_surat'] = $jenis_surat;
-        $data['pendaftaran'] = Pendaftaran::with('pasien')->where('id',$_GET['pendaftaran_id'])->first();
-        $data['nomorAntrian']= NomorAntrian::with('dokter')->where('pendaftaran_id',$_GET['pendaftaran_id'])->first();
+        $data['pendaftaran'] = Pendaftaran::with('pasien')->where('id', $_GET['pendaftaran_id'])->first();
+        $data['nomorAntrian'] = NomorAntrian::with('dokter')->where('pendaftaran_id', $_GET['pendaftaran_id'])->first();
         return view('surat.create', $data);
     }
 
@@ -52,7 +52,7 @@ class SuratController extends Controller
 
     public function show($id)
     {
-        $data['surat'] = Surat::with('pendaftaran.pasien','dokter')->find($id);
+        $data['surat'] = Surat::with('pendaftaran.pasien', 'dokter')->find($id);
         $jenis = $data['surat']->jenis_surat == 'SURAT_SEHAT_SAKIT' ? 'surat_sakit' : $data['surat']->jenis_surat;
         $pdf = PDF::loadView('surat.' . $jenis, $data);
         return $pdf->stream();

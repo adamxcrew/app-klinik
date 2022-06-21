@@ -30,7 +30,8 @@ class Surat extends Model
         return $this->belongsTo('App\Models\Pendaftaran');
     }
 
-    public function dokter(){
-        return $this->belongsTo('App\User','dokter_id','id');
+    public function dokter()
+    {
+        return $this->belongsTo('App\User', 'dokter_id', 'id');
     }
 }

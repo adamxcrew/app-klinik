@@ -190,7 +190,7 @@
                             $poliklinik = [
                               ['icon' => 'fa fa-book', 'link' => '/antrian', 'label' => 'Antrian'],
                               ['icon' => 'fa fa-list-ul', 'link' => '/surat', 'label' => 'Surat Surat'],
-                              // ['icon' => 'fa fa-list-ul', 'link' => '/stock', 'label' => 'Stock Barang & BHP'],
+                              ['icon' => 'fa fa-list-ul', 'link' => '/stock', 'label' => 'Stock Barang & BHP'],
                               ['icon' => 'fa fa-address-card', 'link' => '/pendaftaran', 'label' => 'Data Pasien Antri']
                             ];
                       

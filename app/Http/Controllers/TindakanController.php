@@ -262,8 +262,8 @@ class TindakanController extends Controller
         // $filepath = public_path('uploads/tindakan_kebinanan.xlsx');
         //$filepath = public_path('uploads/tindakan_gigi.xlsx');
         // $filepath = public_path('uploads/tindakan_bhp_ok.xlsx');
-        $filepath = public_path('uploads/book3.xlsx');
-        
+        $filepath = public_path('uploads/Book6.xlsx');
+
 
 
 
@@ -271,40 +271,41 @@ class TindakanController extends Controller
         foreach ($reader->getSheetIterator() as $sheet) {
             $data = [];
             foreach ($sheet->getRowIterator() as $row) {
-                $cells                      = $row->getCells();
+
+                
+                $cells          = $row->getCells();
                 $nomor          = $cells[0];
                 $nama_tindakan  = $cells[1];
-                $nama_bhp       = $cells[2];
-                $jumlah         = $cells[3];
-                $satuan         = $cells[4];
-                $poli           = \App\Models\Poliklinik::where('nama',$cells[5])->first();
-                $tarif          = 0;
-
-                if($poli ==null)
+                $tarif          = $cells[2];
+                $nama_bhp       = $cells[3];
+                $harga_bhp      = $cells[4];
+                $jumlah         = $cells[5];
+                $satuan         = $cells[6];
+                $poli           = \App\Models\Poliklinik::where('nama', $cells[7])->first();
+                $tarif_bpjs     = 0;
+                if(isset($cells[8]))
                 {
-                    return $cells[5];
+                    $tarif_bpjs     = $cells[8];
                 }
+    
 
                 if ($nomor != '') {
                     // lakukan insert data tindakan
-                    if($nama_tindakan!='NAMA TINDAKAN')
-                    {
+                    if ($nama_tindakan != 'NAMA TINDAKAN') {
                         $tindakan = Tindakan::create([
                             'kode'              =>  null,
                             'tindakan'          =>  $nama_tindakan,
-                            'poliklinik_id'     =>  $poli->id??0,
+                            'poliklinik_id'     =>  $poli->id ?? 0,
                             'tarif_umum'        =>  $tarif,
-                            'tarif_bpjs'        =>  $tarif,
+                            'tarif_bpjs'        =>  $poli->id==1?$tarif_bpjs:$tarif,
                             'tarif_perusahaan'  =>  $tarif,
                             'iterasi'           =>  0,
                             'penunjang'         =>  0,
                             'quota'             =>  0,
-                            'jenis'             => $poli->nama=='LAB'?'tindakan_laboratorium':'tindakan_medis',
+                            'jenis'             => $poli->nama == 'LAB' ? 'tindakan_laboratorium' : 'tindakan_medis',
                             'pelayanan'         => 'umum'
                         ]);
-                        
                     }
-                    
                 }
 
                 // insert barang
