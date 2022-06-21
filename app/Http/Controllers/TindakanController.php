@@ -261,7 +261,8 @@ class TindakanController extends Controller
         // $filepath = public_path('uploads/tindakan_lab.xlsx');
         // $filepath = public_path('uploads/tindakan_kebinanan.xlsx');
         //$filepath = public_path('uploads/tindakan_gigi.xlsx');
-        $filepath = public_path('uploads/tindakan_bhp_ok.xlsx');
+        // $filepath = public_path('uploads/tindakan_bhp_ok.xlsx');
+        $filepath = public_path('uploads/book3.xlsx');
         
 
 

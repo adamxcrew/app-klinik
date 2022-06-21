@@ -230,16 +230,17 @@ class PasienController extends Controller
     public function update(Request $request, $id)
     {
         $pasien = Pasien::findOrFail($id);
-        $wilayah_administratif = \DB::table('view_wilayah_administratif_indonesia')
+        if($pasien->village_id==null){
+            $wilayah_administratif = \DB::table('view_wilayah_administratif_indonesia')
             ->where('village_id', $request->wilayah_administratif)
             ->first();
-        $data                = $request->all();
-        unset($data['nomor_rekam_medis']);
         $data['village_id']  = $wilayah_administratif->village_id;
         $data['district_id'] = $wilayah_administratif->district_id;
         $data['province_id'] = $wilayah_administratif->province_id;
         $data['regency_id']  = $wilayah_administratif->regency_id;
-
+        }
+        $data                = $request->all();
+        unset($data['nomor_rekam_medis']);
         $pasien->update($data);
         return redirect(route('pasien.index'))->with('message', 'Data Berhasil Di Update');
     }
