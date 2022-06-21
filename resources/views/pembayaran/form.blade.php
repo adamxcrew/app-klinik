@@ -9,7 +9,11 @@
     </div>
 </div>
 <div class="form-group">
-    <label class="col-sm-4 control-label">Biaya Tambahan *</label>
+    <label class="col-sm-4 control-label">Biaya Tambahan * 
+
+        <button onclick="openWin()">Open Window</button>
+        
+        </label>
     <div class="col-sm-8">
         <div class="input-group">
             <span class="input-group-addon">Rp</span>

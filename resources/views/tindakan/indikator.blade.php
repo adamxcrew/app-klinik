@@ -43,7 +43,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Nama Tindakan</label>
-                                    {{ Form::text('tindakan',$nomorAntrian->catatan,['class' => 'form-control', 'required']) }}
+                                    {{ Form::text('tindakan',$tindakan->tindakan,['class' => 'form-control', 'required']) }}
                                 </div>
                             </div>
                         </div>
