@@ -2,7 +2,11 @@
     <div class="col-md-3">
         <div class="form-group">
             <label>Nomor Rekam Medis</label>
-            <input type="text" name="nomor_rekam_medis" value="{{generateKodeRekamMedis()}}" class="form-control" readonly>
+            @if(isset($pasien))
+                <input type="text" name="nomor_rekam_medis" value="{{$pasien->nomor_rekam_medis}}" class="form-control" readonly>
+            @else
+                <input type="text" name="nomor_rekam_medis" value="{{generateKodeRekamMedis()}}" class="form-control" readonly>
+            @endif
         </div>
     </div>
     <div class="col-md-3">
