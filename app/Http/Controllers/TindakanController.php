@@ -94,8 +94,8 @@ class TindakanController extends Controller
     {
         $data['tindakan']   = Tindakan::with('bhp.barang', 'indikator')->find($id);
         // return view('tindakan.show',$data);
-        $tab = $request->tab=='bhp'?'show':'indikator';
-        return view('tindakan.'.$tab,$data);
+        $tab = $request->tab == 'bhp' ? 'show' : 'indikator';
+        return view('tindakan.' . $tab, $data);
         // // //return view('tindakan.show', $data);
         // // if ($data['tindakan']->jenis == 'tindakan_laboratorium') {
         // //     return view('tindakan.indikator', $data);
@@ -274,8 +274,6 @@ class TindakanController extends Controller
         foreach ($reader->getSheetIterator() as $sheet) {
             $data = [];
             foreach ($sheet->getRowIterator() as $row) {
-
-                
                 $cells          = $row->getCells();
                 $nomor          = $cells[0];
                 $nama_tindakan  = $cells[1];
@@ -286,11 +284,10 @@ class TindakanController extends Controller
                 $satuan         = $cells[6];
                 $poli           = \App\Models\Poliklinik::where('nama', $cells[7])->first();
                 $tarif_bpjs     = 0;
-                if(isset($cells[8]))
-                {
+                if (isset($cells[8])) {
                     $tarif_bpjs     = $cells[8];
                 }
-    
+
 
                 if ($nomor != '') {
                     // lakukan insert data tindakan
@@ -300,7 +297,7 @@ class TindakanController extends Controller
                             'tindakan'          =>  $nama_tindakan,
                             'poliklinik_id'     =>  $poli->id ?? 0,
                             'tarif_umum'        =>  $tarif,
-                            'tarif_bpjs'        =>  $poli->id==1?$tarif_bpjs:$tarif,
+                            'tarif_bpjs'        =>  $poli->id == 1 ? $tarif_bpjs : $tarif,
                             'tarif_perusahaan'  =>  $tarif,
                             'iterasi'           =>  0,
                             'penunjang'         =>  0,

@@ -13,7 +13,7 @@ class PembayaranController extends Controller
 {
     public function index($id)
     {
-        $data['metodePembayaran']   = ['cash' => 'Cash', 'transfer' => 'Transfer', 'debit' => 'Debit'];
+        $data['metodePembayaran']   = ['cash' => 'Cash', 'transfer' => 'Transfer', 'debit' => 'Debit','piutang' => 'Piutang'];
         $data['userInfo']           = Pendaftaran::with(['pasien', 'perusahaanAsuransi', 'dokter', 'poliklinik','obatRacik.detail.barang'])->findOrFail($id);
         return view('pembayaran.index', $data);
     }

@@ -18,6 +18,8 @@ class Surat extends Model
         'diagnosa_sementara',
         'hasil_pemeriksaan_mata',
         'saran',
+        'instansi',
+        'spesialis',
         'dari_tanggal',
         'sampai_tanggal',
         'tindakan_yang_telah_dilakukan'

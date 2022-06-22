@@ -10,8 +10,6 @@
 </div>
 <div class="form-group">
     <label class="col-sm-4 control-label">Biaya Tambahan * 
-
-        <button onclick="openWin()">Open Window</button>
         
         </label>
     <div class="col-sm-8">

@@ -68,11 +68,12 @@ class PendaftaranController extends Controller
 
         if (auth()->user()->role == 'poliklinik') {
             $pendaftaran->where('nomor_antrian.poliklinik_id', auth()->user()->poliklinik_id);
-            $pendaftaran->where('status_pelayanan', 'selesai_pemeriksaan_medis');
+            //$pendaftaran->where('status_pelayanan', 'selesai_pemeriksaan_medis');
+            $pendaftaran->whereIn('status_pelayanan', ['selesai_pemeriksaan_medis','selesai_pelayanan','pemeriksaan_laboratorium']);
         }
 
         if (auth()->user()->role == 'kasir') {
-            $pendaftaran->where('status_pelayanan', 'selesai_pelayanan');
+            $pendaftaran->whereIn('status_pelayanan', ['selesai_pelayanan','sedang_dirujuk','selesai_pemeriksaan_medis']);
         }
 
         if (auth()->user()->role == 'apoteker') {
@@ -123,6 +124,8 @@ class PendaftaranController extends Controller
                             } else {
                                 $btn .= '<li><a href="/ondotogram/' . $row->id . '"><i class="fa fa-plus-square"></i> Pemeriksaan Gigi</a></li>';
                             }
+                        } elseif ($row->status_pelayanan == 'selesai_pelayanan') {
+                            $btn .= '<li><a href="/pendaftaran/' . $row->id . '/pemeriksaan"><i class="fa fa-print"></i> Edit Tindakan</a></li>';
                         } else {
                             $btn .= '<li><a href="/pendaftaran/' . $row->id . '/input_tanda_vital"><i class="fa fa-print"></i> Input Tanda Vital</a></li>';
                         }
@@ -131,10 +134,10 @@ class PendaftaranController extends Controller
                         //$btn .= '<li><a href="/pendaftaran/' . $row->id . '/cetak_label"><i class="fa fa-plus-square"></i> Cetak Label</a></li>';
                     } elseif (auth()->user()->role == 'kasir') {
                         if ($row->status_pembayaran == 1) {
-                            $btn = '<a class="btn btn-danger btn-sm btn-block" target="new" href="/pembayaran/' . $row->id . '/kwitansi"><i class="fa fa-print"></i> Kwitansi</a></div>';
+                            $btn = '<a class="btn btn-danger btn-sm btn-block" target="new" href="/pembayaran/' . $row->id . '/kwitansi"><i class="fa fa-print"></i></a></div>';
                         } else {
-                            $btn = '<a class="btn btn-danger btn-sm" style="margin-right:5px" href="/pembayaran/' . $row->id . '"><i class="fa fa-money"></i> Pembayaran</a></div>';
-                            $btn .= '<a class="btn btn-danger btn-sm" href="/pembayaran/' . $row->id . '/kwitansi"><i class="fa fa-print"></i> Kwitansi</a></div>';
+                            $btn = '<a class="btn btn-danger btn-sm" style="margin-right:5px" href="/pembayaran/' . $row->id . '"><i class="fa fa-money"></i></a></div>';
+                            $btn .= '<a class="btn btn-danger btn-sm" href="/pembayaran/' . $row->id . '/kwitansi"><i class="fa fa-print"></i></a></div>';
                         }
                     } elseif (auth()->user()->role == 'laboratorium') {
                         $btn = '<li><a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/input-indikator"><i class="fa fa-edit"></i> Input Indikator</a></li>';

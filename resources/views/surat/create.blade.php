@@ -91,7 +91,15 @@
                                     <td>Terapi Yang Telah Diberikan</td>
                                     <td  colspan="3"><input type="text" name="terapi_yang_telah_diberikan" placeholder="Terapi Yang Telah Diberikan" required="required" class="form-control"></td>
                                 </tr>
+                                <tr>
+                                    <td>Spesialis</td>
+                                    <td  colspan="3"><input type="text" name="spesialis" placeholder="Spesialis" required="required" class="form-control"></td>
+                                </tr>
                             @elseif($_GET['jenis']=='surat_sakit')
+                            <tr>
+                                <td>Instansi</td>
+                                <td  colspan="3"><input type="text" name="instansi" placeholder="Instansi" required="required" class="form-control"></td>
+                            </tr>
                             <tr>
                                 <td>Dari Tanggal  - Sampai Tanggal</td>
                                 <td colspan="3">

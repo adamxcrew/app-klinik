@@ -40,10 +40,10 @@
 
     $datetime2 = new DateTime($surat->sampai_tanggal);
 
-    $difference = $datetime1->diff($datetime2);
+    $difference = $datetime1->diff($datetime2)->d+1;
     ?>
     <p>
-        Berdasarkan hasil pemeriksaan yang dilakukan, pasien tersebut dalam keadaan sakit, sehingga perlu istirahat selama {{ $difference->d }} hari. Terhitung tanggal {{ $surat->dari_tanggal }} .sd  {{ $surat->sampai_tanggal }}
+        Berdasarkan hasil pemeriksaan yang dilakukan, pasien tersebut dalam keadaan sakit, sehingga perlu istirahat selama {{ $difference }} hari. Terhitung tanggal {{ $surat->dari_tanggal }} .sd  {{ $surat->sampai_tanggal }}
         <br>Diagnosa 	: {{ $surat->diagnosa_sementara}}
         
         <br>Demikian surat keterangan ini diberikan untuk diketahui dan dipergunakan sebagaimana mestinya.	

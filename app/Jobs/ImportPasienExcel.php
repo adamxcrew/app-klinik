@@ -78,13 +78,13 @@ class ImportPasienExcel implements ShouldQueue
 
 
                     // $perusahaan_penjamin        = PerusahaanAsuransi::firstOrCreate(['nama_perusahaan' => $cells[4]->getValue()], ['nama_perusahaan' => $cells[4]->getValue()]);
-                    
+
                     // $alamat                     = $cells[6]->getValue();
-                    
-                   
-                    
-                    
-                    
+
+
+
+
+
 
                     $wilayah = WilayahAdministratifIndonesia::where('regency_name', $kabupaten)
                                 ->where('district_name', $kecataman)
