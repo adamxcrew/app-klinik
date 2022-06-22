@@ -287,11 +287,12 @@ class PasienController extends Controller
 
     public function import_excel(Request $request)
     {
-        $file = $request->file('file');
-        $nama_file = $file->getClientOriginalName();
-        $destinationPath = 'uploads';
-        $file->move($destinationPath, $nama_file);
-        $filePath = $destinationPath . '/' . $nama_file;
+        // $file = $request->file('file');
+        // $nama_file = $file->getClientOriginalName();
+        $nama_file = "TBL_PASIEN_22062022.xlsx";
+        // $destinationPath = 'uploads';
+        // $file->move($destinationPath, $nama_file);
+        // $filePath = $destinationPath . '/' . $nama_file;
         ImportPasienExcel::dispatch($nama_file);
         //return redirect('barang')->with('message', 'Import Data Sedang Diproses, Check Hasilnya Berkala');
     }

@@ -32,6 +32,8 @@
                         <h3>Tindakan</h3>
                     </div>
                     <div class="box-body">
+                        
+
                         {{ Form::open(['route'=>['tindakan.update', $tindakan->id], 'id' => 'form_parent', 'method' => 'PUT']) }}
                         {{ Form::hidden('permintaan_indikator_internal_id', null, ['id' => 'parent_id']) }}
                         @csrf
@@ -54,6 +56,7 @@
                                     <i class="fa fa-arrow-left"></i> Kembali</a>
                                 <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-save"></i>
                                     Update</button>
+                                <a href="/tindakan/{{$tindakan->id}}?tab=bhp" class="btn btn-danger btn-sm">Lihat BHP</a>
                             </div>
                         </div>
                         {{ Form::close() }}

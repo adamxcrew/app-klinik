@@ -93,12 +93,15 @@ class TindakanController extends Controller
     public function show(Request $request, $id)
     {
         $data['tindakan']   = Tindakan::with('bhp.barang', 'indikator')->find($id);
-        // return view('tindakan.show', $data);
-        if ($data['tindakan']->jenis == 'tindakan_laboratorium') {
-            return view('tindakan.indikator', $data);
-        } else {
-            return view('tindakan.show', $data);
-        }
+        // return view('tindakan.show',$data);
+        $tab = $request->tab=='bhp'?'show':'indikator';
+        return view('tindakan.'.$tab,$data);
+        // // //return view('tindakan.show', $data);
+        // // if ($data['tindakan']->jenis == 'tindakan_laboratorium') {
+        // //     return view('tindakan.indikator', $data);
+        // // } else {
+        // //     return view('tindakan.show', $data);
+        // // }
     }
 
     /**
@@ -153,42 +156,42 @@ class TindakanController extends Controller
     {
 
 
-        // $tindakans = Tindakan::all();
-        // foreach ($tindakans as $row) {
-        //             $tindakan                   = Tindakan::find($row->id);
-        //             $umum                       = $tindakan->tarif_umum;
-        //             $perusahaan                 = $tindakan->tarif_perusahaan;
-        //             $bpjs                       = $tindakan->tarif_bpjs;
+        $tindakans = Tindakan::all();
+        foreach ($tindakans as $row) {
+                    $tindakan                   = Tindakan::find($row->id);
+                    $umum                       = $tindakan->tarif_umum;
+                    $perusahaan                 = $tindakan->tarif_perusahaan;
+                    $bpjs                       = $tindakan->tarif_bpjs;
 
-        //             $klinik_umum    = (50 / 100) * (int) $umum;
-        //             $dokter_umum    = (50 / 100) * (int) $umum;
-        //             $perawat_umum   = (10 / 100) * (int) $klinik_umum;
+                    $klinik_umum    = (50 / 100) * (int) $umum;
+                    $dokter_umum    = (50 / 100) * (int) $umum;
+                    $perawat_umum   = (10 / 100) * (int) $klinik_umum;
 
-        //             $klinik_bpjs    = (50 / 100) * (int) $bpjs;
-        //             $dokter_bpjs    = (50 / 100) * (int) $bpjs;
-        //             $perawat_bpjs   = (10 / 100) * (int) $klinik_bpjs;
+                    $klinik_bpjs    = (50 / 100) * (int) $bpjs;
+                    $dokter_bpjs    = (50 / 100) * (int) $bpjs;
+                    $perawat_bpjs   = (10 / 100) * (int) $klinik_bpjs;
 
-        //             $klinik_perusahaan    = (50 / 100) * (int) $perusahaan;
-        //             $dokter_perusahaan    = (50 / 100) * (int) $perusahaan;
-        //             $perawat_perusahaan   = (10 / 100) * (int) $klinik_perusahaan;
+                    $klinik_perusahaan    = (50 / 100) * (int) $perusahaan;
+                    $dokter_perusahaan    = (50 / 100) * (int) $perusahaan;
+                    $perawat_perusahaan   = (10 / 100) * (int) $klinik_perusahaan;
 
-        //             $pembagian_tarif = [
-        //                 'klinik-umum' => $klinik_umum - $perawat_umum,
-        //                 'dokter-umum' => $dokter_umum,
-        //                 'asisten-umum' => $perawat_umum,
-        //                 'klinik-bpjs' => $klinik_bpjs - $perawat_bpjs,
-        //                 'dokter-bpjs' => $dokter_bpjs,
-        //                 'asisten-bpjs' => $perawat_bpjs,
-        //                 'klinik-perusahaan' => $klinik_perusahaan - $perawat_perusahaan,
-        //                 'dokter-perusahaan' => $dokter_perusahaan,
-        //                 'asisten-perusahaan' => $perawat_perusahaan
-        //             ];
+                    $pembagian_tarif = [
+                        'klinik-umum' => $klinik_umum - $perawat_umum,
+                        'dokter-umum' => $dokter_umum,
+                        'asisten-umum' => $perawat_umum,
+                        'klinik-bpjs' => $klinik_bpjs - $perawat_bpjs,
+                        'dokter-bpjs' => $dokter_bpjs,
+                        'asisten-bpjs' => $perawat_bpjs,
+                        'klinik-perusahaan' => $klinik_perusahaan - $perawat_perusahaan,
+                        'dokter-perusahaan' => $dokter_perusahaan,
+                        'asisten-perusahaan' => $perawat_perusahaan
+                    ];
 
 
 
-        //             $tindakan->update(['pembagian_tarif' => serialize($pembagian_tarif)]);
-        // }
-        // return 'ok';
+                    $tindakan->update(['pembagian_tarif' => serialize($pembagian_tarif)]);
+        }
+        return 'ok';
         $reader = ReaderEntityFactory::createXLSXReader();
         $filepath = public_path('uploads/tarif_tindakan.xlsx');
         $reader->open($filepath);

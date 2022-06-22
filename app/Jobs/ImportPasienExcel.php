@@ -52,21 +52,39 @@ class ImportPasienExcel implements ShouldQueue
                     $cells                      = $row->getCells();
                     $nomor_rekamedis            = $cells[0]->getValue();
                     $nama_pasien                = $cells[1]->getValue();
-                    $tempat_lahir               = $cells[2]->getValue();
-                    $tanggal_lahir              = $cells[3]->getValue();
-                    $perusahaan_penjamin        = PerusahaanAsuransi::firstOrCreate(['nama_perusahaan' => $cells[4]->getValue()], ['nama_perusahaan' => $cells[4]->getValue()]);
-                    $jenis_kelamin              = $cells[5]->getValue() == 'PRIA' ? 'pria' : 'wanita';
-                    $alamat                     = $cells[6]->getValue();
-                    $alamat_tdk_lengkap         = $cells[7]->getValue();
-                    $nomor_hp                   = $cells[8]->getValue();
-                    $kabupaten                  = $cells[9]->getValue();
-                    $kecataman                  = $cells[10]->getValue();
-                    $kelurahan                  = $cells[11]->getValue();
-                    $nama_ibu                   = $cells[12]->getValue();
-                    $nama_penjamin              = $cells[13]->getValue();
-                    $hubungan                   = strtolower($cells[14]->getValue());
-                    $alamat_penjamin            = $cells[15]->getValue();
-                    $telpon_penjamin            = $cells[16]->getValue();
+                    $tempat_lahir               = $cells[4]->getValue();
+                    $tanggal_lahir              = $cells[5]->getValue();
+                    $nomor_asuransi             = $cells[13]->getValue();
+                    $nik                        = $cells[15]->getValue();
+                    $alamat_tdk_lengkap         = $cells[20]->getValue();
+                    $nomor_hp                   = $cells[24]->getValue();
+
+                    $kabupaten                  = $cells[31]->getValue();
+                    $kecataman                  = $cells[32]->getValue();
+                    $kelurahan                  = $cells[33]->getValue();
+                    $suku_bangsa                = $cells[34]->getValue();
+                    $golongan_darah             = $cells[36]->getValue();
+
+                    $nama_ibu                   = $cells[44]->getValue();
+                    $nama_penjamin              = $cells[45]->getValue();
+
+                    $hubungan                   = strtolower($cells[46]->getValue());
+                    $alamat_penjamin            = $cells[47]->getValue();
+                    $telpon_penjamin            = $cells[49]->getValue();
+                    $jenis_kelamin              = 'pria';
+
+
+
+
+
+                    // $perusahaan_penjamin        = PerusahaanAsuransi::firstOrCreate(['nama_perusahaan' => $cells[4]->getValue()], ['nama_perusahaan' => $cells[4]->getValue()]);
+                    
+                    // $alamat                     = $cells[6]->getValue();
+                    
+                   
+                    
+                    
+                    
 
                     $wilayah = WilayahAdministratifIndonesia::where('regency_name', $kabupaten)
                                 ->where('district_name', $kecataman)

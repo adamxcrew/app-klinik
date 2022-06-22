@@ -295,3 +295,4 @@ Route::get('log-riwayat-kunjungan/{id}','PendaftaranController@logRiwayatKunjung
 Route::get('laporan-barang-keluar','LaporanController@laporanBarangKeluar');
 Route::get('import-tarif','TindakanController@import_tarif');
 Route::get('test','TestController@test');
+Route::get('import-pasien','PasienController@import_excel');
