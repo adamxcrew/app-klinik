@@ -65,7 +65,7 @@ class ImportBarangExcel implements ShouldQueue
                     $margin                     = (int) $cells[13]->getValue();
                     $pbf                        = \App\Models\PedagangBesarFarmasi::firstOrCreate(['nama_pbf' => $cells[14]->getValue()], ['nama_pbf' => $cells[14]->getValue()]);
                     \Log::info($pbf);
-                    $untuk_penjamin             = explode("/", $cells[13]->getValue());
+                    $untuk_penjamin             = explode("/", $cells[15]->getValue());
                     $kategori                   = Kategori::firstOrCreate(['nama_kategori' => $cells[16]->getValue()], ['nama_kategori' => $cells[16]->getValue(),'jenis' => $jenis_barang]);
                     //\Log::info($untuk_penjamin);
 
