@@ -54,9 +54,6 @@
         <p style="margin-right:90px;margin-bottom:70px">Cibinong, {{ date('d M Y')}}<br>Dokter Pemeriksa</p>
         <br>
         <br>
-        <br>
-        <br>
-        <br>
 
         @include('surat.ttd_dokter')
     </div>

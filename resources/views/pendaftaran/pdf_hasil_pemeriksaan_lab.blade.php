@@ -22,10 +22,7 @@
 
 </style>
 <div>
-    <div style="float:left">
-        <img src="{{ public_path('image/Pemeriksaan_lab_logo.png')}}" alt="logo">
-        <!-- <img src="http://localhost:8000/image/Pemeriksaan_lab_logo.png" alt="logo"> -->
-    </div>
+    @include('surat.kop_surat')
     <div style="float:left;margin-top:5%;margin-left:5%;">
         <strong>HASIL PEMERIKSAAN LABORATORIUM</strong>
     </div>
