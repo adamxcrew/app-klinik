@@ -10,6 +10,7 @@ use App\Models\PendaftaranObatRacikDetail;
 use Session;
 use App\Models\Pendaftaran;
 use App\Models\CatatanBarangKeluar;
+use App\Models\DistribusiStock;
 
 class PendaftaranResepRacikController extends Controller
 {
@@ -43,6 +44,13 @@ class PendaftaranResepRacikController extends Controller
                     'jumlah' => (int)$request->jumlah[$i][$index],
                 ];
                 $obatRacikDetail = PendaftaranObatRacikDetail::create($detailData);
+
+                // kurangi stock pada poli yang bersangkutan
+                $stock = DistribusiStock::where('barang_id', (int)$request->barang_id[$i][$index])
+                ->where('poliklinik_id', \Auth::user()->poliklinik_id)
+                ->first();
+                $newStock = $stock->jumlah_stock - (int)$request->jumlah[$i][$index];
+                $stock->update(['jumlah_stock' => $newStock]);
 
 
                 CatatanBarangKeluar::create([
@@ -88,6 +96,17 @@ class PendaftaranResepRacikController extends Controller
     public function destroy($id)
     {
         $pendaftaranResep = PendaftaranObatRacik::findOrFail($id);
+
+        $obatRacikDetail = PendaftaranObatRacikDetail::where('pendaftaran_obat_racik_id', $id)->get();
+        foreach ($obatRacikDetail as $obat) {
+        // kembalikan stock
+            $stock = DistribusiStock::where('barang_id', $obat->barang_id)
+            ->where('poliklinik_id', \Auth::user()->poliklinik_id)
+            ->first();
+            $newStock = $stock->jumlah_stock + $obat->jumlah;
+            $stock->update(['jumlah_stock' => $newStock]);
+        }
+
         $pendaftaranResep->delete();
     }
 

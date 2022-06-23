@@ -7,6 +7,7 @@ use App\Models\Barang;
 use App\Models\PendaftaranResep;
 use App\Models\Pendaftaran;
 use App\Models\CatatanBarangKeluar;
+use App\Models\DistribusiStock;
 
 class PendaftaranResepController extends Controller
 {
@@ -27,6 +28,14 @@ class PendaftaranResepController extends Controller
         $request['poliklinik_id']       = \Auth::user()->poliklinik_id;
         $request['satuan_terkecil_id']  = $request->satuan;
         $pendaftaranResep = PendaftaranResep::create($request->all());
+
+        // kurangi stock pada poli yang bersangkutan
+        $stock = DistribusiStock::where('barang_id', $request->barang_id)
+        ->where('poliklinik_id', $request['poliklinik_id'])
+        ->first();
+        $newStock = $stock->jumlah_stock - $request->jumlah;
+        $stock->update(['jumlah_stock' => $newStock]);
+
         CatatanBarangKeluar::create([
             'barang_id'                     =>  $request->barang_id,
             'qty'                           =>  $request->jumlah,
@@ -60,6 +69,13 @@ class PendaftaranResepController extends Controller
     public function destroy($id)
     {
         $pendaftaranResep = PendaftaranResep::findOrFail($id);
+        // kembalikan stock
+        $stock = DistribusiStock::where('barang_id', $pendaftaranResep->barang_id)
+        ->where('poliklinik_id', $pendaftaranResep->poliklinik_id)
+        ->first();
+        $newStock = $stock->jumlah_stock + $pendaftaranResep->jumlah;
+        $stock->update(['jumlah_stock' => $newStock]);
+
         $pendaftaranResep->delete();
     }
 }

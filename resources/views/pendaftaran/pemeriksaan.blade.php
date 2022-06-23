@@ -541,7 +541,7 @@
       placeholder: 'Cari tindakan',
       multiple: false,
       ajax: {
-        url: '/ajax/select2Tindakan',
+        url: '/ajax/select2Tindakan?poliklinik_id='+{{ Auth::user()->poliklinik_id }},
         dataType: 'json',
         delay: 250,
         multiple: false,
@@ -549,7 +549,7 @@
           return {
             results: $.map(data, function(item) {
               return {
-                text: item.kode + ' - ' + item.tindakan,
+                text: item.tindakan,
                 id: item.id
               }
             })
@@ -564,7 +564,7 @@
     placeholder: 'Cari Barang',
     tags: false,
     ajax: {
-      url: '/ajax/select2Barang?pelayanan={{ $pendaftaran->jenisLayanan->nama_perusahaan}}',
+      url: '/ajax/select2Barang?pelayanan={{ $pendaftaran->jenisLayanan->nama_perusahaan}}&poliklinik_id='+{{ Auth::user()->poliklinik_id }},
       dataType: 'json',
       delay: 250,
       processResults: function(data) {
@@ -587,7 +587,7 @@
     placeholder: 'Cari Barang',
     tags: false,
     ajax: {
-      url: '/ajax/select2Barang?pelayanan={{ $pendaftaran->jenisLayanan->nama_perusahaan}}',
+      url: '/ajax/select2Barang?pelayanan={{ $pendaftaran->jenisLayanan->nama_perusahaan}}&poliklinik_id='+{{ Auth::user()->poliklinik_id }},
       dataType: 'json',
       delay: 250,
       processResults: function(data) {
@@ -630,7 +630,7 @@
     placeholder: 'Cari Barang',
     tags: false,
     ajax: {
-      url: '/ajax/select2Barang?pelayanan={{ $pendaftaran->jenisLayanan->nama_perusahaan}}',
+      url: '/ajax/select2Barang?pelayanan={{ $pendaftaran->jenisLayanan->nama_perusahaan}}&poliklinik_id='+{{ Auth::user()->poliklinik_id }},
       dataType: 'json',
       delay: 250,
       processResults: function(data) {
@@ -883,7 +883,7 @@
           placeholder: 'Cari Barang',
           tags: true,
           ajax: {
-            url: '/ajax/select2Barang?pelayanan={{ $pendaftaran->jenisLayanan->nama_perusahaan}}',
+            url: '/ajax/select2Barang?pelayanan={{ $pendaftaran->jenisLayanan->nama_perusahaan}}&poliklinik_id='+{{ Auth::user()->poliklinik_id }},
             dataType: 'json',
             delay: 250,
             processResults: function(data) {

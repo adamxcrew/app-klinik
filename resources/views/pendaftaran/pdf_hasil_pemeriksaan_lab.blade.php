@@ -99,7 +99,7 @@
             font-size:10pt;float:right;margin-right:15%">
             Analisis Laboratorium
             <br> <br> <br> <br> <br> <br> <br> <br> <br>
-            Erna Pebriyani
+            {{ Auth::user()->name}}
         </div>
         {{-- <div style="
             margin-bottom:50px;

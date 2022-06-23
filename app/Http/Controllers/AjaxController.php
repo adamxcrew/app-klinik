@@ -16,6 +16,7 @@ use App\Models\Barang;
 use App\Models\PendaftaranResep;
 use App\Models\Pegawai;
 use App\Models\Pendaftaran;
+use DB;
 
 class AjaxController extends Controller
 {
@@ -66,13 +67,18 @@ class AjaxController extends Controller
 
     public function select2Barang(Request $request)
     {
+
         $data = \DB::table('barang')
-            ->select('id', 'nama_barang', 'harga')
-            ->where('nama_barang', 'like', "%" . $request->q . "%");
+        ->join('distribusi_stock', 'distribusi_stock.barang_id', 'barang.id')
+        ->select('barang.id', DB::raw('CONCAT(barang.nama_barang, " ( ", distribusi_stock.jumlah_stock,")") AS nama_barang'), 'barang.harga')
+        ->where('distribusi_stock.poliklinik_id', $request->poliklinik_id)
+        ->where('distribusi_stock.jumlah_stock', '>', 0)
+        ->where('barang.nama_barang', 'like', "%" . $request->q . "%");
+
 
         if ($request->has('pelayanan')) {
             if (strtoupper($request->pelayanan) == 'BPJS') {
-                $data = $data->where('pelayanan', 'bpjs');
+                $data = $data->where('barang.pelayanan', 'bpjs');
             }
         }
 
@@ -138,9 +144,16 @@ class AjaxController extends Controller
 
     public function select2Tindakan(Request $request)
     {
+        if (in_array($request->poliklinik_id, [2,3])) {
+            $poliklinik_id = 2;
+        } else {
+            $poliklinik_id = $request->poliklinik_id;
+        }
+
+
         $data = \DB::table('tindakan')
             ->select('id', 'tindakan', 'kode')
-            //->where('poliklinik_id', '1')
+            ->where('poliklinik_id', $poliklinik_id)
             ->where('tindakan', 'like', "%" . $request->q . "%")
             ->orWhere('kode', 'like', '%' . $request->q . '%')
             ->limit(20)
