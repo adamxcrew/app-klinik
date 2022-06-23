@@ -101,7 +101,7 @@
             <br> <br> <br> <br> <br> <br> <br> <br> <br>
             Erna Pebriyani
         </div>
-        <div style="
+        {{-- <div style="
             margin-bottom:50px;
             border-top:solid 2px #3C2C3E;
             width:90%;text-align:center;
@@ -129,7 +129,7 @@
                     </td>
                     <td>klinik dr.nurdin wahid</td>
                 </tr>
-            </table>
+            </table> --}}
         </div>
     </div>
 </div>
