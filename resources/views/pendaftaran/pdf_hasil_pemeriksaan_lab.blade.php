@@ -17,7 +17,7 @@
     }
 
     .centered-table td{
-        padding:16px
+        padding:6px
     }
 
 </style>
