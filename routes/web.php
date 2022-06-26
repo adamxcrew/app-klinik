@@ -135,7 +135,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('barang/export_excel', 'BarangController@export_excel')->name('barang.export_excel');
     Route::get('barang/import','BarangController@import_excel');
-    Route::get('stock','BarangController@stock');
+    Route::get('stock/{unit_id?}','BarangController@stock');
+    Route::post('stock-opname-unit','UnitStockController@stockOpnameUnit');
     Route::resource('barang', 'BarangController');
     Route::resource('user', 'UserController');
     ROute::post('pasien/import','PasienController@import_excel');

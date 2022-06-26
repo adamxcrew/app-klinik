@@ -276,6 +276,7 @@ class PendaftaranController extends Controller
                 'lingkar_perut',
                 'djj',
                 'pernafasan',
+                'asuhan_keperawatan',
                 'tfu',
                 'imt'
             )),

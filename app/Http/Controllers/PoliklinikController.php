@@ -103,9 +103,10 @@ class PoliklinikController extends Controller
     {
         $poliklinik = Poliklinik::findOrFail($id);
         $poliklinik->update($request->all());
-        foreach (Barang::all() as $barang) {
-            $params = ['barang_id' => $barang->id,'unit_stock_id' => $request->unit_stock_id,'poliklinik_id' => $id,'jumlah_stock' => 400];
-            DistribusiStock::firstOrCreate($params, $params);
+        foreach (Barang::select('id')->get() as $barang) {
+            $params = ['barang_id' => $barang->id,'unit_stock_id' => $request->unit_stock_id,'jumlah_stock' => 400];
+            $where  = ['barang_id' => $barang->id,'unit_stock_id' => $request->unit_stock_id];
+            DistribusiStock::firstOrCreate($where, $params);
         }
         return redirect(route('poliklinik.index'))->with('message', 'Data Berhasil Di Update');
     }

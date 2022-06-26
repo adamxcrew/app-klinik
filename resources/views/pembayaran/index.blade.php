@@ -91,7 +91,7 @@
                     $nomor++ @endphp
                   @endforeach
 
-                  <tr class="success">
+                  {{-- <tr class="success">
                     <th colspan="7">Biaya BHP</th>
                   </tr>
                     @foreach($userInfo->resepBhp as $row)
@@ -112,12 +112,9 @@
                         <td>0</td>
                         <td style="text-align:left">{{ rupiah($hargaBHP*$row->jumlah)}}</td>
                         <td>{{ $keterangan }}</td>
-                        {{-- <td>
-                          <button type="button" class="btn btn-danger btn-sm"><i class='fa fa-trash' aria-hidden='true'></i></button>
-                        </td> --}}
                       </tr>
                       @php $jumlah += $hargaBHP*$row->jumlah ; $nomor++ @endphp
-                    @endforeach
+                    @endforeach --}}
 
 
                   <tr class="success">

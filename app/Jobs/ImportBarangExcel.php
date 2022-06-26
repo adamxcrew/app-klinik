@@ -58,22 +58,14 @@ class ImportBarangExcel implements ShouldQueue
                     $jumlah_satuan_terbesar     = $cells[4]->getValue();
                     $satuan_terbesar            = Satuan::firstOrCreate(['satuan' => $cells[5]->getValue()], ['satuan' => $cells[5]->getValue()]);
                     $jumlah_satuan_terkecil     = $cells[6]->getValue();
-                    $satuan_terkecil            = Satuan::firstOrCreate(['satuan' => $cells[8]->getValue()], ['satuan' => $cells[7]->getValue()]);
-
+                    $satuan_terkecil            = Satuan::firstOrCreate(['satuan' => $cells[9]->getValue()], ['satuan' => $cells[7]->getValue()]);
                     $jenis                      = strtolower($cells[1]->getValue());
-                    $harga                      = (int) $cells[12]->getValue();
-                    $margin                     = (int) $cells[13]->getValue();
-                    $pbf                        = \App\Models\PedagangBesarFarmasi::firstOrCreate(['nama_pbf' => $cells[14]->getValue()], ['nama_pbf' => $cells[14]->getValue()]);
-                    \Log::info($pbf);
-                    $untuk_penjamin             = explode("/", $cells[15]->getValue());
-                    $kategori                   = Kategori::firstOrCreate(['nama_kategori' => $cells[16]->getValue()], ['nama_kategori' => $cells[16]->getValue(),'jenis' => $jenis_barang]);
-                    //\Log::info($untuk_penjamin);
+                    $harga                      = (int) $cells[13]->getValue();
+                    $margin                     = (int) $cells[15]->getValue();
+                    $pbf                        = \App\Models\PedagangBesarFarmasi::firstOrCreate(['nama_pbf' => $cells[16]->getValue()], ['nama_pbf' => $cells[16]->getValue()]);
+                    $kategori                   = Kategori::firstOrCreate(['nama_kategori' => $cells[18]->getValue()], ['nama_kategori' => $cells[16]->getValue(),'jenis' => $jenis_barang]);
 
-                    if (in_array('BPJS', $untuk_penjamin)) {
-                        $asuransi = "bpjs";
-                    } else {
-                        $asuransi = "umum";
-                    }
+                    $asuransi = strpos($cells[17]->getValue(), 'BPJS') !== false ? 'bpjs' : 'umum';
 
                     $data = [
                         'kode'                      =>  $kode_barang,
@@ -95,8 +87,6 @@ class ImportBarangExcel implements ShouldQueue
                     $matchThese = ['nama_barang' => $nama_barang];
                     Barang::updateOrCreate($matchThese, $data);
                 }
-                //Barang::insert($data);
-
                 $nomor++;
             }
         }

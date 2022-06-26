@@ -139,6 +139,12 @@
                         {!! Form::select('jenis_kasus',['baru'=>'Jenis Kasus Baru','lama'=>'Jenis Kasus Lama'], null, ['class'=>'form-control']) !!}
                       </div>
                     </div>
+                    <div class="col-md-12">
+                      <div class="form-group col-sm-12">
+                        <label>Asuhan Keperawatan</label>
+                        {!! Form::text('asuhan_keperawatan', null, ['class'=>'form-control','Placeholder'=>'Asuhan Keperawatan']) !!}
+                      </div>
+                    </div>
 
                   </div>
               </div>

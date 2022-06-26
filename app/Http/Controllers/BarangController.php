@@ -10,6 +10,7 @@ use App\Models\Kategori;
 use App\Http\Requests\BarangStoreRequest;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\BarangExport;
+use App\Exports\StockBarangExport;
 use App\Jobs\ImportBarangExcel;
 use App\Models\DistribusiStock;
 
@@ -167,21 +168,45 @@ class BarangController extends Controller
         // $file->move($destinationPath, $nama_file);
         // $filePath = $destinationPath . '/' . $nama_file;
         //$filePath = "uploads/template_import_barang_ok.xlsx";
-        $nama_file = "Daftar_Harga_fix.xlsx";
+        $nama_file = "ok/Daftar Harga Farmasi REV 2.xlsx";
         ImportBarangExcel::dispatch($nama_file);
         return redirect('barang')->with('message', 'Import Data Sedang Diproses, Check Hasilnya Berkala');
     }
 
 
-    public function stock(Request $request)
+    public function stock($id = null, Request $request)
     {
+        if (\Auth::user()->role == 'administrator') {
+            $data['unit_stock_id'] = $id;
+        } else {
+            $poliklinik = \App\Models\Poliklinik::find(\Auth::user()->poliklinik_id);
+            $data['unit_stock_id'] = $poliklinik->unit_stock_id;
+        }
         if ($request->ajax()) {
-            $distribusiStock = DistribusiStock::with('barang.satuanTerbesar', 'barang.satuanTerkecil', 'barang.kategori')
-                            ->where('poliklinik_id', $request->poliklinik_id);
+            // $distribusiStock = DistribusiStock::select(
+            //                 'barang.kode as kode',
+            //                 'barang.nama_barang as nama_barang',
+            //                 'distribusi_stock.jumlah_stock as jumlah_stock',
+            //                 'kategori.nama_kategori as nama_kategori',
+            //                 's1.satuan as satuan_terbesar',
+            //                 's2.satuan as satuan_terkecil')
+            //                 ->leftJoin('barang','barang.id','distribusi_stock.barang_id')
+            //                 ->leftJoin('satuan as s1','barang.satuan_terbesar_id','s1.id')
+            //                 ->leftJoin('satuan as s2','barang.satuan_terkecil_id','s2.id')
+            //                 ->leftJoin('kategori','kategori.id','barang.id')
+            //                 ->where('distribusi_stock.unit_stock_id', $request->unit_stock_id);
+
+            $distribusiStock = \DB::table('view_distribusi_stock')->where('unit_stock_id', $request->unit_stock_id);
             return DataTables::of($distribusiStock)
                     ->addIndexColumn()
                     ->make(true);
         }
-        return view('poliklinik.stock');
+
+        if ($request->has('type')) {
+            if ($request->type == 'excel') {
+                return Excel::download(new StockBarangExport($data['unit_stock_id']), 'Data Stock Barang.xlsx');
+            }
+        }
+        return view('poliklinik.stock', $data);
     }
 }

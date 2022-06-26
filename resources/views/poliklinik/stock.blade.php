@@ -20,18 +20,15 @@
             <div class="box">
         
               <div class="box-body">
-                {{-- <a href="{{route('barang.create')}}" class="btn btn-info btn-social btn-flat"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
-                  Tambah Barang</a>
-                  <a href="{{route('barang.export_excel')}}" class="btn btn btn-success btn-social btn-flat"><i class="fa fa-file-excel-o" aria-hidden="true"></i>
-                    Export Excel
-                  </a>
+               
+
                   <button type="button" class="btn btn-primary btn-social btn-flat" data-toggle="modal" data-target="#myModal">
-                    <i class="fa fa-file-excel-o" aria-hidden="true"></i> Import Data
+                    <i class="fa fa-file-excel-o" aria-hidden="true"></i> Stock Opname
                   </button>
 
-                  <hr> --}}
+                  <hr>
                 @include('alert')
-                <input type="hidden" id="poliklinik_id" value="{{Auth::user()->poliklinik_id}}">
+                <input type="hidden" id="unit_stock_id" value="{{$unit_stock_id}}">
                 <table class="table table-bordered table-striped" id="users-table">
                   <thead>
                       <tr>
@@ -40,9 +37,6 @@
                         <th>Satuan Terbesar</th>
                         <th>Satuan Terkecil</th>
                         <th>Kategori</th>
-                        {{-- <th>Harga</th>
-                        <th>Harga + PPN</th> --}}
-                        <th>Harga Jual</th>
                         <th>Sisa Stock</th>
                       </tr>
                   </thead>
@@ -53,6 +47,34 @@
         </div>
       </section>
   </div>
+
+  <!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    {{ Form::open(['url'=>'stock-opname-unit','files'=>true]) }}
+    {{ Form::hidden('unit_stock_id',$unit_stock_id) }}
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Stock Opname</h4>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-success" role="alert">Download Template Import Barang <a href="/stock/{{$unit_stock_id}}?type=excel"><b>Disini</b></a></div>
+        <table class="table table-bordered">
+          <tr>
+            <td>Pilih File</td>
+            <td><input type="file" name="file" accept=".xlsx"></td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+        <button type="submit" class="btn btn-primary">Upload & Proses</button>
+      </div>
+    </div>
+    {{ Form::close() }}
+  </div>
+</div>
 
 @endsection
 
@@ -65,16 +87,13 @@
         $('#users-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '/stock?poliklinik_id='+$("#poliklinik_id").val(),
+            ajax: '/stock?unit_stock_id='+$("#unit_stock_id").val(),
             columns: [
-                { data: 'barang.kode', name: 'barang.kode' },
-                { data: 'barang.nama_barang', name: 'barang.nama_barang' },
-                { data: 'barang.satuan_terbesar.satuan', name: 'barang.satuan_terbesar.satuan' },
-                { data: 'barang.satuan_terkecil.satuan', name: 'barang.satuan_terkecil.satuan' },
-                { data: 'barang.kategori.nama_kategori', name: 'barang.kategori.nama_kategori' },
-                // { data: 'barang.harga', name: 'barang.harga' },
-                // { data: 'barang.harga_ppn', name: 'barang.harga_ppn' },
-                { data: 'barang.harga_jual', name: 'barang.harga_jual' },
+                { data: 'kode', name: 'kode' },
+                { data: 'nama_barang', name: 'nama_barang' },
+                { data: 'satuan_terbesar', name: 'satuan_terbesar' },
+                { data: 'satuan_terkecil', name: 'satuan_terkecil' },
+                { data: 'nama_kategori', name: 'nama_kategori' },
                 { data: 'jumlah_stock', name: 'jumlah_stock' }
             ]
         });

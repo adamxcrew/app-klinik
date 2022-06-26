@@ -13,7 +13,7 @@ class Poliklinik extends Model
 
     public function unitStock()
     {
-        return $this->belongsTo('App\Models\UnitStock');
+        return $this->belongsTo('App\Models\UnitStock')->withDefault(['nama_unit'=>'Belum Terhubung']);
     }
 
 

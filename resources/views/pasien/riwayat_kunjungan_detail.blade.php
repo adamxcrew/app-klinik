@@ -51,6 +51,34 @@
     <td>Fungsi Penciuman</td>
     <td>{{ $pendaftaran->pendaftaran->tanda_tanda_vital['fungsi_penciuman']}}</td>
   </tr>
+  <tr>
+    <td>Pernafasan</td>
+    <td>{{ $pendaftaran->pendaftaran->tanda_tanda_vital['pernafasan']}}</td>
+  </tr>
+  <tr>
+    <td>Lingkar Perut</td>
+    <td>{{ $pendaftaran->pendaftaran->tanda_tanda_vital['lingkar_perut']}}</td>
+  </tr>
+  <tr>
+    <td>DJJ</td>
+    <td>{{ $pendaftaran->pendaftaran->tanda_tanda_vital['djj']}}</td>
+  </tr>
+  <tr>
+    <td>Kesadaran</td>
+    <td>{{ $pendaftaran->pendaftaran->tanda_tanda_vital['kesadaran']}}</td>
+  </tr>
+  <tr>
+    <td>TFU</td>
+    <td>{{ $pendaftaran->pendaftaran->tanda_tanda_vital['tfu']}}</td>
+  </tr>
+  <tr>
+    <td>IMT</td>
+    <td>{{ $pendaftaran->pendaftaran->tanda_tanda_vital['imt']}}</td>
+  </tr>
+  <tr>
+    <td>Asuhan Keperawatan</td>
+    <td>{{ $pendaftaran->pendaftaran->tanda_tanda_vital['asuhan_keperawatan']??'-'}}</td>
+  </tr>
 </table>
 
 <h4>Riwayat Tindakan</h4>

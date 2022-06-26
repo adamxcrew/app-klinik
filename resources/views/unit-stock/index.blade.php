@@ -29,7 +29,7 @@
                       <tr>
                         <th width="10">Nomor</th>
                         <th>Nama Unit</th>
-                        <th width="60">#</th>
+                        <th width="90">#</th>
                       </tr>
                   </thead>
               </table>

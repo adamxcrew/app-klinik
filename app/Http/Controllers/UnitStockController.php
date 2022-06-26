@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use DataTables;
 use App\Models\UnitStock;
 use App\Http\Requests\UnitStockStoreRequest;
+use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
+use App\Models\DistribusiStock;
 
 class UnitStockController extends Controller
 {
@@ -19,7 +21,8 @@ class UnitStockController extends Controller
         if ($request->ajax()) {
             return DataTables::of(UnitStock::all())
             ->addColumn('action', function ($row) {
-                $btn = \Form::open(['url' => 'unit-stock/' . $row->id, 'method' => 'DELETE','style' => 'float:right;margin-right:5px']);
+                $btn = '<a class="btn btn-danger btn-sm" style="float:right;margin-right:5px" href="/stock/' . $row->id . '"><i class="fa fa-eye" aria-hidden="true"></i></a>';
+                $btn .= \Form::open(['url' => 'unit-stock/' . $row->id, 'method' => 'DELETE','style' => 'float:right;margin-right:5px']);
                 $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
                 $btn .= \Form::close();
                 $btn .= '<a class="btn btn-danger btn-sm" href="/unit-stock/' . $row->id . '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
@@ -102,5 +105,39 @@ class UnitStockController extends Controller
         $unit_stock = UnitStock::findOrFail($id);
         $unit_stock->delete();
         return redirect(route('unit-stock.index'))->with('message', 'Data unit_stock biaya Berhasil Dihapus');
+    }
+
+
+    public function stockOpnameUnit(Request $request)
+    {
+        $file               = $request->file('file');
+        $nama_file          = $file->getClientOriginalName();
+        $destinationPath    = 'uploads';
+        $file->move($destinationPath, $nama_file);
+        $filePath = $destinationPath . '/' . $nama_file;
+        $reader = ReaderEntityFactory::createXLSXReader();
+        $reader->open($filePath);
+
+        foreach ($reader->getSheetIterator() as $sheet) {
+            $nomor = 1;
+            foreach ($sheet->getRowIterator() as $row) {
+                if ($nomor > 1) {
+                    $cells                      = $row->getCells();
+                    $nama_barang                = $cells[0]->getValue();
+                    $barang                     = \App\Models\Barang::where('nama_barang', $nama_barang)->first();
+                    $unit_stock                 = \App\Models\UnitStock::where('nama_unit', $cells[1]->getValue())->first();
+                    $stock_baru                 = $cells[3]->getValue() ?? null;
+
+                    if ($stock_baru != null) {
+                        DistribusiStock::where('unit_stock_id', $unit_stock->id)
+                                    ->where('barang_id', $barang->id)
+                                    ->update(['jumlah_stock' => $stock_baru]);
+                    }
+                }
+                $nomor++;
+            }
+        }
+
+        return redirect('/stock/' . $request->unit_stock_id)->with('message', 'Proses Stock Opname Selesai');
     }
 }
