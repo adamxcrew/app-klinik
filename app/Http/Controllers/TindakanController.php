@@ -288,6 +288,18 @@ class TindakanController extends Controller
                 \Log::info($nomor);
 
                 if ($nomor != 'Nomor' && $poli != null) {
+                    $pembagian_tarif = [
+                        'klinik-umum'       => $fee_klinik_umum,
+                        'dokter-umum'       => $fee_dokter_umum,
+                        'asisten-umum'      => $fee_perawat_umum,
+                        'klinik-bpjs'       => $fee_klinik_bpjs,
+                        'dokter-bpjs'       => $fee_dokter_bpjs,
+                        'asisten-bpjs'      => $fee_perawat_bpjs,
+                        'klinik-perusahaan' => $fee_klinik_perusahaan,
+                        'dokter-perusahaan' => $fee_dokter_perusahaan,
+                        'asisten-perusahaan' => $fee_perawat_perusahaan
+                    ];
+
                     $tindakan = Tindakan::create([
                             'kode'              =>  null,
                             'tindakan'          =>  $nama_tindakan,
@@ -295,6 +307,7 @@ class TindakanController extends Controller
                             'tarif_umum'        =>  $tarif_umum,
                             'tarif_bpjs'        =>  $tarif_bpjs,
                             'tarif_perusahaan'  =>  $tarif_perusahaan,
+                            'pembagian_tarif'   => serialize($pembagian_tarif),
                             'iterasi'           =>  $iterasi == 'Ya' ? 1 : 0,
                             'penunjang'         =>  0,
                             'quota'             =>  $quota,
@@ -330,5 +343,6 @@ class TindakanController extends Controller
                 }
             }
         }
+        return redirect('tindakan')->with('message', 'Import Tindakan sedang berlangsung');
     }
 }
