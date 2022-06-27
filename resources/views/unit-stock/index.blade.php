@@ -22,6 +22,7 @@
               <div class="box-body">
                   <a href="{{route('unit-stock.create')}}" class="btn btn-info btn-social btn-flat"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
                      Tambah Data</a>
+                  <a href="/unit-stock/sinkronisasi" class="btn btn-info btn-social btn-flat">Sinkronisasi Data</a>
                   <hr>
                 @include('alert')
                 <table class="table table-bordered table-striped" id="users-table">

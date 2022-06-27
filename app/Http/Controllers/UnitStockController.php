@@ -8,7 +8,8 @@ use App\Models\UnitStock;
 use App\Http\Requests\UnitStockStoreRequest;
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 use App\Models\DistribusiStock;
-
+use App\Models\Poliklinik;
+use App\Models\Barang;
 class UnitStockController extends Controller
 {
     /**
@@ -139,5 +140,17 @@ class UnitStockController extends Controller
         }
 
         return redirect('/stock/' . $request->unit_stock_id)->with('message', 'Proses Stock Opname Selesai');
+    }
+
+    public function sinkronisasi()
+    {
+        foreach (Poliklinik::where('unit_stock_id', '>', 0)->get() as $poliklinik) {
+            foreach (Barang::select('id')->get() as $barang) {
+                $params = ['barang_id' => $barang->id,'unit_stock_id' => $poliklinik->unit_stock_id,'jumlah_stock' => 0];
+                DistribusiStock::updateOrCreate(['barang_id' => $barang->id,'unit_stock_id' => $poliklinik->unit_stock_id], $params);
+            }
+        }
+
+        return redirect('poliklinik')->with('message', 'Proses Sinkronisasi Selesai');
     }
 }

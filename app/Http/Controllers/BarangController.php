@@ -167,6 +167,7 @@ class BarangController extends Controller
     {
         if ($request->kosongkan == 1) {
             Barang::truncate();
+            DistribusiStock::truncate();
         }
         $file           = $request->file('file');
         $nama_file      = $file->getClientOriginalName();
