@@ -249,9 +249,11 @@ class TindakanController extends Controller
 
     public function import(Request $request)
     {
-        // Tindakan::truncate();
-        // TindakanBHP::truncate();
-        // Barang::truncate();
+        if ($request->kosongkan == 1) {
+            Tindakan::truncate();
+            TindakanBHP::truncate();
+        }
+
         $reader = ReaderEntityFactory::createXLSXReader();
         $file           = $request->file('file');
         $nama_file      = $file->getClientOriginalName();
@@ -283,37 +285,41 @@ class TindakanController extends Controller
                 $nama_bhp               = $cells[18];
                 $satuan                 = $cells[19];
                 $jumlah                 = $cells[20];
-                $poli                   = \App\Models\Poliklinik::where('nama', $cells[21])->first();
+
 
                 \Log::info($nomor);
 
-                if ($nomor != 'Nomor' && $poli != null) {
-                    $pembagian_tarif = [
-                        'klinik-umum'       => $fee_klinik_umum,
-                        'dokter-umum'       => $fee_dokter_umum,
-                        'asisten-umum'      => $fee_perawat_umum,
-                        'klinik-bpjs'       => $fee_klinik_bpjs,
-                        'dokter-bpjs'       => $fee_dokter_bpjs,
-                        'asisten-bpjs'      => $fee_perawat_bpjs,
-                        'klinik-perusahaan' => $fee_klinik_perusahaan,
-                        'dokter-perusahaan' => $fee_dokter_perusahaan,
-                        'asisten-perusahaan' => $fee_perawat_perusahaan
-                    ];
+                if ($nomor != 'Nomor') {
+                    if ($nama_tindakan != '') {
+                        $poli                   = \App\Models\Poliklinik::where('nama', $cells[21])->first();
+                        $pembagian_tarif = [
+                            'klinik-umum'       => $fee_klinik_umum,
+                            'dokter-umum'       => $fee_dokter_umum,
+                            'asisten-umum'      => $fee_perawat_umum,
+                            'klinik-bpjs'       => $fee_klinik_bpjs,
+                            'dokter-bpjs'       => $fee_dokter_bpjs,
+                            'asisten-bpjs'      => $fee_perawat_bpjs,
+                            'klinik-perusahaan' => $fee_klinik_perusahaan,
+                            'dokter-perusahaan' => $fee_dokter_perusahaan,
+                            'asisten-perusahaan' => $fee_perawat_perusahaan
+                        ];
 
-                    $tindakan = Tindakan::create([
-                            'kode'              =>  null,
-                            'tindakan'          =>  $nama_tindakan,
-                            'poliklinik_id'     =>  $poli->id ?? 0,
-                            'tarif_umum'        =>  $tarif_umum,
-                            'tarif_bpjs'        =>  $tarif_bpjs,
-                            'tarif_perusahaan'  =>  $tarif_perusahaan,
-                            'pembagian_tarif'   => serialize($pembagian_tarif),
-                            'iterasi'           =>  $iterasi == 'Ya' ? 1 : 0,
-                            'penunjang'         =>  0,
-                            'quota'             =>  $quota,
-                            'jenis'             => $poli->nama == 'LAB' ? 'tindakan_laboratorium' : 'tindakan_medis',
-                            'pelayanan'         => 'umum'
-                    ]);
+                        $tindakan = Tindakan::create([
+                                'kode'              =>  null,
+                                'tindakan'          =>  $nama_tindakan,
+                                'poliklinik_id'     =>  $poli->id ?? 0,
+                                'tarif_umum'        =>  $tarif_umum,
+                                'tarif_bpjs'        =>  $tarif_bpjs,
+                                'tarif_perusahaan'  =>  $tarif_perusahaan,
+                                'pembagian_tarif'   => serialize($pembagian_tarif),
+                                'iterasi'           =>  $iterasi == 'Ya' ? 1 : 0,
+                                'penunjang'         =>  0,
+                                'quota'             =>  $quota,
+                                'jenis'             => $poli->nama == 'LAB' ? 'tindakan_laboratorium' : 'tindakan_medis',
+                                'pelayanan'         => 'umum'
+                        ]);
+                    }
+
 
                     // insert barang
                     $pbf        = \App\Models\PedagangBesarFarmasi::firstOrCreate(['nama_pbf' => 'Default'], ['nama_pbf' => 'Default']);
