@@ -24,8 +24,8 @@
         <br>
     <b>{{ date("d/m/Y", strtotime($pendaftaran->pasien->tanggal_lahir))}}</b><br>
     {{ $pendaftaran->kode }}  {{ date('d/m/Y H:i')}} <br>ED : <br>
-    {{ $item['barang']}}<br>
-    {{ $item['jumlah']}} {{ $item['aturan_pakai']}}
+    {{ $item['barang']}}  - {{ $item['jumlah']}}<br>
+    {{ $item['aturan_pakai']}}
     </p>
 </div>
 
