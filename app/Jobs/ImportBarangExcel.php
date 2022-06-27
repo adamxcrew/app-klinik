@@ -31,6 +31,7 @@ class ImportBarangExcel implements ShouldQueue
         $this->filePath = $filePath;
     }
 
+
     /**
      * Execute the job.
      *

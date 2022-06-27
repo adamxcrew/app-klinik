@@ -165,7 +165,7 @@ class BarangController extends Controller
         $file           = $request->file('file');
         $nama_file      = $file->getClientOriginalName();
         $file->move("uploads", $nama_file);
-        $filePath = "uploads/".$nama_file;
+        $filePath = "uploads/" . $nama_file;
         ImportBarangExcel::dispatch($filePath);
         return redirect('barang')->with('message', 'Import Data Sedang Diproses, Check Hasilnya Berkala');
     }
