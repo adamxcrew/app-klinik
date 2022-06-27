@@ -284,11 +284,10 @@ class TindakanController extends Controller
                 $satuan                 = $cells[19];
                 $jumlah                 = $cells[20];
                 $poli                   = \App\Models\Poliklinik::where('nama', $cells[21])->first();
-                
-                return $poli;
 
-                if ($poli != null) {
-                    return 'anjing';
+                \Log::info($nomor);
+
+                if ($nomor != 'Nomor' && $poli != null) {
                     $tindakan = Tindakan::create([
                             'kode'              =>  null,
                             'tindakan'          =>  $nama_tindakan,
@@ -303,34 +302,32 @@ class TindakanController extends Controller
                             'pelayanan'         => 'umum'
                     ]);
 
-                    return $tindakan;
+                    // insert barang
+                    $pbf        = \App\Models\PedagangBesarFarmasi::firstOrCreate(['nama_pbf' => 'Default'], ['nama_pbf' => 'Default']);
+                    $kategori   = \App\Models\Kategori::firstOrCreate(['nama_kategori' => 'Default'], ['nama_kategori' => 'Default']);
+                    $satuan     = \App\Models\Satuan::firstOrCreate(['satuan' => $satuan], ['satuan' => $satuan]);
+                    $barang = [
+                        'kode'                      =>  null,
+                        'nama_barang'               =>  $nama_bhp,
+                        'keterangan'                =>  '',
+                        'harga'                     =>  0,
+                        'kategori_id'               =>  $kategori->id, // alkes
+                        'satuan_terbesar_id'        =>  1,
+                        'satuan_terkecil_id'        =>  $satuan->id,
+                        'jenis_barang'              =>  'alkes',
+                        'margin'                    =>  0,
+                        'pelayanan'                 =>  'umum',
+                        'jumlah_satuan_terbesar'    =>  $satuan->id,
+                        'jumlah_satuan_terkecil'    =>  $satuan->id,
+                        'pbf_id'                    =>  $pbf->id
+                    ];
+
+                    $brg = \App\Models\Barang::firstOrCreate(['nama_barang' => $nama_bhp], $barang);
+                    TindakanBHP::create([
+                        'barang_id'     => $brg->id,
+                        'tindakan_id'   => $tindakan->id,
+                        'jumlah'        => $jumlah]);
                 }
-
-                // // insert barang
-                // $pbf        = \App\Models\PedagangBesarFarmasi::firstOrCreate(['nama_pbf' => 'Default'], ['nama_pbf' => 'Default']);
-                // $kategori   = \App\Models\Kategori::firstOrCreate(['nama_kategori' => 'Default'], ['nama_kategori' => 'Default']);
-                // $satuan     = \App\Models\Satuan::firstOrCreate(['satuan' => $satuan], ['satuan' => $satuan]);
-                // $barang = [
-                //     'kode'                      =>  null,
-                //     'nama_barang'               =>  $nama_bhp,
-                //     'keterangan'                =>  '',
-                //     'harga'                     =>  0,
-                //     'kategori_id'               =>  $kategori->id, // alkes
-                //     'satuan_terbesar_id'        =>  1,
-                //     'satuan_terkecil_id'        =>  $satuan->id,
-                //     'jenis_barang'              =>  'alkes',
-                //     'margin'                    =>  0,
-                //     'pelayanan'                 =>  'umum',
-                //     'jumlah_satuan_terbesar'    =>  0,
-                //     'jumlah_satuan_terkecil'    =>  0,
-                //     'pbf_id'                    =>  $pbf->id
-                // ];
-
-                // $brg = \App\Models\Barang::firstOrCreate(['nama_barang' => $nama_bhp], $barang);
-                // TindakanBHP::create([
-                //     'barang_id'     => $brg->id,
-                //     'tindakan_id'   => $tindakan->id,
-                //     'jumlah'        => $jumlah]);
             }
         }
     }
