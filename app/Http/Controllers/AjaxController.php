@@ -16,6 +16,7 @@ use App\Models\Barang;
 use App\Models\PendaftaranResep;
 use App\Models\Pegawai;
 use App\Models\Pendaftaran;
+use App\Models\Poliklinik;
 use DB;
 
 class AjaxController extends Controller
@@ -67,11 +68,11 @@ class AjaxController extends Controller
 
     public function select2Barang(Request $request)
     {
-
+        $poliklinik = Poliklinik::find($request->poliklinik_id);
         $data = \DB::table('barang')
         ->join('distribusi_stock', 'distribusi_stock.barang_id', 'barang.id')
         ->select('barang.id', DB::raw('CONCAT(barang.nama_barang, " ( ", distribusi_stock.jumlah_stock,")") AS nama_barang'), 'barang.harga')
-        ->where('distribusi_stock.poliklinik_id', $request->poliklinik_id)
+        ->where('distribusi_stock.unit_stock_id', $poliklinik->unit_stock_id)
         ->where('distribusi_stock.jumlah_stock', '>', 0)
         ->where('barang.nama_barang', 'like', "%" . $request->q . "%");
 
