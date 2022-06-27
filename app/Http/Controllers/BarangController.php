@@ -165,6 +165,9 @@ class BarangController extends Controller
 
     public function import_excel(Request $request)
     {
+        if ($request->kosongkan == 1) {
+            Barang::truncate();
+        }
         $file           = $request->file('file');
         $nama_file      = $file->getClientOriginalName();
         $file->move("uploads", $nama_file);

@@ -5,6 +5,7 @@
             <th scope="col">Kode Barang</th>
             <th scope="col">Nama Barang</th>
             <th scope="col">Jumlah Dipakai</th>
+            <th>Satuan</th>
             <th scope="col">Action</th>
         </tr>
     </thead>
@@ -16,6 +17,7 @@
                 <td>{{$row->barang->kode}}</td>
                 <td>{{$row->barang->nama_barang}}</td>
                 <td style="text-align:right">{{$row->jumlah}}</td>
+                <td>{{$row->satuan->satuan}}</td>
                 <td>
                     <button class="btn btn-danger btn-hapus-barang" onClick="hapus_barang({{$row->id}})"><i class="fa fa-trash"></i></button>
                 </td>

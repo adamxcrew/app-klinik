@@ -71,6 +71,15 @@
              {{ Form::file('file')}}
            </td>
          </tr>
+         <tr>
+          <td>Kosongkan Data Sebelumnya ?</td>
+          <td>
+            <select name="kosongkan" class="form-control">
+              <option value="0">Tidak</option>
+              <option value="1">Ya</option>
+            </select>
+          </td>
+        </tr>
        </table>
       </div>
       <div class="modal-footer">

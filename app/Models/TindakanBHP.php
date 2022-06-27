@@ -19,4 +19,9 @@ class TindakanBHP extends Model
     {
         return $this->belongsTo('App\Models\Tindakan');
     }
+
+    public function satuan()
+    {
+        return $this->belongsTo('App\Models\Satuan');
+    }
 }
