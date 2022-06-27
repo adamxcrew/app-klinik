@@ -9,6 +9,10 @@ use DataTables;
 use App\Models\NomorAntrian;
 use App\Models\PendaftaranFeeTindakan;
 use App\Models\TindakanBHP;
+use App\Models\Tindakan;
+use App\Models\Barang;
+use App\Models\PendaftaranResep;
+use App\Models\PendaftaranTindakan;
 
 class PendaftaranRujukanLabController extends Controller
 {
@@ -46,7 +50,7 @@ class PendaftaranRujukanLabController extends Controller
         $pendaftaran        = Pendaftaran::with('perusahaanAsuransi')->find($request->pendaftaran_id);
         $tindakan           = Tindakan::find($request->tindakan_id);
 
-        $request['poliklinik_id'] = \Auth::user()->poliklinik_id;
+        $request['poliklinik_id'] = $request->poliklinik_id;
 
         // apakah umum, BPJS atau lain
         $jenisPendaftaran   =  strtolower($pendaftaran->perusahaanAsuransi->nama_perusahaan);
@@ -148,8 +152,8 @@ class PendaftaranRujukanLabController extends Controller
 
     public function destroy($id)
     {
-
-        $data = NomorAntrian::findOrFail($id);
+        $data = NomorAntrian::with('pendaftaran')->findOrFail($id);
+        PendaftaranTindakan::where('pendaftaran_id', $data->pendaftaran_id)->where('poliklinik_id', $data->poliklinik_id)->delete();
         $data->delete();
     }
 

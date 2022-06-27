@@ -9,7 +9,7 @@ class NomorAntrian extends Model
 {
     protected $table = "nomor_antrian";
 
-    protected $fillable = ['pendaftaran_id','poliklinik_id','nomor_antrian','dokter_id','tindakan_id','status_pemeriksaan'];
+    protected $fillable = ['pendaftaran_id','poliklinik_id','nomor_antrian','dokter_id','tindakan_id','status_pemeriksaan','sudah_dipanggil'];
 
 
     public function poliklinik()

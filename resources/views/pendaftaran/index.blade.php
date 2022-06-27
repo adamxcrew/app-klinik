@@ -250,7 +250,7 @@
             $('#jumlah_total_antrian').text(response.jumlah_total_antrian);
             $('#sisa_antrian').text(response.sisa_antrian);
 
-            if(response.sisa_antrian==0)
+            if(response.sisa_antrian==response.jumlah_total_antrian)
             {
               $(".btn-call").prop('disabled', true);
             }
