@@ -102,7 +102,7 @@
             </tbody>
             @endforeach
 
-            @foreach($bhps as $bhp)
+            {{-- @foreach($bhps as $bhp)
             <?php
                     if($pendaftaran->perusahaanAsuransi->nama_perusahaan=='BPJS' && $bhp->barang->pelayanan=='bpjs'){
                     $hargaBHP = 0;
@@ -127,7 +127,7 @@
                     $nomor++;
                 @endphp
             </tbody>
-            @endforeach
+            @endforeach --}}
 
 
             @foreach($nonRaciks as $non)

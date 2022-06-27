@@ -32,6 +32,8 @@ use App\User;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\PendaftaranTindakan;
 use App\Models\NomorAntrian;
+use App\Models\PendaftaranFeeTindakan;
+use App\Models\TindakanBHP;
 
 class PendaftaranController extends Controller
 {
@@ -72,16 +74,18 @@ class PendaftaranController extends Controller
             $pendaftaran->whereIn('status_pelayanan', ['selesai_pemeriksaan_medis','selesai_pelayanan','pemeriksaan_laboratorium']);
         }
 
+        if (auth()->user()->role == 'laboratorium') {
+            //$pendaftaran->where('status_pembayaran', 1);
+            //$pendaftaran->where('nomor_antrian.poliklinik_id',auth()->user()->poliklinik_id);
+            $pendaftaran->whereIn('status_pelayanan', ['selesai_pembayaran','pemeriksaan_laboratorium']);
+        }
+
         if (auth()->user()->role == 'kasir') {
             $pendaftaran->whereIn('status_pelayanan', ['selesai_pelayanan','sedang_dirujuk','selesai_pemeriksaan_medis']);
         }
 
         if (auth()->user()->role == 'apoteker') {
             $pendaftaran->where('status_pembayaran', 1);
-        }
-
-        if (auth()->user()->role == 'laboratorium') {
-            $pendaftaran->where('status_pelayanan', 'pemeriksaan_laboratorium');
         }
 
         if (auth()->user()->role == 'bagian_pendaftaran') {
@@ -200,7 +204,7 @@ class PendaftaranController extends Controller
     public function input_indikator($id)
     {
         $data['pendaftaran']            = Pendaftaran::with('pasien')->find($id);
-        $nomorAntrian                   = NomorAntrian::with('poliklinik')->where('pendaftaran_id', $id)->where('poliklinik_id', \Auth::user()->poliklinik_id)->first();
+        $nomorAntrian                   = NomorAntrian::with('poliklinik')->where('pendaftaran_id', $id)->first();
         $data['tindakan']               = Tindakan::where('id', $nomorAntrian->tindakan_id)->first();
         $data['hasilPemeriksaan']       = HasilPemeriksaanLab::where('pendaftaran_id', $id)->get();
         $data['nomorAntrian']           = $nomorAntrian;
@@ -237,7 +241,7 @@ class PendaftaranController extends Controller
         $listIndikator = HasilPemeriksaanLab::where('pendaftaran_id', $id)->get();
 
         $data['pendaftaran'] = NomorAntrian::where('pendaftaran_id', $id)
-        ->where('poliklinik_id', \Auth::user()->poliklinik_id)
+        //->where('poliklinik_id', \Auth::user()->poliklinik_id)
         ->with('poliklinik', 'dokter')
         ->first();
         // $data['jenisPemeriksaan'] = JenisPemeriksaanLab::findOrFail($id);
@@ -313,7 +317,119 @@ class PendaftaranController extends Controller
             'nomor_antrian'     =>  ($nomor + 1)
         ];
         NomorAntrian::create($nomorAntrianData);
+
+        if ($request->tindakan_id != null) {
+            $request['pendaftaran_id'] = $data->id;
+            $this->store_tindakan($request);
+        }
         return redirect('/pendaftaran/' . $data->id . '/cetak');
+    }
+
+    // simpan tindakan langsung dari pendaftaran
+    public function store_tindakan($request)
+    {
+
+        $pendaftaran        = Pendaftaran::with('perusahaanAsuransi')->find($request->pendaftaran_id);
+        $tindakan           = Tindakan::find($request->tindakan_id);
+
+        $request['poliklinik_id'] = \Auth::user()->poliklinik_id;
+
+        // apakah umum, BPJS atau lain
+        $jenisPendaftaran   =  strtolower($pendaftaran->perusahaanAsuransi->nama_perusahaan);
+        if (!in_array($jenisPendaftaran, ['bpjs','umum'])) {
+            $jenisPendaftaran = 'perusahaan';
+        }
+        $listTarif      = $tindakan->pembagian_tarif;
+
+        $fee_tindakan = [];
+        foreach ($listTarif as $index => $item) {
+            $jenis = explode('-', $index);
+            if ($jenis[1] == $jenisPendaftaran) {
+                $fee_tindakan[$index] = $item;
+            }
+        }
+
+        // Pemberian Fee Untuk Dokter
+
+        $pendaftaranFeeTindakan = PendaftaranFeeTindakan::create([
+            'tindakan_id'       =>  $request->tindakan_id,
+            'pendaftaran_id'    =>  $request->pendaftaran_id,
+            'poliklinik_id'     =>  $request->poliklinik_id ?? 0,
+            'jumlah_fee'        =>  $fee_tindakan['dokter-' . $jenisPendaftaran],
+            'user_id'           =>  $request->dokter,
+            'pelaksana'         => 'Dokter'
+        ]);
+
+        // Pemberian fee Untuk Klinik
+        $pendaftaranFeeTindakan = PendaftaranFeeTindakan::create([
+            'tindakan_id'       =>  $request->tindakan_id,
+            'pendaftaran_id'    =>  $request->pendaftaran_id,
+            'poliklinik_id'     =>  $request->poliklinik_id ?? 0,
+            'jumlah_fee'        =>  $fee_tindakan['klinik-' . $jenisPendaftaran],
+            'pelaksana'         => 'Klinik'
+        ]);
+
+        // Pemberian Fee Untuk Asisten
+        if ($request->asisten != null) {
+            $pendaftaranFeeTindakan = PendaftaranFeeTindakan::create([
+                'tindakan_id'       =>  $request->tindakan_id,
+                'pendaftaran_id'    =>  $request->pendaftaran_id,
+                'poliklinik_id'     =>  $request->poliklinik_id ?? 0,
+                'jumlah_fee'        =>  $fee_tindakan['asisten-' . $jenisPendaftaran],
+                'user_id'           =>  $request->asisten,
+                'pelaksana'         => 'Asisten'
+            ]);
+        }
+
+
+        // input BHP yang digunakan ketika tindakan
+        $tindakanBHP = TindakanBHP::where('tindakan_id', $request->tindakan_id)->get();
+        foreach ($tindakanBHP as $item) {
+            $barang = Barang::find($item->barang_id);
+            if ($barang != null) {
+                PendaftaranResep::create([
+                    'pendaftaran_id'        =>  $request->pendaftaran_id,
+                    'barang_id'             =>  $item->barang_id,
+                    'jumlah'                =>  $item->jumlah,
+                    'satuan_terkecil_id'    =>  $barang->satuan_terkecil_id,
+                    'aturan_pakai'          =>  '-',
+                    'jenis'                 =>  'bhp',
+                    'tindakan_id'           => $request->tindakan_id,
+                    'harga'                 =>  $barang->harga_jual,
+                ]);
+            }
+        }
+        $request['fee'] = $tindakan['tarif_' . strtolower($jenisPendaftaran)];
+        $request['qty'] = 1;
+
+        // cek apakah tindakan iterasi
+        if ($tindakan->iterasi == 1) {
+            // cek apakah dia masih punya quota
+
+            $paketIterasi = PaketIterasi::where('tindakan_id', $tindakan->id)
+                            ->where('pasien_id', $pendaftaran->pasien_id)
+                            ->first();
+
+
+            if ($paketIterasi) {
+                // kalau sudah ada maka kurangi stock nya
+                $request['discount'] = $tindakan['tarif_' . strtolower($jenisPendaftaran)];
+                $paketIterasi->update(['quota' => ($paketIterasi->quota - 1)]);
+            } else {
+                $request['pasien_id'] = $pendaftaran->pasien_id;
+                $request['quota'] = $tindakan->quota;
+                //return $request->all();
+                $paketIterasi = PaketIterasi::create($request->all());
+                $request['paket_iterasi_id'] = $paketIterasi->id;
+                // set sisa quota dikurang 1 karna sedang digunakan
+                $request['quota'] = $tindakan->quota - 1;
+                RiwayatPenggunaanTindakanIterasi::create($request->all());
+                // set quota yang akan ditagihkan sesuai dengan data master
+                $request['qty'] = $tindakan->quota;
+            }
+        }
+
+        PendaftaranTindakan::create($request->all());
     }
 
     public function edit($id)

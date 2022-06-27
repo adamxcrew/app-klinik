@@ -24,6 +24,7 @@ class PembayaranController extends Controller
         $pendaftaran->update([
             'user_id_kasir'         => Auth::user()->id,
             'status_pembayaran'     => 1,
+            'status_pelayanan'      => 'selesai_pembayaran',
             'metode_pembayaran'     => $request->metode_pembayaran,
             'jumlah_bayar'           => $request->jumlah_bayar,
             'total_bayar'           => $request->total_bayar,

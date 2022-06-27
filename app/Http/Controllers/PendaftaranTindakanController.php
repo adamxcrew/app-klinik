@@ -45,8 +45,6 @@ class PendaftaranTindakanController extends Controller
         }
 
         // Pemberian Fee Untuk Dokter
-        // $dokter = $request->dokter;
-        // return $fee_tindakan['dokter-'.$jenisPendaftaran];
 
         $pendaftaranFeeTindakan = PendaftaranFeeTindakan::create([
             'tindakan_id'       =>  $request->tindakan_id,

@@ -103,7 +103,7 @@
                         <div class="col-md-8 tindakan_lab">
                             <div class="form-group">
                                 <label for="exampleFormControlInput1">Tindakan Lab</label>
-                                {{ Form::select('tindakan_id', $tidakanLab, null,['class'=>'form-control']) }}
+                                {{ Form::select('tindakan_id',  $tidakanLab, null,['class'=>'form-control','placeholder'=>'Pilih Tindakan']) }}
                             </div>
                         </div>
                         <div class="col-md-4">
