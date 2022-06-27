@@ -13,6 +13,7 @@ use App\Exports\BarangExport;
 use App\Exports\StockBarangExport;
 use App\Jobs\ImportBarangExcel;
 use App\Models\DistribusiStock;
+use App\Models\PedagangBesarFarmasi;
 
 class BarangController extends Controller
 {
@@ -85,6 +86,7 @@ class BarangController extends Controller
         $data['satuan']         = Satuan::pluck('satuan', 'id');
         $data['kategori']       = Kategori::pluck('nama_kategori', 'id');
         $data['jenis_barang']   = $this->jenis_barang;
+        $data['pbf']            = PedagangBesarFarmasi::pluck('nama_pbf', 'id');
         return view('barang.create', $data);
     }
 
@@ -125,6 +127,7 @@ class BarangController extends Controller
         $data['satuan']         = Satuan::pluck('satuan', 'id');
         $data['kategori']       = Kategori::pluck('nama_kategori', 'id');
         $data['jenis_barang']   = $this->jenis_barang;
+        $data['pbf']            = PedagangBesarFarmasi::pluck('nama_pbf', 'id');
         return view('barang.edit', $data);
     }
 

@@ -53,6 +53,13 @@
     </div>
 </div>
 
+<div class="form-group">
+    <label class="col-sm-2 control-label">Pedagang Besar Farmasi</label>
+    <div class="col-sm-5">
+        {!! Form::select('pbf_id',$pbf, null, ['class'=>'form-control']) !!}
+    </div>
+</div>
+
 
 <div class="form-group">
     <label class="col-sm-2 control-label">Harga & Margin</label>

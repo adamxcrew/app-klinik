@@ -41,7 +41,7 @@ class ImportBarangExcel implements ShouldQueue
     {
 
 
-        Barang::truncate();
+        //Barang::truncate();
         $reader = ReaderEntityFactory::createXLSXReader();
         $filepath = public_path($this->filePath);
         $reader->open($filepath);
