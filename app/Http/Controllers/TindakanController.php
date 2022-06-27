@@ -252,6 +252,7 @@ class TindakanController extends Controller
         if ($request->kosongkan == 1) {
             Tindakan::truncate();
             TindakanBHP::truncate();
+            IndikatorPemeriksaanLab::truncate();
         }
 
         $reader = ReaderEntityFactory::createXLSXReader();
