@@ -10,6 +10,7 @@ use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 use App\Models\DistribusiStock;
 use App\Models\Poliklinik;
 use App\Models\Barang;
+
 class UnitStockController extends Controller
 {
     /**
@@ -129,10 +130,12 @@ class UnitStockController extends Controller
                     $unit_stock                 = \App\Models\UnitStock::where('nama_unit', $cells[1]->getValue())->first();
                     $stock_baru                 = $cells[3]->getValue() ?? null;
 
-                    if ($stock_baru != null) {
-                        DistribusiStock::where('unit_stock_id', $unit_stock->id)
-                                    ->where('barang_id', $barang->id)
-                                    ->update(['jumlah_stock' => $stock_baru]);
+                    if ($barang != null) {
+                        if ($stock_baru != null) {
+                            DistribusiStock::where('unit_stock_id', $unit_stock->id)
+                                        ->where('barang_id', $barang->id)
+                                        ->update(['jumlah_stock' => $stock_baru]);
+                        }
                     }
                 }
                 $nomor++;
@@ -151,6 +154,6 @@ class UnitStockController extends Controller
             }
         }
 
-        return redirect('poliklinik')->with('message', 'Proses Sinkronisasi Selesai');
+        return redirect('unit-stock')->with('message', 'Proses Sinkronisasi Selesai');
     }
 }
