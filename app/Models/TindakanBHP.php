@@ -8,7 +8,7 @@ class TindakanBHP extends Model
 {
     protected $table = "tindakan_bhp";
 
-    protected $fillable = ['barang_id','tindakan_id','jumlah'];
+    protected $fillable = ['barang_id','tindakan_id','jumlah','satuan_id'];
 
     public function barang()
     {

@@ -339,10 +339,12 @@ class TindakanController extends Controller
                     TindakanBHP::create([
                         'barang_id'     => $brg->id,
                         'tindakan_id'   => $tindakan->id,
+                        'satuan_id'     => $satuan->id,
                         'jumlah'        => $jumlah]);
                 }
             }
         }
+        unlink($filePath);
         return redirect('tindakan')->with('message', 'Import Tindakan sedang berlangsung');
     }
 }
