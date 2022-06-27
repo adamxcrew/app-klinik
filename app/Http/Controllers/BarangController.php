@@ -15,6 +15,7 @@ use App\Jobs\ImportBarangExcel;
 use App\Models\DistribusiStock;
 use App\Models\PedagangBesarFarmasi;
 use App\Models\UnitStock;
+
 class BarangController extends Controller
 {
     protected $jenis_barang;
@@ -195,7 +196,7 @@ class BarangController extends Controller
 
         if ($request->has('type')) {
             if ($request->type == 'excel') {
-                return Excel::download(new StockBarangExport($data['unit_stock_id']), 'Data Stock Barang'.date('Y-m-d-H-i-s').'.xlsx');
+                return Excel::download(new StockBarangExport($data['unit_stock_id']), 'Data Stock Barang' . date('Y-m-d-H-i-s') . '.xlsx');
             }
         }
         $data['unit_stock'] = UnitStock::find($data['unit_stock_id']);

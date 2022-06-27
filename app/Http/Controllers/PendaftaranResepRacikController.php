@@ -11,6 +11,7 @@ use Session;
 use App\Models\Pendaftaran;
 use App\Models\CatatanBarangKeluar;
 use App\Models\DistribusiStock;
+use App\Models\Poliklinik;
 
 class PendaftaranResepRacikController extends Controller
 {
@@ -46,8 +47,9 @@ class PendaftaranResepRacikController extends Controller
                 $obatRacikDetail = PendaftaranObatRacikDetail::create($detailData);
 
                 // kurangi stock pada poli yang bersangkutan
+                $poliklinik = Poliklinik::find(\Auth::user()->poliklinik_id);
                 $stock = DistribusiStock::where('barang_id', (int)$request->barang_id[$i][$index])
-                ->where('poliklinik_id', \Auth::user()->poliklinik_id)
+                ->where('unit_stock_id', $poliklinik->unit_stock_id)
                 ->first();
                 $newStock = $stock->jumlah_stock - (int)$request->jumlah[$i][$index];
                 $stock->update(['jumlah_stock' => $newStock]);
@@ -100,8 +102,9 @@ class PendaftaranResepRacikController extends Controller
         $obatRacikDetail = PendaftaranObatRacikDetail::where('pendaftaran_obat_racik_id', $id)->get();
         foreach ($obatRacikDetail as $obat) {
         // kembalikan stock
+            $poliklinik = Poliklinik::find(\Auth::user()->poliklinik_id);
             $stock = DistribusiStock::where('barang_id', $obat->barang_id)
-            ->where('poliklinik_id', \Auth::user()->poliklinik_id)
+            ->where('unit_stock_id', $poliklinik->unit_stock_id)
             ->first();
             $newStock = $stock->jumlah_stock + $obat->jumlah;
             $stock->update(['jumlah_stock' => $newStock]);
