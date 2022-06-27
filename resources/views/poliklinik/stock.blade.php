@@ -4,7 +4,7 @@
 <div class="content-wrapper">
     <section class="content-header">
       <h1>
-        Kelola Stock Barang
+        Kelola Stock Barang {{ $unit_stock->nama_unit}}
         <small>Daftar Barang</small>
       </h1>
       <ol class="breadcrumb">
@@ -23,7 +23,7 @@
                
 
                   <button type="button" class="btn btn-primary btn-social btn-flat" data-toggle="modal" data-target="#myModal">
-                    <i class="fa fa-file-excel-o" aria-hidden="true"></i> Stock Opname
+                    <i class="fa fa-file-excel-o" aria-hidden="true"></i> Stock Opname {{ $unit_stock->nama_unit}}
                   </button>
 
                   <hr>
@@ -56,7 +56,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Stock Opname</h4>
+        <h4 class="modal-title" id="myModalLabel">Stock Opname {{ $unit_stock->nama_unit}}</h4>
       </div>
       <div class="modal-body">
         <div class="alert alert-success" role="alert">Download Template Import Barang <a href="/stock/{{$unit_stock_id}}?type=excel"><b>Disini</b></a></div>

@@ -30,8 +30,9 @@ class PendaftaranResepController extends Controller
         $pendaftaranResep = PendaftaranResep::create($request->all());
 
         // kurangi stock pada poli yang bersangkutan
+        $poliklinik = Poliklinik::find(\Auth::user()->poliklinik_id);
         $stock = DistribusiStock::where('barang_id', $request->barang_id)
-        ->where('poliklinik_id', $request['poliklinik_id'])
+        ->where('unit_stock_id', $poliklinik->unit_stock_id)
         ->first();
         $newStock = $stock->jumlah_stock - $request->jumlah;
         $stock->update(['jumlah_stock' => $newStock]);
@@ -70,8 +71,9 @@ class PendaftaranResepController extends Controller
     {
         $pendaftaranResep = PendaftaranResep::findOrFail($id);
         // kembalikan stock
+        $poliklinik = Poliklinik::find(\Auth::user()->poliklinik_id);
         $stock = DistribusiStock::where('barang_id', $pendaftaranResep->barang_id)
-        ->where('poliklinik_id', $pendaftaranResep->poliklinik_id)
+        ->where('unit_stock_id', $poliklinik->unit_stock_id)
         ->first();
         $newStock = $stock->jumlah_stock + $pendaftaranResep->jumlah;
         $stock->update(['jumlah_stock' => $newStock]);
