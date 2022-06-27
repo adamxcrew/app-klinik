@@ -93,15 +93,8 @@ class TindakanController extends Controller
     public function show(Request $request, $id)
     {
         $data['tindakan']   = Tindakan::with('bhp.barang', 'indikator')->find($id);
-        // return view('tindakan.show',$data);
         $tab = $request->tab == 'bhp' ? 'show' : 'indikator';
         return view('tindakan.' . $tab, $data);
-        // // //return view('tindakan.show', $data);
-        // // if ($data['tindakan']->jenis == 'tindakan_laboratorium') {
-        // //     return view('tindakan.indikator', $data);
-        // // } else {
-        // //     return view('tindakan.show', $data);
-        // // }
     }
 
     /**
@@ -254,85 +247,90 @@ class TindakanController extends Controller
         }
     }
 
-    public function import()
+    public function import(Request $request)
     {
-        Tindakan::truncate();
-        TindakanBHP::truncate();
+        // Tindakan::truncate();
+        // TindakanBHP::truncate();
         // Barang::truncate();
         $reader = ReaderEntityFactory::createXLSXReader();
-        // $filepath = public_path('uploads/tindakan_umum.xlsx');
-        // $filepath = public_path('uploads/tindakan_lab.xlsx');
-        // $filepath = public_path('uploads/tindakan_kebinanan.xlsx');
-        //$filepath = public_path('uploads/tindakan_gigi.xlsx');
-        // $filepath = public_path('uploads/tindakan_bhp_ok.xlsx');
-        $filepath = public_path('uploads/Book6.xlsx');
-
-
-
-
-        $reader->open($filepath);
+        $file           = $request->file('file');
+        $nama_file      = $file->getClientOriginalName();
+        $file->move("uploads", $nama_file);
+        $filePath = "uploads/" . $nama_file;
+        $reader->open($filePath);
         foreach ($reader->getSheetIterator() as $sheet) {
             $data = [];
             foreach ($sheet->getRowIterator() as $row) {
-                $cells          = $row->getCells();
-                $nomor          = $cells[0];
-                $nama_tindakan  = $cells[1];
-                $tarif          = $cells[2];
-                $nama_bhp       = $cells[3];
-                $harga_bhp      = $cells[4];
-                $jumlah         = $cells[5];
-                $satuan         = $cells[6];
-                $poli           = \App\Models\Poliklinik::where('nama', $cells[7])->first();
-                $tarif_bpjs     = 0;
-                if (isset($cells[8])) {
-                    $tarif_bpjs     = $cells[8];
-                }
+                $cells                  = $row->getCells();
+                $nomor                  = $cells[0];
+                $kode_icd               = $cells[1];
+                $nama_tindakan          = $cells[2];
+                $jenis_tindakan         = $cells[3];
+                $tarif_umum             = $cells[4];
+                $tarif_perusahaan       = $cells[5];
+                $tarif_bpjs             = $cells[6];
+                $iterasi                = $cells[7];
+                $quota                  = $cells[8];
+                $fee_klinik_umum        = $cells[9];
+                $fee_dokter_umum        = $cells[10];
+                $fee_perawat_umum       = $cells[11];
+                $fee_klinik_bpjs        = $cells[12];
+                $fee_dokter_bpjs        = $cells[13];
+                $fee_perawat_bpjs       = $cells[14];
+                $fee_klinik_perusahaan  = $cells[15];
+                $fee_dokter_perusahaan  = $cells[16];
+                $fee_perawat_perusahaan = $cells[17];
+                $nama_bhp               = $cells[18];
+                $satuan                 = $cells[19];
+                $jumlah                 = $cells[20];
+                $poli                   = \App\Models\Poliklinik::where('nama', $cells[21])->first();
+                
+                return $poli;
 
-
-                if ($nomor != '') {
-                    // lakukan insert data tindakan
-                    if ($nama_tindakan != 'NAMA TINDAKAN') {
-                        $tindakan = Tindakan::create([
+                if ($poli != null) {
+                    return 'anjing';
+                    $tindakan = Tindakan::create([
                             'kode'              =>  null,
                             'tindakan'          =>  $nama_tindakan,
                             'poliklinik_id'     =>  $poli->id ?? 0,
-                            'tarif_umum'        =>  $tarif,
-                            'tarif_bpjs'        =>  $poli->id == 1 ? $tarif_bpjs : $tarif,
-                            'tarif_perusahaan'  =>  $tarif,
-                            'iterasi'           =>  0,
+                            'tarif_umum'        =>  $tarif_umum,
+                            'tarif_bpjs'        =>  $tarif_bpjs,
+                            'tarif_perusahaan'  =>  $tarif_perusahaan,
+                            'iterasi'           =>  $iterasi == 'Ya' ? 1 : 0,
                             'penunjang'         =>  0,
-                            'quota'             =>  0,
+                            'quota'             =>  $quota,
                             'jenis'             => $poli->nama == 'LAB' ? 'tindakan_laboratorium' : 'tindakan_medis',
                             'pelayanan'         => 'umum'
-                        ]);
-                    }
+                    ]);
+
+                    return $tindakan;
                 }
 
-                // insert barang
-                $pbf        = \App\Models\PedagangBesarFarmasi::firstOrCreate(['nama_pbf' => 'Default'], ['nama_pbf' => 'Default']);
-                $kategori   = \App\Models\Kategori::firstOrCreate(['nama_kategori' => 'Default'], ['nama_kategori' => 'Default']);
-                $satuan     = \App\Models\Satuan::firstOrCreate(['satuan' => $satuan], ['satuan' => $satuan]);
-                $barang = [
-                    'kode'                      =>  null,
-                    'nama_barang'               =>  $nama_bhp,
-                    'keterangan'                =>  '',
-                    'harga'                     =>  0,
-                    'kategori_id'               =>  $kategori->id, // alkes
-                    'satuan_terbesar_id'        =>  1,
-                    'satuan_terkecil_id'        =>  $satuan->id,
-                    'jenis_barang'              =>  'alkes',
-                    'margin'                    =>  0,
-                    'pelayanan'                 =>  'umum',
-                    'jumlah_satuan_terbesar'    =>  0,
-                    'jumlah_satuan_terkecil'    =>  0,
-                    'pbf_id'                    =>  $pbf->id
-                ];
+                // // insert barang
+                // $pbf        = \App\Models\PedagangBesarFarmasi::firstOrCreate(['nama_pbf' => 'Default'], ['nama_pbf' => 'Default']);
+                // $kategori   = \App\Models\Kategori::firstOrCreate(['nama_kategori' => 'Default'], ['nama_kategori' => 'Default']);
+                // $satuan     = \App\Models\Satuan::firstOrCreate(['satuan' => $satuan], ['satuan' => $satuan]);
+                // $barang = [
+                //     'kode'                      =>  null,
+                //     'nama_barang'               =>  $nama_bhp,
+                //     'keterangan'                =>  '',
+                //     'harga'                     =>  0,
+                //     'kategori_id'               =>  $kategori->id, // alkes
+                //     'satuan_terbesar_id'        =>  1,
+                //     'satuan_terkecil_id'        =>  $satuan->id,
+                //     'jenis_barang'              =>  'alkes',
+                //     'margin'                    =>  0,
+                //     'pelayanan'                 =>  'umum',
+                //     'jumlah_satuan_terbesar'    =>  0,
+                //     'jumlah_satuan_terkecil'    =>  0,
+                //     'pbf_id'                    =>  $pbf->id
+                // ];
 
-                $brg = \App\Models\Barang::firstOrCreate(['nama_barang' => $nama_bhp], $barang);
-                TindakanBHP::create([
-                    'barang_id'     => $brg->id,
-                    'tindakan_id'   => $tindakan->id,
-                    'jumlah'        => $jumlah]);
+                // $brg = \App\Models\Barang::firstOrCreate(['nama_barang' => $nama_bhp], $barang);
+                // TindakanBHP::create([
+                //     'barang_id'     => $brg->id,
+                //     'tindakan_id'   => $tindakan->id,
+                //     'jumlah'        => $jumlah]);
             }
         }
     }

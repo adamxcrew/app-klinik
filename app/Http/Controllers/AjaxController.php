@@ -68,26 +68,30 @@ class AjaxController extends Controller
 
     public function select2Barang(Request $request)
     {
-        $poliklinik = Poliklinik::find($request->poliklinik_id);
-        $data = \DB::table('barang')
-        ->join('distribusi_stock', 'distribusi_stock.barang_id', 'barang.id')
-        ->select('barang.id', DB::raw('CONCAT(barang.nama_barang, " ( ", distribusi_stock.jumlah_stock,")") AS nama_barang'), 'barang.harga')
-        ->where('distribusi_stock.unit_stock_id', $poliklinik->unit_stock_id)
-        ->where('distribusi_stock.jumlah_stock', '>', 0)
-        ->where('barang.nama_barang', 'like', "%" . $request->q . "%");
+        if ($request->has('poliklinik_id')) {
+            $poliklinik = Poliklinik::find($request->poliklinik_id);
+            $data = \DB::table('barang')
+            ->join('distribusi_stock', 'distribusi_stock.barang_id', 'barang.id')
+            ->select('barang.id', DB::raw('CONCAT(barang.nama_barang, " ( ", distribusi_stock.jumlah_stock,")") AS nama_barang'), 'barang.harga')
+            ->where('distribusi_stock.unit_stock_id', $poliklinik->unit_stock_id)
+            ->where('distribusi_stock.jumlah_stock', '>', 0)
+            ->where('barang.nama_barang', 'like', "%" . $request->q . "%");
 
-
-        if ($request->has('pelayanan')) {
-            if (strtoupper($request->pelayanan) == 'BPJS') {
-                $data = $data->where('barang.pelayanan', 'bpjs');
+            if ($request->has('pelayanan')) {
+                if (strtoupper($request->pelayanan) == 'BPJS') {
+                    $data = $data->where('barang.pelayanan', 'bpjs');
+                }
             }
+
+            if (\session('lock_bpjs') != null) {
+                if (\session('lock_bpjs') == 'yes') {
+                    $data = $data->where('pelayanan', 'bpjs');
+                }
+            }
+        } else {
+            $data = Barang::where('nama_barang', 'like', "%" . $request->q . "%");
         }
 
-        if (\session('lock_bpjs') != null) {
-            if (\session('lock_bpjs') == 'yes') {
-                $data = $data->where('pelayanan', 'bpjs');
-            }
-        }
         $data = $data->limit(20)->get();
         return response()->json($data);
     }

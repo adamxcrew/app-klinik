@@ -148,7 +148,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('unit-stock', 'UnitStockController');
     Route::resource('satuan', 'SatuanController');
     Route::resource('harilibur', 'HariLiburController');
-    Route::get('tindakan/import', 'TindakanController@import');
+    Route::post('tindakan/import', 'TindakanController@import');
     Route::resource('tindakan', 'TindakanController');
     Route::resource('indikator-pemeriksaan-lab', 'IndikatorPemeriksaanLabController');
     Route::resource('hasil-pemeriksaan-lab', 'HasilPemeriksaanLabController');
