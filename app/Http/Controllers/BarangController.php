@@ -162,14 +162,11 @@ class BarangController extends Controller
 
     public function import_excel(Request $request)
     {
-        // $file = $request->file('file');
-        // $nama_file = $file->getClientOriginalName();
-        // $destinationPath = 'uploads';
-        // $file->move($destinationPath, $nama_file);
-        // $filePath = $destinationPath . '/' . $nama_file;
-        //$filePath = "uploads/template_import_barang_ok.xlsx";
-        $nama_file = "ok/Daftar Harga Farmasi REV 2.xlsx";
-        ImportBarangExcel::dispatch($nama_file);
+        $file           = $request->file('file');
+        $nama_file      = $file->getClientOriginalName();
+        $file->move("uploads", $nama_file);
+        $filePath = "uploads/".$nama_file;
+        ImportBarangExcel::dispatch($filePath);
         return redirect('barang')->with('message', 'Import Data Sedang Diproses, Check Hasilnya Berkala');
     }
 
@@ -183,19 +180,6 @@ class BarangController extends Controller
             $data['unit_stock_id'] = $poliklinik->unit_stock_id;
         }
         if ($request->ajax()) {
-            // $distribusiStock = DistribusiStock::select(
-            //                 'barang.kode as kode',
-            //                 'barang.nama_barang as nama_barang',
-            //                 'distribusi_stock.jumlah_stock as jumlah_stock',
-            //                 'kategori.nama_kategori as nama_kategori',
-            //                 's1.satuan as satuan_terbesar',
-            //                 's2.satuan as satuan_terkecil')
-            //                 ->leftJoin('barang','barang.id','distribusi_stock.barang_id')
-            //                 ->leftJoin('satuan as s1','barang.satuan_terbesar_id','s1.id')
-            //                 ->leftJoin('satuan as s2','barang.satuan_terkecil_id','s2.id')
-            //                 ->leftJoin('kategori','kategori.id','barang.id')
-            //                 ->where('distribusi_stock.unit_stock_id', $request->unit_stock_id);
-
             $distribusiStock = \DB::table('view_distribusi_stock')->where('unit_stock_id', $request->unit_stock_id);
             return DataTables::of($distribusiStock)
                     ->addIndexColumn()
