@@ -12,6 +12,7 @@ use App\Models\TindakanBHP;
 use App\Models\Barang;
 use App\Models\PendaftaranResep;
 use App\Models\RiwayatPenggunaanTindakanIterasi;
+use Auth;
 
 class PendaftaranTindakanController extends Controller
 {
@@ -136,7 +137,9 @@ class PendaftaranTindakanController extends Controller
     public function show($id)
     {
         $data['pendaftaran'] = Pendaftaran::find($id);
-        $data['pendaftaranTindakan'] = PendaftaranTindakan::with(['tindakan.icd','tindakan.bhp.barang'])->where('pendaftaran_id', $id);
+        $data['pendaftaranTindakan'] = PendaftaranTindakan::with(['tindakan.icd','tindakan.bhp.barang'])
+        ->where('poliklinik_id', Auth::user()->poliklinik_id)
+        ->where('pendaftaran_id', $id);
         return view('pendaftaran.partials.daftar_tindakan', $data);
     }
 

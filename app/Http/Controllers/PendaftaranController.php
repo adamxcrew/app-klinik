@@ -77,7 +77,7 @@ class PendaftaranController extends Controller
             'perusahaan_asuransi.nama_perusahaan',
             'nomor_antrian.status_pelayanan'
         )
-        ->join('pendaftaran', 'pendaftaran.id', 'nomor_antrian.pendaftaran_id')
+        ->leftJoin('pendaftaran', 'pendaftaran.id', 'nomor_antrian.pendaftaran_id')
         ->join('pasien', 'pasien.id', 'pendaftaran.pasien_id')
         ->join('poliklinik', 'poliklinik.id', 'nomor_antrian.poliklinik_id')
         ->join('users', 'users.id', 'nomor_antrian.dokter_id')

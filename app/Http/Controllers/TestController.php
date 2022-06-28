@@ -16,6 +16,8 @@ use App\Models\PendaftaranTindakan;
 use App\Models\NomorAntrian;
 use App\Models\CatatanBarangKeluar;
 use App\Models\HasilPemeriksaanLab;
+use App\Models\PendaftaranResep;
+use App\Models\RujukanInternal;
 
 class TestController extends Controller
 {
@@ -28,7 +30,9 @@ class TestController extends Controller
         PendaftaranObatRacik::truncate();
         HasilPemeriksaanLab::truncate();
         PendaftaranTindakan::truncate();
+        PendaftaranResep::truncate();
         NomorAntrian::truncate();
+        RujukanInternal::truncate();
         CatatanBarangKeluar::truncate();
     }
 }

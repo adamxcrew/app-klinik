@@ -448,7 +448,7 @@
                 <tr>
                   <td>Catatan</td>
                   <td>
-                    {{ Form::text('catatan',null,['class'=>'form-control catatan','placeholder'=>'Catatan'])}}
+                    {{ Form::text('catatan',null,['class'=>'form-control catatan_rujukan_internal','placeholder'=>'Catatan'])}}
                   </td>
                 </tr>
 
@@ -1011,7 +1011,7 @@
     var jenis_pemeriksaan_laboratorium_id = $(".jenis_pemeriksaan_laboratorium_id").val();
     var user_id                           = $(".user_id").val();
     var poliklinik_id                     = $(".poliklinik_id").val();
-    var catatan                           = $(".catatan").val();
+    var catatan                           = $(".catatan_rujukan_internal").val();
     
     $.ajax({
       url: "/pendaftaran-rujukan",
