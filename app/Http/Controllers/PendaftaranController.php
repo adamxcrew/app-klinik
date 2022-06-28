@@ -365,7 +365,7 @@ class PendaftaranController extends Controller
         }
 
         RujukanInternal::where('pendaftaran_id', $pendaftaranId)->update(['status' => 'Selesai']);
-        return redirect('pendaftaran/' . $pendaftaranId . '/input-indikator')->with('message', 'Data Berhasil Disimpan');
+        return redirect('pendaftaran/' . $request->nomor_antrian_id . '/input-indikator')->with('message', 'Data Berhasil Disimpan');
     }
 
     public function printHasilPemeriksaan($id)

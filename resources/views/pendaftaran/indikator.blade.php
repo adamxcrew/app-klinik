@@ -108,6 +108,8 @@
                     <div class="box-body">
                         <div class="box-body">
                             {{ Form::open(['url'=>'simpan-hasil-pemeriksaan-lab/'.$nomorAntrian->pendaftaran->id]) }}
+                            {{ Form::hidden('nomor_antrian_id',$nomorAntrian->id)}}
+                            
                             <table class="table table-bordered">
                                 <?php $nomor =1 ;?>
                                 @foreach($pendaftaranTindakan as $tindakan)
