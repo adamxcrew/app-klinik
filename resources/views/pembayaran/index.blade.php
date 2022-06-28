@@ -28,17 +28,17 @@
                 <tr>
                   <td width="300">Nomor KTP</td>
                   <td width="20">:</td>
-                  <th>{{ $userInfo->pasien->nomor_ktp }}</th>
+                  <th>{{ $nomorAntrian->pendaftaran->pasien->nomor_ktp }}</th>
                 </tr>
                 <tr>
                     <td>Nama Pasien</td>
                     <td>:</td>
-                    <th>{{ $userInfo->pasien->nama }}</th>
+                    <th>{{ $nomorAntrian->pendaftaran->pasien->nama }}</th>
                 </tr>
                 <tr>
                     <td>Penjamin</td>
                     <td>:</td>
-                    <th>{{ $userInfo->perusahaanAsuransi->nama_perusahaan }}</th>
+                    <th>{{ $nomorAntrian->perusahaanAsuransi->nama_perusahaan }}</th>
                 </tr>
               </thead>
             </table>
@@ -62,11 +62,11 @@
                     <th colspan="7">Biaya Tindakan</th>
                   </tr>
                   @php $jumlah = 0; $nomor = 1 @endphp
-                  @foreach($userInfo->feeTindakan as $row)
+                  @foreach(\App\Models\PendaftaranTindakan::where('pendaftaran_id',$nomorAntrian->pendaftaran->id)->where('poliklinik_id',$nomorAntrian->poliklinik_id)->get() as $row)
 
                   <?php
                   // hitung FEE Tindakan
-                  if($userInfo->perusahaanAsuransi->nama_perusahaan=='BPJS' && $row->tindakan->pelayanan=='bpjs'){
+                  if($nomorAntrian->perusahaanAsuransi->nama_perusahaan=='BPJS' && $row->tindakan->pelayanan=='bpjs'){
                     $feeTindakan = 0;
                     $keterangan = "BPJS";
                   }else{
@@ -91,39 +91,14 @@
                     $nomor++ @endphp
                   @endforeach
 
-                  {{-- <tr class="success">
-                    <th colspan="7">Biaya BHP</th>
-                  </tr>
-                    @foreach($userInfo->resepBhp as $row)
-                    <?php
-                    if($userInfo->perusahaanAsuransi->nama_perusahaan=='BPJS' && $row->barang->pelayanan=='bpjs'){
-                    $hargaBHP = 0;
-                    $keterangan = "BPJS";
-                  }else{
-                    $hargaBHP = $row->harga;
-                    $keterangan  = "-";
-                  }
-                    ?>
-                      <tr>
-                        <td>{{$nomor}}</td>
-                        <td>{{$row->barang->nama_barang}} ( {{$row->satuan}} {{$row->aturan_pakai}}) </td>
-                        <td>{{$row->jumlah}}</td>
-                         <td style="text-align:right">{{ rupiah($hargaBHP)}}</td>
-                        <td>0</td>
-                        <td style="text-align:left">{{ rupiah($hargaBHP*$row->jumlah)}}</td>
-                        <td>{{ $keterangan }}</td>
-                      </tr>
-                      @php $jumlah += $hargaBHP*$row->jumlah ; $nomor++ @endphp
-                    @endforeach --}}
-
 
                   <tr class="success">
                     <th colspan="7">Biaya Obat Racik</th>
                   </tr>
-                  @foreach($userInfo->obatRacik as $racikItem)
+                  @foreach(\App\Models\PendaftaranObatRacik::with('detail')->where('pendaftaran_id',$nomorAntrian->pendaftaran->id)->where('poliklinik_id',$nomorAntrian->poliklinik->id)->get() as $racikItem)
                     @foreach ($racikItem->detail as $item)
                     <?php
-                    if($userInfo->perusahaanAsuransi->nama_perusahaan=='BPJS' && $item->barang->pelayanan=='bpjs'){
+                    if($nomorAntrian->perusahaanAsuransi->nama_perusahaan=='BPJS' && $item->barang->pelayanan=='bpjs'){
                     $hargaObatRacik = 0;
                     $keterangan = "BPJS";
                   }else{
@@ -139,9 +114,6 @@
                       <td>0</td>
                       <td>{{ rupiah($item->jumlah*$hargaObatRacik) }}</td>
                       <td>{{ $keterangan }}</td>
-                      {{-- <td>
-                        <button type="button" class="btn btn-danger btn-sm"><i class='fa fa-trash' aria-hidden='true'></i></button>
-                      </td> --}}
                     </tr>
                     @php 
                     $jumlah += $hargaObatRacik*$item->jumlah; 
@@ -151,9 +123,9 @@
                 <tr class="success">
                   <th colspan="7">Biaya Obat Non Racik</th>
                 </tr>
-                  @foreach($userInfo->resepNonRacik as $row)
+                  @foreach(\App\Models\PendaftaranResep::with('barang')->where('jenis','!=','bhp')->where('pendaftaran_id',$nomorAntrian->pendaftaran->id)->where('poliklinik_id',$nomorAntrian->poliklinik->id)->get() as $row)
                   <?php
-                    if($userInfo->perusahaanAsuransi->nama_perusahaan=='BPJS' && $row->barang->pelayanan=='bpjs'){
+                    if($nomorAntrian->perusahaanAsuransi->nama_perusahaan=='BPJS' && $row->barang->pelayanan=='bpjs'){
                     $hargaObatNonRacik = 0;
                     $keterangan = "BPJS";
                   }else{
@@ -193,7 +165,7 @@
         <div class="box">
           <div class="box-body">
               <h2 class="text-center"><strong>Pembayaran</strong></h2>
-              {!! Form::open(['url'=>"pembayaran/$userInfo->id/store",'class'=>'form-horizontal']) !!}
+              {!! Form::open(['url'=>"pembayaran/$nomorAntrian->id/store",'class'=>'form-horizontal']) !!}
               @include('validation_error')
               @include('pembayaran.form')
               {!! Form::close() !!}

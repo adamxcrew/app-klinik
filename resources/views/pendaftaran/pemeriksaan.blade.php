@@ -81,7 +81,7 @@
                 </table>
                   <hr>
 
-                  <a href="/pendaftaran/{{ $nomorAntrian->pendaftaran->id }}/selesai" class="btn btn-danger btn-lg">Tandai Selesai Pelayanan</a>
+                  <a href="/pendaftaran/{{ $nomorAntrian->id }}/selesai" class="btn btn-danger btn-lg">Tandai Selesai Pelayanan</a>
                   {{-- <a href="/pendaftaran/{{ $nomorAntrian->pendaftaran->id }}/cetak_rekamedis" target="new" class="btn btn-danger btn-lg">Cetak Rekamedis</a> --}}
                   <div class="btn-group">
                     <button type="button" class="btn btn-danger btn-lg">Cetak Surat</button>
@@ -325,6 +325,7 @@
 
             {{ Form::open(['url'=>'pendaftaran-resep-racik']) }}
             {{ Form::hidden('pendaftaran_id',$nomorAntrian->pendaftaran->id) }}
+            {{ Form::hidden('nomor_antrian_id',$nomorAntrian->id) }}
             <table class="table table-bordered inner2 form-racik-1101">
               <tr>
                 <th>Jumlah Kemasan</th>

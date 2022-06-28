@@ -13,7 +13,7 @@
     </section>
 
     <section class="content">
-      {!! Form::model($pendaftaran,['route'=>['pendaftaran.input_tanda_vital_store',$pendaftaran->id],'method'=>'PUT','class'=>'form-horizontal']) !!}
+      {!! Form::model($pendaftaran,['route'=>['pendaftaran.input_tanda_vital_store',$nomorAntrian->id],'method'=>'PUT','class'=>'form-horizontal']) !!}
         <div class="row">
           <div class="col-xs-8">
             <div class="box">
@@ -348,7 +348,10 @@
     }
 
 	function addRiwayatPenyakit(btn) {
-        let riwayatPenyakit = $('#riwayat_penyakit_id').find(':selected').val()
+        let riwayatPenyakit = $('#riwayat_penyakit_id').find(':selected').val();
+        if(riwayatPenyakit ==undefined) {
+          alert('Silahkan Pilih Penyakit');
+        }
         $.ajax({
             url : '/riwayat-penyakit-add-item/{{$pendaftaran->id}}',
             method : 'POST',

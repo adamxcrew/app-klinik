@@ -73,7 +73,7 @@ class PendaftaranResepRacikController extends Controller
         if ($request->page == 'ondotogram') {
             return redirect('ondotogram/' . $request->pendaftaran_id);
         }
-        return redirect('pendaftaran/' . $request->pendaftaran_id . '/pemeriksaan');
+        return redirect('pendaftaran/' . $request->nomor_antrian_id . '/pemeriksaan');
     }
 
     /**

@@ -18,13 +18,14 @@ use App\Models\CatatanBarangKeluar;
 use App\Models\HasilPemeriksaanLab;
 use App\Models\PendaftaranResep;
 use App\Models\RujukanInternal;
-
+use App\Models\Surat;
 class TestController extends Controller
 {
 
     function test(Request $request)
     {
         Pendaftaran::truncate();
+        Surat::truncate();
         PendaftaranDiagnosa::truncate();
         PendaftaranFeeTindakan::truncate();
         PendaftaranObatRacik::truncate();

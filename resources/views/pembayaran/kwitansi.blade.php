@@ -39,16 +39,16 @@
             <tr>
                 <td>RM / Nama Pasien</td>
                 <td width="2px">:</td>
-                <td>{{ $pendaftaran->pasien->nomor_rekam_medis }} / {{ $pendaftaran->pasien->inisial }} {{ $pendaftaran->pasien->nama }}</td>
+                <td>{{ $nomorAntrian->pendaftaran->pasien->nomor_rekam_medis }} / {{ $nomorAntrian->pendaftaran->pasien->inisial }} {{ $nomorAntrian->pendaftaran->pasien->nama }}</td>
                 <td width="25px">&nbsp;</td>
                 <td>Tanggal Kunjungan</td>
                 <td width="2px">:</td>
-                <td width="100">{{ tgl_indo(substr($pendaftaran->created_at, 0, 10)) }}</td>
+                <td width="100">{{ tgl_indo(substr($nomorAntrian->created_at, 0, 10)) }}</td>
             </tr>
             <tr>
                 <td>Penjamin</td>
                 <td>:</td>
-                <td>{{ $pendaftaran->perusahaanAsuransi->nama_perusahaan }}</td>
+                <td>{{ $nomorAntrian->perusahaanAsuransi->nama_perusahaan }}</td>
             </tr>
         </table>
     </div>
@@ -77,7 +77,7 @@
             @foreach($tindakans as $tindakan)
             <tbody class="dotted">
                 <?php
-                  if($pendaftaran->perusahaanAsuransi->nama_perusahaan=='BPJS' && $tindakan->tindakan->pelayanan=='bpjs'){
+                  if($nomorAntrian->pendaftaran->perusahaanAsuransi->nama_perusahaan=='BPJS' && $tindakan->tindakan->pelayanan=='bpjs'){
                     $feeTindakan = 0;
                     $keterangan = "BPJS";
                   }else{
@@ -104,7 +104,7 @@
 
             {{-- @foreach($bhps as $bhp)
             <?php
-                    if($pendaftaran->perusahaanAsuransi->nama_perusahaan=='BPJS' && $bhp->barang->pelayanan=='bpjs'){
+                    if($nomorAntrian->pendaftaran->perusahaanAsuransi->nama_perusahaan=='BPJS' && $bhp->barang->pelayanan=='bpjs'){
                     $hargaBHP = 0;
                     $keterangan = "BPJS";
                   }else{
@@ -132,7 +132,7 @@
 
             @foreach($nonRaciks as $non)
             <?php
-            if($pendaftaran->perusahaanAsuransi->nama_perusahaan=='BPJS' && $non->barang->pelayanan=='bpjs'){
+            if($nomorAntrian->pendaftaran->perusahaanAsuransi->nama_perusahaan=='BPJS' && $non->barang->pelayanan=='bpjs'){
             $hargaObatNonRacik = 0;
             $keterangan = "BPJS";
           }else{
@@ -162,7 +162,7 @@
             @foreach($obatRacik as $racik)
                 @foreach($racik->detail as $itm)
                     <?php
-                if($pendaftaran->perusahaanAsuransi->nama_perusahaan=='BPJS' && $itm->barang->pelayanan=='bpjs'){
+                if($nomorAntrian->perusahaanAsuransi->nama_perusahaan=='BPJS' && $itm->barang->pelayanan=='bpjs'){
                     $hargaObatRacik = 0;
                     $keterangan = "BPJS";
                 }else{
@@ -195,7 +195,7 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td colspan="2" style="font-weight: bold">{{ rupiah($pendaftaran->biaya_tambahan) }}</td>
+                    <td colspan="2" style="font-weight: bold">{{ rupiah($nomorAntrian->biaya_tambahan) }}</td>
                 </tr>
             </tbody>
             <tbody class="dotted">
@@ -207,13 +207,13 @@
                     <td></td>
                     
             
-                    <td width="60" style="font-weight: bold">{{ rupiah($total+$pendaftaran->biaya_tambahan) }}</td>
+                    <td width="60" style="font-weight: bold">{{ rupiah($total+$nomorAntrian->biaya_tambahan) }}</td>
                 </tr>
             </tbody>
             <tbody class="dotted">
                 <tr>
                     <td></td>
-                    <td colspan="5"><i>TERBILANG #{{ strtoupper(terbilang($total + $pendaftaran->biaya_tambahan)) }}#</i></td>
+                    <td colspan="5"><i>TERBILANG #{{ strtoupper(terbilang($total + $nomorAntrian->biaya_tambahan)) }}#</i></td>
                     <td></td>
                     <td></td>
                 </tr>

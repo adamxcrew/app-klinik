@@ -95,7 +95,7 @@ class PendaftaranController extends Controller
         }
         // ------------------ FILTER PADA ROLE KASIR -----------------------------
         if (auth()->user()->role == 'kasir') {
-            $nomorAntrian->whereIn('status_pelayanan', ['selesai_pemeriksaan_medis','selesai_pelayanan','selesai_pembayaran']);
+            $nomorAntrian->whereIn('status_pelayanan', ['selesai_pemeriksaan_medis','selesai_pelayanan','selesai_pembayaran','selesai']);
         }
 
         if ($request->ajax()) {
@@ -373,7 +373,8 @@ class PendaftaranController extends Controller
 
     public function input_tanda_vital($id)
     {
-        $data['pendaftaran'] = Pendaftaran::with('pasien')->find($id);
+        $data['nomorAntrian'] = NomorAntrian::find($id);
+        $data['pendaftaran'] = Pendaftaran::with('pasien')->find($data['nomorAntrian']->pendaftaran_id);
         return view('pendaftaran.input_tanda_vital', $data);
     }
 
@@ -709,7 +710,9 @@ class PendaftaranController extends Controller
 
     public function simpanPemeriksaanKlinis(Request $request)
     {
-        $pendaftaran = Pendaftaran::find($request->pendaftaran_id);
+
+        $nomorAntrian =  NomorAntrian::find($request->pendaftaran_id);
+        $pendaftaran = Pendaftaran::find($nomorAntrian->pendaftaran_id);
         $pendaftaran->update(['pemeriksaan_klinis' => serialize($request->pemeriksaan_klinis)]);
         return redirect('pendaftaran/' . $request->pendaftaran_id . '/pemeriksaan');
     }
