@@ -81,7 +81,14 @@ class PendaftaranController extends Controller
         ->join('pasien', 'pasien.id', 'pendaftaran.pasien_id')
         ->join('poliklinik', 'poliklinik.id', 'nomor_antrian.poliklinik_id')
         ->join('users', 'users.id', 'nomor_antrian.dokter_id')
-        ->join('perusahaan_asuransi', 'perusahaan_asuransi.id', 'nomor_antrian.perusahaan_asuransi_id');
+        ->join('perusahaan_asuransi', 'perusahaan_asuransi.id', 'nomor_antrian.perusahaan_asuransi_id')
+        ->whereBetween(DB::raw('DATE(nomor_antrian.created_at)'), [$awal, $akhir]);
+
+
+        // ------------------ FILTER BERDASARKAN POLIKLINIK -----------------------------
+        if ($request->poliklinik_id != null) {
+            $nomorAntrian->where('nomor_antrian.poliklinik_id', $request->poliklinik_id);
+        }
 
         // ------------------ FILTER PADA ROLE POLIKLINIK -----------------------------
         if (auth()->user()->role == 'poliklinik') {

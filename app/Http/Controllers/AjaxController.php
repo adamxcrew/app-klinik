@@ -379,7 +379,7 @@ class AjaxController extends Controller
             'jumlah_total_antrian' => $total_antrian,
             'poliklinik_tujuan' => $poliklinik->nama,
             'antrian_sekarang' => $antrian_sekarang->nomor_antrian,
-            'sisa_antrian' => $belum_dipanggil
+            'sisa_antrian' => $total_antrian - $antrian_sekarang->nomor_antrian
         ];
         return $hasil;
     }

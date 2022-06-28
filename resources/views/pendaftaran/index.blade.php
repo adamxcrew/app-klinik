@@ -53,7 +53,7 @@
                     <div class="small-box bg-aqua">
                         <div class="inner">
                             <h3 id="jumlah_total_antrian">{{ $jumlah_antrian }}</h3>
-                            <p>Jumlah Antrian</p>
+                            <p>Total Kunjungan Hari Ini</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-android-list"></i>
@@ -68,7 +68,7 @@
                         <div class="inner">
                             <h3 id="antrian_sekarang">{{ $antrian_sekarang->nomor_antrian??0 }}<sup style="font-size: 20px"></sup></h3>
             
-                            <p>Antrian Saat ini</p>
+                            <p>Nomor Antrian Sekarang</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-android-checkmark-circle"></i>
@@ -85,7 +85,7 @@
                         <div class="inner">
                             <h3 id="sisa_antrian">{{ $sisa_antrian }}</h3>
             
-                            <p>Sisa antrian</p>
+                            <p>Sisa Antrian</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-android-people"></i>
@@ -250,9 +250,9 @@
             $('#jumlah_total_antrian').text(response.jumlah_total_antrian);
             $('#sisa_antrian').text(response.sisa_antrian);
 
-            if(response.sisa_antrian==response.jumlah_total_antrian)
+            if(response.antrian_sekarang==response.jumlah_total_antrian)
             {
-              //$(".btn-call").prop('disabled', true);
+              $(".btn-call").prop('disabled', true);
             }
 
           },
