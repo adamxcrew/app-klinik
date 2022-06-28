@@ -15,7 +15,7 @@ use App\Models\PendaftaranObatRacik;
 use App\Models\PendaftaranTindakan;
 use App\Models\NomorAntrian;
 use App\Models\CatatanBarangKeluar;
-use App\Models\PendaftaranHasilPemeriksaanLab;
+use App\Models\HasilPemeriksaanLab;
 
 class TestController extends Controller
 {
@@ -26,7 +26,7 @@ class TestController extends Controller
         PendaftaranDiagnosa::truncate();
         PendaftaranFeeTindakan::truncate();
         PendaftaranObatRacik::truncate();
-        PendaftaranHasilPemeriksaanLab::truncate();
+        HasilPemeriksaanLab::truncate();
         PendaftaranTindakan::truncate();
         NomorAntrian::truncate();
         CatatanBarangKeluar::truncate();
