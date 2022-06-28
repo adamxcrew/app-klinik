@@ -349,6 +349,11 @@ class PendaftaranController extends Controller
         $jmlIndikator = count($request->indikator_id) - 1;
         for ($i = 0; $i <= $jmlIndikator; $i++) {
             // jadikan inserOrUpdate
+            \DB::table('pendaftaran_hasil_pemeriksaan_lab')
+            ->where('indikator_pemeriksaan_lab_id',$request->indikator_id[$i])
+            ->where('pendaftaran_id',$pendaftaranId)
+            ->delete();
+            
             \DB::table('pendaftaran_hasil_pemeriksaan_lab')->insert([
                 'indikator_pemeriksaan_lab_id'  =>  $request->indikator_id[$i],
                 'catatan'       =>  $request->catatan[$i],
