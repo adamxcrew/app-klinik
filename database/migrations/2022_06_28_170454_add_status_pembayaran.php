@@ -30,12 +30,10 @@ class AddStatusPembayaran extends Migration
             $table->integer('perusahaan_asuransi_id');
             $table->dropColumn('status_pelayanan');
             $table->dropColumn('metode_pembayaran');
-            $table->dropColumn('keterangan_pembayaran');
             $table->dropColumn('jumlah_bayar');
             $table->dropColumn('biaya_tambahan');
             $table->dropColumn('total_bayar');
             $table->dropColumn('user_id_kasir');
-            $table->dropColumn('metode_pembayaran');
             $table->dropColumn('keterangan_pembayaran');
             $table->dropColumn('tindakan_id');
             $table->dropColumn('jenis_layanan');
