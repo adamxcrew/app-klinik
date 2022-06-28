@@ -1,11 +1,11 @@
 @extends('layouts.app')
-@section('title',"Pendaftaran $pendaftaran->kode")
+@section('title',"Lihat Item")
 @section('content')
 <div class="content-wrapper">
     <section class="content-header">
       <h1>
         Pendaftaran
-        <small>{{ $pendaftaran->kode }} </small>
+        <small>{{ $nomorAntrian->pendaftaran->kode }} </small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -29,23 +29,23 @@
                     </tr>
                     <tr>
                       <td>Nomor Rekamedis</td>
-                      <td>{{ $pendaftaran->pasien->nomor_rekam_medis }}</td>
+                      <td>{{ $nomorAntrian->pendaftaran->pasien->nomor_rekam_medis }}</td>
                     </tr>
                     <tr>
                       <td>Nama</td>
-                      <td>{{ $pendaftaran->pasien->nama }}</td>
+                      <td>{{ $nomorAntrian->pendaftaran->pasien->nama }}</td>
                     </tr>
                     <tr>
                       <td>Tempat, Tgl Lhr</td>
-                      <td>{{ $pendaftaran->pasien->tempat_lahir }}, {{ $pendaftaran->pasien->tanggal_lahir }}</td>
+                      <td>{{ $nomorAntrian->pendaftaran->pasien->tempat_lahir }}, {{ $nomorAntrian->pendaftaran->pasien->tanggal_lahir }}</td>
                     </tr>
                     <tr>
                       <td>Umur</td>
-                      <td>{{ hitung_umur($pendaftaran->pasien->tanggal_lahir) }} Tahun</td>
+                      <td>{{ hitung_umur($nomorAntrian->pendaftaran->pasien->tanggal_lahir) }} Tahun</td>
                     </tr>
                     <tr>
                       <td>Jenis Layanan</td>
-                      <td>Pasien {{ $pendaftaran->perusahaanAsuransi->nama_perusahaan }}</td>
+                      <td>Pasien {{ $nomorAntrian->pendaftaran->perusahaanAsuransi->nama_perusahaan }}</td>
                     </tr>
                   </table>
               </div>
@@ -121,7 +121,7 @@
 
                 <hr>
                 <a href="/pendaftaran" class="btn btn-danger">Kembali</a>
-                <a target="new" href="/pendaftaran/{{ $pendaftaran->id }}/cetak_label" class="btn btn-danger">Cetak E - Tiket</a>
+                <a target="new" href="/pendaftaran/{{ $nomorAntrian->pendaftaran->id }}/cetak_label" class="btn btn-danger">Cetak E - Tiket</a>
               </div>
             </div>
           </div>

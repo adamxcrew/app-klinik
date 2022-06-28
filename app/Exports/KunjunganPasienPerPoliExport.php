@@ -63,9 +63,9 @@ class KunjunganPasienPerPoliExport implements FromView, ShouldAutoSize, WithEven
 
     public function data()
     {
-        return \DB::select("select po.nomor_poli,po.nama,count(p.id) as jumlah_kunjungan
-                            from poliklinik as po left join nomor_antrian as na on na.poliklinik_id=po.id
-                            left join pendaftaran as p on p.id=na.pendaftaran_id and p.jenis_layanan='" . $this->perusahaan_asuransi_id . "' 
+        return \DB::select("select po.nomor_poli,po.nama,count(na.id) as jumlah_kunjungan
+                            from poliklinik as po 
+                            left join nomor_antrian as na on po.id=na.poliklinik_id and na.perusahaan_asuransi_id='" . $this->perusahaan_asuransi_id . "' 
                             and left(na.created_at,10) BETWEEN '" . $this->tanggal_awal . "' and '" . $this->tanggal_akhir . "'
                             group by po.id");
     }

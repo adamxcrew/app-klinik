@@ -68,7 +68,7 @@ class LaporanKunjunganPasien implements FromView, ShouldAutoSize, WithEvents, Wi
         from nomor_antrian as na join pendaftaran as p on p.id=na.pendaftaran_id
         join pasien as ps on ps.id=p.pasien_id
         join poliklinik as pk on pk.id=na.poliklinik_id
-        join perusahaan_asuransi as pas on pas.id=p.jenis_layanan
+        join perusahaan_asuransi as pas on pas.id=na.perusahaan_asuransi_id
         where left(p.created_at,10) between '" . $this->tanggal_awal . "' and '" . $this->tanggal_akhir . "' $filterPerusahaanAsuransi
         GROUP by na.id");
     }

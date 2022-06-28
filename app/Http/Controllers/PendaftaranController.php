@@ -158,6 +158,11 @@ class PendaftaranController extends Controller
                             $btn = '<a class="btn btn-danger btn-sm btn-block" target="new" href="/pembayaran/' . $row->id . '/kwitansi"><i class="fa fa-print"></i></a></div>';
                         }
                     }
+
+                    // --------------------- ACTION YANG AKAN MUNCUL DI BAGIAN APOTEKER -----------------------
+                    if (auth()->user()->role == 'apoteker') {
+                        $btn .= '<li><a href="/pendaftaran/apotek/lihat-item/' . $row->id . '"><i class="fa fa-plus-square"></i> Cetak Label</a></li>';
+                    }
                     $btn .= '</ul>';
                     $btn .= '</div>';
                     return $btn;
@@ -767,12 +772,12 @@ class PendaftaranController extends Controller
 
     public function apotek_lihat_item($id)
     {
-        $data['pendaftaran']        = Pendaftaran::find($id);
+        $data['nomorAntrian'] = NomorAntrian::with('pendaftaran')->find($id);
         $data['pendaftaranResep']   = PendaftaranResep::with(['barang.satuanTerkecil'])
                                         ->where('jenis', '!=', 'bhp')
-                                        ->where('pendaftaran_id', $id);
+                                        ->where('pendaftaran_id', $data['nomorAntrian']->pendaftaran_id);
         $data['pendaftaranResepRacik'] = PendaftaranObatRacik::with('detail.barang')
-                                        ->where('pendaftaran_id', $id);
+                                        ->where('pendaftaran_id', $data['nomorAntrian']->pendaftaran_id);
         return view('apotek.lihat_item', $data);
     }
 }
