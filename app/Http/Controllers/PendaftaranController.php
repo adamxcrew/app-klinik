@@ -336,7 +336,10 @@ class PendaftaranController extends Controller
     public function input_indikator($id)
     {
         $data['nomorAntrian']                   = NomorAntrian::with('pendaftaran', 'poliklinik')->find($id);
-        $data['pendaftaranTindakan']            = PendaftaranTindakan::with('tindakan.indikator')->where('poliklinik_id', $data['nomorAntrian']->poliklinik_id)->get();
+        $data['pendaftaranTindakan']            = PendaftaranTindakan::with('tindakan.indikator')
+                                                    ->where('poliklinik_id', $data['nomorAntrian']->poliklinik_id)
+                                                    ->where('pendaftaran_id', $data['nomorAntrian']->pendaftaran_id)
+                                                    ->get();
         $data['hasilPemeriksaan']               = HasilPemeriksaanLab::where('pendaftaran_id', $id)->get();
         return view('pendaftaran.indikator', $data);
     }
