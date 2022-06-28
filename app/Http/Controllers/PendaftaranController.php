@@ -70,14 +70,17 @@ class PendaftaranController extends Controller
 
         if (auth()->user()->role == 'poliklinik') {
             $pendaftaran->where('nomor_antrian.poliklinik_id', auth()->user()->poliklinik_id);
-            //$pendaftaran->where('status_pelayanan', 'selesai_pemeriksaan_medis');
-            $pendaftaran->whereIn('status_pelayanan', ['selesai_pemeriksaan_medis','selesai_pelayanan','pemeriksaan_laboratorium']);
+            if (auth()->user()->poliklinik_id == 7) {
+                $pendaftaran->where('status_pembayaran', 1);
+            } else {
+                $pendaftaran->whereIn('status_pelayanan', ['selesai_pemeriksaan_medis','selesai_pelayanan','pemeriksaan_laboratorium']);
+            }
         }
 
         if (auth()->user()->role == 'laboratorium') {
             //$pendaftaran->where('status_pembayaran', 1);
             //$pendaftaran->where('nomor_antrian.poliklinik_id',auth()->user()->poliklinik_id);
-            $pendaftaran->whereIn('status_pelayanan', ['selesai_pembayaran','pemeriksaan_laboratorium']);
+            //$pendaftaran->whereIn('status_pelayanan', ['selesai_pembayaran','pemeriksaan_laboratorium']);
         }
 
         if (auth()->user()->role == 'kasir') {
