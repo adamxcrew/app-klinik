@@ -29,7 +29,7 @@
                                     <strong>Nomor Pendaftaran</strong>
                                 </div>
                                 <div class="col-md-7">
-                                    : {{ $pendaftaran->kode }}
+                                    : {{ $nomorAntrian->pendaftaran->kode }}
                                 </div>
                             </div>
     
@@ -38,7 +38,7 @@
                                     <strong>Nama</strong>
                                 </div>
                                 <div class="col-md-7">
-                                    : {{ $pendaftaran->pasien->nama }}
+                                    : {{ $nomorAntrian->pendaftaran->pasien->nama }}
                                 </div>
                             </div>
     
@@ -47,8 +47,8 @@
                                     <strong>Tempat tgl lahir</strong>
                                 </div>
                                 <div class="col-md-7">
-                                    : {{ $pendaftaran->pasien->tempat_lahir }},
-                                    {{ tgl_indo($pendaftaran->pasien->tanggal_lahir) }}
+                                    : {{ $nomorAntrian->pendaftaran->pasien->tempat_lahir }},
+                                    {{ tgl_indo($nomorAntrian->pendaftaran->pasien->tanggal_lahir) }}
                                 </div>
                             </div>
     
@@ -57,24 +57,10 @@
                                     <strong>Umur</strong>
                                 </div>
                                 <div class="col-md-7">
-                                    : {{ hitung_umur($pendaftaran->pasien->tanggal_lahir) }} tahun
+                                    : {{ hitung_umur($nomorAntrian->pendaftaran->pasien->tanggal_lahir) }} tahun
                                 </div>
                             </div>
-    
-                        </div>
-                    </div>
-                </div>
-            </div>
-    
-            <div class="col-md-6">
-                <div class="box card-height">
-                    <div class="box-header card-header">
-                        <strong>Informasi Terkait</strong>
-    
-                    </div>
-                    <div class="box-body">
-                        <div class="row">
-    
+
                             <div class="card-spac">
                                 <div class="col-md-5">
                                     <strong>Tujuan Poliklinik</strong>
@@ -98,100 +84,81 @@
                                     <strong>Jenis Layanan</strong>
                                 </div>
                                 <div class="col-md-7">
-                                    : {{ $pendaftaran->perusahaanAsuransi->nama_perusahaan }}
+                                    : {{ $nomorAntrian->perusahaanAsuransi->nama_perusahaan }}
                                 </div>
                             </div>
-    
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="content">
-        @include('alert')
-        <div class="row">
-            <div class="col-md-4">
-                <div class="box">
-                    <div class="box-header text-center" style="border-bottom: 1px solid;padding-top: 0;">
-                        <h3>Jenis Pemeriksaan Lab</h3>
-                    </div>
-                    <div class="box-body">
-                        @csrf
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>Rujukan pemeriksaan</label>
-                                    {{ Form::text('nama_jenis',$tindakan->tindakan,['class' => 'form-control', 'required', 'disabled']) }}
-                                </div>
-                                {{-- <div class="form-group">
-                                    <label>Catatan</label>
-                                    {{ Form::text('nama_jenis',$tindakan->tindakan,['class' => 'form-control', 'required', 'disabled']) }}
-                                </div> --}}
-                                <div class="form-group pull-right">
-                                    <a href="/pendaftaran" class="btn btn-primary">
-                                        <i class="fa fa-back"></i> kembali
-                                    </a>
-                                    
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="col-md-8">
-                <div class="box">
-                    <div class="box-header text-center" style="border-bottom: 1px solid;padding-top: 0;">
-                        <h3>Indikator Pemeriksaan Laboratorium</h3>
+                            <div class="card-spac">
+                                <div class="col-md-12">
+                                    <hr>
+                                    <a href="/pendaftaran" class="btn btn-primary">Kembali</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-md-6">
+                <div class="box card-height">
+                    <div class="box-header card-header">
+                        <strong>Pemeriksaan Laboratorium</strong>
+    
                     </div>
                     <div class="box-body">
-                        {{ Form::open(['url'=>'simpan-hasil-pemeriksaan-lab/'.$pendaftaran->id]) }}
-                        <table class="table table-bordered">
-                            <tr>
-                                <th>Nomor</th>
-                                <th>Indikator</th>
-                                <th>Nilai Rujukan</th>
-                                <th>Satuan</th>
-                                <th width="100">Hasil</th>
-                                <th>Catatan ( Opsional )</th>
-                            </tr>
-                            @foreach($indikatorPemeriksaan as $row)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $row->nama_indikator }}</td>
-                                <td>{{ $row->nilai_rujukan }}</td>
-                                <td>{{ $row->satuan }}</td>
-                                <td>
-                                    <input type="hidden" name="indikator_id[]" value="{{ $row->id }}">
-                                    <?php
-                                    $hasil = \DB::table('pendaftaran_hasil_pemeriksaan_lab')
-                                    ->where('pendaftaran_id',$pendaftaran->id)
-                                    ->where('indikator_pemeriksaan_lab_id',$row->id)
-                                    ->first();
-                                    ?>
-                                    {{ Form::text('hasil[]', $hasil->hasil??null, ['class' => 'form-control hasil detail-section', 'placeholder' => 'Nilai Hasil', 'required']) }}
-                                </td>
-                                <td>
-                                    {{ Form::text('catatan[]', $hasil->catatan??null, ['class' => 'form-control hasil detail-section', 'placeholder' => 'Catatan']) }}
-                                </td>
-                            </tr>
-                            @endforeach
-                            <tr>
-                                <td colspan="5"></td>
-                                <td class="text-left">
-                                    <button type="submit" class="btn btn-success">Simpan Hasil</button>
-                                    @if($hasilPemeriksaan)
-                                    <a href="/pendaftaran/{{$pendaftaran->id}}/input-indikator/print" target="new" class="btn btn-primary">
-                                        <i class="fa fa-print"></i> Cetak PDF
-                                    </a>
-                                    @endif
-                                </td>
-                            </tr>
-                        </table>
-                        {{ Form::close() }}
-      </div>
+                        <div class="box-body">
+                            {{ Form::open(['url'=>'simpan-hasil-pemeriksaan-lab/'.$nomorAntrian->pendaftaran->id]) }}
+                            <table class="table table-bordered">
+                                <?php $nomor =1 ;?>
+                                @foreach($pendaftaranTindakan as $tindakan)
+                                <tr class="danger">
+                                    <td colspan="6">Nama Pemeriksaan : {{ $tindakan->tindakan->tindakan }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Nomor</th>
+                                    <th>Indikator</th>
+                                    <th>Nilai Rujukan</th>
+                                    <th>Satuan</th>
+                                    <th width="100">Hasil</th>
+                                    <th>Catatan ( Opsional )</th>
+                                </tr>
+                                    @foreach($tindakan->tindakan->indikator as $row)
+                                    <tr>
+                                        <td>{{ $nomor++ }}</td>
+                                        <td>{{ $row->nama_indikator }}</td>
+                                        <td>{{ $row->nilai_rujukan }}</td>
+                                        <td>{{ $row->satuan }}</td>
+                                        <td>
+                                            <input type="hidden" name="indikator_id[]" value="{{ $row->id }}">
+                                            <?php
+                                            $hasil = \DB::table('pendaftaran_hasil_pemeriksaan_lab')
+                                            ->where('pendaftaran_id',$nomorAntrian->pendaftaran->id)
+                                            ->where('indikator_pemeriksaan_lab_id',$row->id)
+                                            ->first();
+                                            ?>
+                                            {{ Form::text('hasil[]', $hasil->hasil??null, ['class' => 'form-control hasil detail-section', 'placeholder' => 'Nilai Hasil', 'required']) }}
+                                        </td>
+                                        <td>
+                                            {{ Form::text('catatan[]', $hasil->catatan??null, ['class' => 'form-control hasil detail-section', 'placeholder' => 'Catatan']) }}
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                @endforeach
+                                <tr>
+                                    <td colspan="4"></td>
+                                    <td colspan="2" class="text-left">
+                                        <button type="submit" class="btn btn-success">Simpan Hasil</button>
+                                        @if($hasilPemeriksaan)
+                                        <a target="new" href="/pendaftaran/{{$nomorAntrian->pendaftaran->id}}/input-indikator/print" target="new" class="btn btn-primary">
+                                            <i class="fa fa-print"></i> Cetak PDF
+                                        </a>
+                                        @endif
+                                    </td>
+                                </tr>
+                            </table>
+                            {{ Form::close() }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -272,7 +239,7 @@ function refresh_table(hasResponse = null){
 	}
 
 	$.ajax({
-		url : "/hasil-pemeriksaan-lab/{{$pendaftaran->id}}",
+		url : "/hasil-pemeriksaan-lab/{{$nomorAntrian->pendaftaran->id}}",
 		type : "GET",
 		success : (response)=>{
 			$('#table-detail-section').html(response)
@@ -293,7 +260,7 @@ function refresh_table(hasResponse = null){
 function tambah_indikator() {
     let indikator_pemeriksaan_lab_id = $('#indikator_pemeriksaan_lab_id option:selected').val()
     let hasil = $('.hasil').val()
-    let pendaftaran_id = '{{$pendaftaran->id}}'
+    let pendaftaran_id = '{{$nomorAntrian->pendaftaran->id}}'
 
     if(indikator_pemeriksaan_lab_id == '' || hasil == '' || pendaftaran_id == '')
     {

@@ -8,7 +8,7 @@ class PendaftaranTindakan extends Model
 {
     protected $table = "pendaftaran_tindakan";
 
-    protected $fillable = ['tindakan_id', 'pendaftaran_id','poliklinik_id', 'fee', 'anamnesa', 'kode_gigi', 'tbm_icd_id','qty','discount'];
+    protected $fillable = ['tindakan_id', 'pendaftaran_id','poliklinik_id', 'fee', 'anamnesa', 'kode_gigi', 'tbm_icd_id','qty','discount','poliklinik_id'];
 
     public function pendaftaran()
     {
@@ -19,6 +19,7 @@ class PendaftaranTindakan extends Model
     {
         return $this->belongsTo('App\Models\Tindakan');
     }
+
 
     public function tbm()
     {

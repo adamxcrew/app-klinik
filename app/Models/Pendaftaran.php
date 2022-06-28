@@ -11,7 +11,7 @@ class Pendaftaran extends Model
     protected $fillable = [
         'kode',
         'pasien_id',
-        'jenis_layanan',
+        'perusahaan_asuransi_id',
         'status_pembayaran',
         'status_pelayanan',
         'status_alergi',
@@ -26,15 +26,7 @@ class Pendaftaran extends Model
         'alamat_penanggung_jawab',
         'no_hp_penanggung_jawab',
         'pemeriksaan_klinis',
-        'metode_pembayaran',
-        'total_bayar',
-        'user_id_kasir',
-        'jumlah_bayar',
-        'tindakan_id',
-        'keterangan_pembayaran',
         'anamnesa',
-        'check_list_poli_kebidanan',
-        'biaya_tambahan'
     ];
 
     public function pasien()
@@ -54,7 +46,7 @@ class Pendaftaran extends Model
 
     public function perusahaanAsuransi()
     {
-        return $this->belongsTo('App\Models\PerusahaanAsuransi', 'jenis_layanan', 'id');
+        return $this->belongsTo('App\Models\PerusahaanAsuransi', 'perusahaan_asuransi_id', 'id');
     }
 
     public function userKasir()

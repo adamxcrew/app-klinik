@@ -8,22 +8,25 @@ use Mike42\Escpos\Printer;
 use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 use App\Models\Barang;
 use App\Models\TindakanBHP;
+use App\Models\Pendaftaran;
+use App\Models\PendaftaranDiagnosa;
+use App\Models\PendaftaranFeeTindakan;
+use App\Models\PendaftaranObatRacik;
+use App\Models\PendaftaranTindakan;
+use App\Models\NomorAntrian;
+use App\Models\CatatanBarangKeluar;
 
 class TestController extends Controller
 {
+
     function test(Request $request)
     {
-        $barangDuplikat = \DB::select("select nama_barang,count(id) as jumlah
-        from barang group by nama_barang having jumlah>1");
-        foreach ($barangDuplikat as $barang) {
-            $nama_barang = $barang->nama_barang;
-            $barang = Barang::where('nama_barang', $nama_barang)->get();
-            foreach ($barang as $br) {
-                $bhp = TindakanBHP::where('barang_id', $br->id)->first();
-                if ($bhp == null) {
-                    \DB::table('barang')->where('id', $br->id)->delete();
-                }
-            }
-        }
+        Pendaftaran::truncate();
+        PendaftaranDiagnosa::truncate();
+        PendaftaranFeeTindakan::truncate();
+        PendaftaranObatRacik::truncate();
+        PendaftaranTindakan::truncate();
+        NomorAntrian::truncate();
+        CatatanBarangKeluar::truncate();
     }
 }

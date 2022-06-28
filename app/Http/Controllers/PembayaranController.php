@@ -8,6 +8,7 @@ use App\Models\PendaftaranResep;
 use App\Models\PendaftaranTindakan;
 use PDF;
 use Auth;
+use App\Models\NomorAntrian;
 
 class PembayaranController extends Controller
 {
@@ -20,19 +21,20 @@ class PembayaranController extends Controller
 
     public function store(PembayaranStoreRequest $request, $id)
     {
-        $pendaftaran = Pendaftaran::findOrFail($id);
-        $pendaftaran->update([
+        $nomorAntrian = NomorAntrian::findOrFail($id);
+        $nomorAntrian->update([
             'user_id_kasir'         => Auth::user()->id,
             'status_pembayaran'     => 1,
-            'status_pelayanan'      => 'selesai_pembayaran',
+            'status_pelayanan'      => 'selesai',
             'metode_pembayaran'     => $request->metode_pembayaran,
-            'jumlah_bayar'           => $request->jumlah_bayar,
+            'jumlah_bayar'          => $request->jumlah_bayar,
+            'keterangan_pembayaran' => $request->keterangan_pembayaran,
             'total_bayar'           => $request->total_bayar,
-            'biaya_tambahan'        =>  $request->biaya_tambahan
+            'biaya_tambahan'        => $request->biaya_tambahan
         ]);
 
         //return redirect('pembayaran/' . $pendaftaran->id . '/kwitansi');
-        return redirect('pendaftaran')->with('message', 'Pembayaran Atas Nama ' . $pendaftaran->pasien->nama . ' Behasil Disimpan');
+        return redirect('pendaftaran')->with('message', 'Pembayaran Atas Nama ' . $nomorAntrian->pendaftaran->pasien->nama . ' Behasil Disimpan');
     }
 
     public function kwitansi($id)

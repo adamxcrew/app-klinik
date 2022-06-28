@@ -1,11 +1,11 @@
 @extends('layouts.app')
-@section('title',"Pendaftaran $pendaftaran->kode")
+@section('title',"Pendaftaran ".$nomorAntrian->pendaftaran->kode)
 @section('content')
 <div class="content-wrapper">
     <section class="content-header">
       <h1>
         Pendaftaran
-        <small>{{ $pendaftaran->kode }} </small>
+        <small>{{ $nomorAntrian->pendaftaran->kode }} </small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -29,23 +29,23 @@
                     </tr>
                     <tr>
                       <td>Nomor Rekamedis</td>
-                      <td>{{ $pendaftaran->pasien->nomor_rekam_medis }}</td>
+                      <td>{{ $nomorAntrian->pendaftaran->pasien->nomor_rekam_medis }}</td>
                     </tr>
                     <tr>
                       <td>Nama</td>
-                      <td>{{ $pendaftaran->pasien->nama }}</td>
+                      <td>{{ $nomorAntrian->pendaftaran->pasien->nama }}</td>
                     </tr>
                     <tr>
                       <td>Tempat, Tgl Lhr</td>
-                      <td>{{ $pendaftaran->pasien->tempat_lahir }}, {{ $pendaftaran->pasien->tanggal_lahir }}</td>
+                      <td>{{ $nomorAntrian->pendaftaran->pasien->tempat_lahir }}, {{ $nomorAntrian->pendaftaran->pasien->tanggal_lahir }}</td>
                     </tr>
                     <tr>
                       <td>Umur</td>
-                      <td>{{ hitung_umur($pendaftaran->pasien->tanggal_lahir) }} Tahun</td>
+                      <td>{{ hitung_umur($nomorAntrian->pendaftaran->pasien->tanggal_lahir) }} Tahun</td>
                     </tr>
                     <tr>
                       <td>Jenis Layanan</td>
-                      <td>Pasien {{ $pendaftaran->perusahaanAsuransi->nama_perusahaan }}</td>
+                      <td>Pasien {{ $nomorAntrian->pendaftaran->perusahaanAsuransi->nama_perusahaan }}</td>
                     </tr>
                   </table>
 
@@ -81,8 +81,8 @@
                 </table>
                   <hr>
 
-                  <a href="/pendaftaran/{{ $pendaftaran->id }}/selesai" class="btn btn-danger btn-lg">Tandai Selesai Pelayanan</a>
-                  {{-- <a href="/pendaftaran/{{ $pendaftaran->id }}/cetak_rekamedis" target="new" class="btn btn-danger btn-lg">Cetak Rekamedis</a> --}}
+                  <a href="/pendaftaran/{{ $nomorAntrian->pendaftaran->id }}/selesai" class="btn btn-danger btn-lg">Tandai Selesai Pelayanan</a>
+                  {{-- <a href="/pendaftaran/{{ $nomorAntrian->pendaftaran->id }}/cetak_rekamedis" target="new" class="btn btn-danger btn-lg">Cetak Rekamedis</a> --}}
                   <div class="btn-group">
                     <button type="button" class="btn btn-danger btn-lg">Cetak Surat</button>
                     <button type="button" class="btn btn-danger btn-lg dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
@@ -90,10 +90,10 @@
                     <span class="sr-only">Toggle Dropdown</span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                    <li><a href="/surat/create?jenis=surat_sakit&pendaftaran_id={{$pendaftaran->id}}">Surat Keterangan Sakit</a></li>
-                    <li><a href="/surat/create?jenis=surat_sehat&pendaftaran_id={{$pendaftaran->id}}">Surat Keterangan Sehat</a></li>
-                    <li><a href="/surat/create?jenis=surat_rujukan&pendaftaran_id={{$pendaftaran->id}}">Surat Rujukan</a></li>
-                    <li><a href="/surat/create?jenis=surat_buta_warna&pendaftaran_id={{$pendaftaran->id}}">Surat Keterangan Buta Warna</a></li>
+                    <li><a href="/surat/create?jenis=surat_sakit&pendaftaran_id={{$nomorAntrian->pendaftaran->id}}">Surat Keterangan Sakit</a></li>
+                    <li><a href="/surat/create?jenis=surat_sehat&pendaftaran_id={{$nomorAntrian->pendaftaran->id}}">Surat Keterangan Sehat</a></li>
+                    <li><a href="/surat/create?jenis=surat_rujukan&pendaftaran_id={{$nomorAntrian->pendaftaran->id}}">Surat Rujukan</a></li>
+                    <li><a href="/surat/create?jenis=surat_buta_warna&pendaftaran_id={{$nomorAntrian->pendaftaran->id}}">Surat Keterangan Buta Warna</a></li>
                     </ul>
                     </div>
                   <a href="/pendaftaran" class="btn btn-danger btn-lg">Kembali</a>
@@ -105,7 +105,7 @@
               <div class="box-body">
                 <h4>Input Anamnesa</h4>
                 <hr>
-                <textarea class="form-control anamnesa" onKeyUp="simpan_anamnesa()" placeholder="Anamnesa Pasien">{{ $pendaftaran->anamnesa }}</textarea>
+                <textarea class="form-control anamnesa" onKeyUp="simpan_anamnesa()" placeholder="Anamnesa Pasien">{{ $nomorAntrian->pendaftaran->anamnesa }}</textarea>
                 <hr style="border:1px dashed">
                 @if(Auth::user()->poliklinik_id == env("POLI_TUMBUH_KEMBANG_ID", "somedefaultvalue"))
                
@@ -273,7 +273,7 @@
                       
                     </div>
                     {{-- <div class="col-md-5">
-                      <input type="checkbox" onclick="check_lock_bpjs()" {{ $pendaftaran->perusahaanAsuransi->nama_perusahaan=='BPJS'?'checked=checked"':''}} id="lock_bpjs"> Kunci Obat Umum ? </div>
+                      <input type="checkbox" onclick="check_lock_bpjs()" {{ $nomorAntrian->pendaftaran->perusahaanAsuransi->nama_perusahaan=='BPJS'?'checked=checked"':''}} id="lock_bpjs"> Kunci Obat Umum ? </div>
                   </div> --}}
                  
                 </td>
@@ -324,7 +324,7 @@
           <div class="col-md-12">
 
             {{ Form::open(['url'=>'pendaftaran-resep-racik']) }}
-            {{ Form::hidden('pendaftaran_id',$pendaftaran->id) }}
+            {{ Form::hidden('pendaftaran_id',$nomorAntrian->pendaftaran->id) }}
             <table class="table table-bordered inner2 form-racik-1101">
               <tr>
                 <th>Jumlah Kemasan</th>
@@ -564,7 +564,7 @@
     placeholder: 'Cari Barang',
     tags: false,
     ajax: {
-      url: '/ajax/select2Barang?pelayanan={{ $pendaftaran->jenisLayanan->nama_perusahaan}}&poliklinik_id='+{{ Auth::user()->poliklinik_id }},
+      url: '/ajax/select2Barang?pelayanan={{ $nomorAntrian->perusahaanAsuransi->nama_perusahaan}}&poliklinik_id='+{{ Auth::user()->poliklinik_id }},
       dataType: 'json',
       delay: 250,
       processResults: function(data) {
@@ -587,7 +587,7 @@
     placeholder: 'Cari Barang',
     tags: false,
     ajax: {
-      url: '/ajax/select2Barang?pelayanan={{ $pendaftaran->jenisLayanan->nama_perusahaan}}&poliklinik_id='+{{ Auth::user()->poliklinik_id }},
+      url: '/ajax/select2Barang?pelayanan={{ $nomorAntrian->perusahaanAsuransi->nama_perusahaan}}&poliklinik_id='+{{ Auth::user()->poliklinik_id }},
       dataType: 'json',
       delay: 250,
       processResults: function(data) {
@@ -630,7 +630,7 @@
     placeholder: 'Cari Barang',
     tags: false,
     ajax: {
-      url: '/ajax/select2Barang?pelayanan={{ $pendaftaran->jenisLayanan->nama_perusahaan}}&poliklinik_id='+{{ Auth::user()->poliklinik_id }},
+      url: '/ajax/select2Barang?pelayanan={{ $nomorAntrian->perusahaanAsuransi->nama_perusahaan}}&poliklinik_id='+{{ Auth::user()->poliklinik_id }},
       dataType: 'json',
       delay: 250,
       processResults: function(data) {
@@ -677,7 +677,7 @@
    // KELOLA TINDAKAN =======================
   function load_daftar_tindakan(){
     $.ajax({
-    url: "/pendaftaran-tindakan/<?php echo $pendaftaran->id;?>",
+    url: "/pendaftaran-tindakan/<?php echo $nomorAntrian->pendaftaran->id;?>",
     method: 'GET',
     success: function (response) {
         $("#daftar_tindakan").html(response);
@@ -710,7 +710,7 @@
         dokter: dokter,
         "_token": "{{ csrf_token() }}",
         asisten: asisten,
-        pendaftaran_id: '{{$pendaftaran->id}}'
+        pendaftaran_id: '{{$nomorAntrian->pendaftaran->id}}'
       },
       success: (response) => {
         $('#exampleModal').modal('hide');
@@ -736,7 +736,7 @@
         tanggal:tanggal,
         _token: '{{csrf_token()}}',
         catatan:catatan,
-        pendaftaran_id: '{{$pendaftaran->id}}'
+        pendaftaran_id: '{{$nomorAntrian->pendaftaran->id}}'
       },
       success: (response) => {
         $('#modal-catatan-harian').modal('hide');
@@ -747,7 +747,7 @@
 
   function load_catatan_harian(){
     $.ajax({
-    url: "/pendaftaran-catatan-harian/<?php echo $pendaftaran->id;?>",
+    url: "/pendaftaran-catatan-harian/<?php echo $nomorAntrian->pendaftaran->id;?>",
     method: 'GET',
     success: function (response) {
         $("#catatan_harian").html(response);
@@ -779,7 +779,7 @@
   // KELOLA DATA DIAGNOSA ==========================================
   function load_daftar_diagnosa(){
     $.ajax({
-    url: "/pendaftaran-diagnosa/<?php echo $pendaftaran->id;?>",
+    url: "/pendaftaran-diagnosa/<?php echo $nomorAntrian->pendaftaran->id;?>",
     method: 'GET',
     success: function (response) {
         $("#daftar_diagnosa").html(response);
@@ -820,7 +820,7 @@
       method: 'POST',
       data: {
         _token: '{{csrf_token()}}',
-        pendaftaran_id: '{{$pendaftaran->id}}',
+        pendaftaran_id: '{{$nomorAntrian->pendaftaran->id}}',
         tbm_icd_id: diagnosa,
       },
       success: (response) => {
@@ -846,7 +846,7 @@
   // KELOLA OBAT RACIK
   function load_daftar_obat_racik(){
     $.ajax({
-    url: "/pendaftaran-resep-racik/<?php echo $pendaftaran->id;?>",
+    url: "/pendaftaran-resep-racik/<?php echo $nomorAntrian->pendaftaran->id;?>",
     method: 'GET',
     success: function (response) {
         $("#daftar_obat_non_racik").html(response);
@@ -883,7 +883,7 @@
           placeholder: 'Cari Barang',
           tags: true,
           ajax: {
-            url: '/ajax/select2Barang?pelayanan={{ $pendaftaran->jenisLayanan->nama_perusahaan}}&poliklinik_id='+{{ Auth::user()->poliklinik_id }},
+            url: '/ajax/select2Barang?pelayanan={{ $nomorAntrian->perusahaanAsuransi->nama_perusahaan}}&poliklinik_id='+{{ Auth::user()->poliklinik_id }},
             dataType: 'json',
             delay: 250,
             processResults: function(data) {
@@ -932,7 +932,7 @@
 
    function load_daftar_obat_non_racik(){
     $.ajax({
-    url: "/pendaftaran-resep/<?php echo $pendaftaran->id;?>",
+    url: "/pendaftaran-resep/<?php echo $nomorAntrian->pendaftaran->id;?>",
     method: 'GET',
     success: function (response) {
         $("#daftar_obat_racik").html(response);
@@ -954,7 +954,7 @@
         barang_id: barang_id,
         jumlah: jumlah,
         satuan: satuan,
-        pendaftaran_id: '{{$pendaftaran->id}}',
+        pendaftaran_id: '{{$nomorAntrian->pendaftaran->id}}',
         aturan_pakai: aturan_pakai,
         jenis: 'racik'
       },
@@ -981,7 +981,7 @@
   function load_rujukan_internal(){
     console.log("Loading rujukan internal");
     $.ajax({
-    url: "/pendaftaran-rujukan/<?php echo $pendaftaran->id;?>",
+    url: "/pendaftaran-rujukan/<?php echo $nomorAntrian->pendaftaran->id;?>",
     method: 'GET',
     success: function (response) {
         $("#rujukan_internal").html(response);
@@ -1018,7 +1018,7 @@
       data: {
         "_token": "{{ csrf_token() }}",
         user_id:user_id,
-        pendaftaran_id: '{{$pendaftaran->id}}',
+        pendaftaran_id: '{{$nomorAntrian->pendaftaran->id}}',
         poliklinik_id:poliklinik_id,
         catatan:catatan,
         jenis_pemeriksaan_laboratorium_id:jenis_pemeriksaan_laboratorium_id
@@ -1043,7 +1043,7 @@
       url: '/ajax/simpan-anamnesa',
       data: {
         "_token": "{{ csrf_token() }}",
-        pendaftaran_id: '{{$pendaftaran->id}}',
+        pendaftaran_id: '{{$nomorAntrian->pendaftaran->id}}',
         anamnesa:anamnesa
       },
       type: "GET",

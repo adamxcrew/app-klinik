@@ -9,7 +9,21 @@ class NomorAntrian extends Model
 {
     protected $table = "nomor_antrian";
 
-    protected $fillable = ['pendaftaran_id','poliklinik_id','nomor_antrian','dokter_id','tindakan_id','status_pemeriksaan','sudah_dipanggil'];
+    protected $fillable = [
+        'pendaftaran_id',
+        'poliklinik_id',
+        'nomor_antrian',
+        'dokter_id',
+        'status_pelayanan',
+        'sudah_dipanggil',
+        'status_pembayaran',
+        'metode_pembayaran',
+        'keterangan_pembayaran',
+        'jumlah_bayar',
+        'total_bayar',
+        'user_id_kasir',
+        'perusahaan_asuransi_id'
+    ];
 
 
     public function poliklinik()
@@ -29,5 +43,10 @@ class NomorAntrian extends Model
     public function tindakan()
     {
         return $this->belongsTo('App\Models\Tindakan', 'tindakan_id', 'id');
+    }
+
+    public function perusahaanAsuransi()
+    {
+        return $this->belongsTo('App\Models\PerusahaanAsuransi', 'perusahaan_asuransi_id', 'id');
     }
 }

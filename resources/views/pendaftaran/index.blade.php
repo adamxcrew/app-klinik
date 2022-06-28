@@ -201,7 +201,7 @@
             { data: 'nama', name: 'nama' },
             { data: 'nama_poliklinik', name: 'nama_poliklinik' },
             { data: 'nama_dokter', name: 'nama_dokter' },
-            { data: 'jenis_layanan', name: 'jenis_layanan' },
+            { data: 'nama_perusahaan', name: 'nama_perusahaan' },
             { data: 'status_pelayanan', name: 'status_pelayanan' },
             { data: 'action', name: 'action' }
           ]

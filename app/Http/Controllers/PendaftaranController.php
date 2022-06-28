@@ -21,6 +21,7 @@ use App\Models\PendaftaranResep;
 use App\Models\RujukanInternal;
 use DataTables;
 use PDF;
+use Auth;
 use DB;
 use Carbon\Carbon;
 use App\Http\Requests\PendaftaranInputTandaVitalRequest;
@@ -54,58 +55,52 @@ class PendaftaranController extends Controller
 
     public function index(Request $request)
     {
+        // return auth()->user()->poliklinik_id;
         $data['tanggal_awal']   = $request->tanggal_awal ?? date('Y-m-d');
         $data['tanggal_akhir']  = $request->tanggal_akhir ?? date('Y-m-d');
         $data['poliklinik_id']  = $request->poliklinik_id;
 
-        $awal = date('Y-m-d H:i:s', strtotime($data['tanggal_awal']));
-        $akhir = date('Y-m-d H:i:s', strtotime($data['tanggal_akhir']));
+        $awal                   = date('Y-m-d H:i:s', strtotime($data['tanggal_awal']));
+        $akhir                  = date('Y-m-d H:i:s', strtotime($data['tanggal_akhir']));
 
-        $pendaftaran = Pendaftaran::select('users.name as nama_dokter', 'pendaftaran.*', 'nomor_antrian.nomor_antrian', 'poliklinik.nama as nama_poliklinik')
-            ->with('pasien', 'perusahaanAsuransi')
-            ->join('nomor_antrian', 'nomor_antrian.pendaftaran_id', 'pendaftaran.id')
-            ->join('users', 'users.id', 'nomor_antrian.dokter_id')
-            ->join('poliklinik', 'nomor_antrian.poliklinik_id', 'poliklinik.id')
-                ->whereBetween(DB::raw('DATE(pendaftaran.created_at)'), [$awal, $akhir]);
+        $nomorAntrian           = NomorAntrian::select(
+            'pasien.nomor_rekam_medis',
+            'nomor_antrian.id',
+            'pasien.nama',
+            'nomor_antrian.nomor_antrian',
+            'nomor_antrian.poliklinik_id',
+            'poliklinik.nama as nama_poliklinik',
+            'users.name as nama_dokter',
+            'nomor_antrian.status_pembayaran',
+            \DB::raw('concat(left(nomor_antrian.created_at,10),nomor_antrian.nomor_antrian) as nomor_antrian_waktu'),
+            \DB::raw('left(nomor_antrian.created_at,10) as tanggal'),
+            'perusahaan_asuransi.nama_perusahaan',
+            'nomor_antrian.status_pelayanan'
+        )
+        ->join('pendaftaran', 'pendaftaran.id', 'nomor_antrian.pendaftaran_id')
+        ->join('pasien', 'pasien.id', 'pendaftaran.pasien_id')
+        ->join('poliklinik', 'poliklinik.id', 'nomor_antrian.poliklinik_id')
+        ->join('users', 'users.id', 'nomor_antrian.dokter_id')
+        ->join('perusahaan_asuransi', 'perusahaan_asuransi.id', 'nomor_antrian.perusahaan_asuransi_id');
 
+        // ------------------ FILTER PADA ROLE POLIKLINIK -----------------------------
         if (auth()->user()->role == 'poliklinik') {
-            $pendaftaran->where('nomor_antrian.poliklinik_id', auth()->user()->poliklinik_id);
+            $nomorAntrian->where('nomor_antrian.poliklinik_id', Auth::user()->poliklinik_id);
             if (auth()->user()->poliklinik_id == 7) {
-                $pendaftaran->where('status_pembayaran', 1);
+                // jika lab
+                $nomorAntrian->where('status_pembayaran', 1);
             } else {
-                $pendaftaran->whereIn('status_pelayanan', ['selesai_pemeriksaan_medis','selesai_pelayanan','pemeriksaan_laboratorium']);
+                $nomorAntrian->whereIn('status_pelayanan', ['selesai_pemeriksaan_medis','selesai_pelayanan']);
             }
         }
-
-        if (auth()->user()->role == 'laboratorium') {
-            //$pendaftaran->where('status_pembayaran', 1);
-            //$pendaftaran->where('nomor_antrian.poliklinik_id',auth()->user()->poliklinik_id);
-            //$pendaftaran->whereIn('status_pelayanan', ['selesai_pembayaran','pemeriksaan_laboratorium']);
-        }
-
+        // ------------------ FILTER PADA ROLE KASIR -----------------------------
         if (auth()->user()->role == 'kasir') {
-            $pendaftaran->whereIn('status_pelayanan', ['selesai_pelayanan','sedang_dirujuk','selesai_pemeriksaan_medis']);
-        }
-
-        if (auth()->user()->role == 'apoteker') {
-            $pendaftaran->where('status_pembayaran', 1);
-        }
-
-        if (auth()->user()->role == 'bagian_pendaftaran') {
-            //$pendaftaran->where('status_pelayanan', 'pendaftaran');
-        }
-
-        // filter berdasarkan poliklinik
-        if ($request->poliklinik_id != null) {
-            $pendaftaran->where('nomor_antrian.poliklinik_id', $request->poliklinik_id);
+            $nomorAntrian->whereIn('status_pelayanan', ['selesai_pemeriksaan_medis','selesai_pelayanan','selesai_pembayaran']);
         }
 
         if ($request->ajax()) {
             $status_pelayanan = $this->status_pelayanan;
-            return DataTables::of($pendaftaran->orderBy('id', 'DESC')->get())
-                ->addColumn('nomor_antrian_waktu', function ($row) {
-                    return tgl_indo(substr($row->created_at, 0, 10)) . '' . substr($row->created_at, 10, 6) . ' / Nomor ' . $row->nomor_antrian;
-                })
+            return DataTables::of($nomorAntrian)
                 ->addColumn('action', function ($row) {
                     $btn = '<div class="btn-group">';
                     $btn .= '<button type="button" class="btn btn-danger">Pilih Tindakan</button>
@@ -114,81 +109,203 @@ class PendaftaranController extends Controller
                                <span class="sr-only">Toggle Dropdown</span>
                              </button>';
                     $btn .= '<ul class="dropdown-menu" role="menu">';
-                    if ($row->status_pelayanan == 'pendaftaran') {
-                        $btn .= \Form::open(['url' => 'pendaftaran/' . $row->id, 'method' => 'DELETE', 'style' => 'margin-left:15px']);
-                        $btn .= "<li><button type='submit' style='border: 0;background:#fff'><i class='fa fa-times'></i> <span style='margin-left:10px'>Batal</span></button></li>";
-                        $btn .= \Form::close();
-                    }
-                    if (auth()->user()->role == 'poliklinik') {
-                        if ($row->status_pelayanan == 'selesai_pemeriksaan_medis') {
-                            // cek kalau unit lab maka tampilkan pemeriksaan lab
-                            $unit = Poliklinik::where('id', \Auth::user()->poliklinik_id)->first();
-                            if ($unit->jenis_unit == 'laboratorium') {
-                                $btn .= '<li><a href="/pendaftaran/' . $row->id . '/input-indikator"><i class="fa fa-plus-square"></i> Input Tindakan Lab</a></li>';
-                            } elseif (in_array($unit->id, [2,3,4,5,6,7])) {
-                                // 2 itu adalah id poli gigi
-                                $btn .= '<li><a href="/pendaftaran/' . $row->id . '/pemeriksaan"><i class="fa fa-edit"></i> Input tindakan</a></li>';
-                            } else {
-                                $btn .= '<li><a href="/ondotogram/' . $row->id . '"><i class="fa fa-plus-square"></i> Pemeriksaan Gigi</a></li>';
-                            }
-                        } elseif ($row->status_pelayanan == 'selesai_pelayanan') {
-                            $btn .= '<li><a href="/pendaftaran/' . $row->id . '/pemeriksaan"><i class="fa fa-print"></i> Edit Tindakan</a></li>';
-                        } else {
-                            $btn .= '<li><a href="/pendaftaran/' . $row->id . '/input_tanda_vital"><i class="fa fa-print"></i> Input Tanda Vital</a></li>';
-                        }
-                    } elseif (auth()->user()->role == 'apoteker') {
-                        $btn .= '<li><a href="/pendaftaran/apotek/lihat-item/' . $row->id . '"><i class="fa fa-plus-square"></i> Cetak Label</a></li>';
-                        //$btn .= '<li><a href="/pendaftaran/' . $row->id . '/cetak_label"><i class="fa fa-plus-square"></i> Cetak Label</a></li>';
-                    } elseif (auth()->user()->role == 'kasir') {
-                        if ($row->status_pembayaran == 1) {
-                            $btn = '<a class="btn btn-danger btn-sm btn-block" target="new" href="/pembayaran/' . $row->id . '/kwitansi"><i class="fa fa-print"></i></a></div>';
-                        } else {
-                            $btn = '<a class="btn btn-danger btn-sm" style="margin-right:5px" href="/pembayaran/' . $row->id . '"><i class="fa fa-money"></i></a></div>';
-                            $btn .= '<a class="btn btn-danger btn-sm" href="/pembayaran/' . $row->id . '/kwitansi"><i class="fa fa-print"></i></a></div>';
-                        }
-                    } elseif (auth()->user()->role == 'laboratorium') {
-                        $btn = '<li><a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/input-indikator"><i class="fa fa-edit"></i> Input Indikator</a></li>';
-                    } elseif (auth()->user()->role == 'admin_medis') {
+
+                    // --------------------- ACTION YANG AKAN MUNCUL DI BAGIAN PENDAFTARAN -----------------------
+                    if (auth()->user()->role == 'bagian_pendaftaran') {
                         if ($row->status_pelayanan == 'pendaftaran') {
-                            $btn .= '<li><a href="/pendaftaran/' . $row->id . '/input_tanda_vital"><i class="fa fa-print"></i> Input Tanda Vital</a></li>';
-                        }
-                    } else {
-                        if ($row->status_pelayanan == 'batal') {
-                            $btn .= "<li><button type='button' class='btn btn-default btn-sm'>Dibatalkan</button></li>";
-                        } else {
+                            $btn .= \Form::open(['url' => 'pendaftaran/' . $row->id, 'method' => 'DELETE', 'style' => 'margin-left:15px']);
+                            $btn .= "<li><button type='submit' style='border: 0;background:#fff'><i class='fa fa-times'></i> <span style='margin-left:10px'>Batal</span></button></li>";
+                            $btn .= \Form::close();
                             $btn .= '<li><a href="/pendaftaran/' . $row->id . '/cetak"><i class="fa fa-print"></i> Cetak Antrian</a></li>';
                             $btn .= '<li><a href="/pendaftaran/' . $row->id . '/edit"><i class="fa fa-edit"></i> Edit</a></li>';
+                        }
+                    }
+
+                    // --------------------- ACTION YANG AKAN MUNCUL DI BAGIAN ADMIN MEDIS -----------------------
+                    if (auth()->user()->role == 'admin_medis') {
+                        if ($row->status_pelayanan != 'selesai_pemeriksaan_medis') {
+                            $btn .= '<li><a href="/pendaftaran/' . $row->id . '/input_tanda_vital"><i class="fa fa-print"></i> Input Tanda Vital</a></li>';
+                        }
+                    }
+
+                    // --------------------- ACTION YANG AKAN MUNCUL DI BAGIAN POLIKLINIK -----------------------
+                    if (auth()->user()->role == 'poliklinik') {
+                        if ($row->piliklinik_id == 1) { // poli gigi
+                            $btn .= '<li><a href="/ondotogram/' . $row->id . '"><i class="fa fa-plus-square"></i> Pemeriksaan Gigi</a></li>';
+                        } elseif ($row->poliklinik_id == 7) { // lab
+                                $btn .= '<li><a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/input-indikator"><i class="fa fa-edit"></i> Input Indikator</a></li>';
+                        } else {
+                            if ($row->status_pelayanan == 'selesai_pelayanan') {
+                                $btn .= '<li><a href="/pendaftaran/' . $row->id . '/pemeriksaan"><i class="fa fa-edit"></i> Edit tindakan</a></li>';
+                            } else {
+                                $btn .= '<li><a href="/pendaftaran/' . $row->id . '/pemeriksaan"><i class="fa fa-edit"></i> Input tindakan</a></li>';
+                            }
+                        }
+                    }
+
+                    // --------------------- ACTION YANG AKAN MUNCUL DI BAGIAN ADMIN MEDIS -----------------------
+                    if (auth()->user()->role == 'kasir') {
+                        if ($row->status_pembayaran == 0) {
+                            $btn = '<a class="btn btn-danger btn-sm" style="margin-right:5px" href="/pembayaran/' . $row->id . '"><i class="fa fa-money"></i></a></div>';
+                        } else {
+                            $btn = '<a class="btn btn-danger btn-sm btn-block" target="new" href="/pembayaran/' . $row->id . '/kwitansi"><i class="fa fa-print"></i></a></div>';
                         }
                     }
                     $btn .= '</ul>';
                     $btn .= '</div>';
                     return $btn;
                 })
-                ->addColumn('jenis_layanan', function ($row) {
-                    if (isset($row->perusahaanAsuransi)) {
-                        return $row->perusahaanAsuransi->nama_perusahaan;
-                    }
-                    return "Tidak ada";
-                })
-                ->addColumn('nama', function ($row) {
-                    return $row->pasien->inisial . ' . ' . $row->pasien->nama;
-                })
                 ->addColumn('status_pelayanan', function ($row) use ($status_pelayanan) {
-                    return $status_pelayanan[$row->status_pelayanan];
+                    //return $status_pelayanan[$row->status_pelayanan];
+                    return $row->status_pelayanan;
                 })
-                ->addColumn('nomor_rekam_medis', function ($row) {
-                    $checked = $row->check_list_poli_kebidanan == 1 ? 'checked' : '';
-                    $checkbox = \Auth::user()->poliklinik_id == 3 ? '<input ' . $checked . ' onclick="checklist(' . $row->id . ')" type="checkbox"> ' : '';
-                    return $checkbox . '' . $row->pasien->nomor_rekam_medis;
-                })
-                ->rawColumns(['action','nomor_rekam_medis'])
+                ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
         }
-
         $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
         return view('pendaftaran.index', $data);
     }
+
+
+    // public function _index(Request $request)
+    // {
+    //     $data['tanggal_awal']   = $request->tanggal_awal ?? date('Y-m-d');
+    //     $data['tanggal_akhir']  = $request->tanggal_akhir ?? date('Y-m-d');
+    //     $data['poliklinik_id']  = $request->poliklinik_id;
+
+    //     $awal = date('Y-m-d H:i:s', strtotime($data['tanggal_awal']));
+    //     $akhir = date('Y-m-d H:i:s', strtotime($data['tanggal_akhir']));
+
+    //     $pendaftaran = Pendaftaran::select('users.name as nama_dokter', 'pendaftaran.*', 'nomor_antrian.nomor_antrian', 'poliklinik.nama as nama_poliklinik')
+    //         ->with('pasien', 'perusahaanAsuransi')
+    //         ->join('nomor_antrian', 'nomor_antrian.pendaftaran_id', 'pendaftaran.id')
+    //         ->join('users', 'users.id', 'nomor_antrian.dokter_id')
+    //         ->join('poliklinik', 'nomor_antrian.poliklinik_id', 'poliklinik.id')
+    //             ->whereBetween(DB::raw('DATE(pendaftaran.created_at)'), [$awal, $akhir]);
+
+
+    //     if (auth()->user()->role == 'poliklinik') {
+    //         $pendaftaran->where('nomor_antrian.poliklinik_id', auth()->user()->poliklinik_id);
+    //         if (auth()->user()->poliklinik_id == 7) {
+    //             $pendaftaran->where('status_pembayaran', 1);
+    //         } else {
+    //             $pendaftaran->whereIn('status_pelayanan', ['selesai_pemeriksaan_medis','selesai_pelayanan','pemeriksaan_laboratorium']);
+    //         }
+    //     }
+
+    //     if (auth()->user()->role == 'laboratorium') {
+    //         //$pendaftaran->where('status_pembayaran', 1);
+    //         //$pendaftaran->where('nomor_antrian.poliklinik_id',auth()->user()->poliklinik_id);
+    //         //$pendaftaran->whereIn('status_pelayanan', ['selesai_pembayaran','pemeriksaan_laboratorium']);
+    //     }
+
+    //     if (auth()->user()->role == 'kasir') {
+    //         $pendaftaran->whereIn('status_pelayanan', ['selesai_pelayanan','sedang_dirujuk','selesai_pemeriksaan_medis']);
+    //     }
+
+    //     if (auth()->user()->role == 'apoteker') {
+    //         $pendaftaran->where('status_pembayaran', 1);
+    //     }
+
+    //     if (auth()->user()->role == 'bagian_pendaftaran') {
+    //         //$pendaftaran->where('status_pelayanan', 'pendaftaran');
+    //     }
+
+    //     // filter berdasarkan poliklinik
+    //     if ($request->poliklinik_id != null) {
+    //         $pendaftaran->where('nomor_antrian.poliklinik_id', $request->poliklinik_id);
+    //     }
+
+    //     if ($request->ajax()) {
+    //         $status_pelayanan = $this->status_pelayanan;
+    //         return DataTables::of($pendaftaran->orderBy('id', 'DESC')->get())
+    //             ->addColumn('nomor_antrian_waktu', function ($row) {
+    //                 return tgl_indo(substr($row->created_at, 0, 10)) . '' . substr($row->created_at, 10, 6) . ' / Nomor ' . $row->nomor_antrian;
+    //             })
+    //             ->addColumn('action', function ($row) {
+    //                 $btn = '<div class="btn-group">';
+    //                 $btn .= '<button type="button" class="btn btn-danger">Pilih Tindakan</button>
+    //                            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+    //                            <span class="caret"></span>
+    //                            <span class="sr-only">Toggle Dropdown</span>
+    //                          </button>';
+    //                 $btn .= '<ul class="dropdown-menu" role="menu">';
+    //                 if ($row->status_pelayanan == 'pendaftaran') {
+    //                     $btn .= \Form::open(['url' => 'pendaftaran/' . $row->id, 'method' => 'DELETE', 'style' => 'margin-left:15px']);
+    //                     $btn .= "<li><button type='submit' style='border: 0;background:#fff'><i class='fa fa-times'></i> <span style='margin-left:10px'>Batal</span></button></li>";
+    //                     $btn .= \Form::close();
+    //                 }
+    //                 if (auth()->user()->role == 'poliklinik') {
+    //                     if ($row->status_pelayanan == 'selesai_pemeriksaan_medis') {
+    //                         // cek kalau unit lab maka tampilkan pemeriksaan lab
+    //                         $unit = Poliklinik::where('id', \Auth::user()->poliklinik_id)->first();
+    //                         if ($unit->jenis_unit == 'laboratorium') {
+    //                             $btn .= '<li><a href="/pendaftaran/' . $row->id . '/input-indikator"><i class="fa fa-plus-square"></i> Input Tindakan Lab</a></li>';
+    //                         } elseif (in_array($unit->id, [2,3,4,5,6,7])) {
+    //                             // 2 itu adalah id poli gigi
+    //                             $btn .= '<li><a href="/pendaftaran/' . $row->id . '/pemeriksaan"><i class="fa fa-edit"></i> Input tindakan</a></li>';
+    //                         } else {
+    //                             $btn .= '<li><a href="/ondotogram/' . $row->id . '"><i class="fa fa-plus-square"></i> Pemeriksaan Gigi</a></li>';
+    //                         }
+    //                     } elseif ($row->status_pelayanan == 'selesai_pelayanan') {
+    //                         $btn .= '<li><a href="/pendaftaran/' . $row->id . '/pemeriksaan"><i class="fa fa-print"></i> Edit Tindakan</a></li>';
+    //                     } else {
+    //                         $btn .= '<li><a href="/pendaftaran/' . $row->id . '/input_tanda_vital"><i class="fa fa-print"></i> Input Tanda Vital</a></li>';
+    //                     }
+    //                 } elseif (auth()->user()->role == 'apoteker') {
+    //                     $btn .= '<li><a href="/pendaftaran/apotek/lihat-item/' . $row->id . '"><i class="fa fa-plus-square"></i> Cetak Label</a></li>';
+    //                     //$btn .= '<li><a href="/pendaftaran/' . $row->id . '/cetak_label"><i class="fa fa-plus-square"></i> Cetak Label</a></li>';
+    //                 } elseif (auth()->user()->role == 'kasir') {
+    //                     if ($row->status_pembayaran == 1) {
+    //                         $btn = '<a class="btn btn-danger btn-sm btn-block" target="new" href="/pembayaran/' . $row->id . '/kwitansi"><i class="fa fa-print"></i></a></div>';
+    //                     } else {
+    //                         $btn = '<a class="btn btn-danger btn-sm" style="margin-right:5px" href="/pembayaran/' . $row->id . '"><i class="fa fa-money"></i></a></div>';
+    //                         $btn .= '<a class="btn btn-danger btn-sm" href="/pembayaran/' . $row->id . '/kwitansi"><i class="fa fa-print"></i></a></div>';
+    //                     }
+    //                 } elseif (auth()->user()->role == 'laboratorium') {
+    //                     $btn = '<li><a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/input-indikator"><i class="fa fa-edit"></i> Input Indikator</a></li>';
+    //                 } elseif (auth()->user()->role == 'admin_medis') {
+    //                     if ($row->status_pelayanan == 'pendaftaran') {
+    //                         $btn .= '<li><a href="/pendaftaran/' . $row->id . '/input_tanda_vital"><i class="fa fa-print"></i> Input Tanda Vital</a></li>';
+    //                     }
+    //                 } else {
+    //                     if ($row->status_pelayanan == 'batal') {
+    //                         $btn .= "<li><button type='button' class='btn btn-default btn-sm'>Dibatalkan</button></li>";
+    //                     } else {
+    //                         $btn .= '<li><a href="/pendaftaran/' . $row->id . '/cetak"><i class="fa fa-print"></i> Cetak Antrian</a></li>';
+    //                         $btn .= '<li><a href="/pendaftaran/' . $row->id . '/edit"><i class="fa fa-edit"></i> Edit</a></li>';
+    //                     }
+    //                 }
+    //                 $btn .= '</ul>';
+    //                 $btn .= '</div>';
+    //                 return $btn;
+    //             })
+    //             ->addColumn('jenis_layanan', function ($row) {
+    //                 // if (isset($row->perusahaanAsuransi)) {
+    //                 //     return $row->perusahaanAsuransi->nama_perusahaan;
+    //                 // }
+    //                 // return "Tidak ada";
+    //             })
+    //             ->addColumn('nama', function ($row) {
+    //                 return $row->pasien->inisial . ' . ' . $row->pasien->nama;
+    //             })
+    //             ->addColumn('status_pelayanan', function ($row) use ($status_pelayanan) {
+    //                 return $status_pelayanan[$row->status_pelayanan];
+    //             })
+    //             ->addColumn('nomor_rekam_medis', function ($row) {
+    //                 $checked = $row->check_list_poli_kebidanan == 1 ? 'checked' : '';
+    //                 $checkbox = \Auth::user()->poliklinik_id == 3 ? '<input ' . $checked . ' onclick="checklist(' . $row->id . ')" type="checkbox"> ' : '';
+    //                 return $checkbox . '' . $row->pasien->nomor_rekam_medis;
+    //             })
+    //             ->rawColumns(['action','nomor_rekam_medis'])
+    //             ->addIndexColumn()
+    //             ->make(true);
+    //     }
+
+    //     $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
+    //     return view('pendaftaran.index', $data);
+    // }
 
     public function create($pasien_id = null)
     {
@@ -206,12 +323,9 @@ class PendaftaranController extends Controller
 
     public function input_indikator($id)
     {
-        $data['pendaftaran']            = Pendaftaran::with('pasien')->find($id);
-        $nomorAntrian                   = NomorAntrian::with('poliklinik')->where('pendaftaran_id', $id)->first();
-        $data['tindakan']               = Tindakan::where('id', $nomorAntrian->tindakan_id)->first();
-        $data['hasilPemeriksaan']       = HasilPemeriksaanLab::where('pendaftaran_id', $id)->get();
-        $data['nomorAntrian']           = $nomorAntrian;
-        $data['indikatorPemeriksaan']   = IndikatorPemeriksaanLab::where('tindakan_id', $nomorAntrian->tindakan_id)->get();
+        $data['nomorAntrian']                   = NomorAntrian::with('pendaftaran','poliklinik')->find($id);
+        $data['pendaftaranTindakan']            = PendaftaranTindakan::with('tindakan.indikator')->where('poliklinik_id', $data['nomorAntrian']->poliklinik_id)->get();
+        $data['hasilPemeriksaan']               = HasilPemeriksaanLab::where('pendaftaran_id', $id)->get();
         return view('pendaftaran.indikator', $data);
     }
 
@@ -232,7 +346,7 @@ class PendaftaranController extends Controller
             \DB::table('nomor_antrian')
             ->where('pendaftaran_id', $pendaftaranId)
             ->where('poliklinik_id', \Auth::user()->poliklinik_id)
-            ->update(['status_pemeriksaan' => 'Selesai']);
+            ->update(['status_pelayanan' => 'Selesai']);
         }
 
         RujukanInternal::where('pendaftaran_id', $pendaftaranId)->update(['status' => 'Selesai']);
@@ -265,7 +379,8 @@ class PendaftaranController extends Controller
 
     public function input_tanda_vital_store($id, PendaftaranInputTandaVitalRequest $request)
     {
-        $pendaftaran    = Pendaftaran::find($id);
+        $nomorAntrian = NomorAntrian::find($id);
+        $pendaftaran = Pendaftaran::find($nomorAntrian->pendaftaran_id);
         $input          = $request->except(['_token', '_method']);
         $data           = [
             'tanda_tanda_vital'     => serialize($request->only(
@@ -287,12 +402,10 @@ class PendaftaranController extends Controller
                 'tfu',
                 'imt'
             )),
-            // 'pemeriksaan_klinis'    =>  serialize($request->pemeriksaan_klinis),
-            'status_pelayanan'      =>  'selesai_pemeriksaan_medis',
+            'pemeriksaan_klinis'    =>  serialize($request->pemeriksaan_klinis),
             'status_alergi'         => $request->status_alergi_value
         ];
-
-
+        $nomorAntrian->update(['status_pelayanan' => 'selesai_pemeriksaan_medis']);
         $pendaftaran->update($data);
         return redirect('pendaftaran/')->with('message', 'Tanda Tanda Vital Berhasil Disimpan');
     }
@@ -313,11 +426,12 @@ class PendaftaranController extends Controller
                             ->whereDate('created_at', date('Y-m-d'))
                             ->max('nomor_antrian');
         $nomorAntrianData = [
-            'pendaftaran_id'    =>  $data->id,
-            'poliklinik_id'     =>  $request->poliklinik_id,
-            'dokter_id'         => $request['dokter_id'],
-            'tindakan_id'       => $request->tindakan_id ?? null,
-            'nomor_antrian'     =>  ($nomor + 1)
+            'pendaftaran_id'            =>  $data->id,
+            'poliklinik_id'             =>  $request->poliklinik_id,
+            'dokter_id'                 =>  $request['dokter_id'],
+            'status_pelayanan'          =>  'pendaftaran',
+            'perusahaan_asuransi_id'    =>  $request->perusahaan_asuransi_id,
+            'nomor_antrian'             =>  ($nomor + 1)
         ];
         NomorAntrian::create($nomorAntrianData);
 
@@ -335,7 +449,7 @@ class PendaftaranController extends Controller
         $pendaftaran        = Pendaftaran::with('perusahaanAsuransi')->find($request->pendaftaran_id);
         $tindakan           = Tindakan::find($request->tindakan_id);
 
-        $request['poliklinik_id'] = \Auth::user()->poliklinik_id;
+        $request['poliklinik_id'] = $request->poliklinik_id;
 
         // apakah umum, BPJS atau lain
         $jenisPendaftaran   =  strtolower($pendaftaran->perusahaanAsuransi->nama_perusahaan);
@@ -523,10 +637,10 @@ class PendaftaranController extends Controller
 
     public function selesai($id)
     {
-        $pendaftaran = Pendaftaran::with('jenisLayanan')->findOrFail($id);
-        $pendaftaran->update(['status_pelayanan' => 'selesai_pelayanan']);
-        if ($pendaftaran->jenisLayanan->nama_perusahaan == 'BPJS') {
-            $pendaftaran->update(['status_pembayaran' => 1,'metode_pembayaran' => 'BPJS']);
+        $nomorAntrian = NomorAntrian::with('pendaftaran')->find($id);
+        $nomorAntrian->update(['status_pelayanan' => 'selesai_pelayanan']);
+        if ($nomorAntrian->perusahaanAsuransi->nama_perusahaan == 'BPJS') {
+            $nomorAntrian->update(['status_pembayaran' => 1,'metode_pembayaran' => 'BPJS']);
         }
         return redirect('/pendaftaran')->with('message', 'Selesai Melakukan Pelayanan');
     }
@@ -567,8 +681,8 @@ class PendaftaranController extends Controller
 
     public function pemeriksaan($id)
     {
-        $data['pendaftaran']            = Pendaftaran::with('pasien', 'jenisLayanan')->find($id);
-        if ($data['pendaftaran']->pemeriksaan_klinis == false) {
+        $data['nomorAntrian']            = NomorAntrian::with('pendaftaran.pasien')->find($id);
+        if ($data['nomorAntrian']->pendaftaran->pemeriksaan_klinis == false) {
             return view('pendaftaran.pemeriksaan_klinis_form', $data);
         }
         $data['dokter1']                = User::where('role', 'dokter')->pluck('name', 'id');
@@ -585,9 +699,9 @@ class PendaftaranController extends Controller
                                         pas.nama_perusahaan as perusahaan_penjamin
                                         from nomor_antrian as na
                                         join pendaftaran as p on p.id=na.pendaftaran_id and na.id!='" . $id . "'
-                                        join pasien as pa on pa.id=p.pasien_id and pa.id='" . $data['pendaftaran']->pasien_id . "'
+                                        join pasien as pa on pa.id=p.pasien_id and pa.id='" . $data['nomorAntrian']->pendaftaran->pasien_id . "'
                                         join poliklinik as po on po.id=na.poliklinik_id
-                                        join perusahaan_asuransi as pas on pas.id=p.jenis_layanan");
+                                        join perusahaan_asuransi as pas on pas.id=p.perusahaan_asuransi_id");
         $data['barang'] = Barang::pluck('nama_barang', 'id');
         //return $data['riwayatKunjungan'] ;
         return view('pendaftaran.pemeriksaan', $data);
