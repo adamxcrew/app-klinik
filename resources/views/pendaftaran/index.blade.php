@@ -252,7 +252,7 @@
 
             if(response.sisa_antrian==response.jumlah_total_antrian)
             {
-              $(".btn-call").prop('disabled', true);
+              //$(".btn-call").prop('disabled', true);
             }
 
           },
