@@ -97,7 +97,7 @@
                     </div>
                     <div class="box-body">
                         <div class="row" style="padding-bottom: 20px">
-                            <div class="col-md-7">
+                            <div class="col-md-5">
                                 <div class="form-group">
                                     <label>Pilih Barang</label>
                                     <select name="barang" class="barang form-control detail-section"></select>
@@ -107,6 +107,13 @@
                                 <div class="form-group">
                                     <label>Jumlah</label>
                                     {{ Form::text('qty', null, ['class' => 'form-control qty detail-section', 'placeholder' => 'qty', 'required']) }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Satuan</label>
+                                    {!! Form::select('satuan_id',$satuan, null, ['class'=>'form-control satuan_id']) !!}
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -216,8 +223,9 @@ function refresh_table(hasResponse = null){
 
 function tambah_barang() {
 
-    var barang_id = $(".barang").val();
-    var qty = $(".qty").val();
+    var barang_id   = $(".barang").val();
+    var qty         = $(".qty").val();
+    var satuan_id   = $(".satuan_id").val();
     if(barang_id == '' || qty == '')
     {
       return alert('Barang Atau Jumlah Tidak Boleh Kosong');
@@ -230,6 +238,7 @@ function tambah_barang() {
             _token: $('meta[name="csrf-token"]').attr('content'),
             barang_id: barang_id,
             jumlah: qty,
+            satuan_id:satuan_id,
             tindakan_id : '{{$tindakan->id}}'
         },
         success: function (response) {

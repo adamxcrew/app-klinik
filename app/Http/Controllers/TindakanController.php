@@ -11,7 +11,7 @@ use App\Models\TindakanBHP;
 use App\Models\Barang;
 use App\Http\Requests\TindakanStoreRequest;
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
-
+use App\Models\Satuan;
 class TindakanController extends Controller
 {
     public $object_fee;
@@ -94,6 +94,7 @@ class TindakanController extends Controller
     {
         $data['tindakan']   = Tindakan::with('bhp.barang', 'indikator')->find($id);
         $tab = $request->tab == 'bhp' ? 'show' : 'indikator';
+        $data['satuan'] = Satuan::pluck('satuan', 'id');
         return view('tindakan.' . $tab, $data);
     }
 
