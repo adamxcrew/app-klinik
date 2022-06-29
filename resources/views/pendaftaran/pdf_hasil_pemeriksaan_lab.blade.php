@@ -40,27 +40,27 @@
             </tr>
             <tr>
                 <td>Nama</td>
-                <td>: {{$pendaftaran->dokter->name}}</td>
+                <td>: {{$nomorAntrian->dokter->name}}</td>
                 <td>Nama</td>
-                <td>: {{$pendaftaran->pendaftaran->pasien->nama}}</td>
+                <td>: {{$nomorAntrian->pendaftaran->pasien->nama}}</td>
             </tr>
             <tr style="background-color : #EEEEEE">
                 <td></td>
                 <td></td>
                 <td style="vertical-align:top">Alamat</td>
-                <td>: {{$pendaftaran->pendaftaran->pasien->alamat}} </td>
+                <td>: {{$nomorAntrian->pendaftaran->pasien->alamat}} </td>
             </tr>
             <tr>
                 <td>Pembayaran</td>
                 <td>: Tunai</td>
                 <td>Jenis Kelamin</td>
-                <td>: {{ucWords ($pendaftaran->pendaftaran->pasien->jenis_kelamin)}}</td>
+                <td>: {{ucWords ($nomorAntrian->pendaftaran->pasien->jenis_kelamin)}}</td>
             </tr>
             <tr style="background-color : #EEEEEE">
                 <td></td>
                 <td></td>
                 <td>Umur</td>
-                <td>: {{$carbon::parse($pendaftaran->pendaftaran->pasien->tanggal_lahir)->age}} tahun</td>
+                <td>: {{$nomorAntrian->pendaftaran->pasien->umur}} tahun</td>
             </tr>
             <tr>
                 <td>Tanggal, Jam</td>
@@ -70,22 +70,27 @@
             </tr>
         </table>
 
-        <table class="centered-table" style="">
+        <table>
+            @foreach($tindakanLab as $tindakan)
+            <tr>
+                <td colspan="4">Pemeriksaan : {{ $tindakan->tindakan->tindakan}}</td>
+            </tr>
             <tr style="color:white;background-color:#C85C5C;padding:16px 0">
-                <th>No</th>
+                <th width="20">No</th>
                 <th>Parameter</th>
+                <th>Satuan</th>
                 <th>Hasil</th>
                 <th>Nilai Normal</th>
             </tr>
-            @foreach($listIndikator as $row)
-                <tr>
-                    <td>{{$loop->iteration}}</td>
-                    <td style="background-color:#FFCAC2">{{$row->indikator->nama_indikator}}</td>
-                    <td>{{$row->hasil}}</td>
-                    <td style="background-color:#FFCAC2">
-                        {{$row->indikator->nilai_rujukan}}
-                    </td>
-                </tr>
+            @foreach(\App\Models\HasilPemeriksaanLab::where('pendaftaran_id',$nomorAntrian->pendaftaran_id)->where('tindakan_id',$tindakan->tindakan->id)->get() as $hasil)
+            <tr>
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $hasil->indikator->nama_indikator}}</td>
+                <td>{{ $hasil->indikator->satuan}}</td>
+                <td>{{ $hasil->hasil}}</td>
+                <td>{{ $hasil->indikator->nilai_rujukan}}</td>
+            </tr>                
+            @endforeach
             @endforeach
         </table>
 

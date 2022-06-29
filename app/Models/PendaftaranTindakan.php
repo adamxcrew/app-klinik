@@ -25,4 +25,9 @@ class PendaftaranTindakan extends Model
     {
         return $this->belongsTo(TbmIcd::class, 'tbm_icd_id', 'id');
     }
+
+    public function hasilPemeriksaan()
+    {
+        return $this->hasMany('App\Models\HasilPemeriksaanLab');
+    }
 }

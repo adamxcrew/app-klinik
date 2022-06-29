@@ -111,10 +111,11 @@
                             {{ Form::hidden('nomor_antrian_id',$nomorAntrian->id)}}
                             
                             <table class="table table-bordered">
-                                <?php $nomor =1 ;?>
+                                <?php $nomor =1 ;$indexTindakan=1;?>
                                 @foreach($pendaftaranTindakan as $tindakan)
                                 <tr class="danger">
-                                    <td colspan="6">Nama Pemeriksaan : {{ $tindakan->tindakan->tindakan }}</td>
+                                    <td colspan="6">Nama Pemeriksaan : {{ $tindakan->tindakan->tindakan }} - {{ $indexTindakan }}</td>
+                                    <input type="hidden" name="id_tindakan[]" value="{{$tindakan->tindakan->id }}">
                                 </tr>
                                 <tr>
                                     <th>Nomor</th>
@@ -145,6 +146,7 @@
                                         </td>
                                     </tr>
                                     @endforeach
+                                    <?php $indexTindakan++?>
                                 @endforeach
                                 <tr>
                                     <td colspan="4"></td>

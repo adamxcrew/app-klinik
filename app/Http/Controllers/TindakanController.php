@@ -12,6 +12,7 @@ use App\Models\Barang;
 use App\Http\Requests\TindakanStoreRequest;
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 use App\Models\Satuan;
+
 class TindakanController extends Controller
 {
     public $object_fee;

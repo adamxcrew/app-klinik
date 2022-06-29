@@ -65,15 +65,17 @@
                       <div class="form-group col-sm-11">
                         <label>Saturasi O2</label>
                         {!! Form::text('saturasi_o2', null, ['class'=>'form-control','Placeholder'=>'Saturasi O2']) !!}
+                        <input type="hidden" name="pernafasan" value="">
                       </div>
                     </div>
 
-                    <div class="col-md-3">
+                    {{-- <div class="col-md-3">
                       <div class="form-group col-sm-11">
                         <label>Pernafasan</label>
                         {!! Form::text('pernafasan', null, ['class'=>'form-control','Placeholder'=>'Pernafasan']) !!}
+                        
                       </div>
-                    </div>
+                    </div> --}}
 
                     <div class="col-md-3">
                       <div class="form-group col-sm-11">
