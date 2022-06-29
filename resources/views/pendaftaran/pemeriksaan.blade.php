@@ -415,7 +415,7 @@
 
 
   <!-- Rujukan Internal -->
-  <div class="modal fade" id="modal-rujukan-laporatorium" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="modal-rujukan-laporatorium" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -443,7 +443,9 @@
                 <tr>
                   <td width="200">Jenis Pemeriksaan ( Opsional )</td>
                   <td>
-                    {{ Form::select('jenis_pemeriksaan_laboratorium_id',$jenisPemeriksaanLaboratorium,null,['class'=>'form-control jenis_pemeriksaan_laboratorium_id'])}}
+                    <select style="width: 100%" name="jenis_pemeriksaan_laboratorium_id" id="tindakan_id_rujukan" class='select2 form-control jenis_pemeriksaan_laboratorium_id'>
+                    </select>
+                    {{-- {{ Form::select('jenis_pemeriksaan_laboratorium_id',$jenisPemeriksaanLaboratorium,null,['class'=>'form-control jenis_pemeriksaan_laboratorium_id'])}} --}}
                   </td>
                 </tr>
                 <tr>
@@ -543,6 +545,29 @@
       multiple: false,
       ajax: {
         url: '/ajax/select2Tindakan?poliklinik_id='+{{ Auth::user()->poliklinik_id }},
+        dataType: 'json',
+        delay: 250,
+        multiple: false,
+        processResults: function(data) {
+          return {
+            results: $.map(data, function(item) {
+              return {
+                text: item.tindakan,
+                id: item.id
+              }
+            })
+          };
+        },
+        cache: true
+      }
+    });
+
+    $('#tindakan_id_rujukan').select2({
+      placeholder: 'Cari tindakan',
+      multiple: false,
+      ajax: {
+        //url: '/ajax/select2Tindakan?poliklinik_id='+$(".poliklinik_id").val(),
+        url: '/ajax/select2Tindakan',
         dataType: 'json',
         delay: 250,
         multiple: false,

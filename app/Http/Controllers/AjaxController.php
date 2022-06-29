@@ -156,14 +156,15 @@ class AjaxController extends Controller
         }
 
 
+
         $data = \DB::table('tindakan')
             ->select('id', 'tindakan', 'kode')
-            ->where('poliklinik_id', $poliklinik_id)
-            ->where('tindakan', 'like', "%" . $request->q . "%")
-            ->orWhere('kode', 'like', '%' . $request->q . '%')
-            ->limit(20)
-            ->get();
-        return response()->json($data);
+            ->where('tindakan', 'like', "%" . $request->q . "%");
+
+        if ($request->has('poliklinik_id')) {
+            $data->where('poliklinik_id', $poliklinik_id);
+        }
+        return response()->json($data->limit(20)->get());
     }
 
     public function select2ICD(Request $request)
