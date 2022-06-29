@@ -719,7 +719,7 @@ class PendaftaranController extends Controller
                                         po.nama as poliklinik,
                                         pas.nama_perusahaan as perusahaan_penjamin
                                         from nomor_antrian as na
-                                        join pendaftaran as p on p.id=na.pendaftaran_id and na.id!='" . $id . "'
+                                        join pendaftaran as p on p.id=na.pendaftaran_id
                                         join pasien as pa on pa.id=p.pasien_id and pa.id='" . $data['nomorAntrian']->pendaftaran->pasien_id . "'
                                         join poliklinik as po on po.id=na.poliklinik_id
                                         join perusahaan_asuransi as pas on pas.id=p.perusahaan_asuransi_id");
