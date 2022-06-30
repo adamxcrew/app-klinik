@@ -12,6 +12,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\Poliklinik;
 use App\Models\ViewPendaftaran;
+
 class LaporanTransaksiController extends Controller
 {
     public function index(Request $request)
@@ -19,16 +20,19 @@ class LaporanTransaksiController extends Controller
         $data['tanggal_awal']   = $request->tanggal_awal ?? date('Y-m-d');
         $data['tanggal_akhir']  = $request->tanggal_akhir ?? date('Y-m-d');
 
-        $awal = date('Y-m-d H:i:s', strtotime($data['tanggal_awal']));
-        $akhir = date('Y-m-d H:i:s', strtotime($data['tanggal_akhir']));
+        $awal = date('Y-m-d', strtotime($data['tanggal_awal']));
+        $akhir = date('Y-m-d', strtotime($data['tanggal_akhir']));
 
-        $nomorAntrian = ViewPendaftaran::whereBetween('tanggal', [$awal, $akhir]);
+        $nomorAntrian = ViewPendaftaran::whereBetween('tanggal', [$awal, $akhir])->where('status_pembayaran', 1);
 
         if ($request->ajax()) {
             return DataTables::of($nomorAntrian)
                 ->addColumn('action', function ($row) {
                     $btn = '<a class="btn btn-danger btn-sm" href="/pembayaran/' . $row->id . '/kwitansi"><i class="fa fa-print"></i> Kwitansi</a></div>';
                     return $btn;
+                })
+                ->addColumn('total_transaksi', function ($row) {
+                    return $row->total_bayar + $row->biaya_tambahan;
                 })
                 ->rawColumns(['action', 'code'])
                 ->addIndexColumn()

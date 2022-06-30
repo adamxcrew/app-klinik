@@ -170,16 +170,16 @@
             name: 'kode'
           },
           {
-            data: 'pasien.nomor_rekam_medis',
-            name: 'pasien.nomor_rekam_medis'
+            data: 'nomor_rekam_medis',
+            name: 'nomor_rekam_medis'
           },
           {
-            data: 'pasien.nama',
-            name: 'pasien.nama'
+            data: 'nama',
+            name: 'nama'
           },
           {
-            data: 'jenis_layanan',
-            name: 'jenis_layanan'
+            data: 'nama_perusahaan',
+            name: 'nama_perusahaan'
           },
           {
             data: 'total_transaksi',

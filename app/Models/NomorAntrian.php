@@ -21,6 +21,7 @@ class NomorAntrian extends Model
         'keterangan_pembayaran',
         'jumlah_bayar',
         'total_bayar',
+        'biaya_tambahan',
         'user_id_kasir',
         'perusahaan_asuransi_id'
     ];

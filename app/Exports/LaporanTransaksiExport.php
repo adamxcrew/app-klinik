@@ -11,6 +11,7 @@ use Maatwebsite\Excel\Events\AfterSheet;
 use DB;
 use App\Models\PengeluaranOperasional;
 use Maatwebsite\Excel\Concerns\WithTitle;
+use App\Models\ViewPendaftaran;
 
 class LaporanTransaksiExport implements FromView, ShouldAutoSize, WithEvents, withTitle
 {
@@ -35,36 +36,32 @@ class LaporanTransaksiExport implements FromView, ShouldAutoSize, WithEvents, wi
     public function view(): View
     {
 
-        $shift = config('datareferensi.kasir_shift');
-        $selectedShift = $shift[array_search($this->nama_shift, array_column($shift, 'nama_shift'))];
-        $awal   = $this->tanggal . ' ' . $selectedShift['waktu_mulai'];
-        $akhir  = $this->tanggal . ' ' . $selectedShift['waktu_selesai'];
-        // $laporan_transaksi = Pendaftaran::with('pasien', 'perusahaanAsuransi', 'userKasir')
-        //     ->whereBetween(\DB::raw('left(created_at,16)'), [$awal, $akhir])
-        //     ->where('status_pembayaran', 1);
-        $nomorAntrian = ViewPendaftaran::whereBetween('tanggal', [$awal, $akhir]);
-
-        if ($this->metode_pembayaran != '') {
-            // $laporan_transaksi->where('metode_pembayaran', $this->metode_pembayaran);
-            $nomorAntrian->where('status_pembayaran',  $this->metode_pembayaran);
-        }
+        $nomorAntrian = $this->data();
         $data['laporan_transaksi'] = $nomorAntrian;
         $data['jumlah_pendaftaran'] = Pendaftaran::count();
 
         $data['pengeluaran'] = PengeluaranOperasional::all();
+        $data['nomorAntrian'] = $nomorAntrian;
         return view('laporan-transaksi.laporan-transaksi-excel', $data);
     }
 
-    public function registerEvents(): array
+    public function data()
     {
         $shift = config('datareferensi.kasir_shift');
         $selectedShift = $shift[array_search($this->nama_shift, array_column($shift, 'nama_shift'))];
         $awal   = $this->tanggal . ' ' . $selectedShift['waktu_mulai'];
         $akhir  = $this->tanggal . ' ' . $selectedShift['waktu_selesai'];
-        $jmlData = Pendaftaran::with('pasien', 'perusahaanAsuransi', 'userKasir')
-        ->whereBetween(\DB::raw('left(created_at,16)'), [$awal, $akhir])
-        ->where('status_pembayaran', 1)
-        ->count() + 2;
+        $nomorAntrian = ViewPendaftaran::whereBetween('created_at', [$awal, $akhir])->where('status_pembayaran', 1);
+
+        if ($this->metode_pembayaran != '') {
+            $nomorAntrian->where('metode_pembayaran', $this->metode_pembayaran);
+        }
+        return $nomorAntrian;
+    }
+
+    public function registerEvents(): array
+    {
+        $jmlData = $this->data()->count() + 2;
         return [
             AfterSheet::class    => function (AfterSheet $event) use ($jmlData) {
                 $cellRange = 'A1:K1'; // All headers

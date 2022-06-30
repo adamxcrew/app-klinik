@@ -20,7 +20,7 @@
             $total_looping = $jumlah_pendaftaran - $laporan_transaksi->count()
         @endphp
         
-        @foreach($laporan_transaksi as $laporan)
+        @foreach($nomorAntrian->get() as $laporan)
         <tr>
             <td>{{ $loop->iteration }}</td>
             <td>{{ $laporan->tanggal }}</td>
