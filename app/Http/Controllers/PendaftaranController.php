@@ -35,7 +35,7 @@ use App\Models\PendaftaranTindakan;
 use App\Models\NomorAntrian;
 use App\Models\PendaftaranFeeTindakan;
 use App\Models\TindakanBHP;
-
+use App\Models\ViewPendaftaran;
 class PendaftaranController extends Controller
 {
     protected $penjamin;
@@ -60,33 +60,35 @@ class PendaftaranController extends Controller
         $data['tanggal_akhir']  = $request->tanggal_akhir ?? date('Y-m-d');
         $data['poliklinik_id']  = $request->poliklinik_id;
 
-        $awal                   = date('Y-m-d H:i:s', strtotime($data['tanggal_awal']));
-        $akhir                  = date('Y-m-d H:i:s', strtotime($data['tanggal_akhir']));
+        $awal                   = date('Y-m-d', strtotime($data['tanggal_awal']));
+        $akhir                  = date('Y-m-d', strtotime($data['tanggal_akhir']));
 
-        $nomorAntrian           = NomorAntrian::select(
-            'pasien.nomor_rekam_medis',
-            'nomor_antrian.id',
-            'pasien.nama',
-            'nomor_antrian.nomor_antrian',
-            'nomor_antrian.poliklinik_id',
-            'poliklinik.nama as nama_poliklinik',
-            'users.name as nama_dokter',
-            'nomor_antrian.status_pembayaran',
-            \DB::raw('left(nomor_antrian.created_at,10) as tanggal'),
-            'perusahaan_asuransi.nama_perusahaan',
-            'nomor_antrian.status_pelayanan'
-        )
-        ->leftJoin('pendaftaran', 'pendaftaran.id', 'nomor_antrian.pendaftaran_id')
-        ->join('pasien', 'pasien.id', 'pendaftaran.pasien_id')
-        ->join('poliklinik', 'poliklinik.id', 'nomor_antrian.poliklinik_id')
-        ->join('users', 'users.id', 'nomor_antrian.dokter_id')
-        ->join('perusahaan_asuransi', 'perusahaan_asuransi.id', 'nomor_antrian.perusahaan_asuransi_id')
-        ->whereBetween(DB::raw('DATE(nomor_antrian.created_at)'), [$awal, $akhir]);
+        // $nomorAntrian           = NomorAntrian::select(
+        //     'pasien.nomor_rekam_medis',
+        //     'nomor_antrian.id',
+        //     'pasien.nama',
+        //     'nomor_antrian.nomor_antrian',
+        //     'nomor_antrian.poliklinik_id',
+        //     'poliklinik.nama as nama_poliklinik',
+        //     'users.name as nama_dokter',
+        //     'nomor_antrian.status_pembayaran',
+        //     \DB::raw('left(nomor_antrian.created_at,10) as tanggal'),
+        //     'perusahaan_asuransi.nama_perusahaan',
+        //     'nomor_antrian.status_pelayanan'
+        // )
+        // ->leftJoin('pendaftaran', 'pendaftaran.id', 'nomor_antrian.pendaftaran_id')
+        // ->join('pasien', 'pasien.id', 'pendaftaran.pasien_id')
+        // ->join('poliklinik', 'poliklinik.id', 'nomor_antrian.poliklinik_id')
+        // ->join('users', 'users.id', 'nomor_antrian.dokter_id')
+        // ->join('perusahaan_asuransi', 'perusahaan_asuransi.id', 'nomor_antrian.perusahaan_asuransi_id')
+        // ->whereBetween(DB::raw('DATE(nomor_antrian.created_at)'), [$awal, $akhir]);
+
+        $nomorAntrian = ViewPendaftaran::whereBetween('tanggal', [$awal, $akhir]);
 
 
         // ------------------ FILTER BERDASARKAN POLIKLINIK -----------------------------
         if ($request->poliklinik_id != null) {
-            $nomorAntrian->where('nomor_antrian.poliklinik_id', $request->poliklinik_id);
+            $nomorAntrian->where('poliklinik_id', $request->poliklinik_id);
         }
 
         // ------------------ FILTER PADA ROLE POLIKLINIK -----------------------------
