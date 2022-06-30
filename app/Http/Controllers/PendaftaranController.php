@@ -93,7 +93,7 @@ class PendaftaranController extends Controller
 
         // ------------------ FILTER PADA ROLE POLIKLINIK -----------------------------
         if (auth()->user()->role == 'poliklinik') {
-            $nomorAntrian->where('nomor_antrian.poliklinik_id', Auth::user()->poliklinik_id);
+            $nomorAntrian->where('poliklinik_id', Auth::user()->poliklinik_id);
             if (auth()->user()->poliklinik_id == 7) {
                 // jika lab
                 $nomorAntrian->where('status_pembayaran', 1);
