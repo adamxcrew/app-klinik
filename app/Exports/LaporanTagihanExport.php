@@ -29,19 +29,6 @@ class LaporanTagihanExport implements FromView, ShouldAutoSize, WithEvents
 
     public function data()
     {
-        // $laporanTagihan = PendaftaranTindakan::with(['pendaftaran', 'tindakan'])
-        // ->whereRaw("left(created_at,7)='" . $this->periode . "'");
-
-        // if ($this->perusahaan != null) {
-        //     $jenis_layanan = $this->perusahaan;
-
-        //     $laporanTagihan->whereHas('pendaftaran', function ($query) use ($jenis_layanan) {
-        //         return $query->where('pendaftaran.jenis_layanan', '=', $jenis_layanan);
-        //     });
-        // }
-        // return $laporanTagihan->get();
-
-
         $laporanTagihan = \App\Models\ViewLaporanPendaftaranTindakan::query();
 
         if ($this->periode) {
@@ -50,7 +37,7 @@ class LaporanTagihanExport implements FromView, ShouldAutoSize, WithEvents
 
 
         if ($this->perusahaan != '') {
-            $laporanTagihan->where('jenis_layanan', $this->perusahaan);
+            $laporanTagihan->where('perusahaan_asuransi_id', $this->perusahaan);
         }
 
 
@@ -59,7 +46,7 @@ class LaporanTagihanExport implements FromView, ShouldAutoSize, WithEvents
 
     public function registerEvents(): array
     {
-        $jmlData = count($this->data()) + 1;
+        $jmlData = count($this->data()) + 2;
         return [
             AfterSheet::class    => function (AfterSheet $event) use ($jmlData) {
                 $cellRange = 'A1:H1'; // All headers

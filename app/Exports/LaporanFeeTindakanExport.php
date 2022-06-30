@@ -37,7 +37,7 @@ class LaporanFeeTindakanExport implements FromView, ShouldAutoSize, WithEvents
         $jmlData = $this->data()->count() + 2;
         return [
             AfterSheet::class    => function (AfterSheet $event) use ($jmlData) {
-                $cellRange = 'A1:G1'; // All headers
+                $cellRange = 'A1:I1'; // All headers
                 $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(10)->setBold(true);
 
                 $event->sheet->getStyle('A1:I' . $jmlData)->applyFromArray([
@@ -68,7 +68,7 @@ class LaporanFeeTindakanExport implements FromView, ShouldAutoSize, WithEvents
         ->join('nomor_antrian', 'nomor_antrian.pendaftaran_id', 'pendaftaran_fee_tindakan.pendaftaran_id')
         ->join('pendaftaran', 'pendaftaran.id', 'pendaftaran_fee_tindakan.pendaftaran_id')
         ->join('poliklinik', 'poliklinik.id', 'nomor_antrian.poliklinik_id')
-        ->join('perusahaan_asuransi', 'perusahaan_asuransi.id', 'pendaftaran.jenis_layanan')
+        ->join('perusahaan_asuransi', 'perusahaan_asuransi.id', 'nomor_antrian.perusahaan_asuransi_id')
         ->join('tindakan', 'tindakan.id', 'pendaftaran_fee_tindakan.tindakan_id')
         ->join('users', 'users.id', 'pendaftaran_fee_tindakan.user_id')
         ->whereBetween(\DB::raw('left(nomor_antrian.created_at,10)'), [$this->tanggal_mulai,$this->tanggal_selesai]);

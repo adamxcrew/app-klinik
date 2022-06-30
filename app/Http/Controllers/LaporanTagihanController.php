@@ -20,27 +20,6 @@ class LaporanTagihanController extends Controller
     public function index(Request $request)
     {
         $data['periode'] = $request->periode ?? date('Y-m');
-
-        // select cast(na.created_at as date) as tanggal,
-        // p.nomor_rekam_medis,
-        // p.nama as nama_pasien,
-        // pa.nama_perusahaan as perusahaan_asuransi,
-        // t.tindakan as nama_tindakan,
-        // pk.nama as poliklinik,
-        // pt.fee as biaya_tindakan,pt.qty,pt.discount,
-        // (pt.fee-pt.discount)*pt.qty as tarif_total
-        // from nomor_antrian as na
-        // join pendaftaran as pd on pd.id=na.pendaftaran_id
-        // join pendaftaran_tindakan as pt on na.pendaftaran_id=pt.pendaftaran_id
-        // join pasien as p on p.id=pd.pasien_id
-        // join poliklinik as pk on pk.id=na.poliklinik_id
-        // join perusahaan_asuransi as pa on pa.id=pd.jenis_layanan
-        // join tindakan as t on t.id=pt.tindakan_id;
-
-
-
-
-
         $laporanTagihan = ViewLaporanPendaftaranTindakan::query();
 
         if ($request->periode) {
@@ -49,7 +28,7 @@ class LaporanTagihanController extends Controller
 
         if ($request->has('nama_perusahaan')) {
             if ($request->nama_perusahaan != '') {
-                $laporanTagihan->where('jenis_layanan', $request->nama_perusahaan);
+                $laporanTagihan->where('perusahaan_asuransi_id', $request->nama_perusahaan);
             }
         }
 

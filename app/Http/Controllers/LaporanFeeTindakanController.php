@@ -35,7 +35,7 @@ class LaporanFeeTindakanController extends Controller
         ->join('nomor_antrian', 'nomor_antrian.pendaftaran_id', 'pendaftaran_fee_tindakan.pendaftaran_id')
         ->join('pendaftaran', 'pendaftaran.id', 'pendaftaran_fee_tindakan.pendaftaran_id')
         ->join('poliklinik', 'poliklinik.id', 'nomor_antrian.poliklinik_id')
-        ->join('perusahaan_asuransi', 'perusahaan_asuransi.id', 'pendaftaran.jenis_layanan')
+        ->join('perusahaan_asuransi', 'perusahaan_asuransi.id', 'nomor_antrian.perusahaan_asuransi_id')
         ->join('tindakan', 'tindakan.id', 'pendaftaran_fee_tindakan.tindakan_id')
         ->join('users', 'users.id', 'pendaftaran_fee_tindakan.user_id')
         ->whereBetween(\DB::raw('left(nomor_antrian.created_at,10)'), [$awal,$akhir])
