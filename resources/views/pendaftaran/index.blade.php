@@ -132,11 +132,11 @@
                   <thead>
                       <tr>
                         <th width="10">Nomor</th>
-                        <th>Nomor Pendaftaran</th>
-                        <th>Nomor Rekamedis</th>
-                        <th>Nomor Antrian</th>
+                        <th>Noreg</th>
+                        <th>Rekamedis</th>
+                        <th>Antrian</th>
                         <th>Nama Pasien</th>
-                        <th>Poliklinik Tujuan</th>
+                        <th>Poliklinik</th>
                         <th>Nama Dokter</th>
                         <th>Jenis Layanan</th>
                         <th>Status Pelayanan</th>
