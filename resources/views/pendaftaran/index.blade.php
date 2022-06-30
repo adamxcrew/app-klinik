@@ -139,7 +139,7 @@
                         <th>Poliklinik</th>
                         <th>Nama Dokter</th>
                         <th>Jenis Layanan</th>
-                        <th>Status Pelayanan</th>
+                        <th>Penjamin</th>
                         <th width="120">#</th>
                       </tr>
                   </thead>
