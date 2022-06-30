@@ -132,8 +132,9 @@
                   <thead>
                       <tr>
                         <th width="10">Nomor</th>
+                        <th>Nomor Pendaftaran</th>
                         <th>Nomor Rekamedis</th>
-                        <th>Waktu & Nomor Antrian</th>
+                        <th>Nomor Antrian</th>
                         <th>Nama Pasien</th>
                         <th>Poliklinik Tujuan</th>
                         <th>Nama Dokter</th>
@@ -193,9 +194,11 @@
           processing: true,
           serverSide: true,
           daata: $('#form').serialize(),
+          order: [[1, 'desc']],
           ajax: "/pendaftaran?tanggal_awal={{$tanggal_awal}}&tanggal_akhir={{$tanggal_akhir}}&poliklinik_id={{$poliklinik_id}}&type=web",
           columns: [
             {data: 'DT_RowIndex', orderable: false, searchable: false},
+            { data: 'kode', name: 'kode' },
             { data: 'nomor_rekam_medis', name: 'nomor_rekam_medis' },
             { data: 'nomor_antrian_waktu', name: 'nomor_antrian_waktu' },
             { data: 'nama', name: 'nama' },
