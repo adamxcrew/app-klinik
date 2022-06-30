@@ -53,7 +53,7 @@
                   </tr>
                 </table>
                 <a class="btn btn-danger btn-lg" href="{{ url('ondotogram/' . Request::segment(2) . '/print') }}" target="_blank"><i class="fa fa-print" aria-hidden="true"></i> Tandai Selesai & Cetak</a>
-                <a class="btn btn-danger btn-lg">Kembali</a>
+                <a class="btn btn-danger btn-lg" href="/pendaftaran">Kembali</a>
               </div>
               <div class="col-md-6">
                 <h3>ONDOTOGRAM</h3>
@@ -583,7 +583,7 @@ $('.barang_id_txt').select2({
             <td>${res.data.tbm.indonesia}</td>
             <td>${res.data.anamnesa}</td>
             <td>${res.data.tindakan.tindakan}</td>
-            <td><button class='btn btn-danger hapus' data-id='${res.data.id}' }}''>Hapus</button></td>
+            <td><button class='btn btn-danger hapus' data-id='${res.data.id}' }}''><i class="fa fa-trash" aria-hidden="true"></i></button></td>
           </tr>
         `;  
 
