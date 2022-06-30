@@ -39,14 +39,16 @@ class LaporanTransaksiExport implements FromView, ShouldAutoSize, WithEvents, wi
         $selectedShift = $shift[array_search($this->nama_shift, array_column($shift, 'nama_shift'))];
         $awal   = $this->tanggal . ' ' . $selectedShift['waktu_mulai'];
         $akhir  = $this->tanggal . ' ' . $selectedShift['waktu_selesai'];
-        $laporan_transaksi = Pendaftaran::with('pasien', 'perusahaanAsuransi', 'userKasir')
-            ->whereBetween(\DB::raw('left(created_at,16)'), [$awal, $akhir])
-            ->where('status_pembayaran', 1);
+        // $laporan_transaksi = Pendaftaran::with('pasien', 'perusahaanAsuransi', 'userKasir')
+        //     ->whereBetween(\DB::raw('left(created_at,16)'), [$awal, $akhir])
+        //     ->where('status_pembayaran', 1);
+        $nomorAntrian = ViewPendaftaran::whereBetween('tanggal', [$awal, $akhir]);
 
         if ($this->metode_pembayaran != '') {
-            $laporan_transaksi->where('metode_pembayaran', $this->metode_pembayaran);
+            // $laporan_transaksi->where('metode_pembayaran', $this->metode_pembayaran);
+            $nomorAntrian->where('status_pembayaran',  $this->metode_pembayaran);
         }
-        $data['laporan_transaksi'] = $laporan_transaksi->get();
+        $data['laporan_transaksi'] = $nomorAntrian;
         $data['jumlah_pendaftaran'] = Pendaftaran::count();
 
         $data['pengeluaran'] = PengeluaranOperasional::all();

@@ -23,16 +23,16 @@
         @foreach($laporan_transaksi as $laporan)
         <tr>
             <td>{{ $loop->iteration }}</td>
-            <td>{{ tgl_indo(substr($laporan->created_at, 0, 10)) }}</td>
+            <td>{{ $laporan->tanggal }}</td>
             <td>{{ $laporan->kode }}</td>
-            <td>{{ $laporan->pasien->nomor_rekam_medis }}</td>
-            <td>{{ $laporan->pasien->nama }}</td>
-            <td>{{ $laporan->perusahaanAsuransi->nama_perusahaan }}</td>
+            <td>{{ $laporan->nomor_rekam_medis }}</td>
+            <td>{{ $laporan->nama }}</td>
+            <td>{{ $laporan->nama_perusahaan }}</td>
             <td>{{ $laporan->total_bayar }}</td>
             <td>{{ $laporan->biaya_tambahan }}</td>
             <td>{{ $laporan->biaya_tambahan+$laporan->total_bayar }}</td>
             <td>{{ $laporan->metode_pembayaran }}</td>
-            <td>{{ $laporan->userKasir->name??'-' }}</td>
+            <td>{{ $laporan->nama_kasir??'-' }}</td>
         </tr>
         @php 
             $total += $laporan->total_bayar+$laporan->biaya_tambahan;

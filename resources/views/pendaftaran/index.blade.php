@@ -110,8 +110,11 @@
                                       <div class="col-md-2">
                                         {!! Form::date('tanggal_akhir', $tanggal_akhir, ['class'=>'form-control','placeholder'=>'Tanggal Mulai']) !!}
                                       </div>
-                                      <div class="col-md-3">
+                                      <div class="col-md-2">
                                         {!! Form::select('poliklinik_id', $poliklinik, $poliklinik_id,['class'=>'form-control','placeholder'=>'- Semua Poli -']) !!}
+                                      </div>
+                                      <div class="col-md-2">
+                                        {!! Form::select('perusahaan_asuransi_id', $perusahaanAsuransi, $perusahaan_asuransi_id,['class'=>'form-control','placeholder'=>'- Semua Perusahaan -']) !!}
                                       </div>
                                       <div class="col-md-4">
                                           <button type="submit" name="type" value="web" class="btn btn-danger"><i class="fa fa-cogs" aria-hidden="true"></i>
@@ -195,7 +198,7 @@
           serverSide: true,
           daata: $('#form').serialize(),
           order: [[1, 'desc']],
-          ajax: "/pendaftaran?tanggal_awal={{$tanggal_awal}}&tanggal_akhir={{$tanggal_akhir}}&poliklinik_id={{$poliklinik_id}}&type=web",
+          ajax: "/pendaftaran?tanggal_awal={{$tanggal_awal}}&tanggal_akhir={{$tanggal_akhir}}&poliklinik_id={{$poliklinik_id}}&perusahaan_asuransi_id={{$perusahaan_asuransi_id}}&type=web",
           columns: [
             {data: 'DT_RowIndex', orderable: false, searchable: false},
             { data: 'kode', name: 'kode' },

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\Poliklinik;
-
+use App\Models\ViewPendaftaran;
 class LaporanTransaksiController extends Controller
 {
     public function index(Request $request)
@@ -22,21 +22,10 @@ class LaporanTransaksiController extends Controller
         $awal = date('Y-m-d H:i:s', strtotime($data['tanggal_awal']));
         $akhir = date('Y-m-d H:i:s', strtotime($data['tanggal_akhir']));
 
-        $pendaftaran = Pendaftaran::with('pasien', 'perusahaanAsuransi')
-            ->whereBetween(DB::raw('DATE(pendaftaran.created_at)'), [$awal, $akhir])
-            ->where('status_pembayaran', 1);
+        $nomorAntrian = ViewPendaftaran::whereBetween('tanggal', [$awal, $akhir]);
 
         if ($request->ajax()) {
-            return DataTables::of($pendaftaran->get())
-                ->addColumn('tanggal', function ($row) {
-                    return tgl_indo(substr($row->created_at, 0, 10));
-                })
-                ->addColumn('jenis_layanan', function ($row) {
-                    return $row->perusahaanAsuransi->nama_perusahaan;
-                })
-                ->addColumn('total_transaksi', function ($row) {
-                    return convert_rupiah($row->total_bayar);
-                })
+            return DataTables::of($nomorAntrian)
                 ->addColumn('action', function ($row) {
                     $btn = '<a class="btn btn-danger btn-sm" href="/pembayaran/' . $row->id . '/kwitansi"><i class="fa fa-print"></i> Kwitansi</a></div>';
                     return $btn;

@@ -59,6 +59,7 @@ class PendaftaranController extends Controller
         $data['tanggal_awal']   = $request->tanggal_awal ?? date('Y-m-d');
         $data['tanggal_akhir']  = $request->tanggal_akhir ?? date('Y-m-d');
         $data['poliklinik_id']  = $request->poliklinik_id;
+        $data['perusahaan_asuransi_id']  = $request->perusahaan_asuransi_id;
 
         $awal                   = date('Y-m-d', strtotime($data['tanggal_awal']));
         $akhir                  = date('Y-m-d', strtotime($data['tanggal_akhir']));
@@ -89,6 +90,10 @@ class PendaftaranController extends Controller
         // ------------------ FILTER BERDASARKAN POLIKLINIK -----------------------------
         if ($request->poliklinik_id != null) {
             $nomorAntrian->where('poliklinik_id', $request->poliklinik_id);
+        }
+
+        if ($request->perusahaan_asuransi_id != null) {
+            $nomorAntrian->where('perusahaan_asuransi_id', $request->perusahaan_asuransi_id);
         }
 
         // ------------------ FILTER PADA ROLE POLIKLINIK -----------------------------
@@ -186,6 +191,7 @@ class PendaftaranController extends Controller
                 ->make(true);
         }
         $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
+        $data['perusahaanAsuransi'] = PerusahaanAsuransi::pluck('nama_perusahaan', 'id');
         return view('pendaftaran.index', $data);
     }
 
