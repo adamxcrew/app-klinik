@@ -34,6 +34,9 @@ class LaporanTransaksiController extends Controller
                 ->addColumn('total_transaksi', function ($row) {
                     return $row->total_bayar + $row->biaya_tambahan;
                 })
+                ->addColumn('tanggal', function ($row) {
+                    return substr($row->created_at,0,16);
+                })
                 ->rawColumns(['action', 'code'])
                 ->addIndexColumn()
                 ->make(true);

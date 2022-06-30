@@ -23,7 +23,7 @@
         @foreach($nomorAntrian->get() as $laporan)
         <tr>
             <td>{{ $loop->iteration }}</td>
-            <td>{{ $laporan->tanggal }}</td>
+            <td>{{ substr($laporan->created_at,0,16) }}</td>
             <td>{{ $laporan->kode }}</td>
             <td>{{ $laporan->nomor_rekam_medis }}</td>
             <td>{{ $laporan->nama }}</td>
