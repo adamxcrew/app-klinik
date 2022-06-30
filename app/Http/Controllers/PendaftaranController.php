@@ -144,7 +144,7 @@ class PendaftaranController extends Controller
 
                     // --------------------- ACTION YANG AKAN MUNCUL DI BAGIAN POLIKLINIK -----------------------
                     if (auth()->user()->role == 'poliklinik') {
-                        if ($row->piliklinik_id == 1) { // poli gigi
+                        if ($row->poliklinik_id == 1) { // poli gigi
                             $btn .= '<li><a href="/ondotogram/' . $row->id . '"><i class="fa fa-plus-square"></i> Pemeriksaan Gigi</a></li>';
                         } elseif ($row->poliklinik_id == 7) { // lab
                                 $btn .= '<li><a class="btn btn-danger btn-sm" href="/pendaftaran/' . $row->id . '/input-indikator"><i class="fa fa-edit"></i> Input Indikator</a></li>';
@@ -727,6 +727,7 @@ class PendaftaranController extends Controller
         if ($data['nomorAntrian']->pendaftaran->pemeriksaan_klinis == false) {
             return view('pendaftaran.pemeriksaan_klinis_form', $data);
         }
+
         $data['dokter1']                = User::where('role', 'dokter')->pluck('name', 'id');
         $data['satuan']                 = Satuan::pluck('satuan', 'id');
         $data['poliklinik1']            = Poliklinik::pluck('nama', 'id');

@@ -33,23 +33,23 @@
                   </tr>
                   <tr>
                     <td>Nomor Rekamedis</td>
-                    <td>{{ $pendaftaran->pasien->nomor_rekam_medis }}</td>
+                    <td>{{ $nomorAntrian->pendaftaran->pasien->nomor_rekam_medis }}</td>
                   </tr>
                   <tr>
                     <td>Nama</td>
-                    <td>{{ $pendaftaran->pasien->nama }}</td>
+                    <td>{{ $nomorAntrian->pendaftaran->pasien->nama }}</td>
                   </tr>
                   <tr>
                     <td>Tempat, Tgl Lhr</td>
-                    <td>{{ $pendaftaran->pasien->tempat_lahir }}, {{ tgl_indo($pendaftaran->pasien->tanggal_lahir) }}</td>
+                    <td>{{ $nomorAntrian->pendaftaran->pasien->tempat_lahir }}, {{ tgl_indo($nomorAntrian->pendaftaran->pasien->tanggal_lahir) }}</td>
                   </tr>
                   <tr>
                     <td>Umur</td>
-                    <td>{{ hitung_umur($pendaftaran->pasien->tanggal_lahir) }} Tahun</td>
+                    <td>{{ hitung_umur($nomorAntrian->pendaftaran->pasien->tanggal_lahir) }} Tahun</td>
                   </tr>
                   <tr>
                     <td>Jenis Layanan</td>
-                    <td>Pasien {{ $pendaftaran->perusahaanAsuransi->nama_perusahaan }}</td>
+                    <td>Pasien {{ $nomorAntrian->perusahaanAsuransi->nama_perusahaan }}</td>
                   </tr>
                 </table>
                 <a class="btn btn-danger btn-lg" href="{{ url('ondotogram/' . Request::segment(2) . '/print') }}" target="_blank"><i class="fa fa-print" aria-hidden="true"></i> Tandai Selesai & Cetak</a>
@@ -199,7 +199,7 @@
                     <tr class="data-ondotogram">
                       <td>{{ $loop->iteration }}</td>
                       <td>{{ $p->kode_gigi }}</td>
-                      <td>{{ $p->tbm->indonesia }}</td>
+                      <td>{{ $p->tbm->indonesia??'-' }}</td>
                       <td>{{ $p->anamnesa }}</td>
                       <td>{{ $p->tindakan->tindakan }}</td>
                       <td>
@@ -266,9 +266,9 @@
                       </select>
                       
                     </div>
-                    <div class="col-md-5">
-                      <input type="checkbox" onclick="check_lock_bpjs()" {{ $pendaftaran->perusahaanAsuransi->nama_perusahaan=='BPJS'?'checked=checked"':''}} id="lock_bpjs"> Kunci Obat Umum ? </div>
-                  </div>
+                    {{-- <div class="col-md-5">
+                      <input type="checkbox" onclick="check_lock_bpjs()" {{ $nomorAntrian->pendaftaran->perusahaanAsuransi->nama_perusahaan=='BPJS'?'checked=checked"':''}} id="lock_bpjs"> Kunci Obat Umum ? </div>
+                  </div> --}}
                  
                 </td>
               </tr>
@@ -319,7 +319,7 @@
           <div class="col-md-12">
 
             {{ Form::open(['url'=>'pendaftaran-resep-racik']) }}
-            {{ Form::hidden('pendaftaran_id',$pendaftaran->id) }}
+            {{ Form::hidden('pendaftaran_id',$nomorAntrian->pendaftaran->id) }}
             <input type="hidden" name="page" value="ondotogram">
             <table class="table table-bordered inner2 form-racik-1101">
               <tr>
@@ -382,10 +382,10 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Kondisi Gigi Pasien {{ $pendaftaran->kode }} / Gigi-<span id="kodeGigi"></span></h4>
+        <h4 class="modal-title">Kondisi Gigi Pasien {{ $nomorAntrian->pendaftaran->kode }} / Gigi-<span id="kodeGigi"></span></h4>
       </div>
       <form action="#">
-        <input type="hidden" id="pendaftaranId" class="form-control" value="{{ $pendaftaran->id }}">
+        <input type="hidden" id="pendaftaranId" class="form-control" value="{{ $nomorAntrian->pendaftaran->id }}">
         <div class="modal-body">
           <div class="row">
               <div class="col-md-4">
@@ -442,7 +442,7 @@ $( document ).ready(function() {
     placeholder: 'Cari Barang',
     tags: true,
     ajax: {
-      url: '/ajax/select2Barang?pelayanan={{ $pendaftaran->jenisLayanan->nama_perusahaan}}',
+      url: '/ajax/select2Barang?pelayanan={{ $nomorAntrian->perusahaanAsuransi->nama_perusahaan}}',
       dataType: 'json',
       delay: 250,
       processResults: function(data) {
@@ -482,7 +482,7 @@ $('.barang_id_txt').select2({
     placeholder: 'Cari Barang',
     tags: true,
     ajax: {
-      url: '/ajax/select2Barang?pelayanan={{ $pendaftaran->jenisLayanan->nama_perusahaan}}',
+      url: '/ajax/select2Barang?pelayanan={{ $nomorAntrian->perusahaanAsuransi->nama_perusahaan}}',
       dataType: 'json',
       delay: 250,
       processResults: function(data) {
@@ -632,7 +632,7 @@ $('.barang_id_txt').select2({
 
 function load_daftar_obat_non_racik(){
     $.ajax({
-    url: "/pendaftaran-resep/<?php echo $pendaftaran->id;?>",
+    url: "/pendaftaran-resep/<?php echo $nomorAntrian->pendaftaran_id;?>",
     method: 'GET',
     success: function (response) {
         $("#daftar_obat_racik").html(response);
@@ -654,7 +654,7 @@ function load_daftar_obat_non_racik(){
         barang_id: barang_id,
         jumlah: jumlah,
         satuan: satuan,
-        pendaftaran_id: '{{$pendaftaran->id}}',
+        pendaftaran_id: '{{$nomorAntrian->pendaftaran->id}}',
         aturan_pakai: aturan_pakai,
         jenis: 'racik'
       },
@@ -679,7 +679,7 @@ function load_daftar_obat_non_racik(){
   // KELOLA OBAT RACIK
   function load_daftar_obat_racik(){
     $.ajax({
-    url: "/pendaftaran-resep-racik/<?php echo $pendaftaran->id;?>",
+    url: "/pendaftaran-resep-racik/<?php echo $nomorAntrian->pendaftaran->id;?>",
     method: 'GET',
     success: function (response) {
         $("#daftar_obat_non_racik").html(response);
@@ -703,7 +703,7 @@ function load_daftar_obat_non_racik(){
           placeholder: 'Cari Barang',
           tags: true,
           ajax: {
-            url: '/ajax/select2Barang?pelayanan={{ $pendaftaran->jenisLayanan->nama_perusahaan}}',
+            url: '/ajax/select2Barang?pelayanan={{ $nomorAntrian->perusahaanAsuransi->nama_perusahaan}}',
             dataType: 'json',
             delay: 250,
             processResults: function(data) {

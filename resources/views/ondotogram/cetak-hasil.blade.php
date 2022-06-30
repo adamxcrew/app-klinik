@@ -61,7 +61,7 @@
                     <td></td>
                     <td>Umur</td>
                     <td>:</td>
-                    <th>{{ $umur }} Tahun</th>
+                    <th>{{ $nomorAntrian->pendaftaran->pasien->umur }} Tahun</th>
                 </tr>
             </table>
         </div>
@@ -82,7 +82,7 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $p->kode_gigi }}</td>
-                        <td>{{ $p->tbm->indonesia }}</td>
+                        <td>{{ $p->tbm->indonesia??'-' }}</td>
                         <td>{{ $p->anamnesa }}</td>
                         <td>{{ $p->tindakan->tindakan }}</td>
                     </tr>
@@ -271,8 +271,8 @@
                         <td>&nbsp;</td>
                     </tr>
                     <tr align="center">
-                        <td>Administrator</td>
-                        <td>08/08/2020</td>
+                        <td>{{ Auth::user()->name }}</td>
+                        <td>{{ now() }}</td>
                     </tr>
                 </thead>
             </table>

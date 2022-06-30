@@ -71,7 +71,8 @@ class PendaftaranResepRacikController extends Controller
             }
         }
         if ($request->page == 'ondotogram') {
-            return redirect('ondotogram/' . $request->pendaftaran_id);
+            $nomorAntrian = \App\Models\NomorAntrian::where('pendaftaran_id', $request->pendaftaran_id)->where('poliklinik_id', \Auth::user()->poliklinik_id)->first();
+            return redirect('ondotogram/' . $nomorAntrian->id);
         }
         return redirect('pendaftaran/' . $request->nomor_antrian_id . '/pemeriksaan');
     }
@@ -84,7 +85,8 @@ class PendaftaranResepRacikController extends Controller
      */
     public function show($id)
     {
-        $data['pendaftaranResepRacik'] = PendaftaranObatRacik::with('detail.barang')->where('pendaftaran_id', $id);
+        $data['pendaftaranResepRacik'] = PendaftaranObatRacik::with('detail.barang')->where('pendaftaran_id', $id)
+                                        ->where('poliklinik_id', \Auth::user()->poliklinik_id);
         return view('pendaftaran.partials.daftar_resep_racik', $data);
     }
 

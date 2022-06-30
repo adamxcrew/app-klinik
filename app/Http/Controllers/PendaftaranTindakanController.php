@@ -45,14 +45,15 @@ class PendaftaranTindakanController extends Controller
             }
         }
 
+        $logTindakan = serialize($tindakan);
         // Pemberian Fee Untuk Dokter
-
         $pendaftaranFeeTindakan = PendaftaranFeeTindakan::create([
             'tindakan_id'       =>  $request->tindakan_id,
             'pendaftaran_id'    =>  $request->pendaftaran_id,
             'poliklinik_id'     =>  $request->poliklinik_id ?? 0,
             'jumlah_fee'        =>  $fee_tindakan['dokter-' . $jenisPendaftaran],
             'user_id'           =>  $request->dokter,
+            'log_tindakan'      =>  $logTindakan,
             'pelaksana'         => 'Dokter'
         ]);
 
@@ -61,6 +62,7 @@ class PendaftaranTindakanController extends Controller
             'tindakan_id'       =>  $request->tindakan_id,
             'pendaftaran_id'    =>  $request->pendaftaran_id,
             'poliklinik_id'     =>  $request->poliklinik_id ?? 0,
+            'log_tindakan'      =>  $logTindakan,
             'jumlah_fee'        =>  $fee_tindakan['klinik-' . $jenisPendaftaran],
             'pelaksana'         => 'Klinik'
         ]);
