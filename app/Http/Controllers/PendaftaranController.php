@@ -181,8 +181,8 @@ class PendaftaranController extends Controller
                     return $row->status_pelayanan;
                 })
                 ->addColumn('nomor_antrian_waktu', function ($row) use ($status_pelayanan) {
-                    //return $status_pelayanan[$row->status_pelayanan];
-                    return $row->tanggal . ' - ' . $row->nomor_antrian;
+                    return $status_pelayanan[$row->status_pelayanan];
+                    //return $row->tanggal . ' - ' . $row->nomor_antrian;
                 })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
