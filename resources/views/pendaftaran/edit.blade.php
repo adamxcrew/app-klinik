@@ -18,7 +18,7 @@
           <div class="col-xs-12">
             <div class="box">
               <div class="box-body">
-                  {!! Form::model($pendaftaran,['route'=>['pendaftaran.update',$pendaftaran->id],'method'=>'PUT','class'=>'form-horizontal']) !!}
+                  {!! Form::model($nomorAntrian,['route'=>['pendaftaran.update',$nomorAntrian->id],'method'=>'PUT','class'=>'form-horizontal']) !!}
                   @include('validation_error')
                   @include('pendaftaran.form-edit')
                   {!! Form::close() !!}

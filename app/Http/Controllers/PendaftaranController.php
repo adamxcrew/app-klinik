@@ -120,15 +120,13 @@ class PendaftaranController extends Controller
 
                     // --------------------- ACTION YANG AKAN MUNCUL DI BAGIAN PENDAFTARAN -----------------------
                     if (auth()->user()->role == 'bagian_pendaftaran') {
-                        if ($row->status_pelayanan == 'pendaftaran') {
+                        if (in_array($row->status_pelayanan,['pendaftaran','selesai_pemeriksaan_medis'])) {
                             $btn .= \Form::open(['url' => 'pendaftaran/' . $row->id, 'method' => 'DELETE', 'style' => 'margin-left:15px']);
                             $btn .= "<li><button type='submit' style='border: 0;background:#fff'><i class='fa fa-times'></i> <span style='margin-left:10px'>Batal</span></button></li>";
                             $btn .= \Form::close();
                             $btn .= '<li><a href="/pendaftaran/' . $row->id . '/cetak"><i class="fa fa-print"></i> Cetak Antrian</a></li>';
                             $btn .= '<li><a href="/pendaftaran/' . $row->id . '/edit"><i class="fa fa-edit"></i> Edit</a></li>';
-                            $btn .= \Form::open(['url' => 'pendaftaran/' . $row->id, 'method' => 'DELETE', 'style' => 'margin-left:15px']);
-                            $btn .= "<li><button type='submit' style='border: 0;background:#fff'><i class='fa fa-times'></i> <span style='margin-left:10px'>Batal</span></button></li>";
-                            $btn .= \Form::close();
+        
                         }
                     }
 
@@ -594,11 +592,11 @@ class PendaftaranController extends Controller
 
     public function edit($id)
     {
-        $data['pendaftaran']         = Pendaftaran::with('pasien')->findOrFail($id);
-        $data['perusahaan_asuransi'] = PerusahaanAsuransi::pluck('nama_perusahaan', 'id');
-        $data['poliklinik'] = Poliklinik::pluck('nama', 'id');
-        $data['dokter'] = User::where('role', 'dokter')->pluck('name', 'id');
-
+        //$data['pendaftaran']         = Pendaftaran::with('pasien')->findOrFail($id);
+        $data['perusahaan_asuransi']    = PerusahaanAsuransi::pluck('nama_perusahaan', 'id');
+        $data['poliklinik']             = Poliklinik::pluck('nama', 'id');
+        $data['nomorAntrian']           = NomorAntrian::with('pendaftaran.pasien')->findOrFail($id);
+        $data['dokter']                 = User::where('role', 'dokter')->pluck('name', 'id');
         return view('pendaftaran.edit', $data);
     }
 
@@ -610,7 +608,7 @@ class PendaftaranController extends Controller
                             ->whereDate('created_at', date('Y-m-d'))
                             ->max('nomor_antrian');
         $antrian = NomorAntrian::where('pendaftaran_id', $id)->first();
-        $antrian->update(['dokter_id' => $request->dokter_id,'nomor_antrian' => ($nomor + 1),'poliklinik_id' => $request->poliklinik_id]);
+        $antrian->update(['dokter_id' => $request->dokter_id,'perusahaan_asuransi_id'=>$request->perusahaan_asuransi_id, 'nomor_antrian' => ($nomor + 1),'poliklinik_id' => $request->poliklinik_id]);
 
         return redirect('/pendaftaran/' . $id . '/cetak');
         //return redirect(route('pendaftaran.index'))->with('message', 'Data Pendaftaran Pasien Bernama ' . ucfirst($pendaftaran->pasien->nama) . ' Berhasil Di Update');

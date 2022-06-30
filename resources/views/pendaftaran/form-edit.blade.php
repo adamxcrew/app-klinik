@@ -1,13 +1,13 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">Pasien</label>
     <div class="col-sm-5">
-        <input type="text" class="form-control" disabled value="{{ $pendaftaran->pasien->nama }}">
+        <input type="text" class="form-control" disabled value="{{ $nomorAntrian->pendaftaran->pasien->nama }}">
     </div>
 </div>
 <div class="form-group">
     <label class="col-sm-2 control-label">Perusahaan Penjamin</label>
     <div class="col-sm-5">
-        {!! Form::select('jenis_layanan', $perusahaan_asuransi, null,['class'=>'form-control']) !!}
+        {!! Form::select('perusahaan_asuransi_id', $perusahaan_asuransi, null,['class'=>'form-control']) !!}
     </div>
 </div>
 <div class="form-group">
