@@ -193,7 +193,7 @@ class PasienController extends Controller
                                     join pendaftaran as p on p.id=na.pendaftaran_id
                                     join pasien as pa on pa.id=p.pasien_id
                                     join poliklinik as po on po.id=na.poliklinik_id
-                                    join perusahaan_asuransi as pas on pas.id=p.jenis_layanan
+                                    join perusahaan_asuransi as pas on pas.id=p.perusahaan_asuransi_id
                                     where pa.id='" . $id . "'");
         return view('pasien.show', $data);
     }

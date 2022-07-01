@@ -51,7 +51,13 @@ class LaporanTransaksiExport implements FromView, ShouldAutoSize, WithEvents, wi
         $selectedShift = $shift[array_search($this->nama_shift, array_column($shift, 'nama_shift'))];
         $awal   = $this->tanggal . ' ' . $selectedShift['waktu_mulai'];
         $akhir  = $this->tanggal . ' ' . $selectedShift['waktu_selesai'];
-        $nomorAntrian = ViewPendaftaran::whereBetween('created_at', [$awal, $akhir])->where('status_pembayaran', 1);
+        if($this->nama_shift!='')
+        {
+            $nomorAntrian = ViewPendaftaran::whereBetween('created_at', [$awal, $akhir])->where('status_pembayaran', 1);
+        }else{
+            $nomorAntrian = ViewPendaftaran::where('tanggal')->where('status_pembayaran', 1);
+        }
+        
 
         if ($this->metode_pembayaran != '') {
             $nomorAntrian->where('metode_pembayaran', $this->metode_pembayaran);

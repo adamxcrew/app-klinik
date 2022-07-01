@@ -110,14 +110,15 @@
           <div class="modal-body">
             <table class="table table-bordered">
               <tr>
-                <th>Tanggal Mulai</th>
+                <td>Tanggal Mulai</td>
                 <td><input type="date" name="tanggal" class="form-control" required></td>
               </tr>
               <tr>
-                <th>Shift</th>
+                <td>Shift</td>
                 <td>
                   
                   <select name="nama_shift" class="form-control">
+                    <option value="">-- Semua Shift--</option>
                     @foreach($shift as $shf)
                       <option value="{{ $shf['nama_shift']}}">{{ $shf['nama_shift']}}</option>
                     @endforeach
