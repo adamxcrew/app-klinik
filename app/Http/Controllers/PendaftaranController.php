@@ -582,32 +582,21 @@ class PendaftaranController extends Controller
 
     public function update(Request $request, $id)
     {
-        $pendaftaran = Pendaftaran::with('pasien')->findOrFail($id);
-        $pendaftaran->update($request->all());
-        $nomor = NomorAntrian::where('poliklinik_id', $request->poliklinik_id)
-                            ->whereDate('created_at', date('Y-m-d'))
-                            ->max('nomor_antrian');
-        $antrian = NomorAntrian::where('pendaftaran_id', $id)->first();
+        $nomor      = NomorAntrian::where('poliklinik_id', $request->poliklinik_id)->whereDate('created_at', date('Y-m-d'))->max('nomor_antrian');
+        $antrian    = NomorAntrian::where('id', $id)->first();
         $antrian->update(['dokter_id' => $request->dokter_id,'perusahaan_asuransi_id' => $request->perusahaan_asuransi_id, 'nomor_antrian' => ($nomor + 1),'poliklinik_id' => $request->poliklinik_id]);
-
         return redirect('/pendaftaran/' . $id . '/cetak');
-        //return redirect(route('pendaftaran.index'))->with('message', 'Data Pendaftaran Pasien Bernama ' . ucfirst($pendaftaran->pasien->nama) . ' Berhasil Di Update');
     }
 
     public function cetak($id)
     {
-        $data['pasien'] = Pendaftaran::find($id);
-        $data['antrian'] = NomorAntrian::with('poliklinik', 'dokter')->where('pendaftaran_id', $id)->orderBy('id', 'DESC')->first();
-
+        $data['nomorAntrian'] = NomorAntrian::with('pendaftaran', 'poliklinik', 'dokter')->where('id', $id)->orderBy('id', 'DESC')->first();
         return view('pendaftaran.nomor-antrian', $data);
     }
 
     public function print($id)
     {
-        $data['pasiens'] = Pendaftaran::where('pendaftaran.id', $id)
-        ->with('dokter')
-        ->leftJoin('nomor_antrian', 'nomor_antrian.pendaftaran_id', 'pendaftaran.id')
-        ->get();
+        $data['nomorAntrian'] = NomorAntrian::with('pendaftaran', 'poliklinik', 'dokter')->where('id', $id)->orderBy('id', 'DESC')->first();
         $pdf = PDF::loadView('pendaftaran.cetak', $data);
         return $pdf->stream();
     }

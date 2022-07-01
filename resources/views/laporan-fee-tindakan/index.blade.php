@@ -18,21 +18,33 @@
         <div class="row">
           <div class="col-xs-12">
             <div class="box">
-              <div class="col-md-12" style="margin: 1% 0">
-                {{-- <a href="/laporan-fee-tindakan/export_excel" class="btn btn-success pull-right"> <i class="fa fa-table"></i> Export Excel</a> --}}
-                <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#myModal">
-                  <i class="fa fa-table"></i> Export Excel
-                </button>
-                <div class="col-md-3">
-                  <div class="input-group">
-                    <div class="input-group-addon">
-                      <i class="fa fa-calendar"></i>
-                    </div>
-                    <input type="text" class="form-control pull-right" id="filterDate">
-                  </div>
-                </div>
-              </div>
               <div class="box-body">
+                {!! Form::open(['url'=>'laporan-fee-tindakan','method'=>'GET','id'=>'form']) !!}
+                <table class="table table-bordered">
+                    <tr>
+                        <td width="140">Tanggal Mulai</td>
+                        <td>
+                            <div class="row">
+                                <div class="col-md-2">
+                                  {!! Form::date('tanggal_awal', $tanggal_awal, ['class'=>'form-control tanggal_awal','placeholder'=>'Tanggal Mulai']) !!}
+                                </div>
+                                <div class="col-md-2">
+                                  {!! Form::date('tanggal_akhir', $tanggal_akhir, ['class'=>'form-control tanggal_akhir','placeholder'=>'Tanggal Mulai']) !!}
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="submit" name="type" value="web" class="btn btn-danger"><i class="fa fa-cogs" aria-hidden="true"></i>
+                                       Filter Laporan
+                                    </button>
+                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
+                                      <i class="fa fa-table"></i> Export Excel
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                {!! Form::close() !!}
+
                 @include('alert')
                 <table class="table table-bordered table-striped" id="fees-table">
                   <thead>
@@ -44,7 +56,7 @@
                         <th>Nama Pelaksana</th>
                         <th>Nama Tindakan</th>
                         <th>Tarif Tindakan</th>
-                        {{-- <th>Nomor Pendaftaran</th> --}}
+                        <th>Nomor Pendaftaran</th>
                         <th>Jenis Pelayanan</th>
                       </tr>
                   </thead>
@@ -116,21 +128,7 @@
 			processing: true,
 			serverSide: true,
 			ajax: {
-				url : '/laporan-fee-tindakan',
-				data : {
-					startDate : ()=>{
-						let date = $('#filterDate').val()
-						date = date.split(" ")
-
-						return date[0]
-					},
-					endDate : ()=>{
-						let date = $('#filterDate').val()
-						date = date.split(" ")
-
-						return date[2]
-					}
-				}
+				url : '/laporan-fee-tindakan?tanggal_awal='+$('.tanggal_awal').val()+"&tanggal_akhir="+$('.tanggal_akhir').val(),
 			},
 			columns: [
 				{ data: 'DT_RowIndex', orderable: false, searchable: false },
@@ -140,7 +138,7 @@
 				{ data: 'nama_pelaksana', name: 'nama_pelaksana' },
 				{ data: 'nama_tindakan', name: 'nama_tindakan' },
 				{ data: 'jumlah_fee', name: 'jumlah_fee' },
-				// { data: 'nomor_pendaftaran', name: 'nomor_pendaftaran' },
+				{ data: 'nomor_pendaftaran', name: 'nomor_pendaftaran' },
 				{ data: 'jenis_pelayanan', name: 'jenis_pelayanan' },
 			]
 		});
@@ -163,4 +161,9 @@
     <link rel="stylesheet" href="{{asset('adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
     <!-- daterange picker -->
     <link rel="stylesheet" href="{{asset('adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}">
+    <style>
+      .dataTables_filter {
+      display: none;
+      } 
+    </style>
 @endpush

@@ -18,11 +18,20 @@ class LaporanFeeTindakanController extends Controller
 
     public function index(Request $request)
     {
-        $awal = date('Y-m-d H:i:s', strtotime($request->startDate));
-        $akhir = date('Y-m-d H:i:s', strtotime($request->endDate));
+        $data['tanggal_awal']   = $request->tanggal_awal ?? date('Y-m-d');
+        $data['tanggal_akhir']  = $request->tanggal_akhir ?? date('Y-m-d');
+        $data['poliklinik_id']  = $request->poliklinik_id;
+        $data['perusahaan_asuransi_id']  = $request->perusahaan_asuransi_id;
+
+        $awal                   = date('Y-m-d', strtotime($data['tanggal_awal']));
+        $akhir                  = date('Y-m-d', strtotime($data['tanggal_akhir']));
 
 
-        $data = PendaftaranFeeTindakan::select(
+        // $awal = date('Y-m-d H:i:s', strtotime($request->startDate));
+        // $akhir = date('Y-m-d H:i:s', strtotime($request->endDate));
+
+
+        $laporan = PendaftaranFeeTindakan::select(
             'pendaftaran.created_at as tanggal',
             'users.name as nama_pelaksana',
             'pendaftaran_fee_tindakan.pelaksana',
@@ -38,12 +47,10 @@ class LaporanFeeTindakanController extends Controller
         ->join('perusahaan_asuransi', 'perusahaan_asuransi.id', 'nomor_antrian.perusahaan_asuransi_id')
         ->join('tindakan', 'tindakan.id', 'pendaftaran_fee_tindakan.tindakan_id')
         ->join('users', 'users.id', 'pendaftaran_fee_tindakan.user_id')
-        ->whereBetween(\DB::raw('left(nomor_antrian.created_at,10)'), [$awal,$akhir])
-        ->get();
+        ->whereBetween(\DB::raw('left(nomor_antrian.created_at,10)'), [$awal,$akhir]);
 
         if ($request->ajax()) {
-            \Log::info($request->startDate);
-            return DataTables::of($data)
+            return DataTables::of($laporan)
             ->editColumn('tanggal', function ($row) {
                     return substr($row->tanggal, 0, 10);
             })

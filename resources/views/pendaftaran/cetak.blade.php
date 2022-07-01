@@ -55,18 +55,16 @@
     </style>
 </head>
 <body style="font-family: 'sans-serif;">
-    @foreach($pasiens as $pasien)
     <div style="text-align:center">
         <h2 style="font-size: 3em"><u>NOMOR ANTRIAN POLIKLINIK</u></h2>
-        <h2 style="font-size: 4em;margin-bottom:-20px">{{ $pasien->pasien->nomor_rekam_medis }}</h2>
-        <h2 style="margin-top: -15px;font-size: 4em;margin-bottom:-10px">{{ $pasien->pasien->nama }}</h2>
+        <h2 style="font-size: 4em;margin-bottom:-20px">{{ $nomorAntrian->pendaftaran->pasien->nomor_rekam_medis }}</h2>
+        <h2 style="margin-top: -15px;font-size: 4em;margin-bottom:-10px">{{  $nomorAntrian->pendaftaran->pasien->nama }}</h2>
         <h4 style="margin-top: 50px;margin-bottom:-60px;font-size: 3em">NO. URUT</h4>
-        <h1 style="font-size: 5em">{{ $pasien->nomor_antrian }}</h1>
-        <h1 style="font-size: 4em;margin-bottom:-20px">{{ $pasien->poliklinik->nama }}</h1>
-        <h1 style="font-size: 3em">{{ $pasien->dokter->name }}</h1>
+        <h1 style="font-size: 5em">{{ $nomorAntrian->nomor_antrian }}</h1>
+        <h1 style="font-size: 4em;margin-bottom:-20px">{{ $nomorAntrian->poliklinik->nama }}</h1>
+        <h1 style="font-size: 3em">{{ $nomorAntrian->dokter->name }}</h1>
         <h2 style="margin-top: 50px;font-size: 2em"><u>SILAHKAN MENGANTRI</u></h2>
         <h2 style="font-size: 2em">KLINIK DR.NURDIN WAHID</h2>
     </div>
-    @endforeach
 </body>
 </html>

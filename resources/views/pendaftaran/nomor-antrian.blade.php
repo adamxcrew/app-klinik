@@ -23,7 +23,7 @@
                                 <strong style="font-size: 20px;">Nomor Antrian</strong>
                             </div>
                             <div class="col-md-6 text-right">
-                                <strong class="label-nomor-antrian">{{ $antrian->nomor_antrian }}</strong>
+                                <strong class="label-nomor-antrian">{{ $nomorAntrian->nomor_antrian }}</strong>
                             </div>
                         </div>
                         
@@ -37,7 +37,7 @@
                                 <small class="small-label-antrian">Pasien detail</small>
                             </div>
                             <div class="col-md-6 text-right">
-                                {{ $pasien->pasien->nama }}
+                                {{ $nomorAntrian->pendaftaran->pasien->nama }}
                             </div>
                         </div>
 
@@ -47,7 +47,7 @@
                                 <small class="small-label-antrian">Pendaftaran</small>
                             </div>
                             <div class="col-md-6 text-right">
-                                {{ $pasien->kode }}
+                                {{ $nomorAntrian->nomor_antrian }}
                             </div>
                         </div>
 
@@ -57,7 +57,7 @@
                                 <small class="small-label-antrian">Bagian</small>
                             </div>
                             <div class="col-md-6 text-right">
-                                {{ $antrian->poliklinik->nama }}
+                                {{ $nomorAntrian->poliklinik->nama }}
                             </div>
                         </div>
 
@@ -67,7 +67,7 @@
                                 <small class="small-label-antrian">Dokter</small>
                             </div>
                             <div class="col-md-6 text-right">
-                                {{ $antrian->dokter->name }}
+                                {{ $nomorAntrian->dokter->name }}
                             </div>
                         </div>
 
@@ -77,7 +77,7 @@
                                 <small class="small-label-antrian">Jenis</small>
                             </div>
                             <div class="col-md-6 text-right">
-                                {{ $pasien->jenis_layanan }}
+                                {{ $nomorAntrian->perusahaanAsuransi->nama_perusahaan }}
                             </div>
                         </div>
 
@@ -87,13 +87,13 @@
                                 <small class="small-label-antrian">Tanggal</small>
                             </div>
                             <div class="col-md-6 text-right">
-                                {{ substr($pasien->created_at, 0 ,10) }}
+                                {{ substr($nomorAntrian->created_at, 0 ,10) }}
                             </div>
                         </div>
 
                         <div class="card-spac-antrian">
                             <div class="col-md-12">
-                                <a href="{{ route('pendaftaran.print', ['id' => $pasien->id]) }}" class="btn btn-primary btn-sm" target="_blank" style="width:100%">Cetak Nomor Antrian</a>
+                                <a href="{{ route('pendaftaran.print', ['id' => $nomorAntrian->id]) }}" class="btn btn-primary btn-sm" target="_blank" style="width:100%">Cetak Nomor Antrian</a>
                             </div>
                         </div>
 
