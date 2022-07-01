@@ -19,10 +19,22 @@ class OndotogramController extends Controller
 {
     public function index($pendaftaranId)
     {
-        $data['nomorAntrian'] = NomorAntrian::with('pendaftaran')->find($pendaftaranId);
-        $data['pendaftaran_gigi'] = PendaftaranTindakan::with(['tbm', 'tindakan'])->where('pendaftaran_id', $data['nomorAntrian']->pendaftaran_id)->get();
-        $data['total'] = count($data['pendaftaran_gigi']);
-        $data['satuan']                 = Satuan::pluck('satuan', 'id');
+        $data['nomorAntrian']       = NomorAntrian::with('pendaftaran')->find($pendaftaranId);
+        $data['pendaftaran_gigi']   = PendaftaranTindakan::with(['tbm', 'tindakan'])->where('pendaftaran_id', $data['nomorAntrian']->pendaftaran_id)->get();
+        $data['total']              = count($data['pendaftaran_gigi']);
+        $data['satuan']             = Satuan::pluck('satuan', 'id');
+        $data['riwayatKunjungan'] =     \DB::select("select na.id,
+                p.kode,
+                pa.nomor_rekam_medis,
+                pa.nama as nama_pasien,
+                cast(p.created_at as Date) as tanggal_kunjungan,
+                po.nama as poliklinik,
+                pas.nama_perusahaan as perusahaan_penjamin
+                from nomor_antrian as na
+                join pendaftaran as p on p.id=na.pendaftaran_id
+                join pasien as pa on pa.id=p.pasien_id and pa.id='" . $data['nomorAntrian']->pendaftaran->pasien_id . "'
+                join poliklinik as po on po.id=na.poliklinik_id
+                join perusahaan_asuransi as pas on pas.id=p.perusahaan_asuransi_id");
         return view('ondotogram.index', $data);
     }
 

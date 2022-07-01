@@ -1,6 +1,6 @@
 <table class="table table-bordered">
     <tr>
-        <th width="10">No</th>
+        <th width="10">Nomor Antrian</th>
         <th>Dokter Perujuk</th>
         <th>Nama Unit</th>
         <th>Pemeriksaan</th>
@@ -14,7 +14,7 @@
     @else
         @foreach($nomorAntrian->get() as $row)
         <tr>
-            <td>{{ $loop->iteration }}</td>
+            <td>{{ $row->nomor_antrian }}</td>
             <td>{{ $row->dokter->name}}</td>
             <td>{{ $row->poliklinik->nama }}</td>
             <td>

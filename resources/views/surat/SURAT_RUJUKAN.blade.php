@@ -112,7 +112,7 @@
             </tr>
         </table>
 
-        <p>Atas kerjasamanya terima kasih .</p>
+        <p>Mohon dilakukan pemeriksaan dan penanganan lebih lanjut, Atas kerjasamanya kami ucapkan terima kasih.</p>
         <div style="float: right">
             <p style="margin-right:90px;margin-bottom:70px">Cibinong, {{ date('d M Y')}}<br>Dokter Pemeriksa</p>
             <br>

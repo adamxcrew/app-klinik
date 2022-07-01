@@ -52,7 +52,50 @@
                     <td>Pasien {{ $nomorAntrian->perusahaanAsuransi->nama_perusahaan }}</td>
                   </tr>
                 </table>
+                <h4>Daftar Kunjungan</h4>
+                <table class="table table-bordered">
+                  <tr>
+                      <th>No</th>
+                      <th>Tanggal</th>
+                      <th>Penjamin</th>
+                      <th>Poliklinik</th>
+                      <th width="30"></th>
+                  </tr>
+                  @if(count($riwayatKunjungan)>0)
+                    @foreach($riwayatKunjungan as $riwayat)
+                      <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ tgl_indo($riwayat->tanggal_kunjungan) }}</td>
+                        <td>{{ $riwayat->perusahaan_penjamin }}</td>
+                        <td>{{ $riwayat->poliklinik }}</td>
+                        <td>
+                          <button type="button" data-kode="{{ $riwayat->id }}" class="btn btn-primary btn-sm kode" data-toggle="modal" data-target="#modalHistoryPendaftaran">
+                            <i class='fa fa-eye' aria-hidden='true'></i>
+                          </button>
+        
+                        </td>
+                      </tr>
+                    @endforeach
+                  @else
+                      <tr style="text-align:center">
+                        <td colspan="5">Belum Ada Data</td>
+                      </tr>
+                  @endif
+              </table>
                 <a class="btn btn-danger btn-lg" href="{{ url('ondotogram/' . Request::segment(2) . '/print') }}" target="_blank"><i class="fa fa-print" aria-hidden="true"></i> Tandai Selesai & Cetak</a>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-danger btn-lg">Cetak Surat</button>
+                  <button type="button" class="btn btn-danger btn-lg dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                  <span class="caret"></span>
+                  <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu">
+                  <li><a href="/surat/create?jenis=surat_sakit&pendaftaran_id={{$nomorAntrian->pendaftaran->id}}">Surat Keterangan Sakit</a></li>
+                  <li><a href="/surat/create?jenis=surat_sehat&pendaftaran_id={{$nomorAntrian->pendaftaran->id}}">Surat Keterangan Sehat</a></li>
+                  <li><a href="/surat/create?jenis=surat_rujukan&pendaftaran_id={{$nomorAntrian->pendaftaran->id}}">Surat Rujukan</a></li>
+                  <li><a href="/surat/create?jenis=surat_buta_warna&pendaftaran_id={{$nomorAntrian->pendaftaran->id}}">Surat Keterangan Buta Warna</a></li>
+                  </ul>
+                  </div>
                 <a class="btn btn-danger btn-lg" href="/pendaftaran">Kembali</a>
               </div>
               <div class="col-md-6">
@@ -243,6 +286,28 @@
   </section>
 </div>
 
+  <!-- Modal history pendafatran -->
+  <div class="modal fade" id="modalHistoryPendaftaran" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Riwayat Pelayanan</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <div id="hasil_riwayat"></div>
+        </div>
+        <div class="modal-footer">
+          <a id="resume-medis" class="btn btn-danger" target="new">Cetak</a>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
 <!-- Modal Obat Non Racik -->
 <div class="modal fade" id="modal-obat-non-racik" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -722,7 +787,25 @@ function load_daftar_obat_non_racik(){
         });
   }
 
-  
+    // Handle detail riwayat kunjungan
+    $('.kode').on('click', function() {
+    let idPendaftaran = $(this).attr('data-kode');
+    // console.log(idPendaftaran);
+    $("#resume-medis").attr("href", "/pendaftaran/"+idPendaftaran+"/cetak_rekamedis");
+    let url = "/log-riwayat-kunjungan/" + idPendaftaran
+    $.ajax({
+      url: url,
+      type: "GET",
+      success: function(res) {
+        $("#hasil_riwayat").html(res);
+        console.log(res);
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    })
+  })
+
   function add_komposisi(id){
     $.ajax({
       url: "/pendaftaran-resep-racik/add_komposisi",

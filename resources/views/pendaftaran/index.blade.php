@@ -141,8 +141,8 @@
                         <th>Nama Pasien</th>
                         <th>Poliklinik</th>
                         <th>Nama Dokter</th>
-                        <th>Jenis Layanan</th>
-                        <th>Penjamin</th>
+                        <th>Perusahaan Asuransi</th>
+                        <th>Status Pemeriksaan</th>
                         <th width="120">#</th>
                       </tr>
                   </thead>
