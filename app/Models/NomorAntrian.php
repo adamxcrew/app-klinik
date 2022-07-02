@@ -14,6 +14,7 @@ class NomorAntrian extends Model
         'poliklinik_id',
         'nomor_antrian',
         'dokter_id',
+        'anamnesa',
         'status_pelayanan',
         'sudah_dipanggil',
         'status_pembayaran',

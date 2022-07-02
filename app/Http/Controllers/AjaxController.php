@@ -18,6 +18,7 @@ use App\Models\Pegawai;
 use App\Models\Pendaftaran;
 use App\Models\Poliklinik;
 use DB;
+use App\Models\NomorAntrian;
 
 class AjaxController extends Controller
 {
@@ -61,8 +62,11 @@ class AjaxController extends Controller
 
     public function simpanAnamnesa(Request $request)
     {
-        $pendaftaran = Pendaftaran::find($request->pendaftaran_id);
-        $pendaftaran->update(['anamnesa' => $request->anamnesa]);
+        $nomorAntrian = NomorAntrian::find($request->nomor_antrian_id);
+        $nomorAntrian->update(['anamnesa' => $request->anamnesa]);
+        if ($nomorAntrian) {
+            return response()->json($nomorAntrian);
+        }
     }
 
 

@@ -116,13 +116,15 @@ class PendaftaranController extends Controller
 
                     // --------------------- ACTION YANG AKAN MUNCUL DI BAGIAN ADMIN MEDIS -----------------------
                     if (auth()->user()->role == 'admin_medis') {
-                        if ($row->status_pelayanan != 'selesai_pemeriksaan_medis') {
-                            $btn .= '<li><a href="/pendaftaran/' . $row->id . '/input_tanda_vital"><i class="fa fa-print"></i> Input Tanda Vital</a></li>';
-                        } else {
-                            $btn .= \Form::open(['url' => 'pendaftaran/' . $row->id, 'method' => 'DELETE', 'style' => 'margin-left:15px']);
-                            $btn .= "<li><button type='submit' style='border: 0;background:#fff'><i class='fa fa-times'></i> <span style='margin-left:10px'>Batal</span></button></li>";
-                            $btn .= \Form::close();
-                            $btn .= '<li><a href="/pendaftaran/' . $row->id . '/edit"><i class="fa fa-edit"></i> Edit</a></li>';
+                        if ($row->status_pelayanan != 'batal') {
+                            if ($row->status_pelayanan != 'selesai_pemeriksaan_medis') {
+                                $btn .= '<li><a href="/pendaftaran/' . $row->id . '/input_tanda_vital"><i class="fa fa-print"></i> Input Tanda Vital</a></li>';
+                            } else {
+                                $btn .= \Form::open(['url' => 'pendaftaran/' . $row->id, 'method' => 'DELETE', 'style' => 'margin-left:15px']);
+                                $btn .= "<li><button type='submit' style='border: 0;background:#fff'><i class='fa fa-times'></i> <span style='margin-left:10px'>Batal</span></button></li>";
+                                $btn .= \Form::close();
+                                $btn .= '<li><a href="/pendaftaran/' . $row->id . '/edit"><i class="fa fa-edit"></i> Edit</a></li>';
+                            }
                         }
                     }
 
@@ -725,8 +727,7 @@ class PendaftaranController extends Controller
         $pendaftaran = Pendaftaran::find($nomorAntrian->pendaftaran_id);
         $pendaftaran->update(['pemeriksaan_klinis' => serialize($request->pemeriksaan_klinis)]);
 
-        if($nomorAntrian->poliklinik_id==1)
-        {
+        if ($nomorAntrian->poliklinik_id == 1) {
             return redirect('ondotogram/' . $request->pendaftaran_id);
         }
         return redirect('pendaftaran/' . $request->pendaftaran_id . '/pemeriksaan');
@@ -741,7 +742,7 @@ class PendaftaranController extends Controller
         ->get();
         $data['pendaftaranTindakan']    = PendaftaranTindakan::where('pendaftaran_id', $data['nomorAntrian']->pendaftaran_id)->get();
         $data['pendaftaranDiagnosa']    = PendaftaranDiagnosa::where('pendaftaran_id', $data['nomorAntrian']->pendaftaran_id)->get();
-        $data['pendaftaranResep']       = PendaftaranResep::where('jenis','!=','bhp')->where('pendaftaran_id', $data['nomorAntrian']->pendaftaran_id)->get();
+        $data['pendaftaranResep']       = PendaftaranResep::where('jenis', '!=', 'bhp')->where('pendaftaran_id', $data['nomorAntrian']->pendaftaran_id)->get();
         $data['riwayatPenyakit']        = RiwayatPenyakit::where('pasien_id', $data['pendaftaran']->pasien_id)->get();
         $pdf = PDF::loadView('pendaftaran.cetak_rekamedis', $data);
         return $pdf->stream();
@@ -766,7 +767,7 @@ class PendaftaranController extends Controller
 
         $data['obatNonRacik']   = PendaftaranResep::with('barang')
                                 ->where('pendaftaran_id', $data['pendaftaran']->pendaftaran_id)
-                                ->where('jenis','!=','bhp')
+                                ->where('jenis', '!=', 'bhp')
                                 ->get();
         $data['pendaftaranResepRacik'] = PendaftaranObatRacik::with('detail.barang')
                                 ->where('pendaftaran_id', $data['pendaftaran']->pendaftaran_id);

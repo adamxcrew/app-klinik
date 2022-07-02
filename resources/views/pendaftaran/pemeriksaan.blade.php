@@ -1069,7 +1069,7 @@
       url: '/ajax/simpan-anamnesa',
       data: {
         "_token": "{{ csrf_token() }}",
-        pendaftaran_id: '{{$nomorAntrian->pendaftaran->id}}',
+        nomor_antrian_id: '{{$nomorAntrian->id}}',
         anamnesa:anamnesa
       },
       type: "GET",

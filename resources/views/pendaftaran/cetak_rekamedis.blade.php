@@ -83,16 +83,23 @@
         <td class="td">Riwayat Alergi</td>
         <td class="td"></td>
     </tr>
+    <tr valign="top">
+        <td class="td">Pemeriksaan TTV</td>
+        <td class="td">
+            1 - Kesadaran : {{ $nomorAntrian->pendaftaran->tanda_tanda_vital['kesadaran']??0 }} mmHg<br>
+            2 - TD : {{ $nomorAntrian->pendaftaran->tanda_tanda_vital['tekanan_darah'] }} x/Menit<br>
+            3 - Nadi : {{ $nomorAntrian->pendaftaran->tanda_tanda_vital['nadi'] }} Kg<br>
+            4 - RR : {{ $nomorAntrian->pendaftaran->tanda_tanda_vital['rr'] }} mmHg<br>
+            5 - SP02 : {{ $nomorAntrian->pendaftaran->tanda_tanda_vital['saturasi_o2'] }} mmHg<br>
+            6 - Suhu  :{{ $nomorAntrian->pendaftaran->tanda_tanda_vital['suhu_tubuh'] }}<br>
+            7 - Lain Lain : {{ $nomorAntrian->lain_lain }}
+        </td>
+    </tr>
     <tr>
         <td class="td">Anamnesa</td>
         <td class="td">{{ $nomorAntrian->pendaftaran->anamnesa==null?$nomorAntrian->anamnesa:$nomorAntrian->pendaftaran->anamnesa }}</td>
     </tr>
-    <tr>
-        <td class="td">Pemeriksaan</td>
-        <td class="td"></td>
-    </tr>
-
-    <tr>
+    <tr valign="top">
         <td class="td">Pemeriksaan Fisik</td>
         <td class="td">
             @foreach($pendaftaran->pemeriksaan_klinis as $keyPm => $valPm)
