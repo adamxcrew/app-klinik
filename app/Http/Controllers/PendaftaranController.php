@@ -167,9 +167,9 @@ class PendaftaranController extends Controller
                 ->addColumn('nomor_antrian_waktu', function ($row) use ($status_pelayanan) {
                     return $row->tanggal . ' - ' . $row->nomor_antrian;
                 })
-                ->addColumn('nama', function ($row) use ($status_pelayanan) {
-                    return $row->inisial . ' - ' . $row->nama;
-                })
+                // ->addColumn('nama', function ($row) use ($status_pelayanan) {
+                //     return $row->inisial . ' - ' . $row->nama;
+                // })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);

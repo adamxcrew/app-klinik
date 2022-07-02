@@ -134,10 +134,11 @@
                 <table class="table table-bordered table-striped" id="pendaftaran-table">
                   <thead>
                       <tr>
-                        <th width="10">Nomor</th>
+                        {{-- <th width="10">Nomor</th> --}}
                         <th>Noreg</th>
                         <th>Rekamedis</th>
                         <th>Antrian</th>
+                        <th>Inisial</th>
                         <th>Nama Pasien</th>
                         <th>Poliklinik</th>
                         <th>Nama Dokter</th>
@@ -200,10 +201,11 @@
           order: [[1, 'desc']],
           ajax: "/pendaftaran?tanggal_awal={{$tanggal_awal}}&tanggal_akhir={{$tanggal_akhir}}&poliklinik_id={{$poliklinik_id}}&perusahaan_asuransi_id={{$perusahaan_asuransi_id}}&type=web",
           columns: [
-            {data: 'DT_RowIndex', orderable: false, searchable: false},
+            // {data: 'DT_RowIndex', orderable: false, searchable: false},
             { data: 'kode', name: 'kode' },
             { data: 'nomor_rekam_medis', name: 'nomor_rekam_medis' },
             { data: 'nomor_antrian_waktu', name: 'nomor_antrian_waktu' },
+            { data: 'inisial', name: 'inisial' },
             { data: 'nama', name: 'nama' },
             { data: 'nama_poliklinik', name: 'nama_poliklinik' },
             { data: 'nama_dokter', name: 'nama_dokter' },

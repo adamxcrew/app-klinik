@@ -138,15 +138,12 @@ class OndotogramController extends Controller
                                 ->where('poliklinik_id', Auth::user()->poliklinik_id)
                                 ->get();
         $data['nomorAntrian'] = $nomorAntrian;
-        // $date_birth = $nomorAntrian->pendaftaran->pasien->tanggal_lahir;
-        // $date_now = date('Y-m-d');
-        // $date_diff = date_diff(date_create($date_birth), date_create($date_now));
-        // $data['umur'] = $date_diff->format('%y');
+        if ($nomorAntrian->perusahaanAsuransi->nama_perusahaan == 'BPJS') {
+            $nomorAntrian->update(['status_pembayaran' => 1,'metode_pembayaran' => 'BPJS','status_pelayanan' => 'selesai']);
+        } else {
+            $nomorAntrian->update(['status_pelayanan' => 'selesai']);
+        }
 
-
-
-
-        $nomorAntrian->update(['status_pelayanan' => 'selesai']);
 
         $pdf = PDF::loadView('ondotogram.cetak-hasil', $data);
         return $pdf->stream();

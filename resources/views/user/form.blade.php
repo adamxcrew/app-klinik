@@ -31,7 +31,7 @@
 @endif
 
 
-@if(Auth::user()->role!='bagian_pendaftaran')
+@if(in_array(Auth::user()->role,['bagian_pendaftaran','admimistrator']))
 <div class="form-group">
     <label for="inputName" class="col-sm-2 control-label">Level User</label>
     <div class="col-sm-4">
