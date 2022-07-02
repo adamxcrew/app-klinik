@@ -95,6 +95,12 @@
                                     <td>Spesialis</td>
                                     <td  colspan="3"><input type="text" name="spesialis" placeholder="Spesialis" required="required" class="form-control"></td>
                                 </tr>
+                                <tr>
+                                    <td>Faskes Tujuan</td>
+                                    <td colspan="3">
+                                        {{ Form::text('faskes_tujuan',null,['class'=>'form-control','placeholder'=>'Faskes Tujuan Rurukan'])}}
+                                    </td>
+                                </tr>
                             @elseif($_GET['jenis']=='surat_sakit')
                             <tr>
                                 <td>Instansi</td>

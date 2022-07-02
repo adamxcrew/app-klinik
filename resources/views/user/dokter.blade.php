@@ -31,7 +31,7 @@
                             <th>Kode</th>
                             <th>Nama Dokter</th>
                             <th>Email</th>
-                            <th>Poliklinik</th>
+                            <th>Spesialis</th>
                             <th width="90">Action</th>
                         </tr>
                     </thead>
@@ -58,7 +58,7 @@
                 { data: 'kode', name: 'kode' },
                 { data: 'name', name: 'name' },
                 { data: 'email', name: 'email' },
-                { data: 'poliklinik.nama', name: 'poliklinik.nama' },
+                { data: 'spesialis', name: 'spesialis' },
                 { data: 'action', name: 'action' }
             ]
         });

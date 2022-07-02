@@ -52,8 +52,9 @@ class SuratController extends Controller
 
     public function show($id)
     {
-        $data['surat'] = Surat::with('pendaftaran.pasien', 'dokter')->find($id);
+        $data['surat'] = Surat::with('pendaftaran.pasien.wilayahAdministratifIndonesia', 'dokter')->find($id);
         $jenis = $data['surat']->jenis_surat == 'SURAT_SEHAT_SAKIT' ? 'surat_sakit' : $data['surat']->jenis_surat;
+        // return view('surat.' . $jenis, $data);
         $pdf = PDF::loadView('surat.' . $jenis, $data);
         return $pdf->stream();
     }

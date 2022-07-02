@@ -16,6 +16,20 @@
     <div class="mt-3">
         <table>
             <tr>
+                <td>Kepada YTH Dokter</td>
+                <td>:</td>
+                <td>
+                    {{ $surat->spesialis??''}}
+                </td>
+            </tr>
+            <tr>
+                <td>Di</td>
+                <td>:</td>
+                <td>
+                    {{ $surat->faskes_tujuan}}
+                </td>
+            </tr>
+            <tr>
                 <td width="130">Nama</td>
                 <td>:</td>
                 <td align="left"> {{ $surat->pendaftaran->pasien->nama }}</td>
@@ -30,20 +44,24 @@
                 <td>:</td>
                 <td align="left"> {{ $surat->pendaftaran->pasien->jenis_kelamin=='pria'?'Laki Laki':'Perempuan' }}</td>
             </tr>
-            <tr>
+            <tr valign="top">
                 <td width="120">Alamat</td>
                 <td>:</td>
-                <td align="left">{{ $surat->pendaftaran->pasien->alamat }}</td>
+                <?php
+                $wilayahAdministratif = $surat->pendaftaran->pasien->wilayahAdministratifIndonesia;
+                ?>
+                <td align="left">{{ $surat->pendaftaran->pasien->alamat }}
+                    <br>Desa: {{ $wilayahAdministratif['village_name']}}<br>Kecamatan : {{ $wilayahAdministratif['district_name']}}<br>kabupaten : {{$wilayahAdministratif['regency_name'].' , '.$wilayahAdministratif['province_name']}}
+                </td>
             </tr>
         </table>
+        <br>
         Dengan hasil pemeriksaan sebagai berikut : 
-        <table>
-            <tr>
-                <td width="130">Anamnesa</td>
-                <td>:</td>
-                <td align="left">{{ $surat->pendaftaran->anamnesa }}</td>
-            </tr>
-        </table>
+
+        <br>
+        <p style="text-align:justify">
+            <b>Anamnesa</b> : {{ $surat->pendaftaran->anamnesa }}
+        </p>
         <p>Pada pemeriksaan yang kami lakukan secara fisik diagnostik kami menerangkan : </p>
 
 

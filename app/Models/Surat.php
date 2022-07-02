@@ -12,6 +12,7 @@ class Surat extends Model
         'dokter_id',
         'jenis_surat',
         'keperluan',
+        'faskes_tujuan',
         'kesan',
         'terapi_yang_telah_diberikan',
         'lain_lain',

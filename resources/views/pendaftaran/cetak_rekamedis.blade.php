@@ -85,7 +85,7 @@
     </tr>
     <tr>
         <td class="td">Anamnesa</td>
-        <td class="td">{{ $pendaftaran->anamnesa }}</td>
+        <td class="td">{{ $nomorAntrian->pendaftaran->anamnesa==null?$nomorAntrian->anamnesa:$nomorAntrian->pendaftaran->anamnesa }}</td>
     </tr>
     <tr>
         <td class="td">Pemeriksaan</td>
@@ -96,7 +96,9 @@
         <td class="td">Pemeriksaan Fisik</td>
         <td class="td">
             @foreach($pendaftaran->pemeriksaan_klinis as $keyPm => $valPm)
+                @if($valPm!==null)
                 - {{  str_replace('"','',$keyPm)}} : {{ $valPm}} <br>
+                @endif
             @endforeach
         </td>
     </tr>

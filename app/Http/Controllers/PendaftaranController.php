@@ -724,6 +724,11 @@ class PendaftaranController extends Controller
         $nomorAntrian =  NomorAntrian::find($request->pendaftaran_id);
         $pendaftaran = Pendaftaran::find($nomorAntrian->pendaftaran_id);
         $pendaftaran->update(['pemeriksaan_klinis' => serialize($request->pemeriksaan_klinis)]);
+
+        if($nomorAntrian->poliklinik_id==1)
+        {
+            return redirect('ondotogram/' . $request->pendaftaran_id);
+        }
         return redirect('pendaftaran/' . $request->pendaftaran_id . '/pemeriksaan');
     }
 
@@ -734,9 +739,9 @@ class PendaftaranController extends Controller
         $data['riwayatKunjungan']   = Pendaftaran::with('poliklinik', 'dokter', 'perusahaanAsuransi')
         ->where('pasien_id', $data['pendaftaran']->pasien->id)
         ->get();
-        $data['pendaftaranTindakan']    = PendaftaranTindakan::where('pendaftaran_id', $id)->get();
-        $data['pendaftaranDiagnosa']    = PendaftaranDiagnosa::where('pendaftaran_id', $id)->get();
-        $data['pendaftaranResep']       = PendaftaranResep::where('pendaftaran_id', $id)->get();
+        $data['pendaftaranTindakan']    = PendaftaranTindakan::where('pendaftaran_id', $data['nomorAntrian']->pendaftaran_id)->get();
+        $data['pendaftaranDiagnosa']    = PendaftaranDiagnosa::where('pendaftaran_id', $data['nomorAntrian']->pendaftaran_id)->get();
+        $data['pendaftaranResep']       = PendaftaranResep::where('jenis','!=','bhp')->where('pendaftaran_id', $data['nomorAntrian']->pendaftaran_id)->get();
         $data['riwayatPenyakit']        = RiwayatPenyakit::where('pasien_id', $data['pendaftaran']->pasien_id)->get();
         $pdf = PDF::loadView('pendaftaran.cetak_rekamedis', $data);
         return $pdf->stream();
@@ -761,6 +766,7 @@ class PendaftaranController extends Controller
 
         $data['obatNonRacik']   = PendaftaranResep::with('barang')
                                 ->where('pendaftaran_id', $data['pendaftaran']->pendaftaran_id)
+                                ->where('jenis','!=','bhp')
                                 ->get();
         $data['pendaftaranResepRacik'] = PendaftaranObatRacik::with('detail.barang')
                                 ->where('pendaftaran_id', $data['pendaftaran']->pendaftaran_id);

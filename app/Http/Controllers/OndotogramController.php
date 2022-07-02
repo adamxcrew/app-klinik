@@ -20,6 +20,9 @@ class OndotogramController extends Controller
     public function index($pendaftaranId)
     {
         $data['nomorAntrian']       = NomorAntrian::with('pendaftaran')->find($pendaftaranId);
+        if ($data['nomorAntrian']->pendaftaran->pemeriksaan_klinis == false) {
+            return view('pendaftaran.pemeriksaan_klinis_form', $data);
+        }
         $data['pendaftaran_gigi']   = PendaftaranTindakan::with(['tbm', 'tindakan'])->where('pendaftaran_id', $data['nomorAntrian']->pendaftaran_id)->get();
         $data['total']              = count($data['pendaftaran_gigi']);
         $data['satuan']             = Satuan::pluck('satuan', 'id');
