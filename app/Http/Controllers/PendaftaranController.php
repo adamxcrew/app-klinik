@@ -456,13 +456,14 @@ class PendaftaranController extends Controller
             'perusahaan_asuransi_id'    =>  $request->perusahaan_asuransi_id,
             'nomor_antrian'             =>  ($nomor + 1)
         ];
-        NomorAntrian::create($nomorAntrianData);
+
+        $nomorAntrian = NomorAntrian::create($nomorAntrianData);
 
         if ($request->tindakan_id != null) {
             $request['pendaftaran_id'] = $data->id;
             $this->store_tindakan($request);
         }
-        return redirect('/pendaftaran/' . $data->id . '/cetak');
+        return redirect('/pendaftaran/' . $nomorAntrian->id . '/cetak');
     }
 
     // simpan tindakan langsung dari pendaftaran
