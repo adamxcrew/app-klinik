@@ -198,7 +198,7 @@
           processing: true,
           serverSide: true,
           daata: $('#form').serialize(),
-          order: [[1, 'desc']],
+          order: [[0, 'desc']],
           ajax: "/pendaftaran?tanggal_awal={{$tanggal_awal}}&tanggal_akhir={{$tanggal_akhir}}&poliklinik_id={{$poliklinik_id}}&perusahaan_asuransi_id={{$perusahaan_asuransi_id}}&type=web",
           columns: [
             // {data: 'DT_RowIndex', orderable: false, searchable: false},
