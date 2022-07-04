@@ -37,10 +37,10 @@ class LaporanFeeTindakanExport implements FromView, ShouldAutoSize, WithEvents
         $jmlData = $this->data()->count() + 2;
         return [
             AfterSheet::class    => function (AfterSheet $event) use ($jmlData) {
-                $cellRange = 'A1:I1'; // All headers
+                $cellRange = 'A1:K1'; // All headers
                 $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(10)->setBold(true);
 
-                $event->sheet->getStyle('A1:I' . $jmlData)->applyFromArray([
+                $event->sheet->getStyle('A1:K' . $jmlData)->applyFromArray([
                     'borders' => [
                         'allBorders' => [
                             'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
@@ -60,17 +60,22 @@ class LaporanFeeTindakanExport implements FromView, ShouldAutoSize, WithEvents
             'users.name as nama_pelaksana',
             'pendaftaran_fee_tindakan.pelaksana',
             'pendaftaran_fee_tindakan.jumlah_fee',
+            'pendaftaran_fee_tindakan.log_tindakan',
             'pendaftaran.kode as nomor_pendaftaran',
             'poliklinik.nama as unit',
             'perusahaan_asuransi.nama_perusahaan as jenis_pelayanan',
-            'tindakan.tindakan as nama_tindakan'
+            'tindakan.tindakan as nama_tindakan',
+            'pasien.nama',
+            'pasien.nomor_rekam_medis'
         )
+
         ->join('nomor_antrian', 'nomor_antrian.pendaftaran_id', 'pendaftaran_fee_tindakan.pendaftaran_id')
         ->join('pendaftaran', 'pendaftaran.id', 'pendaftaran_fee_tindakan.pendaftaran_id')
         ->join('poliklinik', 'poliklinik.id', 'nomor_antrian.poliklinik_id')
         ->join('perusahaan_asuransi', 'perusahaan_asuransi.id', 'nomor_antrian.perusahaan_asuransi_id')
         ->join('tindakan', 'tindakan.id', 'pendaftaran_fee_tindakan.tindakan_id')
         ->join('users', 'users.id', 'pendaftaran_fee_tindakan.user_id')
+        ->join('pasien','pasien.id','pendaftaran.pasien_id')
         ->whereBetween(\DB::raw('left(nomor_antrian.created_at,10)'), [$this->tanggal_mulai,$this->tanggal_selesai]);
 
         if ($this->poliklinik_id != '') {

@@ -7,8 +7,10 @@
             <th>Pelaksana</th>
             <th>Nama Pelaksana</th>
             <th>Nama Tindakan</th>
-            <th>Tarif Tindakan</th>
+            <th>Fee Tindakan</th>
             <th>Nomor Pendaftaran</th>
+            <th>Nama Pasien</th>
+            <th>Nomor Rekamedis</th>
             <th>Jenis Pelayanan</th>
         </tr>
     </thead>
@@ -17,6 +19,7 @@
         $total = 0;    
         ?>
         @foreach($fees as $row)
+         <?php \Log::info($row); ?>
             <tr>
                 <td>{{$loop->iteration}}</td>
                 <td>{{$row->tanggal}}</td>
@@ -26,6 +29,8 @@
                 <td>{{$row->nama_tindakan}}</td>
                 <td>{{$row->jumlah_fee}}</td>
                 <td>{{$row->nomor_pendaftaran}}</td>
+                <td>{{$row->nama}}</td>
+                <td>{{$row->nomor_rekam_medis}}</td>
                 <td>{{$row->jenis_pelayanan}}</td>
             </tr>
             <?php $total += $row->jumlah_fee;?>

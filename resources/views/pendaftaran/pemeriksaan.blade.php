@@ -105,7 +105,7 @@
               <div class="box-body">
                 <h4>Input Anamnesa</h4>
                 <hr>
-                <textarea class="form-control anamnesa" onKeyUp="simpan_anamnesa()" placeholder="Anamnesa Pasien">{{ $nomorAntrian->pendaftaran->anamnesa }}</textarea>
+                <textarea class="form-control anamnesa" onKeyUp="simpan_anamnesa()" placeholder="Anamnesa Pasien">{{ $nomorAntrian->anamnesa }}</textarea>
                 <hr style="border:1px dashed">
                 @if(Auth::user()->poliklinik_id == env("POLI_TUMBUH_KEMBANG_ID", "somedefaultvalue"))
                

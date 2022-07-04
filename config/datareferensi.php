@@ -225,9 +225,9 @@ return [
     ],
 
     'kasir_shift'=>[
-        ['nama_shift'=>'shift 1','waktu_mulai'=>'01:00','waktu_selesai'=>'12:00'],
-        ['nama_shift'=>'shift 2','waktu_mulai'=>'13:00','waktu_selesai'=>'20:00'],
-        ['nama_shift'=>'shift 3','waktu_mulai'=>'01:00','waktu_selesai'=>'24:00']
+        ['nama_shift'=>'shift 1','waktu_mulai'=>'07:01','waktu_selesai'=>'14:00'],
+        ['nama_shift'=>'shift 2','waktu_mulai'=>'14:01','waktu_selesai'=>'21:00'],
+        ['nama_shift'=>'shift 3','waktu_mulai'=>'21:01','waktu_selesai'=>'07:00']
     ],
 
     'suku_bangsa' => [
