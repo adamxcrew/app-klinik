@@ -383,7 +383,7 @@ class AjaxController extends Controller
 
         $hasil = [
             'jumlah_total_antrian' => $total_antrian,
-            'poliklinik_tujuan' => $poliklinik->nama,
+            'poliklinik_tujuan' => $poliklinik->nama=='LAB'?'Laboratorium':$poliklinik->nama,
             'antrian_sekarang' => $antrian_sekarang->nomor_antrian,
             'sisa_antrian' => $total_antrian - $antrian_sekarang->nomor_antrian
         ];
