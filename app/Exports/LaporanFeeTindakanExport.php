@@ -77,7 +77,7 @@ class LaporanFeeTindakanExport implements FromView, ShouldAutoSize, WithEvents
         ->join('perusahaan_asuransi', 'perusahaan_asuransi.id', 'nomor_antrian.perusahaan_asuransi_id')
         ->join('tindakan', 'tindakan.id', 'pendaftaran_fee_tindakan.tindakan_id')
         ->join('users', 'users.id', 'pendaftaran_fee_tindakan.user_id')
-        ->join('pasien','pasien.id','pendaftaran.pasien_id')
+        ->join('pasien', 'pasien.id', 'pendaftaran.pasien_id')
         ->whereBetween(\DB::raw('left(nomor_antrian.created_at,10)'), [$this->tanggal_mulai,$this->tanggal_selesai]);
 
         if ($this->poliklinik_id != '') {
