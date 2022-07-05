@@ -51,8 +51,7 @@ class LaporanFeeTindakanController extends Controller
         // ->whereBetween(\DB::raw('left(nomor_antrian.created_at,10)'), [$awal,$akhir]);
 
         $laporan = ViewPendaftaranFeeTindakan::whereBetween(\DB::raw('left(tanggal,10)'), [$awal,$akhir]);
-
-        return $laporan->get();
+        
 
         $count_total    = $laporan->count();
         $start          = ($request->start) ? $request->start : 0;
