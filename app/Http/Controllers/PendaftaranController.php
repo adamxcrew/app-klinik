@@ -91,6 +91,11 @@ class PendaftaranController extends Controller
             $nomorAntrian->whereIn('status_pelayanan', ['selesai_pemeriksaan_medis','selesai_pelayanan','selesai_pembayaran','selesai']);
         }
 
+        // ------------------ FILTER PADA ROLE APOTEKER -----------------------------
+        if (auth()->user()->role == 'apoteker') {
+            $nomorAntrian->where('status_pembayaran', 1);
+        }
+
         if ($request->ajax()) {
             $status_pelayanan = $this->status_pelayanan;
             return DataTables::of($nomorAntrian)
