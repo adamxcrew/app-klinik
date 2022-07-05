@@ -13,6 +13,7 @@ use App\Models\Tindakan;
 use App\Models\Barang;
 use App\Models\PendaftaranResep;
 use App\Models\PendaftaranTindakan;
+use Auth;
 
 class PendaftaranRujukanLabController extends Controller
 {
@@ -41,6 +42,11 @@ class PendaftaranRujukanLabController extends Controller
                 ];
                 NomorAntrian::create($nomorAntrianData);
                 $pendaftaran->save();
+                $this->store_tindakan($request);
+
+                // tambah fee pemeriksaan dokter
+                $request['tindakan_id'] = 162; // 162 tindakan untuk pemeriksaan dokter
+                $request['dokter']      = Auth::user()->id;
                 $this->store_tindakan($request);
     }
 
