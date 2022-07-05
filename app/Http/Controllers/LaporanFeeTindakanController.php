@@ -52,11 +52,11 @@ class LaporanFeeTindakanController extends Controller
 
         $laporan = ViewPendaftaranFeeTindakan::whereBetween(\DB::raw('left(tanggal,10)'), [$awal,$akhir]);
 
+        return $laporan->get();
+
         $count_total    = $laporan->count();
         $start          = ($request->start) ? $request->start : 0;
-        // $laporan->skip($start)->take($pageSize);
-
-        $laporan->limit(2);
+        $laporan->skip($start)->take($pageSize);
 
         if ($count_filter == 0) {
             $count_filter = $count_total;
