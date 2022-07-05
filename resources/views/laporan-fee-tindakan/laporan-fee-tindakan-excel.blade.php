@@ -8,10 +8,11 @@
             <th>Nama Pelaksana</th>
             <th>Nama Tindakan</th>
             <th>Fee Tindakan</th>
+            <th>Biaya Tindakan</th>
             <th>Nomor Pendaftaran</th>
             <th>Nama Pasien</th>
             <th>Nomor Rekamedis</th>
-            <th>Jenis Pelayanan</th>
+            <th>Perusahaan Asuransi</th>
         </tr>
     </thead>
     <tbody>
@@ -19,7 +20,13 @@
         $total = 0;    
         ?>
         @foreach($fees as $row)
-         <?php \Log::info($row); ?>
+            <?php
+            $tarif_prefix = strtolower($row->jenis_pelayanan);
+            if(!in_array($tarif_prefix,['bpjs','umum']))
+            {
+                $tarif_prefix = 'perusahaan';
+            }
+            ?>
             <tr>
                 <td>{{$loop->iteration}}</td>
                 <td>{{$row->tanggal}}</td>
@@ -28,6 +35,7 @@
                 <td>{{$row->nama_pelaksana}}</td>
                 <td>{{$row->nama_tindakan}}</td>
                 <td>{{$row->jumlah_fee}}</td>
+                <td>{{$row->tarif.''.$tarif_prefix}}</td>
                 <td>{{$row->nomor_pendaftaran}}</td>
                 <td>{{$row->nama}}</td>
                 <td>{{$row->nomor_rekam_medis}}</td>

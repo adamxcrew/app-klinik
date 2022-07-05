@@ -37,10 +37,10 @@ class LaporanFeeTindakanExport implements FromView, ShouldAutoSize, WithEvents
         $jmlData = $this->data()->count() + 2;
         return [
             AfterSheet::class    => function (AfterSheet $event) use ($jmlData) {
-                $cellRange = 'A1:K1'; // All headers
+                $cellRange = 'A1:L1'; // All headers
                 $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(10)->setBold(true);
 
-                $event->sheet->getStyle('A1:K' . $jmlData)->applyFromArray([
+                $event->sheet->getStyle('A1:L' . $jmlData)->applyFromArray([
                     'borders' => [
                         'allBorders' => [
                             'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
@@ -60,7 +60,9 @@ class LaporanFeeTindakanExport implements FromView, ShouldAutoSize, WithEvents
             'users.name as nama_pelaksana',
             'pendaftaran_fee_tindakan.pelaksana',
             'pendaftaran_fee_tindakan.jumlah_fee',
-            'pendaftaran_fee_tindakan.log_tindakan',
+            'tindakan.tarif_umum',
+            'tindakan.tarif_perusahaan',
+            'tindakan.tarif_bpjs',
             'pendaftaran.kode as nomor_pendaftaran',
             'poliklinik.nama as unit',
             'perusahaan_asuransi.nama_perusahaan as jenis_pelayanan',
