@@ -22,9 +22,14 @@
         @foreach($fees as $row)
             <?php
             $tarif_prefix = strtolower($row->jenis_pelayanan);
-            if(!in_array($tarif_prefix,['bpjs','umum']))
+            if($tarif_prefix =='umum')
             {
-                $tarif_prefix = 'perusahaan';
+                $tarif = $row->tarif_umum;
+            }elseif($tarif_prefix=='bpjs')
+            {
+                $tarif = $row->tarif_bpjs;
+            }else{
+                $tarif = $row->tarif_perusahaan;
             }
             ?>
             <tr>
@@ -35,7 +40,7 @@
                 <td>{{$row->nama_pelaksana}}</td>
                 <td>{{$row->nama_tindakan}}</td>
                 <td>{{$row->jumlah_fee}}</td>
-                <td>{{$row->tarif.''.$tarif_prefix}}</td>
+                <td>{{$tarif}}</td>
                 <td>{{$row->nomor_pendaftaran}}</td>
                 <td>{{$row->nama}}</td>
                 <td>{{$row->nomor_rekam_medis}}</td>
