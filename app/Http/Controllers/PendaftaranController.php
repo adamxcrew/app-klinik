@@ -94,7 +94,7 @@ class PendaftaranController extends Controller
         // ------------------ FILTER PADA ROLE APOTEKER -----------------------------
         if (auth()->user()->role == 'apoteker') {
             $nomorAntrian->where('status_pembayaran', 1);
-            $nomorAntrian->where('poliklinik_id','!=', 7);
+            $nomorAntrian->where('poliklinik_id', '!=', 7);
         }
 
         if ($request->ajax()) {

@@ -27,8 +27,10 @@ class LaporanFeeTindakanController extends Controller
         $akhir                  = date('Y-m-d', strtotime($data['tanggal_akhir']));
 
 
-        // $awal = date('Y-m-d H:i:s', strtotime($request->startDate));
-        // $akhir = date('Y-m-d H:i:s', strtotime($request->endDate));
+        $search         = $request->input('search.value');
+        $columns        = $request->get('columns');
+        $pageSize       = ($request->length) ? $request->length : 10;
+        $count_filter   = 0;
 
 
         $laporan = PendaftaranFeeTindakan::select(
@@ -49,8 +51,20 @@ class LaporanFeeTindakanController extends Controller
         ->join('users', 'users.id', 'pendaftaran_fee_tindakan.user_id')
         ->whereBetween(\DB::raw('left(nomor_antrian.created_at,10)'), [$awal,$akhir]);
 
+        $count_total    = $laporan->count();
+        $start          = ($request->start) ? $request->start : 0;
+        $laporan->skip($start)->take($pageSize);
+
+        if ($count_filter == 0) {
+            $count_filter = $count_total;
+        }
+
         if ($request->ajax()) {
             return DataTables::of($laporan)
+            ->with([
+                "recordsTotal" => $count_total,
+                "recordsFiltered" => $count_filter,
+                ])
             ->editColumn('tanggal', function ($row) {
                     return substr($row->tanggal, 0, 10);
             })
