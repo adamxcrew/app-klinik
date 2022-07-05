@@ -19,7 +19,7 @@
     <p>
         <b>{{ $setting->nama_instansi }} ( {{ $setting->nomor_telpon }} )</b><br>
         Apoteker : {{ Auth::user()->name }}<br>
-        SIPA : 1234567890/ 123456789<br>
+        SIPA : 19790526/SIPA_32.01/DPMPTSP/2021/2.1/00177<br>
         {{ $pendaftaran->pasien->nomor_rekam_medis}} - <b>{{ $pendaftaran->pasien->nama}}</b>
         <br>
     <b>{{ date("d/m/Y", strtotime($pendaftaran->pasien->tanggal_lahir))}}</b><br>
