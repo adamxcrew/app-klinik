@@ -46,7 +46,7 @@ class PendaftaranRujukanLabController extends Controller
 
                 // tambah fee pemeriksaan dokter
                 $request['tindakan_id'] = 162; // 162 tindakan untuk pemeriksaan dokter
-                $request['dokter']      = Auth::user()->id;
+                //$request['dokter']      = Auth::user()->id;
                 $this->store_tindakan($request);
     }
 
