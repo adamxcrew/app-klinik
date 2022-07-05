@@ -32,25 +32,25 @@ class LaporanFeeTindakanController extends Controller
         $count_filter   = 0;
 
 
-        // $laporan = PendaftaranFeeTindakan::select(
-        //     'pendaftaran.created_at as tanggal',
-        //     'users.name as nama_pelaksana',
-        //     'pendaftaran_fee_tindakan.pelaksana',
-        //     'pendaftaran_fee_tindakan.jumlah_fee',
-        //     'pendaftaran.kode as nomor_pendaftaran',
-        //     'poliklinik.nama as unit',
-        //     'perusahaan_asuransi.nama_perusahaan as jenis_pelayanan',
-        //     'tindakan.tindakan as nama_tindakan'
-        // )
-        // ->join('nomor_antrian', 'nomor_antrian.pendaftaran_id', 'pendaftaran_fee_tindakan.pendaftaran_id')
-        // ->join('pendaftaran', 'pendaftaran.id', 'pendaftaran_fee_tindakan.pendaftaran_id')
-        // ->join('poliklinik', 'poliklinik.id', 'nomor_antrian.poliklinik_id')
-        // ->join('perusahaan_asuransi', 'perusahaan_asuransi.id', 'nomor_antrian.perusahaan_asuransi_id')
-        // ->join('tindakan', 'tindakan.id', 'pendaftaran_fee_tindakan.tindakan_id')
-        // ->join('users', 'users.id', 'pendaftaran_fee_tindakan.user_id')
-        // ->whereBetween(\DB::raw('left(nomor_antrian.created_at,10)'), [$awal,$akhir]);
+        $laporan = PendaftaranFeeTindakan::select(
+            'pendaftaran.created_at as tanggal',
+            'users.name as nama_pelaksana',
+            'pendaftaran_fee_tindakan.pelaksana',
+            'pendaftaran_fee_tindakan.jumlah_fee',
+            'pendaftaran.kode as nomor_pendaftaran',
+            'poliklinik.nama as unit',
+            'perusahaan_asuransi.nama_perusahaan as jenis_pelayanan',
+            'tindakan.tindakan as nama_tindakan'
+        )
+        ->join('nomor_antrian', 'nomor_antrian.pendaftaran_id', 'pendaftaran_fee_tindakan.pendaftaran_id')
+        ->join('pendaftaran', 'pendaftaran.id', 'pendaftaran_fee_tindakan.pendaftaran_id')
+        ->join('poliklinik', 'poliklinik.id', 'nomor_antrian.poliklinik_id')
+        ->join('perusahaan_asuransi', 'perusahaan_asuransi.id', 'nomor_antrian.perusahaan_asuransi_id')
+        ->join('tindakan', 'tindakan.id', 'pendaftaran_fee_tindakan.tindakan_id')
+        ->join('users', 'users.id', 'pendaftaran_fee_tindakan.user_id')
+        ->whereBetween(\DB::raw('left(nomor_antrian.created_at,10)'), [$awal,$akhir]);
 
-        $laporan = ViewPendaftaranFeeTindakan::whereBetween(\DB::raw('left(tanggal,10)'), [$awal,$akhir]);
+        //$laporan = ViewPendaftaranFeeTindakan::whereBetween(\DB::raw('left(tanggal,10)'), [$awal,$akhir]);
         
 
         $count_total    = $laporan->count();

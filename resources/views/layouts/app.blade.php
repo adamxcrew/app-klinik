@@ -143,7 +143,7 @@
                               ]],
                               ['icon' => 'fa fa-paste', 'link' => '/akun', 'label' => 'Laporan'],
                               ['icon' => 'fa fa-user', 'link' => '/purchase-order', 'label' => 'Purchase Order'],
-                              ['icon' => 'fa fa-paste', 'link' => '/laporan-fee-tindakan', 'label' => 'Laporan Fee Tindakan'],
+                              //['icon' => 'fa fa-paste', 'link' => '/laporan-fee-tindakan', 'label' => 'Laporan Fee Tindakan'],
                               ['icon' => 'fa fa-user', 'link' => '/laporan-tagihan', 'label' => 'Laporan Tagihan'],
                               ['icon' => 'fa fa-paste', 'link' => '/laporan-barang-keluar', 'label' => 'Laporan Barang Keluar'],
                             ];
