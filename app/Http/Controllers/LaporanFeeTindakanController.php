@@ -54,7 +54,9 @@ class LaporanFeeTindakanController extends Controller
 
         $count_total    = $laporan->count();
         $start          = ($request->start) ? $request->start : 0;
-        $laporan->skip($start)->take($pageSize);
+        // $laporan->skip($start)->take($pageSize);
+
+        $laporan->limit(2);
 
         if ($count_filter == 0) {
             $count_filter = $count_total;
