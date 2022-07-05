@@ -46,6 +46,10 @@
         </div>
         <div class="box">
             <div class="box-body">
+              <div class="alert alert-info" role="alert" style="font-weight: bold">
+                Klik Button Refresh Disamping Kolom Total Pembayaran Jika Anda Melakukan Perubahan Pada Kolom Diskon
+              </div>
+
                 <h2 class="text-center"><strong>Detail Pembayaran</strong></h2>
                 <table class="table table-bordered">
                   <tr style="background-color :#222d32 ;color:#ffffff;">
@@ -79,7 +83,7 @@
                       <td>{{$row->tindakan->tindakan}}</td>
                       <td>{{$row->qty}}</td>
                       <td style="text-align:right">{{rupiah($feeTindakan)}}</td>
-                      <td><input value="{{$row->discount}}" style="width:70px" type="text" class="form-control"></td>
+                      <td><input value="{{$row->discount}}" style="width:70px" type="text" class="form-control tindakan_{{$row->id}}" onKeyup="updateDiskonTindakan({{$row->id}})"></td>
                       <td>{{rupiah(($feeTindakan*$row->qty)-$row->discount)}}</td>
                       <td>{{ $keterangan }}</td>
                       {{-- <td>
@@ -155,6 +159,9 @@
                       {{rupiah($jumlah)}}
                       <input type="hidden" class="total_bayar" value="{{$jumlah}}">
                     </td>
+                    <td>
+                      <button title="Refresh Halaman Untuk Menampilkan Data Terbaru" onclick="reloadPage()" type="button" class="btn btn-danger"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+                    </td>
                   </tr>
                 </table>
             </div>
@@ -200,6 +207,23 @@
         location.reload();
         }
       });
+    }
+
+
+    function updateDiskonTindakan(id){
+      var diskon = $(".tindakan_"+id).val();
+      $.ajax({
+        url: "/ajax/update-diskon-tindakan/",
+        data: {"_token": "{{ csrf_token() }}",discount:diskon,id:id},
+        method: 'POST',
+        success: function (response) {
+          console.log(response)
+          }
+      });
+    }
+
+    function reloadPage(){
+      location.reload();
     }
 
     function hapusObatNonRacik(id){

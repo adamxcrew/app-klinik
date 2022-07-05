@@ -287,6 +287,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('nomor_antrian_call','AjaxController@nomorAntrialCall');
     Route::get('ajax/pendaftaran-bhp-delete','AjaxController@pendaftaranBhpDelete');
     Route::get('ajax/pendaftaran-bhp-insert','AjaxController@pendaftaranBhpInsert');
+    Route::post('ajax/update-diskon-tindakan','AjaxController@updateDiskonTindakan');
 });
 
 Route::get('antrian-depan', 'AntrianController@antrianDepan');

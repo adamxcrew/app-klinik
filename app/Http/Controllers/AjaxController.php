@@ -19,6 +19,7 @@ use App\Models\Pendaftaran;
 use App\Models\Poliklinik;
 use DB;
 use App\Models\NomorAntrian;
+use App\Models\PendaftaranTindakan;
 
 class AjaxController extends Controller
 {
@@ -433,5 +434,14 @@ class AjaxController extends Controller
             'poliklinik_id'         =>  $pendaftaranTindakan->poliklinik_id
 
         ]);
+    }
+
+
+    public function updateDiskonTindakan(Request $request)
+    {
+ // update diskon pada kasir
+        $pendaftaranTindakan = PendaftaranTindakan::find($request->id);
+        $pendaftaranTindakan->update(['discount' => $request->discount]);
+        return $pendaftaranTindakan;
     }
 }
