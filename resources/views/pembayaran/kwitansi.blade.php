@@ -103,7 +103,7 @@
             @endforeach
 
 
-            @if($tindakan->poliklinik!=7)
+            @if($nomorAntrian->poliklinik!=7)
                 @foreach($bhps as $bhp)
                 <?php
                         if($nomorAntrian->pendaftaran->perusahaanAsuransi->nama_perusahaan=='BPJS' && $bhp->barang->pelayanan=='bpjs'){
