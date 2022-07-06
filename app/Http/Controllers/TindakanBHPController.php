@@ -47,6 +47,7 @@ class TindakanBHPController extends Controller
                 $isExist->jumlah += $request->jumlah;
                 $isExist->save();
             } else {
+                //return $input;
                 TindakanBHP::create($input);
             }
 

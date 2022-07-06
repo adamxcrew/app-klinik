@@ -17,7 +17,7 @@
                 <td>{{$row->barang->kode}}</td>
                 <td>{{$row->barang->nama_barang}}</td>
                 <td style="text-align:right"><input type="text" id="jumlah-{{$row->id}}" value="{{$row->jumlah}}" onKeyUp="ubahJumlah({{$row->id}})" class="form-control"></td>
-                <td>{{$row->satuan->satuan}}</td>
+                <td>{{$row->satuan->satuan??'-'}}</td>
                 <td>
                     <button class="btn btn-danger btn-hapus-barang" onClick="hapus_barang({{$row->id}})"><i class="fa fa-trash"></i></button>
                 </td>
