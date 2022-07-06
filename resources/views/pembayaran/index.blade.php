@@ -154,6 +154,7 @@
                   @php $jumlah += $hargaObatNonRacik*$row->jumlah ; $nomor++ @endphp
                 @endforeach
 
+              @if($nomorAntrian->poliklinik_id!=7)
                 <tr class="success">
                   <th colspan="7">Biaya BHP</th>
                 </tr>
@@ -183,6 +184,7 @@
                     </tr>
                     @php $jumlah += $hargaObatNonRacik*$row->jumlah ; $nomor++ @endphp
                   @endforeach
+              @endif
                   <tr style="text-align:right" style="font-weight: bold">
                     <td colspan=5>Total Pembayaran</td>
                     <td colspan="1" style="text-align:left">
