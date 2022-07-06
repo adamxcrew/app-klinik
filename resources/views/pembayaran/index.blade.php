@@ -156,7 +156,7 @@
 
               @if($nomorAntrian->poliklinik_id!=7)
                 <tr class="success">
-                  <th colspan="7">Biaya BHP {{$nomorAntrian->poliklinik_id}}</th>
+                  <th colspan="7">Biaya BHP </th>
                 </tr>
                   @foreach(\App\Models\PendaftaranResep::with('barang')->where('jenis','bhp')->where('pendaftaran_id',$nomorAntrian->pendaftaran->id)->where('poliklinik_id',$nomorAntrian->poliklinik->id)->get() as $row)
                   <?php
