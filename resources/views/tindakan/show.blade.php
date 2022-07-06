@@ -221,6 +221,22 @@ function refresh_table(hasResponse = null){
 	})
 }
 
+function ubahJumlah(id){
+        console.log(id);
+        $.ajax({
+		url : "/ajax/ubah-jumlah-bhp",
+        data: {
+			_token: $('meta[name="csrf-token"]').attr('content'),
+			id: id,
+            jumlah:$("#jumlah-"+id).val()
+		},
+		type : "POST",
+		success : (response)=>{
+            console.log(response);
+		}
+	})
+    }
+
 function tambah_barang() {
 
     var barang_id   = $(".barang").val();

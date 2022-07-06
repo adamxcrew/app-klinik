@@ -20,7 +20,7 @@ use App\Models\Poliklinik;
 use DB;
 use App\Models\NomorAntrian;
 use App\Models\PendaftaranTindakan;
-
+use App\Models\TindakanBHP;
 class AjaxController extends Controller
 {
     public function dropdownDokterBerdasarkanPoliklinik(Request $request)
@@ -439,9 +439,14 @@ class AjaxController extends Controller
 
     public function updateDiskonTindakan(Request $request)
     {
- // update diskon pada kasir
+    // update diskon pada kasir
         $pendaftaranTindakan = PendaftaranTindakan::find($request->id);
         $pendaftaranTindakan->update(['discount' => $request->discount]);
         return $pendaftaranTindakan;
+    }
+
+
+    public function ubahJumlahBHP(Request $request){
+        return TindakanBHP::where('id',$request->id)->update(['jumlah' => $request->jumlah]);
     }
 }
