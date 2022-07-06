@@ -99,7 +99,10 @@
                   <tr class="success">
                     <th colspan="7">Biaya Obat Racik</th>
                   </tr>
-                  @foreach(\App\Models\PendaftaranObatRacik::with('detail')->where('pendaftaran_id',$nomorAntrian->pendaftaran->id)->where('poliklinik_id',$nomorAntrian->poliklinik->id)->get() as $racikItem)
+                  @foreach(\App\Models\PendaftaranObatRacik::with('detail')
+                  ->where('pendaftaran_id',$nomorAntrian->pendaftaran->id)
+                  ->where('poliklinik_id',$nomorAntrian->poliklinik->id)
+                  ->get() as $racikItem)
                     @foreach ($racikItem->detail as $item)
                     <?php
                     if($nomorAntrian->perusahaanAsuransi->nama_perusahaan=='BPJS' && $item->barang->pelayanan=='bpjs'){
