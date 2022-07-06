@@ -60,7 +60,7 @@
                     <th>Diskon</th>
                     <th>Subtotal</th>
                     <th>Keterangan</th>
-                    {{-- <th width="10"></th> --}}
+                    <th width="10"></th>
                   </tr>
                   <tr class="success">
                     <th colspan="7">Biaya Tindakan</th>
@@ -86,9 +86,9 @@
                       <td><input value="{{$row->discount}}" style="width:70px" type="text" class="form-control tindakan_{{$row->id}}" onKeyup="updateDiskonTindakan({{$row->id}})"></td>
                       <td>{{rupiah(($feeTindakan*$row->qty)-$row->discount)}}</td>
                       <td>{{ $keterangan }}</td>
-                      {{-- <td>
+                      <td>
                         <button type="button" class="btn btn-danger btn-sm"><i class='fa fa-trash' aria-hidden='true'></i></button>
-                      </td> --}}
+                      </td>
                     </tr>
                     @php 
                     $jumlah += ($feeTindakan*$row->qty)-$row->discount; 
@@ -147,9 +147,9 @@
                     <td>0</td>
                     <td style="text-align:left">{{ rupiah($hargaObatNonRacik*$row->jumlah)}}</td>
                     <td>{{ $keterangan }}</td>
-                    {{-- <td>
+                    <td>
                       <button type="button" onClick="hapusObatNonRacik({{$row->id}})" class="btn btn-danger btn-sm"><i class='fa fa-trash' aria-hidden='true'></i></button>
-                    </td> --}}
+                    </td>
                   </tr>
                   @php $jumlah += $hargaObatNonRacik*$row->jumlah ; $nomor++ @endphp
                 @endforeach
@@ -168,7 +168,7 @@
                   }
                     ?>
 
-                    <tr class="obat_non_racik_{{ $row->id}}">
+                    <tr class="item_bhp_{{ $row->id}}">
                       <td>{{$nomor}}</td>
                       <td>{{$row->barang->nama_barang}} ( {{$row->satuan}} {{$row->aturan_pakai}}) </td>
                       <td>{{$row->jumlah}}</td>
@@ -177,9 +177,9 @@
                       <td>0</td>
                       <td style="text-align:left">{{ rupiah($hargaObatNonRacik*$row->jumlah)}}</td>
                       <td>{{ $keterangan }}</td>
-                      {{-- <td>
-                        <button type="button" onClick="hapusObatNonRacik({{$row->id}})" class="btn btn-danger btn-sm"><i class='fa fa-trash' aria-hidden='true'></i></button>
-                      </td> --}}
+                      <td>
+                        <button type="button" onClick="hapusBHP({{$row->id}})" class="btn btn-danger btn-sm"><i class='fa fa-trash' aria-hidden='true'></i></button>
+                      </td>
                     </tr>
                     @php $jumlah += $hargaObatNonRacik*$row->jumlah ; $nomor++ @endphp
                   @endforeach
@@ -220,6 +220,20 @@
     console.log('ok');
     $("#total_bayar").val($(".total_bayar").val());
   });
+
+
+  function hapusBHP(id){
+    console.log(id);
+    $.ajax({
+      url: "/pendaftaran-resep/"+id,
+      data: {"_token": "{{ csrf_token() }}"},
+      method: 'DELETE',
+      success: function (response) {
+        //console.log(response);
+        location.reload();
+        }
+      });
+  }
 
   function hitung_kembalian(){
       var total_bayar = $(".total_bayar").val();
