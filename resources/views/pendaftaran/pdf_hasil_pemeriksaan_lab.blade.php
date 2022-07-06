@@ -60,7 +60,7 @@
                 <td></td>
                 <td></td>
                 <td>Umur</td>
-                <td>: {{$nomorAntrian->pendaftaran->pasien->umur}} tahun</td>
+                <td>: {{$nomorAntrian->pendaftaran->pasien->tanggal_lahir}}</td>
             </tr>
             <tr>
                 <td>Tanggal, Jam</td>

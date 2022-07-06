@@ -19,13 +19,6 @@ use App\Models\PendaftaranTindakanTemp;
 class PendaftaranRujukanLabController extends Controller
 {
 
-    public function addTindakanTemp(Request $request)
-    {
-        return $request->all();
-        //return PendaftaranTindakanTemp::create($request->all());
-    }
-
-
     public function store(Request $request)
     {
         $pendaftaran                = Pendaftaran::find($request->pendaftaran_id);
@@ -51,12 +44,17 @@ class PendaftaranRujukanLabController extends Controller
                 ];
                 NomorAntrian::create($nomorAntrianData);
                 $pendaftaran->save();
+
+        // tambah fee pemeriksaan dokter
+                $request['tindakan_id'] = 162; // 162 tindakan untuk pemeriksaan dokter
                 $this->store_tindakan($request);
 
-                // tambah fee pemeriksaan dokter
-                $request['tindakan_id'] = 162; // 162 tindakan untuk pemeriksaan dokter
-                //$request['dokter']      = Auth::user()->id;
-                $this->store_tindakan($request);
+                $tindakanTemp = PendaftaranTindakanTemp::where('pasien_id', $request->pasien_id)->get();
+                foreach ($tindakanTemp as $row) {
+                    $request['tindakan_id'] = $row->tindakan_id;
+                    $this->store_tindakan($request);
+                    PendaftaranTindakanTemp::find($row->id)->delete();
+                }
     }
 
         // simpan tindakan langsung dari pendaftaran

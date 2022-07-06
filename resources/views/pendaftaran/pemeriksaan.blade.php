@@ -443,9 +443,16 @@
                 <tr>
                   <td width="200">Jenis Pemeriksaan ( Opsional )</td>
                   <td>
-                    <select style="width: 100%" name="jenis_pemeriksaan_laboratorium_id" id="tindakan_id_rujukan" class='select2 form-control jenis_pemeriksaan_laboratorium_id'>
-                    </select>
-                    {{-- {{ Form::select('jenis_pemeriksaan_laboratorium_id',$jenisPemeriksaanLaboratorium,null,['class'=>'form-control jenis_pemeriksaan_laboratorium_id'])}} --}}
+                    <div class="row">
+                      <div class="col-md-9">
+                        <select style="width: 100%" name="jenis_pemeriksaan_laboratorium_id" id="tindakan_id_rujukan" class='select2 form-control jenis_pemeriksaan_laboratorium_id'>
+                        </select>
+                      </div>
+                      <div class="col-md-3">
+                        <button class="btn btn-danger btn-sm" onclick="tambahTindakanLab()"><i  class="fa fa-plus-square fa-2" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </div>
                   </td>
                 </tr>
                 <tr>
@@ -456,6 +463,8 @@
                 </tr>
 
               </table>
+
+              <div id="tindakan-temp"></div>
             </div>
           </div>
         </div>
@@ -1115,6 +1124,57 @@
         }
     });
   }
+
+  function showTindakanLab(){
+        var tindakan_id                 = $(".jenis_pemeriksaan_laboratorium_id").val();
+        $.ajax({
+                url: "/pendaftaran-tindakan-temp",
+                type: "GET",
+                data: {
+                    pasien_id: {{ $nomorAntrian->pendaftaran->pasien->id}},
+                    perusahaan_asuransi_id : {{ $nomorAntrian->perusahaan_asuransi_id}}
+                },
+                success: function (response) {
+                    $("#tindakan-temp").html(response);
+                }
+        });
+    }
+
+    function deleteTindakanTemp(id){
+        $.ajax({
+                url: "/pendaftaran-tindakan-temp/"+id,
+                type: "DELETE",
+                data: {
+                    "_token": "{{ csrf_token() }}"
+                },
+                success: function (response) {
+                    showTindakanLab();
+                }
+        });
+    }
+
+  function tambahTindakanLab(){
+        var tindakan_id                 = $(".jenis_pemeriksaan_laboratorium_id").val();
+        console.log(tindakan_id);
+        $.ajax({
+                url: "/pendaftaran-tindakan-temp",
+                type: "POST",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    pasien_id: {{ $nomorAntrian->pendaftaran->pasien->id}},
+                    tindakan_id: tindakan_id,
+                    perusahaan_asuransi_id : {{ $nomorAntrian->perusahaan_asuransi_id}}
+                },
+                success: function (response) {
+                    console.log(response);
+                    showTindakanLab();
+                }
+        });
+    }
+
+
+
+
 
   // Handle detail riwayat kunjungan
   $('.kode').on('click', function() {

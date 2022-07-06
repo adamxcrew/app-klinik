@@ -468,7 +468,6 @@ class PendaftaranController extends Controller
 
         if ($request->tindakan_id != null) {
             $request['pendaftaran_id'] = $data->id;
-            //$this->store_tindakan($request);
             $this->lengkapiTindakanTemp($request);
         }
         return redirect('/pendaftaran/' . $nomorAntrian->id . '/cetak');
@@ -476,13 +475,10 @@ class PendaftaranController extends Controller
 
     public function lengkapiTindakanTemp($request)
     {
-        //return $request->all();
         $tindakanTemp = PendaftaranTindakanTemp::where('pasien_id', $request->pasien_id)->get();
-        //\Log::info($tindakanTemp);
         foreach ($tindakanTemp as $row) {
             $request['tindakan_id'] = $row->tindakan_id;
             $this->store_tindakan($request);
-            // delete
             PendaftaranTindakanTemp::find($row->id)->delete();
         }
     }

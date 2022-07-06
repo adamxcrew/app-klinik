@@ -111,7 +111,7 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="exampleFormControlInput1"></label>
-                                        <button type="button" class="btn btn-danger btn-sm" onclick="tambahTindakanLab()">Tambah Item Tindakan</button>
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="tambahTindakanLab()">Tambah Tindakan</button>
                                     </div>
                                 </div>
                             </div>
