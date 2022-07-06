@@ -51,7 +51,7 @@ class PembayaranController extends Controller
 
         $data['nonRaciks']      = PendaftaranResep::with('barang')->where('jenis', 'non racik')
                                 ->where('pendaftaran_id', $data['nomorAntrian']->pendaftaran_id)
-                                ->where('poliklinik_id', $data['nomorAntrian']->poliklinik_id)
+                                //->where('poliklinik_id', $data['nomorAntrian']->poliklinik_id)
                                 ->get();
 
         $data['obatRacik']      = \App\Models\PendaftaranObatRacik::with('detail.barang')
