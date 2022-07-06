@@ -12,6 +12,7 @@ use Excel;
 use DB;
 use App\Models\Poliklinik;
 use App\User;
+
 class LaporanFeeTindakanController extends Controller
 {
 
@@ -51,7 +52,7 @@ class LaporanFeeTindakanController extends Controller
         ->whereBetween(\DB::raw('left(nomor_antrian.created_at,10)'), [$awal,$akhir]);
 
         //$laporan = ViewPendaftaranFeeTindakan::whereBetween(\DB::raw('left(tanggal,10)'), [$awal,$akhir]);
-        
+
 
         $count_total    = $laporan->count();
         $start          = ($request->start) ? $request->start : 0;

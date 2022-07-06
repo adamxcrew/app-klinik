@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class ViewPendaftaranFeeTindakan extends Model
 {
-    protected $table ='view_pendaftaran_fee_tindakan';
+    protected $table = 'view_pendaftaran_fee_tindakan';
 }

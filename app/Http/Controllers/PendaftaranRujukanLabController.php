@@ -15,10 +15,12 @@ use App\Models\PendaftaranResep;
 use App\Models\PendaftaranTindakan;
 use Auth;
 use App\Models\PendaftaranTindakanTemp;
+
 class PendaftaranRujukanLabController extends Controller
 {
 
-    public function addTindakanTemp(Request $request){
+    public function addTindakanTemp(Request $request)
+    {
         return $request->all();
         //return PendaftaranTindakanTemp::create($request->all());
     }

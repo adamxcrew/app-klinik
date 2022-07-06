@@ -10,6 +10,7 @@ use App\Models\Obat;
 use App\Models\Poliklinik;
 use App\Models\Pasien;
 use App\Models\Satuan;
+use App\Models\PendaftaranTindakanTemp;
 use App\Models\PendaftaranObatRacik;
 use App\Models\PendaftaranObatRacikDetail;
 use App\Models\JenisPemeriksaanLab;
@@ -467,17 +468,36 @@ class PendaftaranController extends Controller
 
         if ($request->tindakan_id != null) {
             $request['pendaftaran_id'] = $data->id;
-            $this->store_tindakan($request);
+            //$this->store_tindakan($request);
+            $this->lengkapiTindakanTemp($request);
         }
         return redirect('/pendaftaran/' . $nomorAntrian->id . '/cetak');
+    }
+
+    public function lengkapiTindakanTemp($request)
+    {
+        //return $request->all();
+        $tindakanTemp = PendaftaranTindakanTemp::where('pasien_id', $request->pasien_id)->get();
+        //\Log::info($tindakanTemp);
+        foreach ($tindakanTemp as $row) {
+            $request['tindakan_id'] = $row->tindakan_id;
+            $this->store_tindakan($request);
+            // delete
+            PendaftaranTindakanTemp::find($row->id)->delete();
+        }
     }
 
     // simpan tindakan langsung dari pendaftaran
     public function store_tindakan($request)
     {
 
+        \Log::debug($request);
+
         $pendaftaran        = Pendaftaran::with('perusahaanAsuransi')->find($request->pendaftaran_id);
         $tindakan           = Tindakan::find($request->tindakan_id);
+
+        \Log::info($tindakan);
+
 
         $request['poliklinik_id'] = $request->poliklinik_id;
 

@@ -168,14 +168,22 @@ class PendaftaranTindakanController extends Controller
         // }
 
 
-        $pendaftaranTindakan->delete();
+
         PendaftaranFeeTindakan::where('pendaftaran_id', $pendaftaranTindakan->pendaftaran_id)
         ->where('tindakan_id', $pendaftaranTindakan->tindakan_id)
         ->delete();
 
-        \DB::table('pendaftaran_resep')
-        ->where('tindakan_id', $pendaftaranTindakan->tindakan_id)
-        ->where('pendaftaran_id', $pendaftaranTindakan->pendaftaran_id)
-        ->delete();
+        $tindakan = Tindakan::find($request->pendaftaranTindakan->tindakan_id);
+
+        $bhp = TindakanBHP::where('tindakan_id', $pendaftaranTindakan->tindakan_id)->get();
+        foreach ($bhp as $item) {
+            \DB::table('pendaftaran_resep')
+            ->where('barang_id', $item->barang_id)
+            ->where('poliklinik_id', $tindakan->poliklinik_id)
+            ->where('jenis', 'bhp')
+            ->where('pendaftaran_id', $pendaftaranTindakan->pendaftaran_id)
+            ->delete();
+        }
+        $pendaftaranTindakan->delete();
     }
 }

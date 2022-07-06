@@ -21,6 +21,7 @@ use DB;
 use App\Models\NomorAntrian;
 use App\Models\PendaftaranTindakan;
 use App\Models\TindakanBHP;
+
 class AjaxController extends Controller
 {
     public function dropdownDokterBerdasarkanPoliklinik(Request $request)
@@ -383,7 +384,7 @@ class AjaxController extends Controller
 
         $hasil = [
             'jumlah_total_antrian' => $total_antrian,
-            'poliklinik_tujuan' => $poliklinik->nama=='LAB'?'Laboratorium':$poliklinik->nama,
+            'poliklinik_tujuan' => $poliklinik->nama == 'LAB' ? 'Laboratorium' : $poliklinik->nama,
             'antrian_sekarang' => $antrian_sekarang->nomor_antrian,
             'sisa_antrian' => $total_antrian - $antrian_sekarang->nomor_antrian
         ];
@@ -446,7 +447,8 @@ class AjaxController extends Controller
     }
 
 
-    public function ubahJumlahBHP(Request $request){
-        return TindakanBHP::where('id',$request->id)->update(['jumlah' => $request->jumlah]);
+    public function ubahJumlahBHP(Request $request)
+    {
+        return TindakanBHP::where('id', $request->id)->update(['jumlah' => $request->jumlah]);
     }
 }

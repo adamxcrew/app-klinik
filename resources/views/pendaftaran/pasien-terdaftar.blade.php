@@ -35,7 +35,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Pasien</label>
-                                    <select name="pasien_id" class="pasien form-control" placeholder="Masukan Nama Pasien"></select>
+                                    <select name="pasien_id" class="pasien form-control pasien_id" placeholder="Masukan Nama Pasien"></select>
                                     @error('pasien_id') <small class="text-danger">Harap pilih pasien!</small> @enderror
                                 </div>
                             </div>
@@ -101,9 +101,19 @@
                             </div>
                         </div>
                         <div class="col-md-8 tindakan_lab">
-                            <div class="form-group">
-                                <label for="exampleFormControlInput1">Tindakan Lab</label>
-                                {{ Form::select('tindakan_id',  $tidakanLab, null,['class'=>'form-control','placeholder'=>'Pilih Tindakan']) }}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlInput1">Tindakan Lab</label>
+                                        {{ Form::select('tindakan_id',  $tidakanLab, null,['class'=>'form-control tindakan_id','placeholder'=>'Pilih Tindakan']) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlInput1"></label>
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="tambahTindakanLab()">Tambah Item Tindakan</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -123,7 +133,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="exampleFormControlInput1">Perusahaan Penjamin</label>
-                                {{ Form::select('perusahaan_asuransi_id', $perusahaan_asuransi , null,['class'=>'form-control jenis_layanan','required'=>'required']) }}
+                                {{ Form::select('perusahaan_asuransi_id', $perusahaan_asuransi , null,['class'=>'form-control jenis_layanan perusahaan_asuransi_id','required'=>'required']) }}
                             </div>
                         </div>
 
@@ -197,6 +207,10 @@
                                 </div>
                                 
                               </div>
+
+                              <hr>
+
+                              <div id="tindakan-temp"></div>
                         </div>
                     </div>
                   </div>
@@ -336,6 +350,73 @@
             });
         });
     });
+
+
+    function showTindakanLab(){
+        var pasien_id                   = $(".pasien_id").val();
+        var tindakan_id                 = $(".tindakan_id").val();
+        var perusahaan_asuransi_id      = $(".perusahaan_asuransi_id").val();
+        $.ajax({
+                url: "/pendaftaran-tindakan-temp",
+                type: "GET",
+                data: {
+                    pasien_id: pasien_id,
+                    perusahaan_asuransi_id : perusahaan_asuransi_id
+                },
+                success: function (response) {
+                    $("#tindakan-temp").html(response);
+                }
+        });
+    }
+
+    function tambahTindakanLab(){
+        var pasien_id                   = $(".pasien_id").val();
+        var tindakan_id                 = $(".tindakan_id").val();
+        var perusahaan_asuransi_id      = $(".perusahaan_asuransi_id").val();
+
+        if(pasien_id==null){
+            alert("Silahkan Pilih Pasien Dulu");
+            exit();
+        }
+
+        if(tindakan_id==null){
+            alert("silahkan pilih tindakan");
+            exit();
+        }
+
+        if(perusahaan_asuransi_id==null){
+            alert("pilih perusahaan asuransi");
+            exit();
+        }
+        $.ajax({
+                url: "/pendaftaran-tindakan-temp",
+                type: "POST",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    pasien_id: pasien_id,
+                    tindakan_id: tindakan_id,
+                    perusahaan_asuransi_id : perusahaan_asuransi_id
+                },
+                success: function (response) {
+                    console.log(response);
+                    showTindakanLab();
+                }
+        });
+    }
+
+
+    function deleteTindakanTemp(id){
+        $.ajax({
+                url: "/pendaftaran-tindakan-temp/"+id,
+                type: "DELETE",
+                data: {
+                    "_token": "{{ csrf_token() }}"
+                },
+                success: function (response) {
+                    showTindakanLab();
+                }
+        });
+    }
 
 
     function dokterPegganti() {
