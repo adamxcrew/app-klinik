@@ -726,6 +726,7 @@
     data: {"_token": "{{ csrf_token() }}"},
     method: 'DELETE',
     success: function (response) {
+        console.log(response);
         load_daftar_tindakan();
       }
     });

@@ -152,28 +152,15 @@ class PendaftaranTindakanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
 
         $pendaftaranTindakan = PendaftaranTindakan::with('pendaftaran')->findOrFail($id);
-        // $paketIterasi = PaketIterasi::where('tindakan_id', $pendaftaranTindakan->tindakan_id)
-        // ->where('pasien_id', $pendaftaranTindakan->pendaftaran->pasien_id)->first();
-        // if ($paketIterasi) {
-        //     $riwayat = RiwayatPenggunaanTindakanIterasi::where('paket_iterasi_id', $paketIterasi->id)->first();
-        //     if ($riwayat) {
-        //         // tambahkan quota kembali yang sudah berkurang
-        //         $riwayat->delete();
-        //     }
-        //     $paketIterasi->delete();
-        // }
-
-
-
         PendaftaranFeeTindakan::where('pendaftaran_id', $pendaftaranTindakan->pendaftaran_id)
         ->where('tindakan_id', $pendaftaranTindakan->tindakan_id)
         ->delete();
 
-        $tindakan = Tindakan::find($request->pendaftaranTindakan->tindakan_id);
+        $tindakan = Tindakan::find($pendaftaranTindakan->tindakan_id);
 
         $bhp = TindakanBHP::where('tindakan_id', $pendaftaranTindakan->tindakan_id)->get();
         foreach ($bhp as $item) {
