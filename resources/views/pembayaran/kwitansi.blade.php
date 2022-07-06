@@ -102,32 +102,35 @@
             </tbody>
             @endforeach
 
-            {{-- @foreach($bhps as $bhp)
-            <?php
-                    if($nomorAntrian->pendaftaran->perusahaanAsuransi->nama_perusahaan=='BPJS' && $bhp->barang->pelayanan=='bpjs'){
-                    $hargaBHP = 0;
-                    $keterangan = "BPJS";
-                  }else{
-                    $hargaBHP = $bhp->harga;
-                    $keterangan  = "-";
-                  }
-                    ?>
-            <tbody class="dotted">
-                <tr>
-                    <td>{{ $nomor }}</td>
-                    <td>{{ $bhp->barang->nama_barang }}</td>
-                    <td>{{ rupiah($hargaBHP) }}</td>
-                    <td>{{ $bhp->jumlah }}</td>
-                    <td>0</td>
-                    <td>{{ rupiah($hargaBHP*$bhp->jumlah) }}</td>
-                    <td>BHP</td>
-                </tr>
-                @php
-                    $total += $hargaBHP*$bhp->jumlah;
-                    $nomor++;
-                @endphp
-            </tbody>
-            @endforeach --}}
+
+            @if($tindakan->poliklinik!=7)
+                @foreach($bhps as $bhp)
+                <?php
+                        if($nomorAntrian->pendaftaran->perusahaanAsuransi->nama_perusahaan=='BPJS' && $bhp->barang->pelayanan=='bpjs'){
+                        $hargaBHP = 0;
+                        $keterangan = "BPJS";
+                    }else{
+                        $hargaBHP = $bhp->harga;
+                        $keterangan  = "-";
+                    }
+                        ?>
+                <tbody class="dotted">
+                    <tr>
+                        <td>{{ $nomor }}</td>
+                        <td>{{ $bhp->barang->nama_barang }}</td>
+                        <td>{{ rupiah($hargaBHP) }}</td>
+                        <td>{{ $bhp->jumlah }}</td>
+                        <td>0</td>
+                        <td>{{ rupiah($hargaBHP*$bhp->jumlah) }}</td>
+                        <td>BHP</td>
+                    </tr>
+                    @php
+                        $total += $hargaBHP*$bhp->jumlah;
+                        $nomor++;
+                    @endphp
+                </tbody>
+                @endforeach
+        @endif
 
 
             @foreach($nonRaciks as $non)
