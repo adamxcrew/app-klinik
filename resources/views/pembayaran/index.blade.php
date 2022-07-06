@@ -99,10 +99,7 @@
                   <tr class="success">
                     <th colspan="7">Biaya Obat Racik</th>
                   </tr>
-                  @foreach(\App\Models\PendaftaranObatRacik::with('detail')
-                  ->where('pendaftaran_id',$nomorAntrian->pendaftaran->id)
-                  ->where('poliklinik_id',$nomorAntrian->poliklinik->id)
-                  ->get() as $racikItem)
+                  @foreach(\App\Models\PendaftaranObatRacik::with('detail')->where('pendaftaran_id',$nomorAntrian->pendaftaran->id)->where('poliklinik_id',$nomorAntrian->poliklinik->id)->get() as $racikItem)
                     @foreach ($racikItem->detail as $item)
                     <?php
                     if($nomorAntrian->perusahaanAsuransi->nama_perusahaan=='BPJS' && $item->barang->pelayanan=='bpjs'){
@@ -130,6 +127,32 @@
                 <tr class="success">
                   <th colspan="7">Biaya Obat Non Racik</th>
                 </tr>
+                @foreach(\App\Models\PendaftaranResep::with('barang')->where('jenis','non racik')->where('pendaftaran_id',$nomorAntrian->pendaftaran->id)->where('poliklinik_id',$nomorAntrian->poliklinik->id)->get() as $row)
+                <?php
+                  if($nomorAntrian->perusahaanAsuransi->nama_perusahaan=='BPJS' && $row->barang->pelayanan=='bpjs'){
+                  $hargaObatNonRacik = 0;
+                  $keterangan = "BPJS";
+                }else{
+                  $hargaObatNonRacik = $row->harga;
+                  $keterangan  = "-";
+                }
+                  ?>
+
+                  <tr class="obat_non_racik_{{ $row->id}}">
+                    <td>{{$nomor}}</td>
+                    <td>{{$row->barang->nama_barang}} ( {{$row->satuan}} {{$row->aturan_pakai}}) </td>
+                    <td>{{$row->jumlah}}</td>
+                     <td style="text-align:right">{{ rupiah($hargaObatNonRacik)}}</td>
+       
+                    <td>0</td>
+                    <td style="text-align:left">{{ rupiah($hargaObatNonRacik*$row->jumlah)}}</td>
+                    <td>{{ $keterangan }}</td>
+                    {{-- <td>
+                      <button type="button" onClick="hapusObatNonRacik({{$row->id}})" class="btn btn-danger btn-sm"><i class='fa fa-trash' aria-hidden='true'></i></button>
+                    </td> --}}
+                  </tr>
+                  @php $jumlah += $hargaObatNonRacik*$row->jumlah ; $nomor++ @endphp
+                @endforeach
 
                 <tr class="success">
                   <th colspan="7">Biaya BHP</th>
