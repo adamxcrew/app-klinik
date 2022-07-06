@@ -46,8 +46,8 @@
         </div>
         <div class="box">
             <div class="box-body">
-              <div class="alert alert-info" role="alert" style="font-weight: bold">
-                Klik Button Refresh Disamping Kolom Total Pembayaran Jika Anda Melakukan Perubahan Pada Kolom Diskon
+              <div class="alert alert-info" role="alert">
+                Klik Button Refresh Disamping Kolom Total Jika Anda Melakukan Perubahan Pada Kolom Diskon
               </div>
 
                 <h2 class="text-center"><strong>Detail Pembayaran</strong></h2>
@@ -127,7 +127,11 @@
                 <tr class="success">
                   <th colspan="7">Biaya Obat Non Racik</th>
                 </tr>
-                  @foreach(\App\Models\PendaftaranResep::with('barang')->where('jenis','!=','bhp')->where('pendaftaran_id',$nomorAntrian->pendaftaran->id)->where('poliklinik_id',$nomorAntrian->poliklinik->id)->get() as $row)
+
+                <tr class="success">
+                  <th colspan="7">Biaya BHP</th>
+                </tr>
+                  @foreach(\App\Models\PendaftaranResep::with('barang')->where('jenis','bhp')->where('pendaftaran_id',$nomorAntrian->pendaftaran->id)->where('poliklinik_id',$nomorAntrian->poliklinik->id)->get() as $row)
                   <?php
                     if($nomorAntrian->perusahaanAsuransi->nama_perusahaan=='BPJS' && $row->barang->pelayanan=='bpjs'){
                     $hargaObatNonRacik = 0;

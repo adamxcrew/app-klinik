@@ -14,9 +14,16 @@ use App\Models\Barang;
 use App\Models\PendaftaranResep;
 use App\Models\PendaftaranTindakan;
 use Auth;
-
+use App\Models\PendaftaranTindakanTemp;
 class PendaftaranRujukanLabController extends Controller
 {
+
+    public function addTindakanTemp(Request $request){
+        return $request->all();
+        //return PendaftaranTindakanTemp::create($request->all());
+    }
+
+
     public function store(Request $request)
     {
         $pendaftaran                = Pendaftaran::find($request->pendaftaran_id);
@@ -119,6 +126,7 @@ class PendaftaranRujukanLabController extends Controller
                     'satuan_terkecil_id'    =>  $barang->satuan_terkecil_id,
                     'aturan_pakai'          =>  '-',
                     'jenis'                 =>  'bhp',
+                    'poliklinik_id'         =>  $request->poliklinik_id,
                     'tindakan_id'           => $request->tindakan_id,
                     'harga'                 =>  $barang->harga_jual,
                 ]);
@@ -161,6 +169,7 @@ class PendaftaranRujukanLabController extends Controller
     {
         $data = NomorAntrian::with('pendaftaran')->findOrFail($id);
         PendaftaranTindakan::where('pendaftaran_id', $data->pendaftaran_id)->where('poliklinik_id', $data->poliklinik_id)->delete();
+        PendaftaranResep::where('pendaftaran_id', $data->pendaftaran_id)->where('poliklinik_id', $data->poliklinik_id)->delete();
         $data->delete();
     }
 
