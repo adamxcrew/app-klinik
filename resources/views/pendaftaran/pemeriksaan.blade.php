@@ -437,7 +437,7 @@
                 <tr>
                   <td width="200">Dokter Perujuk</td>
                   <td>
-                    {{ Form::select('user_id',$dokter1,null,['class'=>'form-control user_id'])}}
+                    {{ Form::select('user_id',$dokter1,session('user_id'),['class'=>'form-control user_id','disabled'=>'disabled'])}}
                   </td>
                 </tr>
                 <tr>
