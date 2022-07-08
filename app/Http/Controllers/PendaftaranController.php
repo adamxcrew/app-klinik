@@ -159,6 +159,15 @@ class PendaftaranController extends Controller
                         }
                     }
 
+                    // --------------------- ACTION YANG AKAN MUNCUL DI BAGIAN ADMINISTRATOR -----------------------
+                    if (auth()->user()->role == 'administrator') {
+                        if ($row->status_pelayanan == 'selesai') {
+                            $btn .= \Form::open(['url' => 'pendaftaran/' . $row->id, 'method' => 'DELETE', 'style' => 'margin-left:15px']);
+                            $btn .= "<li><button type='submit' style='border: 0;background:#fff'><i class='fa fa-times'></i> <span style='margin-left:10px'>Batal</span></button></li>";
+                            $btn .= \Form::close();
+                        }
+                    }
+
                     // --------------------- ACTION YANG AKAN MUNCUL DI BAGIAN APOTEKER -----------------------
                     if (auth()->user()->role == 'apoteker') {
                         $btn .= '<li><a href="/pendaftaran/apotek/lihat-item/' . $row->id . '"><i class="fa fa-plus-square"></i> Cetak Label</a></li>';
@@ -168,15 +177,12 @@ class PendaftaranController extends Controller
                     return $btn;
                 })
                 ->addColumn('status_pelayanan', function ($row) use ($status_pelayanan) {
-                    //return $status_pelayanan[$row->status_pelayanan];
-                    return $row->status_pelayanan;
+                    return $status_pelayanan[$row->status_pelayanan];
+                    //return $row->status_pelayanan;
                 })
                 ->addColumn('nomor_antrian_waktu', function ($row) use ($status_pelayanan) {
                     return $row->tanggal . ' - ' . $row->nomor_antrian;
                 })
-                // ->addColumn('nama', function ($row) use ($status_pelayanan) {
-                //     return $row->inisial . ' - ' . $row->nama;
-                // })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
@@ -384,6 +390,18 @@ class PendaftaranController extends Controller
 
         \DB::table('pendaftaran_hasil_pemeriksaan_lab')->insert($params);
         RujukanInternal::where('pendaftaran_id', $pendaftaranId)->update(['status' => 'Selesai']);
+
+        // insert notifikasi
+
+        \DB::table('notifikasi')->create(
+            [
+                'status_baca'       =>  0,
+                'notifikasi_judul'  =>  'selesai pemeriksaan lab',
+                'poliklinik_id'     => 2,
+                'notifikasi_pesan'  =>  'nama pasien ' . $data['nomorAntrian']->pendaftaran->pasien->nama
+            ]
+        );
+
         return redirect('pendaftaran/' . $request->nomor_antrian_id . '/input-indikator')->with('message', 'Data Berhasil Disimpan');
     }
 
@@ -630,6 +648,11 @@ class PendaftaranController extends Controller
     {
         NomorAntrian::where('id', $id)->update(['status_pelayanan' => 'batal']);
         return redirect('/pendaftaran');
+    }
+
+    public function hapus($id)
+    {
+        return 'asa';
     }
 
     public function pemeriksaanRiwayatPenyakit(Request $request, $id)

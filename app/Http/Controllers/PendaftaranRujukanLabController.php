@@ -18,7 +18,6 @@ use App\Models\PendaftaranTindakanTemp;
 
 class PendaftaranRujukanLabController extends Controller
 {
-
     public function store(Request $request)
     {
         $pendaftaran                = Pendaftaran::find($request->pendaftaran_id);

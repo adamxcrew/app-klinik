@@ -106,6 +106,7 @@
                                 ['icon' => 'fa fa-plus-square', 'link' => '/permintaan-barang-internal/create', 'label' => 'Buat Permintaan Barang'],
                               ]],
                               ['icon' => 'fa fa-user-circle-o', 'link' => '/user?jabatan=user', 'label' => 'Pengguna Aplikasi'],
+                              ['icon' => 'fa fa-address-card', 'link' => '/pendaftaran', 'label' => 'Data Pasien Antri'],
                               ['icon' => 'fa fa-gear', 'link' => '/setting', 'label' => 'Setting Aplikasi']
                             ];
                       
@@ -242,6 +243,7 @@
                     </div>
 
 
+                    <?php $notifikasi = \DB::table('notifikasi'); ?>
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
 
@@ -249,34 +251,29 @@
 
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="fa fa-envelope-o"></i>
-                                    <span class="label label-success">4</span>
+                                    <span class="label label-success">{{ $notifikasi->count()}}</span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li class="header">You have 4 messages</li>
+                                  
+                                    <li class="header">Kamu Mempunyai {{ $notifikasi->count()}} Pesan</li>
                                     <li>
 
                                         <ul class="menu">
-                                            <li>
-                                                <a href="#">
-                                                    <div class="pull-left">
+                                          @foreach($notifikasi->get() as $notif)
+                                          <li>
+                                            <a href="#">
+                                                <h4>
+                                                    {{ $notif->notifikasi_judul}}
+                                                    <small><i class="fa fa-clock-o"></i> {{ $notif->created_at }}</small>
+                                                </h4>
 
-                                                        <img src="../../dist/img/user2-160x160.jpg" class="img-circle"
-                                                            alt="User Image">
-                                                    </div>
-
-                                                    <h4>
-                                                        Support Team
-                                                        <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                                                    </h4>
-
-                                                    <p>Why not buy a new awesome theme?</p>
-                                                </a>
-                                            </li>
-
-                                        </ul>
-
+                                                <p>{{ $notif->notifikasi_pesan}}</p>
+                                            </a>
+                                        </li>
+                                          @endforeach
+                                      </ul>
                                     </li>
-                                    <li class="footer"><a href="#">See All Messages</a></li>
+                                    {{-- <li class="footer"><a href="#">See All Messages</a></li> --}}
                                 </ul>
                             </li>
 

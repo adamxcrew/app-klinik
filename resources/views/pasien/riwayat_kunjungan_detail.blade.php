@@ -12,9 +12,11 @@
     </tr>
     <tr>
         <td>Anamnesa</td>
-        <td>{{ $pendaftaran->pendaftaran->anamnesa }}</td>
+        <td>
+          {{ $pendaftaran->pendaftaran->anamnesa==null?$pendaftaran->anamnesa:$pendaftaran->pendaftaran->anamnesa }}</td>
     </tr>
 </table>
+
 
 
 <h4>Tanda Tanda Vital</h4>
@@ -88,14 +90,16 @@
       <th>Nomor</th>
       <th>Kode ICD 9</th>
       <th>Nama Tindakan</th>
+      <th>Anamnesa</th>
     </tr>
   </thead>
   <tbody>
     @foreach($tindakan as $td)
       <tr>
         <td>{{ $loop->iteration }}</td>
-        <td>{{$td->tindakan->tindakan}}</td>
         <td>{{$td->tindakan->icd->desc_short??'-'}}</td>
+        <td>{{$td->tindakan->tindakan}}</td>
+        <td>{{$td->anamnesa}}</td>
       </tr>
     @endforeach
   </tbody>

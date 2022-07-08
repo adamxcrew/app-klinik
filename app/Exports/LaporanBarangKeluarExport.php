@@ -10,7 +10,6 @@ use Maatwebsite\Excel\Events\AfterSheet;
 
 class LaporanBarangKeluarExport implements FromView, ShouldAutoSize, WithEvents
 {
-
     protected $tanggal_awal;
     protected $tanggal_akhir;
     protected $perusahaan_penjamin_id;

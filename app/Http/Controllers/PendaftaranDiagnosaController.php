@@ -8,7 +8,6 @@ use App\Models\PendaftaranDiagnosa;
 
 class PendaftaranDiagnosaController extends Controller
 {
-
     /**
      * Store a newly created resource in storage.
      *

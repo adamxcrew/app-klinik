@@ -15,7 +15,6 @@ use App\User;
 
 class LaporanFeeTindakanController extends Controller
 {
-
     public function index(Request $request)
     {
         $data['tanggal_awal']   = $request->tanggal_awal ?? date('Y-m-d');

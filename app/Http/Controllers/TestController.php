@@ -22,7 +22,6 @@ use App\Models\Surat;
 
 class TestController extends Controller
 {
-
     function test(Request $request)
     {
         Pendaftaran::truncate();

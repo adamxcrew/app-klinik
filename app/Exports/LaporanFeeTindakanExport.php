@@ -11,7 +11,6 @@ use Maatwebsite\Excel\Events\AfterSheet;
 
 class LaporanFeeTindakanExport implements FromView, ShouldAutoSize, WithEvents
 {
-
     protected $tanggal_mulai;
     protected $tanggal_selesai;
     protected $poliklinik_id;
