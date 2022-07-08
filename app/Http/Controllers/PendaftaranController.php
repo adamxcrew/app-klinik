@@ -177,8 +177,8 @@ class PendaftaranController extends Controller
                     return $btn;
                 })
                 ->addColumn('status_pelayanan', function ($row) use ($status_pelayanan) {
-                    return $status_pelayanan[$row->status_pelayanan];
-                    //return $row->status_pelayanan;
+                    //return $status_pelayanan[$row->status_pelayanan];
+                    return $row->status_pelayanan;
                 })
                 ->addColumn('nomor_antrian_waktu', function ($row) use ($status_pelayanan) {
                     return $row->tanggal . ' - ' . $row->nomor_antrian;
