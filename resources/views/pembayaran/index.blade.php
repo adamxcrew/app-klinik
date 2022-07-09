@@ -66,7 +66,9 @@
                     <th colspan="7">Biaya Tindakan</th>
                   </tr>
                   @php $jumlah = 0; $nomor = 1 @endphp
-                  @foreach(\App\Models\PendaftaranTindakan::where('pendaftaran_id',$nomorAntrian->pendaftaran->id)->where('poliklinik_id',$nomorAntrian->poliklinik_id)->get() as $row)
+                  @foreach(\App\Models\PendaftaranTindakan::where('pendaftaran_id',$nomorAntrian->pendaftaran->id)
+                  //->where('poliklinik_id',$nomorAntrian->poliklinik_id)
+                  ->get() as $row)
 
                   <?php
                   // hitung FEE Tindakan
@@ -99,7 +101,10 @@
                   <tr class="success">
                     <th colspan="7">Biaya Obat Racik</th>
                   </tr>
-                  @foreach(\App\Models\PendaftaranObatRacik::with('detail')->where('pendaftaran_id',$nomorAntrian->pendaftaran->id)->where('poliklinik_id',$nomorAntrian->poliklinik->id)->get() as $racikItem)
+                  @foreach(\App\Models\PendaftaranObatRacik::with('detail')
+                  ->where('pendaftaran_id',$nomorAntrian->pendaftaran->id)
+                  //->where('poliklinik_id',$nomorAntrian->poliklinik->id)
+                  ->get() as $racikItem)
                     @foreach ($racikItem->detail as $item)
                     <?php
                     if($nomorAntrian->perusahaanAsuransi->nama_perusahaan=='BPJS' && $item->barang->pelayanan=='bpjs'){
@@ -127,7 +132,11 @@
                 <tr class="success">
                   <th colspan="7">Biaya Obat Non Racik</th>
                 </tr>
-                @foreach(\App\Models\PendaftaranResep::with('barang')->where('jenis','non racik')->where('pendaftaran_id',$nomorAntrian->pendaftaran->id)->where('poliklinik_id',$nomorAntrian->poliklinik->id)->get() as $row)
+                @foreach(\App\Models\PendaftaranResep::with('barang')
+                ->where('jenis','non racik')
+                ->where('pendaftaran_id',$nomorAntrian->pendaftaran->id)
+                //->where('poliklinik_id',$nomorAntrian->poliklinik->id)
+                ->get() as $row)
                 <?php
                   if($nomorAntrian->perusahaanAsuransi->nama_perusahaan=='BPJS' && $row->barang->pelayanan=='bpjs'){
                   $hargaObatNonRacik = 0;
@@ -158,7 +167,10 @@
                 <tr class="success">
                   <th colspan="7">Biaya BHP </th>
                 </tr>
-                  @foreach(\App\Models\PendaftaranResep::with('barang')->where('jenis','bhp')->where('pendaftaran_id',$nomorAntrian->pendaftaran->id)->where('poliklinik_id',$nomorAntrian->poliklinik->id)->get() as $row)
+                  @foreach(\App\Models\PendaftaranResep::with('barang')
+                  ->where('jenis','bhp')->where('pendaftaran_id',$nomorAntrian->pendaftaran->id)
+                  //->where('poliklinik_id',$nomorAntrian->poliklinik->id)
+                  ->get() as $row)
                   <?php
                     if($nomorAntrian->perusahaanAsuransi->nama_perusahaan=='BPJS' && $row->barang->pelayanan=='bpjs'){
                     $hargaObatNonRacik = 0;
