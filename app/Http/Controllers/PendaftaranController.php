@@ -86,7 +86,7 @@ class PendaftaranController extends Controller
             } else {
                 $nomorAntrian->where('nama_dokter', session('user_name'));
             }
-            $nomorAntrian->whereIn('status_pelayanan', ['selesai_pemeriksaan_medis','selesai_pelayanan','selesai']);
+            //$nomorAntrian->whereIn('status_pelayanan', ['selesai_pemeriksaan_medis','selesai_pelayanan','selesai']);
         }
         // ------------------ FILTER PADA ROLE KASIR -----------------------------
         if (auth()->user()->role == 'kasir') {
