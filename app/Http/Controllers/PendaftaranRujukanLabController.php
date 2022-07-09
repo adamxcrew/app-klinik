@@ -175,7 +175,8 @@ class PendaftaranRujukanLabController extends Controller
     public function show($id)
     {
         $data['rujukanInternal'] = RujukanInternal::with('dokter', 'poliklinik', 'tindakan')
-                                    ->where('pendaftaran_id', $id);
+                                    ->where('pendaftaran_id', $id)
+                                    ->whereRaw("left(created_at,10)='" . date('Y-m-d') . "'");
                                     //->where('poliklinik_id',\Auth::user()->poliklinik_id);
         $data['nomorAntrian'] = NomorAntrian::with('poliklinik', 'dokter', 'tindakan')
                                 ->where('poliklinik_id', '!=', \Auth::user()->poliklinik_id)
