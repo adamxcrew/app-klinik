@@ -9,6 +9,7 @@ use App\Models\Pendaftaran;
 use App\Models\CatatanBarangKeluar;
 use App\Models\DistribusiStock;
 use App\Models\Poliklinik;
+use App\Models\NomorAntrian;
 
 class PendaftaranResepController extends Controller
 {
@@ -26,7 +27,7 @@ class PendaftaranResepController extends Controller
         $request['jenis']               = 'non racik';
         $request['harga']               = $barang->harga_jual;
         $request['pendaftaran_id']      = $request->pendaftaran_id;
-        $request['poliklinik_id']       = \Auth::user()->poliklinik_id;
+        $request['poliklinik_id']       = $request->poliklinik_id;
         $request['satuan_terkecil_id']  = $request->satuan;
         $pendaftaranResep = PendaftaranResep::create($request->all());
 
@@ -57,7 +58,11 @@ class PendaftaranResepController extends Controller
      */
     public function show($id)
     {
-        $data['pendaftaranResep'] = PendaftaranResep::with(['barang.satuanTerkecil'])->where('jenis', '!=', 'bhp')->where('pendaftaran_id', $id);
+        $data['nomorAntrian']     = NomorAntrian::find($id);
+        $data['pendaftaranResep'] = PendaftaranResep::with(['barang.satuanTerkecil'])
+        ->where('jenis', '!=', 'bhp')
+        ->where('poliklinik_id', $data['nomorAntrian']->poliklinik_id)
+        ->where('pendaftaran_id', $data['nomorAntrian']->pendaftaran_id);
         return view('pendaftaran.partials.daftar_resep', $data);
     }
 

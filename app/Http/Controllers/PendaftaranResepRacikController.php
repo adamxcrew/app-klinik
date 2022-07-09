@@ -12,6 +12,7 @@ use App\Models\Pendaftaran;
 use App\Models\CatatanBarangKeluar;
 use App\Models\DistribusiStock;
 use App\Models\Poliklinik;
+use App\Models\NomorAntrian;
 
 class PendaftaranResepRacikController extends Controller
 {
@@ -29,7 +30,7 @@ class PendaftaranResepRacikController extends Controller
                 'pendaftaran_id' => $request->pendaftaran_id,
                 'jumlah_kemasan' => $request->jumlah_kemasan[$i][0],
                 'aturan_pakai' => $request->aturan_pakai[$i][0],
-                'poliklinik_id' => \Auth::user()->poliklinik_id,
+                'poliklinik_id' => $request->poliklinik_id,
                 'kemasan' => $request->jenis_kemasan[$i][0]
             ];
             $pendaftaran = Pendaftaran::findOrFail($request->pendaftaran_id);
@@ -85,8 +86,10 @@ class PendaftaranResepRacikController extends Controller
      */
     public function show($id)
     {
-        $data['pendaftaranResepRacik'] = PendaftaranObatRacik::with('detail.barang')->where('pendaftaran_id', $id)
-                                        ->where('poliklinik_id', \Auth::user()->poliklinik_id);
+        $data['nomorAntrian']           = NomorAntrian::find($id);
+        $data['pendaftaranResepRacik'] = PendaftaranObatRacik::with('detail.barang')
+                                        ->where('pendaftaran_id', $data['nomorAntrian']->pendaftaran_id)
+                                        ->where('poliklinik_id', $data['nomorAntrian']->poliklinik_id);
         return view('pendaftaran.partials.daftar_resep_racik', $data);
     }
 

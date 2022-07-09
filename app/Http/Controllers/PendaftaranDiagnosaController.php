@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Diagnosa;
 use App\Models\PendaftaranDiagnosa;
+use App\Models\NomorAntrian;
 
 class PendaftaranDiagnosaController extends Controller
 {
@@ -17,7 +18,7 @@ class PendaftaranDiagnosaController extends Controller
     public function store(Request $request)
     {
         $request['pendaftaran_id']  = $request->pendaftaran_id;
-        $request['poliklinik_id']   = \Auth::user()->poliklinik_id;
+        $request['poliklinik_id']   = $request->poliklinik_id;
         return PendaftaranDiagnosa::create($request->all());
     }
 
@@ -29,7 +30,10 @@ class PendaftaranDiagnosaController extends Controller
      */
     public function show($id)
     {
-        $data['pendaftaranDiagnosa'] = PendaftaranDiagnosa::with(['icd'])->where('pendaftaran_id', $id);
+        $data['nomorAntrian']           = NomorAntrian::find($id);
+        $data['pendaftaranDiagnosa']    = PendaftaranDiagnosa::with(['icd'])
+                                        ->where('pendaftaran_id', $data['nomorAntrian']->pendaftaran_id)
+                                        ->where('poliklinik_id', $data['nomorAntrian']->poliklinik_id);
         return view('pendaftaran.partials.daftar_diagnosa', $data);
     }
 

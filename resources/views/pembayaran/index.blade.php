@@ -67,7 +67,7 @@
                   </tr>
                   @php $jumlah = 0; $nomor = 1 @endphp
                   @foreach(\App\Models\PendaftaranTindakan::where('pendaftaran_id',$nomorAntrian->pendaftaran->id)
-                  //->where('poliklinik_id',$nomorAntrian->poliklinik_id)
+                  ->where('poliklinik_id',$nomorAntrian->poliklinik_id)
                   ->get() as $row)
 
                   <?php
@@ -103,7 +103,7 @@
                   </tr>
                   @foreach(\App\Models\PendaftaranObatRacik::with('detail')
                   ->where('pendaftaran_id',$nomorAntrian->pendaftaran->id)
-                  //->where('poliklinik_id',$nomorAntrian->poliklinik->id)
+                  ->where('poliklinik_id',$nomorAntrian->poliklinik->id)
                   ->get() as $racikItem)
                     @foreach ($racikItem->detail as $item)
                     <?php
@@ -135,7 +135,7 @@
                 @foreach(\App\Models\PendaftaranResep::with('barang')
                 ->where('jenis','non racik')
                 ->where('pendaftaran_id',$nomorAntrian->pendaftaran->id)
-                //->where('poliklinik_id',$nomorAntrian->poliklinik->id)
+                ->where('poliklinik_id',$nomorAntrian->poliklinik->id)
                 ->get() as $row)
                 <?php
                   if($nomorAntrian->perusahaanAsuransi->nama_perusahaan=='BPJS' && $row->barang->pelayanan=='bpjs'){
@@ -169,7 +169,7 @@
                 </tr>
                   @foreach(\App\Models\PendaftaranResep::with('barang')
                   ->where('jenis','bhp')->where('pendaftaran_id',$nomorAntrian->pendaftaran->id)
-                  //->where('poliklinik_id',$nomorAntrian->poliklinik->id)
+                  ->where('poliklinik_id',$nomorAntrian->poliklinik->id)
                   ->get() as $row)
                   <?php
                     if($nomorAntrian->perusahaanAsuransi->nama_perusahaan=='BPJS' && $row->barang->pelayanan=='bpjs'){

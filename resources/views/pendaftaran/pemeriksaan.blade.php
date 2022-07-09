@@ -230,7 +230,7 @@
             <tr>
               <td>Dokter</td>
               <td>
-                {!! Form::select('dokter', $dokter1, null, ['class'=>'form-control', 'id' => 'dokter']) !!}
+                {!! Form::select('dokter', $dokter1, session('user_id'), ['class'=>'form-control', 'id' => 'dokter','disabled' => 'disabled']) !!}
               </td>
             </tr>
             <tr>
@@ -325,6 +325,7 @@
 
             {{ Form::open(['url'=>'pendaftaran-resep-racik']) }}
             {{ Form::hidden('pendaftaran_id',$nomorAntrian->pendaftaran->id) }}
+            {{ Form::hidden('poliklinik_id',$nomorAntrian->poliklinik_id) }}
             {{ Form::hidden('nomor_antrian_id',$nomorAntrian->id) }}
             <table class="table table-bordered inner2 form-racik-1101">
               <tr>
@@ -712,7 +713,7 @@
    // KELOLA TINDAKAN =======================
   function load_daftar_tindakan(){
     $.ajax({
-    url: "/pendaftaran-tindakan/<?php echo $nomorAntrian->pendaftaran->id;?>",
+    url: "/pendaftaran-tindakan/<?php echo $nomorAntrian->id;?>",
     method: 'GET',
     success: function (response) {
         $("#daftar_tindakan").html(response);
@@ -742,7 +743,7 @@
       method: 'POST',
       data: {
         tindakan_id: tindakan_id,
-        poliklinik_id: {{ Auth::user()->poliklinik_id }},
+        poliklinik_id: {{ $nomorAntrian->poliklinik_id}},
         dokter: dokter,
         "_token": "{{ csrf_token() }}",
         asisten: asisten,
@@ -783,7 +784,7 @@
 
   function load_catatan_harian(){
     $.ajax({
-    url: "/pendaftaran-catatan-harian/<?php echo $nomorAntrian->pendaftaran->id;?>",
+    url: "/pendaftaran-catatan-harian/<?php echo $nomorAntrian->id;?>",
     method: 'GET',
     success: function (response) {
         $("#catatan_harian").html(response);
@@ -815,7 +816,7 @@
   // KELOLA DATA DIAGNOSA ==========================================
   function load_daftar_diagnosa(){
     $.ajax({
-    url: "/pendaftaran-diagnosa/<?php echo $nomorAntrian->pendaftaran->id;?>",
+    url: "/pendaftaran-diagnosa/<?php echo $nomorAntrian->id;?>",
     method: 'GET',
     success: function (response) {
         $("#daftar_diagnosa").html(response);
@@ -857,6 +858,7 @@
       data: {
         _token: '{{csrf_token()}}',
         pendaftaran_id: '{{$nomorAntrian->pendaftaran->id}}',
+        poliklinik_id: {{ $nomorAntrian->poliklinik_id}},
         tbm_icd_id: diagnosa,
       },
       success: (response) => {
@@ -882,7 +884,7 @@
   // KELOLA OBAT RACIK
   function load_daftar_obat_racik(){
     $.ajax({
-    url: "/pendaftaran-resep-racik/<?php echo $nomorAntrian->pendaftaran->id;?>",
+    url: "/pendaftaran-resep-racik/<?php echo $nomorAntrian->id;?>",
     method: 'GET',
     success: function (response) {
         $("#daftar_obat_non_racik").html(response);
@@ -968,7 +970,7 @@
 
    function load_daftar_obat_non_racik(){
     $.ajax({
-    url: "/pendaftaran-resep/<?php echo $nomorAntrian->pendaftaran->id;?>",
+    url: "/pendaftaran-resep/<?php echo $nomorAntrian->id;?>",
     method: 'GET',
     success: function (response) {
         $("#daftar_obat_racik").html(response);
@@ -991,6 +993,7 @@
         jumlah: jumlah,
         satuan: satuan,
         pendaftaran_id: '{{$nomorAntrian->pendaftaran->id}}',
+        poliklinik_id: {{ $nomorAntrian->poliklinik_id}},
         aturan_pakai: aturan_pakai,
         jenis: 'racik'
       },
@@ -1017,7 +1020,7 @@
   function load_rujukan_internal(){
     console.log("Loading rujukan internal");
     $.ajax({
-    url: "/pendaftaran-rujukan/<?php echo $nomorAntrian->pendaftaran->id;?>",
+    url: "/pendaftaran-rujukan/<?php echo $nomorAntrian->id;?>",
     method: 'GET',
     success: function (response) {
         $("#rujukan_internal").html(response);

@@ -13,6 +13,7 @@ use App\Models\Barang;
 use App\Models\PendaftaranResep;
 use App\Models\RiwayatPenggunaanTindakanIterasi;
 use Auth;
+use App\Models\NomorAntrian;
 
 class PendaftaranTindakanController extends Controller
 {
@@ -28,7 +29,7 @@ class PendaftaranTindakanController extends Controller
         $pendaftaran        = Pendaftaran::with('perusahaanAsuransi')->find($request->pendaftaran_id);
         $tindakan           = Tindakan::find($request->tindakan_id);
 
-        $request['poliklinik_id'] = \Auth::user()->poliklinik_id;
+        $request['poliklinik_id'] = $request->poliklinik_id;
 
         // apakah umum, BPJS atau lain
         $jenisPendaftaran   =  strtolower($pendaftaran->perusahaanAsuransi->nama_perusahaan);
@@ -139,10 +140,10 @@ class PendaftaranTindakanController extends Controller
      */
     public function show($id)
     {
-        $data['pendaftaran'] = Pendaftaran::find($id);
+        $data['nomorAntrian'] = NomorAntrian::with('pendaftaran')->find($id);
         $data['pendaftaranTindakan'] = PendaftaranTindakan::with(['tindakan.icd','tindakan.bhp.barang'])
-        ->where('poliklinik_id', Auth::user()->poliklinik_id)
-        ->where('pendaftaran_id', $id);
+        ->where('poliklinik_id', $data['nomorAntrian']->poliklinik_id)
+        ->where('pendaftaran_id', $data['nomorAntrian']->pendaftaran_id);
         return view('pendaftaran.partials.daftar_tindakan', $data);
     }
 

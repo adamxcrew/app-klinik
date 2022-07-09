@@ -18,8 +18,8 @@
         <tr>
             <td>{{ $loop->iteration }}</td>
             <td>{{ $row->tindakan->tindakan }}<br>
-                @foreach(\App\Models\PendaftaranResep::with('barang')->where('tindakan_id',$row->tindakan->id)->where('pendaftaran_id', $pendaftaran->id)->where('jenis','bhp')->get() as $bhp)
-                <i class="fa fa-trash" onClick="hapus_bhp_tindakan({{$row->tindakan->id}},{{ $bhp->barang_id }},{{ $pendaftaran->id}})" aria-hidden="true"></i> {{ $bhp->barang->nama_barang }} x {{ $bhp->jumlah }}<br>
+                @foreach(\App\Models\PendaftaranResep::with('barang')->where('tindakan_id',$row->tindakan->id)->where('pendaftaran_id', $nomorAntrian->pendaftaran_id)->where('jenis','bhp')->get() as $bhp)
+                <i class="fa fa-trash" onClick="hapus_bhp_tindakan({{$row->tindakan->id}},{{ $bhp->barang_id }},{{ $nomorAntrian->pendaftaran_id}})" aria-hidden="true"></i> {{ $bhp->barang->nama_barang }} x {{ $bhp->jumlah }}<br>
                 @endforeach
             </td>
             <td>{{ rupiah($row->fee) }}</td>

@@ -174,12 +174,14 @@ class PendaftaranRujukanLabController extends Controller
 
     public function show($id)
     {
-        $data['rujukanInternal'] = RujukanInternal::with('dokter', 'poliklinik', 'tindakan')
+        $nomorAntrian               = \App\Models\NomorAntrian::find($id);
+
+        $data['rujukanInternal']    = RujukanInternal::with('dokter', 'poliklinik', 'tindakan')
                                     ->where('pendaftaran_id', $id);
                                     //->where('poliklinik_id',\Auth::user()->poliklinik_id);
         $data['nomorAntrian'] = NomorAntrian::with('poliklinik', 'dokter', 'tindakan')
-                                ->where('poliklinik_id', '!=', \Auth::user()->poliklinik_id)
-                                ->where('pendaftaran_id', $id);
+                                ->where('poliklinik_id', '!=', $nomorAntrian->poliklinik_id)
+                                ->where('pendaftaran_id', $nomorAntrian->pendaftaran_id);
 
         return view('pendaftaran.partials.rujukan_internal', $data);
     }

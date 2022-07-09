@@ -41,22 +41,22 @@ class PembayaranController extends Controller
         $data['nomorAntrian'] = NomorAntrian::with('pendaftaran', 'perusahaanAsuransi')->findOrFail($id);
         $data['tindakans']      = PendaftaranTindakan::with('tindakan', 'pendaftaran')
                                 ->where('pendaftaran_id', $data['nomorAntrian']->pendaftaran_id)
-                                //->where('poliklinik_id', $data['nomorAntrian']->poliklinik_id)
+                                ->where('poliklinik_id', $data['nomorAntrian']->poliklinik_id)
                                 ->get();
 
         $data['bhps']           = PendaftaranResep::with('barang')->where('jenis', 'bhp')
                                 ->where('pendaftaran_id', $data['nomorAntrian']->pendaftaran_id)
-                                //->where('poliklinik_id', $data['nomorAntrian']->poliklinik_id)
+                                ->where('poliklinik_id', $data['nomorAntrian']->poliklinik_id)
                                 ->get();
 
         $data['nonRaciks']      = PendaftaranResep::with('barang')->where('jenis', 'non racik')
                                 ->where('pendaftaran_id', $data['nomorAntrian']->pendaftaran_id)
-                                //->where('poliklinik_id', $data['nomorAntrian']->poliklinik_id)
+                                ->where('poliklinik_id', $data['nomorAntrian']->poliklinik_id)
                                 ->get();
 
         $data['obatRacik']      = \App\Models\PendaftaranObatRacik::with('detail.barang')
                                 ->where('pendaftaran_id', $data['nomorAntrian']->pendaftaran_id)
-                                //->where('poliklinik_id', $data['nomorAntrian']->poliklinik_id)
+                                ->where('poliklinik_id', $data['nomorAntrian']->poliklinik_id)
                                 ->get();
         $pdf                    = PDF::loadView('pembayaran.kwitansi', $data)->setPaper('A5', 'landscape');
         return $pdf->stream();
