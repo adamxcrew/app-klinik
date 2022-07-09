@@ -468,7 +468,8 @@ class PendaftaranController extends Controller
 
     public function store(PendaftaranStoreRequest $request)
     {
-        $request['dokter_id'] = $request->dokter_id == 0 ? $request->dokter_pengganti : $request->dokter_id;
+        $request['dokter_id']   = $request->dokter_id == 0 ? $request->dokter_pengganti : $request->dokter_id;
+        $request['kode']        = generateKodePendaftaran();
         $data = Pendaftaran::create($request->all());
         // create nomor antrian
         $nomor = NomorAntrian::where('poliklinik_id', $request->poliklinik_id)

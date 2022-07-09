@@ -30,7 +30,7 @@ class HomeController extends Controller
             session(['user_id' => Auth::user()->id]);
             $checkJadwalTugas = JadwalPraktek::where('user_id', Auth::user()->id)
                                 ->where('hari', date('l'))->first();
-            $user = \App\User::where('poliklinik_id', $checkJadwalTugas->poliklinik_id)->where('role','poliklinik')->first();
+            $user = \App\User::where('poliklinik_id', $checkJadwalTugas->poliklinik_id)->where('role', 'poliklinik')->first();
             if (Auth::loginUsingId($user->id, true)) {
             }
         }
