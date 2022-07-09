@@ -183,6 +183,7 @@ class PendaftaranRujukanLabController extends Controller
         $data['nomorAntrian'] = NomorAntrian::with('poliklinik', 'dokter', 'tindakan')
                                 ->where('poliklinik_id', '!=', \Auth::user()->poliklinik_id)
                                 //->where('pendaftaran_id', $id)
+                                ->whereRaw("left(created_at,10)='" . date('Y-m-d') . "'")
                                 ->where('id','!=', $id);
 
         return view('pendaftaran.partials.rujukan_internal', $data);
