@@ -79,14 +79,14 @@ class PendaftaranController extends Controller
 
         // ------------------ FILTER PADA ROLE POLIKLINIK -----------------------------
         if (auth()->user()->role == 'poliklinik') {
-            $nomorAntrian->where('poliklinik_id', Auth::user()->poliklinik_id);
+            //$nomorAntrian->where('poliklinik_id', Auth::user()->poliklinik_id);
             if (auth()->user()->poliklinik_id == 7) {
                 // jika lab
                 $nomorAntrian->where('status_pembayaran', 1);
             } else {
                 $nomorAntrian->where('nama_dokter', session('user_name'));
             }
-            //$nomorAntrian->whereIn('status_pelayanan', ['selesai_pemeriksaan_medis','selesai_pelayanan','selesai']);
+            $nomorAntrian->whereIn('status_pelayanan', ['selesai_pemeriksaan_medis','selesai_pelayanan','selesai']);
         }
         // ------------------ FILTER PADA ROLE KASIR -----------------------------
         if (auth()->user()->role == 'kasir') {
