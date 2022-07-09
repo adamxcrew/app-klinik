@@ -28,8 +28,9 @@ class HomeController extends Controller
         if (Auth::user()->role == 'dokter') {
             session(['user_name' => Auth::user()->name]);
             session(['user_id' => Auth::user()->id]);
-            $checkJadwalTugas = JadwalPraktek::where('user_id', Auth::user()->id)->where('hari', date('l'))->first();
-            $user = \App\User::where('poliklinik_id', $checkJadwalTugas->poliklinik_id)->first();
+            $checkJadwalTugas = JadwalPraktek::where('user_id', Auth::user()->id)
+                                ->where('hari', date('l'))->first();
+            $user = \App\User::where('poliklinik_id', $checkJadwalTugas->poliklinik_id)->where('role','poliklinik')->first();
             if (Auth::loginUsingId($user->id, true)) {
             }
         }
