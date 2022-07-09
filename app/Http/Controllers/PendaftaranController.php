@@ -79,14 +79,14 @@ class PendaftaranController extends Controller
 
         // ------------------ FILTER PADA ROLE POLIKLINIK -----------------------------
         if (auth()->user()->role == 'poliklinik') {
-            //$nomorAntrian->where('poliklinik_id', Auth::user()->poliklinik_id);
-            $nomorAntrian->where('nama_dokter', session('user_name'));
+            $nomorAntrian->where('poliklinik_id', Auth::user()->poliklinik_id);
             if (auth()->user()->poliklinik_id == 7) {
                 // jika lab
                 $nomorAntrian->where('status_pembayaran', 1);
             } else {
-                $nomorAntrian->whereIn('status_pelayanan', ['selesai_pemeriksaan_medis','selesai_pelayanan','selesai']);
+                $nomorAntrian->where('nama_dokter', session('user_name'));
             }
+            $nomorAntrian->whereIn('status_pelayanan', ['selesai_pemeriksaan_medis','selesai_pelayanan','selesai']);
         }
         // ------------------ FILTER PADA ROLE KASIR -----------------------------
         if (auth()->user()->role == 'kasir') {
@@ -394,14 +394,14 @@ class PendaftaranController extends Controller
 
         // insert notifikasi
 
-        \DB::table('notifikasi')->create(
-            [
-                'status_baca'       =>  0,
-                'notifikasi_judul'  =>  'selesai pemeriksaan lab',
-                'poliklinik_id'     => 2,
-                'notifikasi_pesan'  =>  'nama pasien ' . $data['nomorAntrian']->pendaftaran->pasien->nama
-            ]
-        );
+        // \DB::table('notifikasi')->create(
+        //     [
+        //         'status_baca'       =>  0,
+        //         'notifikasi_judul'  =>  'selesai pemeriksaan lab',
+        //         'poliklinik_id'     => 2,
+        //         'notifikasi_pesan'  =>  'nama pasien ' . $data['nomorAntrian']->pendaftaran->pasien->nama
+        //     ]
+        // );
 
         return redirect('pendaftaran/' . $request->nomor_antrian_id . '/input-indikator')->with('message', 'Data Berhasil Disimpan');
     }
