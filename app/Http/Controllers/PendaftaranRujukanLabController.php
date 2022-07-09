@@ -18,6 +18,7 @@ use App\Models\PendaftaranTindakanTemp;
 
 class PendaftaranRujukanLabController extends Controller
 {
+
     public function store(Request $request)
     {
         $pendaftaran                = Pendaftaran::find($request->pendaftaran_id);
@@ -175,16 +176,11 @@ class PendaftaranRujukanLabController extends Controller
     public function show($id)
     {
         $data['rujukanInternal'] = RujukanInternal::with('dokter', 'poliklinik', 'tindakan')
-                                    ->where('pendaftaran_id', $id)
-                                    ->whereRaw("left(created_at,10)='" . date('Y-m-d') . "'");
+                                    ->where('pendaftaran_id', $id);
                                     //->where('poliklinik_id',\Auth::user()->poliklinik_id);
-
-
         $data['nomorAntrian'] = NomorAntrian::with('poliklinik', 'dokter', 'tindakan')
                                 ->where('poliklinik_id', '!=', \Auth::user()->poliklinik_id)
-                                //->where('pendaftaran_id', $id)
-                                ->whereRaw("left(created_at,10)='" . date('Y-m-d') . "'")
-                                ->where('id','!=', $id);
+                                ->where('pendaftaran_id', $id);
 
         return view('pendaftaran.partials.rujukan_internal', $data);
     }
