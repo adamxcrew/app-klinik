@@ -471,7 +471,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-          <button type="submit" class="btn btn-primary" onClick="simpan_daftar_rujukan()">Simpan</button>
+          <button type="submit" class="btn btn-primary btn-simpan-rujukan" onClick="simpan_daftar_rujukan()">Simpan</button>
         </div>
       </div>
     </div>
@@ -542,6 +542,7 @@
     load_daftar_obat_non_racik();
     load_rujukan_internal()
     load_catatan_harian();
+    checkTindakanKetikaRujukan();
 
     $( "#modal-obat-non-racik").on('shown.bs.modal', function(){
       $("#barang_id").val('');
@@ -807,6 +808,27 @@
 
 
 
+  // CEK RUJUKAN, KALAU BELUM ADA DISABLE BUTTON SIMPAN
+
+  function checkTindakanKetikaRujukan(){
+    $.ajax({
+    url: "/ajax/check-tindakan-rujukan",
+    data:{
+      pasien_id:{{ $nomorAntrian->pendaftaran->pasien_id}},
+      perusahaan_asuransi_id:{{ $nomorAntrian->perusahaan_asuransi_id}}
+    },
+    method: 'GET',
+    success: function (response) {
+      console.log(response);
+      if(response<1){
+        $(".btn-simpan-rujukan").attr("disabled", true);
+      }else{
+        $(".btn-simpan-rujukan").attr("disabled", false);
+      }
+      }
+    });
+    
+  }
 
 
 
@@ -1153,6 +1175,7 @@
                 },
                 success: function (response) {
                     showTindakanLab();
+                    checkTindakanKetikaRujukan();
                 }
         });
     }
@@ -1172,6 +1195,7 @@
                 success: function (response) {
                     console.log(response);
                     showTindakanLab();
+                    checkTindakanKetikaRujukan();
                 }
         });
     }

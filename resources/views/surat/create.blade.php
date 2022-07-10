@@ -93,7 +93,10 @@
                                 </tr>
                                 <tr>
                                     <td>Spesialis</td>
-                                    <td  colspan="3"><input type="text" name="spesialis" placeholder="Spesialis" required="required" class="form-control"></td>
+                                    <?php
+                                    $user = \DB::table('users')->where('role','dokter')->where('id',session('user_id'))->first();
+                                    ?>
+                                    <td  colspan="3"><input type="text" value="{{$user->spesialis}}" name="spesialis" placeholder="Spesialis" required="required" class="form-control"></td>
                                 </tr>
                                 <tr>
                                     <td>Faskes Tujuan</td>

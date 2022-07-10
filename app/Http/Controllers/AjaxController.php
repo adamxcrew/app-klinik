@@ -333,19 +333,6 @@ class AjaxController extends Controller
 
     public function nomorAntrialCall(Request $request)
     {
-        // $total_antrian = \App\Models\NomorAntrian::whereRaw("left(created_at,10)='" . date('Y-m-d') . "'")
-        //         ->where('poliklinik_id', $request->poliklinik_id)
-        //         ->count();
-
-        // $antrian_sekarang = \App\Models\NomorAntrian::whereRaw("left(created_at,10)='" . date('Y-m-d') . "'")
-        //                     ->where('poliklinik_id', $request->poliklinik_id)
-        //                     ->where('sudah_dipanggil', 0)
-        //                     ->first();
-
-        // $antrian = \App\Models\NomorAntrian::with('poliklinik')->where('sudah_dipanggil', 0)
-        //             ->where('poliklinik_id', $request->poliklinik_id)
-        //             ->first();
-
         $poliklinik = \App\Models\Poliklinik::find($request->poliklinik_id);
 
         $total_antrian = \App\Models\NomorAntrian::whereRaw("left(created_at,10)='" . date('Y-m-d') . "'")
@@ -371,6 +358,7 @@ class AjaxController extends Controller
         ->where('poliklinik_id', $request->poliklinik_id)
         ->where('sudah_dipanggil', 0)
         ->first();
+
 
         if ($request->type == 2) {
             $antrian_sekarang->update(['sudah_dipanggil' => 1]);
@@ -450,5 +438,13 @@ class AjaxController extends Controller
     public function ubahJumlahBHP(Request $request)
     {
         return TindakanBHP::where('id', $request->id)->update(['jumlah' => $request->jumlah]);
+    }
+
+    public function checkTindakanRujukanTemp(Request $request)
+    {
+        return \DB::table('pendaftaran_tindakan_temp')
+        ->where('pasien_id', $request->pasien_id)
+        ->where('perusahaan_asuransi_id', $request->perusahaan_asuransi_id)
+        ->count();
     }
 }
