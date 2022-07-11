@@ -654,7 +654,10 @@ class PendaftaranController extends Controller
 
     public function hapus($id)
     {
-        return 'asa';
+        // hapus nomor antrian
+        // hapus pendaftaran
+        // hapus tindakan
+        // hapus 
     }
 
     public function pemeriksaanRiwayatPenyakit(Request $request, $id)

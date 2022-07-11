@@ -72,7 +72,7 @@ class PendaftaranResepRacikController extends Controller
             }
         }
         if ($request->page == 'ondotogram') {
-            $nomorAntrian = \App\Models\NomorAntrian::where('pendaftaran_id', $request->pendaftaran_id)->where('poliklinik_id', \Auth::user()->poliklinik_id)->first();
+            $nomorAntrian = \App\Models\NomorAntrian::where('pendaftaran_id', $request->pendaftaran_id)->where('poliklinik_id', $request->poliklinik_id)->first();
             return redirect('ondotogram/' . $nomorAntrian->id);
         }
         return redirect('pendaftaran/' . $request->nomor_antrian_id . '/pemeriksaan');

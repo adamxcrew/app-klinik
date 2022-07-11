@@ -47,7 +47,7 @@ class OndotogramController extends Controller
         $tindakan       = Tindakan::findOrFail($request->tindakan_id);
         $request['qty'] = 1;
         $nomorAntrian   = NomorAntrian::where('pendaftaran_id', $request->pendaftaran_id)
-                    ->where('poliklinik_id', Auth::user()->poliklinik_id)
+                    ->where('poliklinik_id', $request->poliklinik_id)
                     ->first();
 
 

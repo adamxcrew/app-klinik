@@ -233,6 +233,7 @@
                       <th>Kondisi</th>
                       <th>Anamnesa</th>
                       <th>Tindakan</th>
+                      <th>Pemeriksaan Klinis</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -245,6 +246,7 @@
                       <td>{{ $p->tbm->indonesia??'-' }}</td>
                       <td>{{ $p->anamnesa }}</td>
                       <td>{{ $p->tindakan->tindakan }}</td>
+                      <td>{{ $p->pemeriksaan_klinis }}</td>
                       <td>
                         <button class="btn btn-danger btm-sm hapus" data-id="{{ $p->id }}">
                           <i class="fa fa-trash" aria-hidden="true"></i>
@@ -385,6 +387,7 @@
 
             {{ Form::open(['url'=>'pendaftaran-resep-racik']) }}
             {{ Form::hidden('pendaftaran_id',$nomorAntrian->pendaftaran->id) }}
+            {{ Form::hidden('poliklinik_id',$nomorAntrian->poliklinik_id) }}
             <input type="hidden" name="page" value="ondotogram">
             <table class="table table-bordered inner2 form-racik-1101">
               <tr>
@@ -467,6 +470,14 @@
               <div class="col-md-8">
                   <div class="form-group">
                       <input type="text" id="anamnesa" class="form-control" placeholder="Masukan anamnesa">
+                  </div>
+              </div>
+              <div class="col-md-4">
+                <label for="">Pemeriksaan Klinis</label>
+              </div>
+              <div class="col-md-8">
+                  <div class="form-group">
+                      <input type="text" id="pemeriksaan_klinis" class="form-control" placeholder="Pemeriksaan Klinis">
                   </div>
               </div>
               <div class="col-md-4">
@@ -623,6 +634,9 @@ $('.barang_id_txt').select2({
       tbm_icd_id,
       anamnesa,
       tindakan_id,
+      pemeriksaan_klinis:$("#pemeriksaan_klinis").val(),
+      perusahaan_asuransi_id : {{ $nomorAntrian->perusahaan_asuransi_id}},
+      poliklinik_id: {{ $nomorAntrian->poliklinik_id}},
       pendaftaran_id,
       kode_gigi
     };
@@ -648,6 +662,7 @@ $('.barang_id_txt').select2({
             <td>${res.data.tbm.indonesia}</td>
             <td>${res.data.anamnesa}</td>
             <td>${res.data.tindakan.tindakan}</td>
+            <td>${res.data.pemeriksaan_klinis}</td>
             <td><button class='btn btn-danger hapus' data-id='${res.data.id}' }}''><i class="fa fa-trash" aria-hidden="true"></i></button></td>
           </tr>
         `;  
@@ -697,7 +712,7 @@ $('.barang_id_txt').select2({
 
 function load_daftar_obat_non_racik(){
     $.ajax({
-    url: "/pendaftaran-resep/<?php echo $nomorAntrian->pendaftaran_id;?>",
+    url: "/pendaftaran-resep/<?php echo $nomorAntrian->id;?>",
     method: 'GET',
     success: function (response) {
         $("#daftar_obat_racik").html(response);
@@ -721,6 +736,7 @@ function load_daftar_obat_non_racik(){
         satuan: satuan,
         pendaftaran_id: '{{$nomorAntrian->pendaftaran->id}}',
         aturan_pakai: aturan_pakai,
+        poliklinik_id: {{ $nomorAntrian->poliklinik_id}},
         jenis: 'racik'
       },
       success: (response) => {
@@ -744,7 +760,7 @@ function load_daftar_obat_non_racik(){
   // KELOLA OBAT RACIK
   function load_daftar_obat_racik(){
     $.ajax({
-    url: "/pendaftaran-resep-racik/<?php echo $nomorAntrian->pendaftaran->id;?>",
+    url: "/pendaftaran-resep-racik/<?php echo $nomorAntrian->id;?>",
     method: 'GET',
     success: function (response) {
         $("#daftar_obat_non_racik").html(response);
