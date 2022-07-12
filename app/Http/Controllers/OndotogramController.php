@@ -14,12 +14,20 @@ use App\Models\PendaftaranFeeTindakan;
 use App\Models\PendaftaranResep;
 use App\Models\TindakanBHP;
 use App\Models\Barang;
+use App\User;
+use App\Models\Poliklinik;
 
 class OndotogramController extends Controller
 {
     public function index($pendaftaranId)
     {
-        $data['nomorAntrian']       = NomorAntrian::with('pendaftaran')->find($pendaftaranId);
+        $data['poliklinik1']            = Poliklinik::pluck('nama', 'id');
+        $data['dokter1']                = User::where('role', 'dokter')->pluck('name', 'id');
+        $data['nomorAntrian']           = NomorAntrian::with('pendaftaran')->find($pendaftaranId);
+
+        if ($data['nomorAntrian']->pendaftaran->tanda_tanda_vital == null) {
+            return redirect('pendaftaran/' . $pendaftaranId . '/input_tanda_vital');
+        }
         if ($data['nomorAntrian']->pendaftaran->pemeriksaan_klinis == false) {
             return view('pendaftaran.pemeriksaan_klinis_form', $data);
         }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\CatatanHarian;
+use App\Models\NomorAntrian;
 
 class PendaftaranCatatanHarianController extends Controller
 {
@@ -26,7 +27,8 @@ class PendaftaranCatatanHarianController extends Controller
      */
     public function show($id)
     {
-        $data['catatanHarian'] = CatatanHarian::where('pendaftaran_id', $id);
+        $data['nomorAntrian'] = NomorAntrian::find($id);
+        $data['catatanHarian'] = CatatanHarian::where('pendaftaran_id', $data['nomorAntrian']->pendaftaran_id);
         return view('pendaftaran.partials.daftar_catatan_harian', $data);
     }
 

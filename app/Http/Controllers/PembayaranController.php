@@ -33,7 +33,8 @@ class PembayaranController extends Controller
             'biaya_tambahan'        => $request->biaya_tambahan
         ]);
 
-        return redirect('pembayaran/' . $nomorAntrian->id . '/kwitansi');
+        //return redirect('pembayaran/' . $nomorAntrian->id . '/kwitansi');
+        return redirect('pendaftaran?cetak_id=' . $nomorAntrian->id);
     }
 
     public function kwitansi($id)

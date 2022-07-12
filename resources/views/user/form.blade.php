@@ -28,6 +28,12 @@
         {!! Form::text('spesialis',null, ['class'=>'form-control','Placeholder'=>'Spesialis']) !!}
     </div>
 </div>
+<div class="form-group">
+    <label for="inputEmail" class="col-sm-2 control-label">SIP</label>
+    <div class="col-sm-4">
+        {!! Form::text('sip',null, ['class'=>'form-control','Placeholder'=>'SIP']) !!}
+    </div>
+</div>
 @endif
 
 

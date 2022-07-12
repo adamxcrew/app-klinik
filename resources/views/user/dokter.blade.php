@@ -32,6 +32,7 @@
                             <th>Nama Dokter</th>
                             <th>Email</th>
                             <th>Spesialis</th>
+                            <th>SIP</th>
                             <th width="90">Action</th>
                         </tr>
                     </thead>
@@ -59,6 +60,7 @@
                 { data: 'name', name: 'name' },
                 { data: 'email', name: 'email' },
                 { data: 'spesialis', name: 'spesialis' },
+                { data: 'sip', name: 'sip' },
                 { data: 'action', name: 'action' }
             ]
         });

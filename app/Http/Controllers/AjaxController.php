@@ -81,7 +81,8 @@ class AjaxController extends Controller
             ->select('barang.id', DB::raw('CONCAT(barang.nama_barang, " ( ", distribusi_stock.jumlah_stock,")") AS nama_barang'), 'barang.harga')
             ->where('distribusi_stock.unit_stock_id', $poliklinik->unit_stock_id)
             ->where('distribusi_stock.jumlah_stock', '>', 0)
-            ->where('barang.nama_barang', 'like', "%" . $request->q . "%");
+            ->where('barang.nama_barang', 'like', "%" . $request->q . "%")
+            ->orWhere('barang.keterangan', 'like', "%" . $request->q . "%");
 
             if ($request->has('pelayanan')) {
                 if (strtoupper($request->pelayanan) == 'BPJS') {

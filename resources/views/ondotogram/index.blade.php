@@ -278,6 +278,14 @@
 
                 <div id="daftar_obat_non_racik"></div>
 
+                <hr style="border:1px dashed">
+                  <h4>Rujukan Internal <button style="float: right" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-rujukan-laporatorium">
+                    Input Rujukan
+                  </button></h4>
+                  <hr>
+                  <div id="rujukan_internal"></div>
+            
+
               </div>
             </div>
             
@@ -309,6 +317,68 @@
       </div>
     </div>
   </div>
+
+ <!-- Rujukan Internal -->
+ <div class="modal fade" id="modal-rujukan-laporatorium" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Rujukan Internal</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-bordered table-bordered">
+              <tr>
+                <td width="200">Pilih Unit</td>
+                <td> 
+                  {{ Form::select('poliklinik_id',$poliklinik1,null,['class'=>'form-control poliklinik_id'])}}
+                </td>
+              </tr>
+              <tr>
+                <td width="200">Dokter Perujuk</td>
+                <td>
+                  {{ Form::select('user_id',$dokter1,session('user_id'),['class'=>'form-control user_id','disabled'=>'disabled'])}}
+                </td>
+              </tr>
+              <tr>
+                <td width="200">Jenis Pemeriksaan ( Opsional )</td>
+                <td>
+                  <div class="row">
+                    <div class="col-md-9">
+                      <select style="width: 100%" name="jenis_pemeriksaan_laboratorium_id" id="tindakan_id_rujukan" class='select2 form-control jenis_pemeriksaan_laboratorium_id'>
+                      </select>
+                    </div>
+                    <div class="col-md-3">
+                      <button class="btn btn-danger btn-sm" onclick="tambahTindakanLab()"><i  class="fa fa-plus-square fa-2" aria-hidden="true"></i>
+                      </button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Catatan</td>
+                <td>
+                  {{ Form::text('catatan',null,['class'=>'form-control catatan_rujukan_internal','placeholder'=>'Catatan'])}}
+                </td>
+              </tr>
+
+            </table>
+
+            <div id="tindakan-temp"></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+        <button type="submit" class="btn btn-primary btn-simpan-rujukan" onClick="simpan_daftar_rujukan()">Simpan</button>
+      </div>
+    </div>
+  </div>
+</div>
   
 <!-- Modal Obat Non Racik -->
 <div class="modal fade" id="modal-obat-non-racik" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -512,6 +582,8 @@ $( document ).ready(function() {
 
   load_daftar_obat_non_racik();
   load_daftar_obat_racik();
+  load_rujukan_internal();
+  checkTindakanKetikaRujukan();
 
 
   $('#barang_id').select2({
@@ -536,6 +608,80 @@ $( document ).ready(function() {
       cache: true
     }
   });
+
+  $('#tindakan_id_rujukan').select2({
+      placeholder: 'Cari tindakan',
+      multiple: false,
+      ajax: {
+        //url: '/ajax/select2Tindakan?poliklinik_id='+$(".poliklinik_id").val(),
+        url: '/ajax/select2Tindakan',
+        dataType: 'json',
+        delay: 250,
+        multiple: false,
+        processResults: function(data) {
+          return {
+            results: $.map(data, function(item) {
+              return {
+                text: item.tindakan,
+                id: item.id
+              }
+            })
+          };
+        },
+        cache: true
+      }
+    });
+
+
+
+    function showTindakanLab(){
+        var tindakan_id                 = $(".jenis_pemeriksaan_laboratorium_id").val();
+        $.ajax({
+                url: "/pendaftaran-tindakan-temp",
+                type: "GET",
+                data: {
+                    pasien_id: {{ $nomorAntrian->pendaftaran->pasien->id}},
+                    perusahaan_asuransi_id : {{ $nomorAntrian->perusahaan_asuransi_id}}
+                },
+                success: function (response) {
+                    $("#tindakan-temp").html(response);
+                }
+        });
+    }
+
+    function deleteTindakanTemp(id){
+        $.ajax({
+                url: "/pendaftaran-tindakan-temp/"+id,
+                type: "DELETE",
+                data: {
+                    "_token": "{{ csrf_token() }}"
+                },
+                success: function (response) {
+                    showTindakanLab();
+                    checkTindakanKetikaRujukan();
+                }
+        });
+    }
+
+  function tambahTindakanLab(){
+        var tindakan_id                 = $(".jenis_pemeriksaan_laboratorium_id").val();
+        console.log(tindakan_id);
+        $.ajax({
+                url: "/pendaftaran-tindakan-temp",
+                type: "POST",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    pasien_id: {{ $nomorAntrian->pendaftaran->pasien->id}},
+                    tindakan_id: tindakan_id,
+                    perusahaan_asuransi_id : {{ $nomorAntrian->perusahaan_asuransi_id}}
+                },
+                success: function (response) {
+                    console.log(response);
+                    showTindakanLab();
+                    checkTindakanKetikaRujukan();
+                }
+        });
+    }
 
   $('#barang_id').on('change', function (evt) {
   if ($('#barang_id').select2('val') != null){
@@ -757,6 +903,33 @@ function load_daftar_obat_non_racik(){
     });
   }
 
+
+  // RUJUKAN LABORATORIUM
+
+  function load_rujukan_internal(){
+    console.log("Loading rujukan internal");
+    $.ajax({
+    url: "/pendaftaran-rujukan/<?php echo $nomorAntrian->id;?>",
+    method: 'GET',
+    success: function (response) {
+        $("#rujukan_internal").html(response);
+      }
+    });
+  }
+
+  function hapus_rujukan(id){
+    $.ajax({
+    url: "/pendaftaran-rujukan/"+id,
+    data: {"_token": "{{ csrf_token() }}"},
+    method: 'DELETE',
+    success: function (response) {
+        load_rujukan_internal();
+      }
+    });
+  }
+
+
+
   // KELOLA OBAT RACIK
   function load_daftar_obat_racik(){
     $.ajax({
@@ -778,6 +951,104 @@ function load_daftar_obat_non_racik(){
       }
     });
   }
+
+  function checkTindakanKetikaRujukan(){
+    $.ajax({
+    url: "/ajax/check-tindakan-rujukan",
+    data:{
+      pasien_id:{{ $nomorAntrian->pendaftaran->pasien_id}},
+      perusahaan_asuransi_id:{{ $nomorAntrian->perusahaan_asuransi_id}}
+    },
+    method: 'GET',
+    success: function (response) {
+      console.log(response);
+      showTindakanLab()
+      if(response<1){
+        $(".btn-simpan-rujukan").attr("disabled", true);
+      }else{
+        $(".btn-simpan-rujukan").attr("disabled", false);
+      }
+      }
+    });
+    
+  }
+
+  function showTindakanLab(){
+        var tindakan_id                 = $(".jenis_pemeriksaan_laboratorium_id").val();
+        $.ajax({
+                url: "/pendaftaran-tindakan-temp",
+                type: "GET",
+                data: {
+                    pasien_id: {{ $nomorAntrian->pendaftaran->pasien->id}},
+                    perusahaan_asuransi_id : {{ $nomorAntrian->perusahaan_asuransi_id}}
+                },
+                success: function (response) {
+                    $("#tindakan-temp").html(response);
+                }
+        });
+    }
+
+    function deleteTindakanTemp(id){
+        $.ajax({
+                url: "/pendaftaran-tindakan-temp/"+id,
+                type: "DELETE",
+                data: {
+                    "_token": "{{ csrf_token() }}"
+                },
+                success: function (response) {
+                    showTindakanLab();
+                    checkTindakanKetikaRujukan();
+                }
+        });
+    }
+
+  function tambahTindakanLab(){
+        var tindakan_id                 = $(".jenis_pemeriksaan_laboratorium_id").val();
+        console.log(tindakan_id);
+        $.ajax({
+                url: "/pendaftaran-tindakan-temp",
+                type: "POST",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    pasien_id: {{ $nomorAntrian->pendaftaran->pasien->id}},
+                    tindakan_id: tindakan_id,
+                    perusahaan_asuransi_id : {{ $nomorAntrian->perusahaan_asuransi_id}}
+                },
+                success: function (response) {
+                    console.log(response);
+                    showTindakanLab();
+                    checkTindakanKetikaRujukan();
+                }
+        });
+    }
+
+
+    function simpan_daftar_rujukan()
+  {
+    var jenis_pemeriksaan_laboratorium_id = $(".jenis_pemeriksaan_laboratorium_id").val();
+    var user_id                           = $(".user_id").val();
+    var poliklinik_id                     = $(".poliklinik_id").val();
+    var catatan                           = $(".catatan_rujukan_internal").val();
+    
+    $.ajax({
+      url: "/pendaftaran-rujukan",
+      data: {
+        "_token": "{{ csrf_token() }}",
+        user_id:user_id,
+        pendaftaran_id: '{{$nomorAntrian->pendaftaran->id}}',
+        poliklinik_id:poliklinik_id,
+        catatan:catatan,
+        jenis_pemeriksaan_laboratorium_id:jenis_pemeriksaan_laboratorium_id
+      },
+      method: 'POST',
+      success: function (response) {
+          
+          $('#modal-rujukan-laporatorium').modal('hide')
+          load_rujukan_internal();
+        }
+      });
+  }
+  // END RUJUKAN LABORATORIUM
 
   function create_select_barang(id){
     $('.barang_id_txt_'+id).select2({

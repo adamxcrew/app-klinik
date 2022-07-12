@@ -11,6 +11,10 @@
         <td>{{ $pendaftaran->poliklinik->nama }}</td>
     </tr>
     <tr>
+      <td>Dokter</td>
+      <td>{{ $pendaftaran->dokter->name }}</td>
+  </tr>
+    <tr>
         <td>Anamnesa</td>
         <td>
           {{ $pendaftaran->pendaftaran->anamnesa==null?$pendaftaran->anamnesa:$pendaftaran->pendaftaran->anamnesa }}</td>

@@ -79,14 +79,18 @@ class PendaftaranController extends Controller
 
         // ------------------ FILTER PADA ROLE POLIKLINIK -----------------------------
         if (auth()->user()->role == 'poliklinik') {
-            //$nomorAntrian->where('poliklinik_id', Auth::user()->poliklinik_id);
-            if (auth()->user()->poliklinik_id == 7) {
-                // jika lab
-                $nomorAntrian->where('status_pembayaran', 1);
+            if (auth()->user()->poliklinik_id == 1) {
+                $nomorAntrian->where('status_pelayanan', ['pendaftaran']);
             } else {
-                $nomorAntrian->where('nama_dokter', session('user_name'));
+                if (auth()->user()->poliklinik_id == 7) {
+                    // jika lab
+                    $nomorAntrian->where('status_pembayaran', 1);
+                } else {
+                    $nomorAntrian->where('nama_dokter', session('user_name'));
+                }
+
+                $nomorAntrian->whereIn('status_pelayanan', ['selesai_pemeriksaan_medis','selesai_pelayanan','selesai']);
             }
-            $nomorAntrian->whereIn('status_pelayanan', ['selesai_pemeriksaan_medis','selesai_pelayanan','selesai']);
         }
         // ------------------ FILTER PADA ROLE KASIR -----------------------------
         if (auth()->user()->role == 'kasir') {
@@ -456,6 +460,10 @@ class PendaftaranController extends Controller
         ];
         $nomorAntrian->update(['status_pelayanan' => 'selesai_pemeriksaan_medis']);
         $pendaftaran->update($data);
+
+        if ($nomorAntrian->poliklinik_id == 1) {
+            return redirect('ondotogram/' . $nomorAntrian->id);
+        }
         return redirect('pendaftaran/')->with('message', 'Tanda Tanda Vital Berhasil Disimpan');
     }
 
@@ -657,7 +665,7 @@ class PendaftaranController extends Controller
         // hapus nomor antrian
         // hapus pendaftaran
         // hapus tindakan
-        // hapus 
+        // hapus
     }
 
     public function pemeriksaanRiwayatPenyakit(Request $request, $id)
@@ -745,11 +753,12 @@ class PendaftaranController extends Controller
     public function pemeriksaan($id)
     {
         $data['nomorAntrian']            = NomorAntrian::with('pendaftaran.pasien')->find($id);
-        if ($data['nomorAntrian']->pendaftaran->pemeriksaan_klinis == false) {
+        if ($data['nomorAntrian']->pendaftaran->pemeriksaan_klinis == false && $data['nomorAntrian']->poliklinik_id != 5) {
             return view('pendaftaran.pemeriksaan_klinis_form', $data);
         }
 
         $data['dokter1']                = User::where('role', 'dokter')->pluck('name', 'id');
+        $data['dokter2']                = User::where('role', '!=', 'dokter')->pluck('name', 'id');
         $data['satuan']                 = Satuan::pluck('satuan', 'id');
         $data['poliklinik1']            = Poliklinik::pluck('nama', 'id');
         $data['pendaftaranResepRacik']  = PendaftaranObatRacik::where('pendaftaran_id', $id);

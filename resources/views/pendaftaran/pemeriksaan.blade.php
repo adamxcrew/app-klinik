@@ -236,7 +236,7 @@
             <tr>
               <td>Asistensi</td>
               <td>
-                {!! Form::select('asisten', $dokter1, null, ['class'=>'form-control', 'id' => 'asisten','placeholder'=>'-- Tidak Ada --']) !!}
+                {!! Form::select('asisten', $dokter2, null, ['class'=>'form-control', 'id' => 'asisten','placeholder'=>'-- Tidak Ada --']) !!}
               </td>
             </tr>
           </table>

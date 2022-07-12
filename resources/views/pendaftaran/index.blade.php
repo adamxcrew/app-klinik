@@ -131,6 +131,7 @@
                       {!! Form::close() !!}
                       <hr>
                 @include('alert')
+                <input type="hidden" class="cetak_id" name="cetak_id" value="{{ $_GET['cetak_id']??null}}">
                 <table class="table table-bordered table-striped" id="pendaftaran-table">
                   <thead>
                       <tr>
@@ -193,6 +194,7 @@
 <script>
     $(function() {
       var parameter = $('#form').serialize();
+      checkCetak()
       console.log(parameter);
       $('#pendaftaran-table').DataTable({
           processing: true,
@@ -215,6 +217,8 @@
           ]
       });
     });
+
+    
 
     function checklist(id){
       console.log(id);
@@ -278,6 +282,15 @@
         
         //setTimeout(function() { location.reload() }, 10000);
 
+    }
+
+
+    function checkCetak(){
+      var cetak_id = $(".cetak_id").val();
+      if(cetak_id>0)
+      {
+        window.open('pembayaran/' +cetak_id + '/kwitansi','_blank');
+      }
     }
 </script>
 @endpush
