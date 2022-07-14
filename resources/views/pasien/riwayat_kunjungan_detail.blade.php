@@ -103,8 +103,13 @@
         <td>{{ $loop->iteration }}</td>
         <td>{{$td->tindakan->icd->desc_short??'-'}}</td>
         <td>{{$td->tindakan->tindakan}}</td>
-        <td>{{$td->anamnesa}} {{$td->kode_gigi==null?'':$td->kode_gigi}}</td>
+        <td>{{$td->anamnesa}}<br>Nomor Gigi : <b>{{$td->kode_gigi==null?'':$td->kode_gigi}}</b></td>
       </tr>
+      @if($pendaftaran->poliklinik_id==1)
+      <tr>
+        <td colspan="4"><b>Pemeriksaan Klinis : </b>{{ $td->pemeriksaan_klinis}}</td>
+      </tr>
+      @endif
     @endforeach
   </tbody>
 </table>
