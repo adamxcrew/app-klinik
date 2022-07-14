@@ -130,6 +130,8 @@
       $rekamedis = [
         ['icon' => 'fa fa-television', 'link' => '/home', 'label' => 'Dashboard'],
         ['icon' => 'fa fa-address-card', 'link' => '/pasien', 'label' => 'Database Pasien'],
+        ['icon' => 'fa fa-user-circle-o', 'link' => '/pendaftaran', 'label' => 'Data Pasien Antri'],
+        ['icon' => 'fa fa-list-ul', 'link' => '/surat-sehat-sakit', 'label' => 'Data Surat Sehat Dan Sakit'],
       ];
       $pimpinan = [
         ['icon' => 'fa fa-user', 'link' => '/home', 'label' => 'Dashboard'],

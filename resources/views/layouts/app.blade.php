@@ -183,6 +183,8 @@
                             $rekamedis = [
                               ['icon' => 'fa fa-television', 'link' => '/home', 'label' => 'Dashboard'],
                               ['icon' => 'fa fa-address-card', 'link' => '/pasien', 'label' => 'Database Pasien'],
+                              ['icon' => 'fa fa-address-card', 'link' => '/pendaftaran', 'label' => 'daftar pasien antri'],
+                              ['icon' => 'fa fa-list-ul', 'link' => '/surat', 'label' => 'Surat Surat'],
                             ];
                             $pimpinan = [
                               ['icon' => 'fa fa-user', 'link' => '/home', 'label' => 'Dashboard'],

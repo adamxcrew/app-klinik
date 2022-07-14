@@ -126,6 +126,11 @@ class PendaftaranController extends Controller
                         }
                     }
 
+                    // --------------------- ACTION YANG AKAN MUNCUL DI BAGIAN REKAMEDIS -----------------------
+                    if (auth()->user()->role == 'rekamedis') {
+                        $btn .= '<li><a href="/pendaftaran/' . $row->id . '/pemeriksaan"><i class="fa fa-edit"></i> Lihat Tindakan</a></li>';
+                    }
+
                     // --------------------- ACTION YANG AKAN MUNCUL DI BAGIAN ADMIN MEDIS -----------------------
                     if (auth()->user()->role == 'admin_medis') {
                         if ($row->status_pelayanan != 'batal') {
@@ -711,7 +716,16 @@ class PendaftaranController extends Controller
         $nomorAntrian = NomorAntrian::with('pendaftaran')->find($id);
         $nomorAntrian->update(['status_pelayanan' => 'selesai_pelayanan']);
         if ($nomorAntrian->perusahaanAsuransi->nama_perusahaan == 'BPJS') {
-            $nomorAntrian->update(['status_pembayaran' => 1,'metode_pembayaran' => 'BPJS']);
+            // chek apakah semua obat dan bph pakai bpjs ?
+            $checkResepBpjs = \DB::table('pendaftaran_resep')
+                                ->where('pendaftaran_id', $nomorAntrian->pendaftaran_id)
+                                ->where('poliklinik_id', $nomorAntrian->poliklinik_id)
+                                ->where('is_bpjs', 1)
+                                ->count();
+            // jika tidak ada obat dan bhp yang non bpjs maka set autoclose bpjs
+            if ($checkResepBpjs == 0) {
+                $nomorAntrian->update(['status_pembayaran' => 1,'metode_pembayaran' => 'BPJS']);
+            }
         }
         return redirect('/pendaftaran')->with('message', 'Selesai Melakukan Pelayanan');
     }

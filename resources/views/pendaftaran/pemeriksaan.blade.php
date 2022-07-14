@@ -81,7 +81,7 @@
                 </table>
                   <hr>
 
-                  <a href="/pendaftaran/{{ $nomorAntrian->id }}/selesai" class="btn btn-danger btn-lg">Tandai Selesai Pelayanan</a>
+                  <a href="/pendaftaran/{{ $nomorAntrian->id }}/selesai" class="btn btn-danger btn-lg btn-selesai">Tandai Selesai Pelayanan</a>
                   {{-- <a href="/pendaftaran/{{ $nomorAntrian->pendaftaran->id }}/cetak_rekamedis" target="new" class="btn btn-danger btn-lg">Cetak Rekamedis</a> --}}
                   <div class="btn-group">
                     <button type="button" class="btn btn-danger btn-lg">Cetak Surat</button>
@@ -230,7 +230,7 @@
             <tr>
               <td>Dokter</td>
               <td>
-                {!! Form::select('dokter', $dokter1, session('user_id'), ['class'=>'form-control', 'id' => 'dokter','disabled' => 'disabled']) !!}
+                {!! Form::select('dokter', $dokter1, session('user_id'), ['class'=>'form-control', 'id' => 'dokter']) !!}
               </td>
             </tr>
             <tr>
@@ -438,7 +438,7 @@
                 <tr>
                   <td width="200">Dokter Perujuk</td>
                   <td>
-                    {{ Form::select('user_id',$dokter1,session('user_id'),['class'=>'form-control user_id','disabled'=>'disabled'])}}
+                    {{ Form::select('user_id',$dokter1,session('user_id'),['class'=>'form-control user_id'])}}
                   </td>
                 </tr>
                 <tr>
@@ -543,6 +543,8 @@
     load_rujukan_internal()
     load_catatan_harian();
     checkTindakanKetikaRujukan();
+
+    check_anamnesa();
 
     $( "#modal-obat-non-racik").on('shown.bs.modal', function(){
       $("#barang_id").val('');
@@ -760,6 +762,18 @@
   // END KELOLA TINDAKAN =======================
 
 
+  function check_anamnesa(){
+    var anamnesa = $(".anamnesa").val();
+    console.log(anamnesa);
+    if(anamnesa == "")
+    {
+      $(".btn-selesai").attr('href', '#');
+      $('.btn-selesai').attr('disabled', true);
+    }else{
+      $(".btn-selesai").attr('href', '/pendaftaran/{{$nomorAntrian->id}}/selesai');
+      $('.btn-selesai').attr('disabled', false);
+    }
+  }
 
 
 // CATATAN HARIAN
@@ -1111,6 +1125,7 @@
       success: function(res) {
         $("#hasil_riwayat").html(res);
         console.log(res);
+        check_anamnesa();
       },
       error: function(err) {
         console.log(err);

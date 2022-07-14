@@ -93,6 +93,7 @@ class PendaftaranTindakanController extends Controller
                     'satuan_terkecil_id'    =>  $barang->satuan_terkecil_id,
                     'aturan_pakai'          =>  '-',
                     'jenis'                 =>  'bhp',
+                    'is_bpjs'               =>  $barang->pelayanan == 'bpjs' ? 1 : 0,
                     'poliklinik_id'         =>  \Auth::user()->poliklinik_id,
                     'tindakan_id'           => $request->tindakan_id,
                     'harga'                 =>  $barang->harga_jual,
