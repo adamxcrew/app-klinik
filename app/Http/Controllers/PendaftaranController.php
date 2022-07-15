@@ -82,7 +82,6 @@ class PendaftaranController extends Controller
             if (auth()->user()->poliklinik_id == 1) {
                 $nomorAntrian->whereIn('status_pelayanan', ['pendaftaran','selesai']);
                 $nomorAntrian->where('nama_dokter', session('user_name'));
-
             } else {
                 if (auth()->user()->poliklinik_id == 7) {
                     // jika lab
@@ -500,6 +499,11 @@ class PendaftaranController extends Controller
         ];
 
         $nomorAntrian = NomorAntrian::create($nomorAntrianData);
+
+        // jika poli gigi, set pemeriksaan_klinis true agar tidak perlu input lagi
+        if ($request->poliklinik_id == 1) {
+            Pendaftaran::where('id', $nomorAntrian->pendaftaran_id)->update(['pemeriksaan_klinis' => true]);
+        }
 
         if ($request->tindakan_id != null) {
             $request['pendaftaran_id'] = $data->id;
