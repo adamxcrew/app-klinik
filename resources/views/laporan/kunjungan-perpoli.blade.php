@@ -31,7 +31,7 @@
                                         {!! Form::date('tanggal_akhir', $tanggal_akhir, ['class'=>'form-control','placeholder'=>'Tanggal Mulai']) !!}
                                       </div>
                                       <div class="col-md-3">
-                                        {!! Form::select('perusahaan_penjamin_id', $perusahaan_asuransi,$perusahaan_penjamin_id, ['class'=>'form-control perusahaan_penjamin_id']) !!}
+                                        {!! Form::select('perusahaan_penjamin_id', $perusahaan_asuransi,$perusahaan_penjamin_id, ['class'=>'form-control perusahaan_penjamin_id','placeholder'=>'Semua Penjamin']) !!}
                                       </div>
                                       <div class="col-md-4">
                                           <button type="submit" name="type" value="web" class="btn btn-danger"><i class="fa fa-cogs" aria-hidden="true"></i>

@@ -23,9 +23,15 @@ class LaporanController extends Controller
         $data['tanggal_awal']           = $request->tanggal_awal ?? date('Y-m-d');
         $data['tanggal_akhir']          = $request->tanggal_akhir ?? date('Y-m-d');
         $data['perusahaan_penjamin_id'] = $request->perusahaan_penjamin_id ?? null;
+        if ($data['perusahaan_penjamin_id'] != '') {
+            $filterPerusahaanAsuransi = "and na.perusahaan_asuransi_id='" . $data['perusahaan_penjamin_id'] . "'";
+        } else {
+            $filterPerusahaanAsuransi = "";
+        }
+
         $data['laporan']                = \DB::select("select po.nomor_poli,po.nama,count(na.id) as jumlah_kunjungan
                                             from poliklinik as po 
-                                            left join nomor_antrian as na on po.id=na.poliklinik_id and na.perusahaan_asuransi_id='" . $data['perusahaan_penjamin_id'] . "' 
+                                            left join nomor_antrian as na on po.id=na.poliklinik_id $filterPerusahaanAsuransi
                                             and left(na.created_at,10) BETWEEN '" . $data['tanggal_awal'] . "' and '" . $data['tanggal_akhir'] . "'
                                             group by po.id");
 

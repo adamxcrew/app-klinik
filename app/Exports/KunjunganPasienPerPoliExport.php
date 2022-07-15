@@ -63,9 +63,15 @@ class KunjunganPasienPerPoliExport implements FromView, ShouldAutoSize, WithEven
 
     public function data()
     {
+        if ($this->perusahaan_asuransi_id != '') {
+            $filterPerusahaanAsuransi = "and na.perusahaan_asuransi_id='" . $this->perusahaan_asuransi_id . "'";
+        } else {
+            $filterPerusahaanAsuransi = "";
+        }
+
         return \DB::select("select po.nomor_poli,po.nama,count(na.id) as jumlah_kunjungan
                             from poliklinik as po 
-                            left join nomor_antrian as na on po.id=na.poliklinik_id and na.perusahaan_asuransi_id='" . $this->perusahaan_asuransi_id . "' 
+                            left join nomor_antrian as na on po.id=na.poliklinik_id $filterPerusahaanAsuransi 
                             and left(na.created_at,10) BETWEEN '" . $this->tanggal_awal . "' and '" . $this->tanggal_akhir . "'
                             group by po.id");
     }
