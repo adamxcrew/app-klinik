@@ -82,9 +82,11 @@
                                   <tr>
                                       <th>#</th>
                                       <th>Nama Barang</th>
+                                      <th>Satuan</th>
                                       <th>Jumlah</th>
                                       <th>Harga PO</th>
-                                      <th>Diskon</th>
+                                      <th>Diskon %</th>
+                                      <th>Harga Diskon</th>
                                       <th>Subtotal</th>
                                       <th width="200">Catatan ( Opsional )</th>
                                       @if($purchase_order->status_po=='menunggu_persetujuan')
@@ -98,10 +100,15 @@
                                   <tr class="table-danger" id="baris-{{$row->id}}">
                                       <th scope="row">{{ $loop->iteration }}</th>
                                       <td>{{ $row->barang->nama_barang }}</td>
+                                      <td>{{ $row->satuan->satuan??'-' }}</td>
                                       <td>{{ $row->qty }}</td>
                                       <td>@currency($row->harga)</td>
-                                      <td>{{ rupiah($row->diskon) }}</td>
-                                      <td>{{ rupiah(($row->harga-$row->diskon)*$row->qty) }}</td>
+                                      <?php
+                                      $harga_diskon = (($row->diskon/100)*$row->harga);
+                                      ?>
+                                      <td>{{$row->diskon}} % ( Rp. {{ rupiah($harga_diskon) }} )</td>
+                                      <td>{{ rupiah(($row->harga-$harga_diskon)) }}</td>
+                                      <td>{{ rupiah(($row->harga-$harga_diskon)*$row->qty) }}</td>
                                       <td>
                                           {!! Form::text('catatan', $row->catatan, ['class'=>'form-control catatan-'.$row->id,'Placeholder'=>'Keterangan']) !!}
                                       </td>
@@ -112,22 +119,31 @@
                                         </td>
                                       @endif
                                   </tr>
-                                  <?php $total += ($row->harga-$row->diskon) * $row->qty;?>
+                                  <?php $total += ($row->harga-$harga_diskon) * $row->qty;?>
                                   @endforeach
                               </tbody>
                               <tfoot>
                                 <tr>
                                     <td></td>
-                                    <td colspan="5" style="text-align:right"><b>Diskon</b></td>
+                                    <td colspan="6" style="text-align:right"><b>Subtotal</b></td>
                                     <td colspan="2">
-                                        <span id="total">
+                                        <span id="disc">
+                                            {{$total}}
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td colspan="6" style="text-align:right"><b>Diskon</b></td>
+                                    <td colspan="2">
+                                        <span id="disc">
                                             {{$purchase_order->diskon}}
                                         </span>
                                     </td>
                                 </tr>
                                   <tr>
                                       <td></td>
-                                      <td colspan="5" style="text-align:right"><b>Total</b></td>
+                                      <td colspan="6" style="text-align:right"><b>Total Akhir</b></td>
                                       <td colspan="2">
                                           <span id="total">
                                             @currency($total-$purchase_order->diskon)
@@ -167,7 +183,10 @@
             },
             success: function (response) {
                 console.log(response.total);
-                $('#total').html(response.total);
+                var diskon = {{ $purchase_order->diskon}};
+                var total = response.total-diskon;
+                console.log(total);
+                $('#total').html(total);
             }
         });
     }

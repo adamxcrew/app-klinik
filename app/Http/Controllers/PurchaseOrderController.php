@@ -10,6 +10,7 @@ use App\Models\PurchaseOrderDetail;
 use App\Models\Setting;
 use DataTables;
 use PDF;
+use App\Models\Satuan;
 
 class PurchaseOrderController extends Controller
 {
@@ -152,7 +153,7 @@ class PurchaseOrderController extends Controller
         $data['purchase_order_detail'] = PurchaseOrderDetail::where('purchase_order_id', null)->get();
         $data['barang']                = Barang::pluck('nama_barang', 'id');
         $data['supplier']              = Supplier::pluck('nama_supplier', 'id');
-
+        $data['satuan']                = Satuan::pluck('satuan', 'id');
         return view('purchase-order.create', $data);
     }
 

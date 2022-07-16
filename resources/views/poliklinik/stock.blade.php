@@ -88,6 +88,7 @@
             processing: true,
             serverSide: true,
             ajax: '/stock?unit_stock_id='+$("#unit_stock_id").val(),
+            order: [[5, 'asc']],
             columns: [
                 { data: 'kode', name: 'kode' },
                 { data: 'nama_barang', name: 'nama_barang' },

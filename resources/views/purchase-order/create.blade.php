@@ -26,7 +26,7 @@
     <section class="content">
       @include('alert')
         <div class="row">
-          <div class="col-md-5">
+          <div class="col-md-4">
             <div class="box">
                 <div class="box-header text-center" style="border-bottom: 1px solid;padding-top: 0;">
                     <h3>Purchase Order (PO)</h3>
@@ -66,14 +66,14 @@
             </div>
           </div>
 
-          <div class="col-md-7">
+          <div class="col-md-8">
             <div class="box">
                 <div class="box-header text-center" style="border-bottom: 1px solid;padding-top: 0;">
                     <h3>Tambah Barang</h3>
                 </div>
               <div class="box-body">
                   <div class="row" style="padding-bottom: 20px">
-				 	 <div class="col-md-4">
+				 	          <div class="col-md-3">
                         <div class="form-group">
                             <label>Pilih Barang</label>
                             <select name="barang" id="barang" class="barang form-control detail-section"></select>
@@ -85,13 +85,16 @@
                             {{ Form::text('harga', null, ['class' => 'form-control harga detail-section', 'id'=>'harga', 'placeholder' => 'Harga', 'required']) }}
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-1" style="margin-right:20px;">
                       <div class="form-group">
-                        <label>Diskon Item</label>
-                        {{ Form::text('', 0, ['class' => 'form-control diskon', 'id' => 'diskon', 'placeholder' => 'Diskon', 'required']) }}
+                        <label>Disc</label>
+                        <div class="input-group">
+                          {{ Form::text('', 0, ['class' => 'form-control diskon', 'id' => 'diskon', 'placeholder' => 'Diskon', 'required','style' => 'width:50px']) }}
+                          <span class="input-group-addon" id="basic-addon3">%</span>
+                        </div>
                       </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                       <div class="form-group">
                         <label>Qty</label>
                         {{ Form::text('qty', null, ['class' => 'form-control qty', 'id' => 'qty', 'placeholder' => 'qty', 'required']) }}
@@ -99,7 +102,13 @@
                     </div>
                     <div class="col-md-2">
                       <div class="form-group">
-                        <button type="button" onClick="tambah_barang()" class="btn btn-primary" style="margin-top: 25px;"><i class="fa fa-plus"></i> Tambah</button>
+                        <label>Satuan</label>
+                        {{ Form::select('satuan_id',$satuan, null, ['class' => 'form-control satuan_id', 'required']) }}
+                      </div>
+                    </div>
+                    <div class="col-md-1">
+                      <div class="form-group">
+                        <button type="button" onClick="tambah_barang()" class="btn btn-primary" style="margin-top: 25px;"><i class="fa fa-plus"></i></button>
                       </div>
                     </div>
                   </div>
@@ -187,7 +196,8 @@ function tambah_barang()
   var barang_id = $(".barang").val();
   var qty       = $(".qty").val();
   var harga     = $(".harga").val();
-  var diskon     = $(".diskon").val();
+  var diskon    = $(".diskon").val();
+  var satuan_id = $(".satuan_id").val();
   if(barang_id == '' || qty == '' || harga == '')
   {
     return alert('Barang , jumlah, atau harga Tidak Boleh Kosong');
@@ -199,6 +209,7 @@ function tambah_barang()
           _token: $('meta[name="csrf-token"]').attr('content'),
           barang_id: barang_id,
 		      harga:harga,
+          satuan_id: satuan_id,
           diskon: diskon,
           qty: qty
       },

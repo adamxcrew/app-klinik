@@ -188,9 +188,13 @@ class BarangController extends Controller
             $data['unit_stock_id'] = $poliklinik->unit_stock_id;
         }
         if ($request->ajax()) {
-            $distribusiStock = \DB::table('view_distribusi_stock')->where('unit_stock_id', $request->unit_stock_id);
+            $distribusiStock = \DB::table('view_distribusi_stock')->where('unit_stock_id', $request->unit_stock_id)->orderBy('jumlah_stock', 'ASC');
             return DataTables::of($distribusiStock)
+                    ->addColumn('jumlah_stock', function ($row) {
+                        return $row->jumlah_stock < 40 ? '<span style="color:red">' . $row->jumlah_stock . '</span>' : $row->jumlah_stock;
+                    })
                     ->addIndexColumn()
+                    ->rawColumns(['jumlah_stock'])
                     ->make(true);
         }
 

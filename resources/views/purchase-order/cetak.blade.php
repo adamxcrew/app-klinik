@@ -13,15 +13,15 @@
         }
         .title-referensi{
             float: right;
-            font-size:15px
+            font-size:13px
         }
         .info{
             padding-top:150px;
-            font-size:15px
+            font-size:13px
         }
         .table-responsive{
             padding-top: 40px;
-            font-size:15px
+            font-size:13px
         }
         .table-barang{
             width: 100%;
@@ -31,20 +31,20 @@
         .table-barang tr th{
             background-color:  #03537a;
             color: #ffffff;
-            height: 30px;
+            height: 20px;
         }
         .table-barang tr td{
-            height: 35px;
+            height: 20px;
             background-color:   #f1f2f2 
         }
         .detail-harga{
             width: 100%;
             padding-top: 30px;
-            font-size:15px
+            font-size:13px
         }
         .syarat-dan-ketentuan{
             width: 100%;
-            font-size:15px
+            font-size:13px
         }
     </style>
 </head>
@@ -110,7 +110,7 @@
                     <th>No</th>
                     <th>Barang</th>
                     <th>Jumlah</th>
-                    <th>Disc Item</th>
+                    <th>Disc %</th>
                     <th>Harga</th>
                     <th>Subtotal</th>
                 </tr>
@@ -119,12 +119,12 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $row->barang->nama_barang }}</td>
-                    <td>{{ $row->qty }} {{ $row->barang->satuanTerbesar->satuan }}</td>
+                    <td>{{ $row->qty }} {{ $row->satuan->satuan }}</td>
                     <td>{{ rupiah($row->diskon) }}</td>
-                    <td>{{rupiah($row->barang->harga)}}</td>
-                    <td>{{ rupiah(($row->harga-$row->diskon)*$row->qty) }}</td>
+                    <td>{{rupiah($row->harga)}}</td>
+                    <td>{{ rupiah(($row->harga-($row->diskon/100)*$row->harga)*$row->qty) }}</td>
                 </tr>
-                <?php $total +=  ($row->harga-$row->diskon)*$row->qty ?>
+                <?php $total +=  ($row->harga-(($row->diskon/100)*$row->harga))*$row->qty ?>
                 @endforeach
                 <tr>
                     <td colspan="5">Diskon</td>

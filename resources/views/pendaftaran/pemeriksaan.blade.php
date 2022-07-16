@@ -84,8 +84,8 @@
                   <a href="/pendaftaran/{{ $nomorAntrian->id }}/selesai" class="btn btn-danger btn-lg btn-selesai">Tandai Selesai Pelayanan</a>
                   {{-- <a href="/pendaftaran/{{ $nomorAntrian->pendaftaran->id }}/cetak_rekamedis" target="new" class="btn btn-danger btn-lg">Cetak Rekamedis</a> --}}
                   <div class="btn-group">
-                    <button type="button" class="btn btn-danger btn-lg">Cetak Surat</button>
-                    <button type="button" class="btn btn-danger btn-lg dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                    <button type="button" class="btn btn-danger btn-lg btn-surat">Cetak Surat</button>
+                    <button type="button" class="btn-surat btn btn-danger btn-lg dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                     <span class="caret"></span>
                     <span class="sr-only">Toggle Dropdown</span>
                     </button>
@@ -769,9 +769,11 @@
     {
       $(".btn-selesai").attr('href', '#');
       $('.btn-selesai').attr('disabled', true);
+      $('.btn-surat').prop('disabled', true);
     }else{
       $(".btn-selesai").attr('href', '/pendaftaran/{{$nomorAntrian->id}}/selesai');
       $('.btn-selesai').attr('disabled', false);
+      $('.btn-surat').prop('disabled', false);
     }
   }
 
