@@ -178,7 +178,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-        <button type="button" class="btn btn-primary" onClick="simpanPendaftaranResep({{$row->id}})">Simpan</button>
+        <button type="button" class="btn btn-primary" onClick="simpanPendaftaranResep()">Simpan</button>
       </div>
     </div>
   </div>
