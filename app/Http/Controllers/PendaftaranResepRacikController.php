@@ -135,4 +135,17 @@ class PendaftaranResepRacikController extends Controller
         $data['satuan']             = Satuan::pluck('satuan', 'id');
         return view('pendaftaran.partials.add_obat_racik_form', $data);
     }
+
+
+    public function index(Request $request)
+    {
+        return PendaftaranObatRacik::find($_GET['id']);
+    }
+
+    public function update($id, Request $request)
+    {
+        $pendaftaranObatRacik = PendaftaranObatRacik::find($id);
+        $pendaftaranObatRacik->update($request->all());
+        return $pendaftaranObatRacik;
+    }
 }

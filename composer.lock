@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5fe2ecbdb38eca15c7047bcbf9ae0837",
+    "content-hash": "0ccb8862ef6e4c6006144ee8e2c00452",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3195,6 +3195,46 @@
                 "source": "https://github.com/nikic/PHP-Parser/tree/v4.13.0"
             },
             "time": "2021-09-20T12:20:58+00:00"
+        },
+        {
+            "name": "nsulistiyawan/bpjs",
+            "version": "1.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nsulistiyawan/bpjs.git",
+                "reference": "1a67dd7cd2caae53ecc3dd1254302cd49345ff09"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nsulistiyawan/bpjs/zipball/1a67dd7cd2caae53ecc3dd1254302cd49345ff09",
+                "reference": "1a67dd7cd2caae53ecc3dd1254302cd49345ff09",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~6.0"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "Nsulistiyawan\\Bpjs\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "mit"
+            ],
+            "authors": [
+                {
+                    "name": "Neno Sulistiyawan",
+                    "email": "aburamesino@gmail.com"
+                }
+            ],
+            "description": "Wrapper for BPJS Indonesia",
+            "support": {
+                "issues": "https://github.com/nsulistiyawan/bpjs/issues",
+                "source": "https://github.com/nsulistiyawan/bpjs/tree/master"
+            },
+            "time": "2018-10-15T11:36:23+00:00"
         },
         {
             "name": "opis/closure",

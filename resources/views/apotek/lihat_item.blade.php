@@ -15,7 +15,7 @@
 
     <section class="content">
         <div class="row">
-          <div class="col-xs-6">
+          <div class="col-xs-5">
             <div class="box">
               <div class="box-body">
                   <h4>Biodata Pasien</h4>
@@ -51,7 +51,7 @@
               </div>
             </div>
           </div>
-          <div class="col-xs-6">
+          <div class="col-xs-7">
             <div class="box">
               <div class="box-body">
 
@@ -65,6 +65,7 @@
                         <th>Keterangan</th>
                         <th width="100">Harga</th>
                         <th width="100">Subtotal</th>
+                        <th>#</th>
                     </tr>
                     @if($pendaftaranResep->count() < 1)
                     <tr>
@@ -79,6 +80,11 @@
                             <td>{{ $row->aturan_pakai }}</td>
                             <td>{{ convert_rupiah($row->harga) }}</td>
                             <td>{{ convert_rupiah($row->jumlah * $row->harga) }}</td>
+                            <td>
+                              <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onClick="showPendaftaranResep({{$row->id}})" data-target="#exampleModal">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                              </button>
+                            </td>
                         </tr>
                         @endforeach
                     @endif
@@ -95,6 +101,9 @@
                         <th>Jumlah Kemasan</th>
                         <th>Aturan Pakai</th>
                         <th>Detail</th>
+                        <th>
+                          #
+                        </th>
                     </tr>
                     @if($pendaftaranResepRacik->count() < 1)
                     <tr>
@@ -114,6 +123,11 @@
                                 @endif
                                 @endforeach
                             </td>
+                            <td>
+                              <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onClick="showPendaftaranObatRacik({{$row->id}})" data-target="#exampleModal2">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                              </button>
+                            </td>
                         </tr>
                         @endforeach
                     @endif
@@ -128,4 +142,149 @@
         </div>
       </section>
   </div>
+
+<!-- Modal Obat Non Racik-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Detail Obat Non Racik</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="pendaftaran_resep_id">
+        <table class="table table-bordered">
+          <tr>
+            <td>Nama Barang</td>
+            <td>
+              <span id="nama_barang"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>Qty</td>
+            <td>
+              <input type="text" class="form-control jumlah" placeholder="Qty">
+            </td>
+          </tr>
+          <tr>
+            <td>Aturan Pakai</td>
+            <td>
+              <input type="text" class="form-control aturan_pakai" placeholder="Aturan Pakai">
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+        <button type="button" class="btn btn-primary" onClick="simpanPendaftaranResep({{$row->id}})">Simpan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Obat Racik-->
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Detail Obat Racik</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="pendaftaran_obat_racik_id">
+        <table class="table table-bordered">
+          {{-- <tr>
+            <td>Nama Barang</td>
+            <td>
+              <span id="nama_barang"></span>
+            </td>
+          </tr> --}}
+          <tr>
+            <td>Jumlah</td>
+            <td>
+              <input type="text" class="form-control racik_jumlah" placeholder="Qty">
+            </td>
+          </tr>
+          <tr>
+            <td>Aturan Pakai</td>
+            <td>
+              <input type="text" class="form-control racik_aturan_pakai" placeholder="Aturan Pakai">
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+        <button type="button" class="btn btn-primary" onClick="simpanPendaftaranRacik()">Simpan</button>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
+
+@push('scripts')
+<script type="text/javascript">
+function showPendaftaranResep(id){
+  console.log(id);
+  $.ajax({
+        url: "/pendaftaran-resep",
+        data:{id:id},
+        type: 'GET',
+        success: function(res) {
+            $(".aturan_pakai").val(res.aturan_pakai);
+            $(".jumlah").val(res.jumlah);
+            $("#nama_barang").html(res.barang.nama_barang);
+            $("#pendaftaran_resep_id").val(res.id);
+        }
+    });
+}
+
+function simpanPendaftaranResep(){
+  var aturan_pakai  = $(".aturan_pakai").val();
+  var jumlah        = $(".jumlah").val();
+  var id            = $("#pendaftaran_resep_id").val();
+  $.ajax({
+        url: "/pendaftaran-resep/"+id,
+        data:{id:id,aturan_pakai:aturan_pakai,jumlah:jumlah,"_token": "{{ csrf_token() }}"},
+        type: 'PUT',
+        success: function(res) {
+            location.reload(); 
+        }
+    });
+}
+
+function showPendaftaranObatRacik(id){
+  console.log(id);
+  $.ajax({
+        url: "/pendaftaran-resep-racik",
+        data:{id:id},
+        type: 'GET',
+        success: function(res) {
+          console.log(res);
+            $(".racik_aturan_pakai").val(res.aturan_pakai);
+            $(".racik_jumlah").val(res.jumlah_kemasan);
+            $("#pendaftaran_obat_racik_id").val(res.id);
+        }
+    });
+}
+
+function simpanPendaftaranRacik(){
+  var aturan_pakai  = $(".racik_aturan_pakai").val();
+  var jumlah        = $(".racik_jumlah").val();
+  var id            = $("#pendaftaran_resep_id").val();
+  $.ajax({
+        url: "/pendaftaran-resep-racik/"+id,
+        data:{id:id,aturan_pakai:aturan_pakai,jumlah_kemasan:jumlah,"_token": "{{ csrf_token() }}"},
+        type: 'PUT',
+        success: function(res) {
+            location.reload(); 
+        }
+    });
+}
+</script>
+@endpush

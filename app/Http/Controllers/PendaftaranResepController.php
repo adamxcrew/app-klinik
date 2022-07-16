@@ -87,4 +87,16 @@ class PendaftaranResepController extends Controller
         }
         $pendaftaranResep->delete();
     }
+
+    public function index()
+    {
+        return PendaftaranResep::with('barang')->find($_GET['id']);
+    }
+
+    public function update($id, Request $request)
+    {
+        $pendaftaranResep = PendaftaranResep::find($id);
+        $pendaftaranResep->update($request->all());
+        return $pendaftaranResep;
+    }
 }

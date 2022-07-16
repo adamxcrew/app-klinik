@@ -24,6 +24,7 @@
         "laravelcollective/html": "^6.1",
         "maatwebsite/excel": "^3.1",
         "mike42/escpos-php": "^4.0",
+        "nsulistiyawan/bpjs": "^1.2",
         "sentry/sentry-laravel": "^1.8",
         "squizlabs/php_codesniffer": "^3.6",
         "uxweb/sweet-alert": "^2.0",
