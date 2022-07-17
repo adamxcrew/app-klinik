@@ -337,26 +337,26 @@ class AjaxController extends Controller
         $poliklinik = \App\Models\Poliklinik::find($request->poliklinik_id);
 
         $total_antrian = \App\Models\NomorAntrian::whereRaw("left(created_at,10)='" . date('Y-m-d') . "'")
-        ->where('poliklinik_id', $request->poliklinik_id)
+        ->where('dokter_id', session('user_id'))
         ->count();
 
         $sudah_dipanggil = $antrian = \App\Models\NomorAntrian::whereRaw("left(created_at,10)='" . date('Y-m-d') . "'")
-        ->where('poliklinik_id', $request->poliklinik_id)
+        ->where('dokter_id', session('user_id'))
         ->where('sudah_dipanggil', 1)
         ->count();
 
         $belum_dipanggil = \App\Models\NomorAntrian::whereRaw("left(created_at,10)='" . date('Y-m-d') . "'")
-        ->where('poliklinik_id', $request->poliklinik_id)
+        ->where('dokter_id', session('user_id'))
         ->where('sudah_dipanggil', 0)
         ->count();
 
         $belum_dipanggil = \App\Models\NomorAntrian::whereRaw("left(created_at,10)='" . date('Y-m-d') . "'")
-        ->where('poliklinik_id', $request->poliklinik_id)
+        ->where('dokter_id', session('user_id'))
         ->where('sudah_dipanggil', 0)
         ->count();
 
         $antrian_sekarang = \App\Models\NomorAntrian::whereRaw("left(created_at,10)='" . date('Y-m-d') . "'")
-        ->where('poliklinik_id', $request->poliklinik_id)
+        ->where('dokter_id', session('user_id'))
         ->where('sudah_dipanggil', 0)
         ->first();
 
@@ -365,7 +365,7 @@ class AjaxController extends Controller
             $antrian_sekarang->update(['sudah_dipanggil' => 1]);
 
             $antrian_sekarang = \App\Models\NomorAntrian::whereRaw("left(created_at,10)='" . date('Y-m-d') . "'")
-            ->where('poliklinik_id', $request->poliklinik_id)
+            ->where('dokter_id', session('user_id'))
             ->where('sudah_dipanggil', 0)
             ->first();
         }

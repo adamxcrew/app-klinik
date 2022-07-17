@@ -30,9 +30,13 @@
 
               <?php
               $nomor_antrian    =   \DB::table('nomor_antrian');
-              $jumlah_antrian   =   $nomor_antrian->whereRaw('left(created_at,10)="'.date('Y-m-d').'"')
-                                    ->where('poliklinik_id',Auth::user()->poliklinik_id)
-                                    ->count();
+              $jumlah_antrian   =   $nomor_antrian->whereRaw('left(created_at,10)="'.date('Y-m-d').'"');
+                                    //->where('poliklinik_id',Auth::user()->poliklinik_id);
+              if(session('user_id')!=null)
+              {
+                $jumlah_antrian = $jumlah_antrian->where('dokter_id',session('user_id'));
+              }
+              $jumlah_antrian = $jumlah_antrian->count();
               $sisa_antrian     =   $nomor_antrian->where('sudah_dipanggil',0)->count();
               $antrian_sekarang =   $nomor_antrian->where('sudah_dipanggil',1)
                                     ->orderBy('sudah_dipanggil','DESC')

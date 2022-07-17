@@ -1,4 +1,4 @@
-@extends('layouts.topnavlayout')
+@extends('layouts.app')
 @section('title','Pendaftaran Pasien Baru')
 @section('content')
 <div class="content-wrapper">
@@ -169,6 +169,12 @@
                       <tr>
                         <td>Tanggal Lahir</td>
                         <td>{{ $pendaftaran->pasien->tanggal_lahir }} / {{ hitung_umur($pendaftaran->pasien->tanggal_lahir) }} tahun</td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td>
+                          <a target="new" href="/pasien/{{ $pendaftaran->pasien->id }}?tab=riwayat_kunjungan" class="btn btn-primary"><i class='fa fa-eye' aria-hidden='true'></i> Lihat Riwayat Kunjungan</a>
+                        </td>
                       </tr>
                     </table>
                 </div>

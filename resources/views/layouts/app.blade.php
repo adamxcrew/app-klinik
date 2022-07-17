@@ -178,6 +178,7 @@
                             $admin_medis = [
                               ['icon' => 'fa fa-television', 'link' => '/home', 'label' => 'Dashboard'],
                               ['icon' => 'fa fa-address-card', 'link' => '/pendaftaran', 'label' => 'daftar pasien antri'],
+                              ['icon' => 'fa fa-address-card', 'link' => '/pasien', 'label' => 'Database Pasien'],
                             ];
                       
                             $rekamedis = [
