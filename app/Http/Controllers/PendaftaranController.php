@@ -586,7 +586,7 @@ class PendaftaranController extends Controller
             $checkResepBpjs = \DB::table('pendaftaran_resep')
                                 ->where('pendaftaran_id', $nomorAntrian->pendaftaran_id)
                                 ->where('poliklinik_id', $nomorAntrian->poliklinik_id)
-                                ->where('is_bpjs', 1)
+                                ->where('is_bpjs', 0)
                                 ->count();
             // jika tidak ada obat dan bhp yang non bpjs maka set autoclose bpjs
             if ($checkResepBpjs == 0) {
@@ -657,7 +657,6 @@ class PendaftaranController extends Controller
                                         join perusahaan_asuransi as pas on pas.id=p.perusahaan_asuransi_id
                                         order by na.created_at desc");
         $data['barang'] = Barang::pluck('nama_barang', 'id');
-        //return $data['riwayatKunjungan'] ;
         return view('pendaftaran.pemeriksaan', $data);
     }
 
