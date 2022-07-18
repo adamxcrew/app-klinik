@@ -164,12 +164,20 @@ class AjaxController extends Controller
 
 
 
+
+
         $data = \DB::table('tindakan')
             ->select('id', 'tindakan', 'kode')
             ->where('tindakan', 'like', "%" . $request->q . "%");
 
         if ($request->has('poliklinik_id')) {
             $data->where('poliklinik_id', $poliklinik_id);
+        }
+
+        if (!$request->has('poliklinik_id')) {
+            if (session('filter_tindakan_rujukan_by_poliklinik_id') != null) {
+                $data->where('poliklinik_id', session('filter_tindakan_rujukan_by_poliklinik_id'));
+            }
         }
         return response()->json($data->limit(20)->get());
     }
@@ -447,5 +455,10 @@ class AjaxController extends Controller
         ->where('pasien_id', $request->pasien_id)
         ->where('perusahaan_asuransi_id', $request->perusahaan_asuransi_id)
         ->count();
+    }
+
+    public function filter_tindakan_rujukan(Request $request)
+    {
+        session(['filter_tindakan_rujukan_by_poliklinik_id' => $request->poliklinik_id]);
     }
 }

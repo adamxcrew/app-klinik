@@ -432,7 +432,7 @@
                 <tr>
                   <td width="200">Pilih Unit</td>
                   <td> 
-                    {{ Form::select('poliklinik_id',$poliklinik1,null,['class'=>'form-control poliklinik_id'])}}
+                    {{ Form::select('poliklinik_id',$poliklinik1,null,['class'=>'form-control poliklinik_id','onChange'=>'filter_rujukan_tindakan()'])}}
                   </td>
                 </tr>
                 <tr>
@@ -550,6 +550,11 @@
       $("#barang_id").val('');
       $("#jumlah").val('');
       $("#aturan_pakai").val('');
+    });
+
+
+    $( "#modal-rujukan-laporatorium" ).on('shown.bs.modal', function (e) {
+    filter_rujukan_tindakan();
     });
     
 
@@ -807,6 +812,17 @@
         $("#catatan_harian").html(response);
       }
     });
+  }
+
+  function filter_rujukan_tindakan(){
+    $.ajax({
+      url: "/ajax/filter_tindakan_rujukan",
+      method: 'GET',
+      data:{ poliklinik_id:$(".poliklinik_id").val()},
+      success: (response) => {
+        console.log(response);
+      }
+    })
   }
 
   function hapus_catatan_harian(id){

@@ -654,7 +654,8 @@ class PendaftaranController extends Controller
                                         join pendaftaran as p on p.id=na.pendaftaran_id
                                         join pasien as pa on pa.id=p.pasien_id and pa.id='" . $data['nomorAntrian']->pendaftaran->pasien_id . "'
                                         join poliklinik as po on po.id=na.poliklinik_id
-                                        join perusahaan_asuransi as pas on pas.id=p.perusahaan_asuransi_id");
+                                        join perusahaan_asuransi as pas on pas.id=p.perusahaan_asuransi_id
+                                        order by na.created_at desc");
         $data['barang'] = Barang::pluck('nama_barang', 'id');
         //return $data['riwayatKunjungan'] ;
         return view('pendaftaran.pemeriksaan', $data);

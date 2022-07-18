@@ -259,6 +259,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('setting', 'SettingController@index')->name('setting.index');
     Route::put('setting', 'SettingController@update')->name('setting.update');
     Route::resource('pendaftaran-tindakan-temp','PendaftaranTindakanTempController');
+    Route::get('ajax/filter_tindakan_rujukan','AjaxController@filter_tindakan_rujukan');
     Route::post('ajax/ubah-jumlah-bhp','AjaxController@ubahJumlahBHP');
     Route::get('/ajax/check-tindakan-rujukan','AjaxController@checkTindakanRujukanTemp');
     Route::get('ajax/dropdown-dokter-berdasarkan-poliklinik', 'AjaxController@dropdownDokterBerdasarkanPoliklinik');
