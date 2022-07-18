@@ -362,7 +362,7 @@ class PendaftaranController extends Controller
 
         // jika poli gigi, set pemeriksaan_klinis true agar tidak perlu input lagi
         if ($request->poliklinik_id == 1) {
-            Pendaftaran::where('id', $nomorAntrian->pendaftaran_id)->update(['pemeriksaan_klinis' => true]);
+            Pendaftaran::where('id', $nomorAntrian->pendaftaran_id)->update(['pemeriksaan_klinis' => 'N;']);
         }
 
         if ($request->tindakan_id != null) {
