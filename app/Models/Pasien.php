@@ -54,7 +54,7 @@ class Pasien extends Model
 
     public function riwayatPenyakit()
     {
-        return $this->hasMany('App\Models\RiwayatPenyakit', 'pasien_id', 'id');
+        return $this->hasMany('App\Models\RiwayatPenyakit', 'pasien_id', 'id')->where('tbm_icd', '!=', '');
     }
 
     public function paketIterasi()

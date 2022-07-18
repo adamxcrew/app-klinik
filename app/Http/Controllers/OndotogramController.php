@@ -28,7 +28,7 @@ class OndotogramController extends Controller
         if ($data['nomorAntrian']->pendaftaran->tanda_tanda_vital == null) {
             return redirect('pendaftaran/' . $pendaftaranId . '/input_tanda_vital');
         }
-        if ($data['nomorAntrian']->pendaftaran->pemeriksaan_klinis == false) {
+        if ($data['nomorAntrian']->pendaftaran->pemeriksaan_klinis != '') {
             return view('pendaftaran.pemeriksaan_klinis_form', $data);
         }
         $data['pendaftaran_gigi']   = PendaftaranTindakan::with(['tbm', 'tindakan'])->where('pendaftaran_id', $data['nomorAntrian']->pendaftaran_id)->get();
