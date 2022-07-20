@@ -63,7 +63,13 @@ class LaporanKunjunganPasien implements FromView, ShouldAutoSize, WithEvents, Wi
 
     public function data()
     {
-        $filterPerusahaanAsuransi = " and pas.id='" . $this->perusahaan_asuransi_id . "'";
+
+        if ($this->perusahaan_asuransi_id != '') {
+            $filterPerusahaanAsuransi = " and pas.id='" . $this->perusahaan_asuransi_id . "'";
+        } else {
+            $filterPerusahaanAsuransi = "";
+        }
+
         return \DB::select("select p.created_at,ps.nomor_rekam_medis,ps.nama,pk.nama as nama_poliklinik,pas.nama_perusahaan as nama_perusahaan_asuransi
         from nomor_antrian as na join pendaftaran as p on p.id=na.pendaftaran_id
         join pasien as ps on ps.id=p.pasien_id
