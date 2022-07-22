@@ -32,7 +32,10 @@ class AjaxController extends Controller
 
         $dokter = [];
         foreach ($user as $row) {
-            $dokter[$row->user_id] = $row->user->name;
+            if($row->user->name){
+                $dokter[$row->user_id] = $row->user->name;
+            }
+            
         }
         $dokter[0] = 'Dokter Pegganti';
         return \Form::select('dokter_id', $dokter, null, ['class' => 'form-control dokter', 'onChange' => 'dokterPegganti()']);
