@@ -32,7 +32,7 @@ class AjaxController extends Controller
 
         $dokter = [];
         foreach ($user as $row) {
-            if($row->user->name){
+            if(isset($row->user)){
                 $dokter[$row->user_id] = $row->user->name;
             }
             
