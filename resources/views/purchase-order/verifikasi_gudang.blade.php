@@ -55,7 +55,8 @@
                                       <th>Jumlah Diminta</th>
                                       <th>Jumlah Diterima</th>
                                       <th>Harga PO</th>
-                                      <th>Diskon Per Item</th>
+                                      <th>Diskon</th>
+                                      <th>Harga Diskon</th>
                                       <th>Subtotal</th>
                                   </tr>
                               </thead>
@@ -73,21 +74,23 @@
                                           </a>
                                       </td>
                                       <td>@currency($row->harga)</td>
-                                      <td>{{ rupiah($row->diskon) }}</td>
-                                      <td>{{ rupiah(($row->harga*$row->qty)-$row->diskon) }}</td>
+                                      <td>{{ rupiah($row->diskon) }} %</td>
+                                      <td>{{ rupiah(($row->harga-($row->diskon/100)*$row->harga)) }}</td>
+                                      <td>{{ rupiah(($row->harga-($row->diskon/100)*$row->harga)*$row->qty) }}</td>
                                   </tr>
-                                  <?php $total += $row->harga * $row->qty;?>
+                                  <?php $total += ($row->harga-($row->diskon/100)*$row->harga)*$row->qty?>
                                   @endforeach
                               </tbody>
                               <tfoot>
                                 <tr>
                                     <td></td>
-                                    <td colspan="6" class="text-right">Diskon</td>
+                                    <td colspan="7" class="text-right">Diskon</td>
                                     <td colspan="1">{{$purchase_order->diskon}}</td>
                                 </tr>
+                                <?php $total = $total- $purchase_order->diskon;?>
                                   <tr>
                                       <td></td>
-                                      <td colspan="6" class="text-right">Total</td>
+                                      <td colspan="7" class="text-right">Total</td>
                                       <td colspan="1">@currency($total)</td>
                                   </tr>
                               </tfoot>

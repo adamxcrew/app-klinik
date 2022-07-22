@@ -112,6 +112,7 @@
                     <th>Jumlah</th>
                     <th>Disc %</th>
                     <th>Harga</th>
+                    <th>Harga Diskon</th>
                     <th>Subtotal</th>
                 </tr>
                 <?php $total = 0; ?>
@@ -120,8 +121,9 @@
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $row->barang->nama_barang }}</td>
                     <td>{{ $row->qty }} {{ $row->satuan->satuan }}</td>
-                    <td>{{ rupiah($row->diskon) }}</td>
+                    <td>{{ rupiah($row->diskon) }} %</td>
                     <td>{{rupiah($row->harga)}}</td>
+                    <td>{{ rupiah(($row->harga-($row->diskon/100)*$row->harga)) }}</td>
                     <td>{{ rupiah(($row->harga-($row->diskon/100)*$row->harga)*$row->qty) }}</td>
                 </tr>
                 <?php $total +=  ($row->harga-(($row->diskon/100)*$row->harga))*$row->qty ?>

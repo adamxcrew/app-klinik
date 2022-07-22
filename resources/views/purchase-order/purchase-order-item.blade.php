@@ -121,7 +121,7 @@
         <td></td>
         <td colspan="4" class="text-right">Diskon</td>
         <th colspan="3" class="text-right">
-            <input type="text" name="diskon" placeholder="Diskon" value="{{ $diskon }}" onKeyUp="copyDiskon()" class="form-control disc text-right" >
+            <input type="text" name="diskon" required="required" placeholder="Diskon" value="0" onKeyUp="copyDiskon()" class="form-control disc text-right" >
             <input value="{{ $total }}" type="hidden" id="jumlah_total">
         </th>
     </tr>

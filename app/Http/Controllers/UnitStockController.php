@@ -147,12 +147,22 @@ class UnitStockController extends Controller
 
     public function sinkronisasi()
     {
-        foreach (Poliklinik::where('unit_stock_id', '>', 0)->get() as $poliklinik) {
+
+        $unit_id =  \Request::segment(3);
+        if ($unit_id != null) {
             foreach (Barang::select('id')->get() as $barang) {
-                $params = ['barang_id' => $barang->id,'unit_stock_id' => $poliklinik->unit_stock_id,'jumlah_stock' => 0];
-                DistribusiStock::updateOrCreate(['barang_id' => $barang->id,'unit_stock_id' => $poliklinik->unit_stock_id], $params);
+                $params = ['barang_id' => $barang->id,'unit_stock_id' => $unit_id,'jumlah_stock' => 0];
+                DistribusiStock::updateOrCreate(['barang_id' => $barang->id,'unit_stock_id' => $unit_id], $params);
+            }
+        } else {
+            foreach (Poliklinik::where('unit_stock_id', '>', 0)->get() as $poliklinik) {
+                foreach (Barang::select('id')->get() as $barang) {
+                    $params = ['barang_id' => $barang->id,'unit_stock_id' => $poliklinik->unit_stock_id,'jumlah_stock' => 0];
+                    DistribusiStock::updateOrCreate(['barang_id' => $barang->id,'unit_stock_id' => $poliklinik->unit_stock_id], $params);
+                }
             }
         }
+
 
         return redirect('unit-stock')->with('message', 'Proses Sinkronisasi Selesai');
     }

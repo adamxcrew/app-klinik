@@ -11,6 +11,7 @@ use App\Models\Setting;
 use DataTables;
 use PDF;
 use App\Models\Satuan;
+use App\Models\DistribusiStock;
 
 class PurchaseOrderController extends Controller
 {
@@ -116,11 +117,17 @@ class PurchaseOrderController extends Controller
     {
         $po = PurchaseOrder::find($id);
         $po->status_po = 'selesai_po';
-        // foreach ($po->detail as $row) {
-        //     $barang = Barang::find($row->barang_id);
-        //     $barang->stock += $row->qty_diterima;
-        //     $barang->update();
-        // }
+        foreach ($po->detail as $row) {
+            $check = DistribusiStock::where('barang_id', $row->barang_id)->where('unit_stock_id', 8)->first();
+            if ($check) {
+                $stock = $check->jumlah_stock + $row->qty_diterima;
+            } else {
+                $stock = $row->qty_diterima;
+            }
+            $where = ['unit_stock_id' => 8,'barang_id' => $row->barang_id];
+            $params = ['unit_stock_id' => 8,'barang_id' => $row->barang_id,'jumlah_stock' => $stock];
+            $distribusiStock = DistribusiStock::updateOrCreate($where, $params);
+        }
         $po->update();
         return redirect(route('purchase-order.index'))->with('message', 'Purchase Order Selesai');
     }
@@ -171,6 +178,7 @@ class PurchaseOrderController extends Controller
 
     public function store(Request $request)
     {
+        $request['diskon'] = $request->diskon == null ? 0 : $request->diskon;
         $data = PurchaseOrderDetail::where('purchase_order_id', null)->get();
 
         if (count($data) == 0) {

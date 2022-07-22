@@ -77,7 +77,7 @@
             @foreach($tindakans as $tindakan)
             <tbody class="dotted">
                 <?php
-                  if($nomorAntrian->pendaftaran->perusahaanAsuransi->nama_perusahaan=='BPJS' && $tindakan->tindakan->pelayanan=='bpjs'){
+                  if($nomorAntrian->perusahaanAsuransi->nama_perusahaan=='BPJS' && $tindakan->tindakan->pelayanan=='bpjs'){
                     $feeTindakan = 0;
                     $keterangan = "BPJS";
                   }else{
@@ -106,7 +106,7 @@
             @if($nomorAntrian->poliklinik_id!=7)
                 @foreach($bhps as $bhp)
                 <?php
-                        if($nomorAntrian->pendaftaran->perusahaanAsuransi->nama_perusahaan=='BPJS' && $bhp->barang->pelayanan=='bpjs'){
+                        if($nomorAntrian->perusahaanAsuransi->nama_perusahaan=='BPJS' && $bhp->barang->pelayanan=='bpjs'){
                         $hargaBHP = 0;
                         $keterangan = "BPJS";
                     }else{
@@ -135,7 +135,7 @@
 
             @foreach($nonRaciks as $non)
             <?php
-            if($nomorAntrian->pendaftaran->perusahaanAsuransi->nama_perusahaan=='BPJS' && $non->barang->pelayanan=='bpjs'){
+            if($nomorAntrian->perusahaanAsuransi->nama_perusahaan=='BPJS' && $non->barang->pelayanan=='bpjs'){
             $hargaObatNonRacik = 0;
             $keterangan = "BPJS";
           }else{

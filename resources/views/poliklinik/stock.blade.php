@@ -25,6 +25,7 @@
                   <button type="button" class="btn btn-primary btn-social btn-flat" data-toggle="modal" data-target="#myModal">
                     <i class="fa fa-file-excel-o" aria-hidden="true"></i> Stock Opname {{ $unit_stock->nama_unit}}
                   </button>
+                  <a href="/unit-stock/sinkronisasi/{{ $unit_stock->id}}" class="btn btn-info btn-social btn-flat">Sinkronisasi Data</a>
 
                   <hr>
                 @include('alert')

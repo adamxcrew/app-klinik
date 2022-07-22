@@ -145,7 +145,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('poliklinik', 'PoliklinikController');
     Route::resource('gejala', 'GejalaController');
     Route::resource('kategori', 'KategoriController');
-    Route::get('unit-stock/sinkronisasi', 'UnitStockController@sinkronisasi');
+    Route::get('unit-stock/sinkronisasi/{unit_id?}', 'UnitStockController@sinkronisasi');
     Route::resource('unit-stock', 'UnitStockController');
     Route::resource('satuan', 'SatuanController');
     Route::resource('harilibur', 'HariLiburController');
