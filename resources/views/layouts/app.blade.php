@@ -258,7 +258,7 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                   
-                                    <li class="header">Kamu Mempunyai {{ $notifikasi->count()}} Pesan {{ Auth::user()->id}}</li>
+                                    <li class="header">Kamu Mempunyai {{ $notifikasi->count()}} Pesan</li>
                                     <li>
 
                                         <ul class="menu">
