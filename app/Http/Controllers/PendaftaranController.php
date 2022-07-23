@@ -262,17 +262,10 @@ class PendaftaranController extends Controller
         \DB::table('pendaftaran_hasil_pemeriksaan_lab')->insert($params);
         RujukanInternal::where('pendaftaran_id', $pendaftaranId)->update(['status' => 'Selesai']);
 
-        // insert notifikasi
-
-        // \DB::table('notifikasi')->create(
-        //     [
-        //         'status_baca'       =>  0,
-        //         'notifikasi_judul'  =>  'selesai pemeriksaan lab',
-        //         'poliklinik_id'     => 2,
-        //         'notifikasi_pesan'  =>  'nama pasien ' . $data['nomorAntrian']->pendaftaran->pasien->nama
-        //     ]
-        // );
-
+        $notifikasi = \DB::table('notifikasi')
+                    ->where('pasien_id', $nomorAntrian->pendaftaran->pasien_id)
+                    ->where('poliklinik_id', $nomorAntrian->poliklinik_id)
+                    ->update(['link' => 'pendaftaran/5178/input-indikator/print','display' => 1]);
         return redirect('pendaftaran/' . $request->nomor_antrian_id . '/input-indikator')->with('message', 'Data Berhasil Disimpan');
     }
 

@@ -21,6 +21,21 @@ class PendaftaranRujukanLabController extends Controller
     public function store(Request $request)
     {
         $pendaftaran                = Pendaftaran::find($request->pendaftaran_id);
+        $pasien = \DB::table('pasien')->where('id', $pendaftaran->pasien_id)->first();
+
+        // MEMCATAT NOTIFIKASI
+        \DB::table('notifikasi')->insert([
+            'status_baca'       =>  0,
+            'poliklinik_id'     =>  $request->poliklinik_id,
+            'notifikasi_judul'  =>  'Hasil Pemeriksaan Lab',
+            'notifikasi_pesan'  =>  $pasien->nama,
+            'created_at'        => now(),
+            'updated_at'        => now(),
+            'pasien_id'         => $pasien->id,
+            'display'           => 0,
+            'user_id'           =>  session('user_id')
+        ]);
+
         $request['users_id']        = $request->user_id;
         $request['pasien_id']       = $pendaftaran->pasien_id;
         $request['pendaftaran_id']  = $pendaftaran->id;

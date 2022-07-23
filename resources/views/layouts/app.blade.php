@@ -246,7 +246,7 @@
                     </div>
 
 
-                    <?php $notifikasi = \DB::table('notifikasi'); ?>
+                    <?php $notifikasi = \DB::table('notifikasi')->where('user_id',\Auth::user()->id) ?>
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
 
@@ -258,18 +258,17 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                   
-                                    <li class="header">Kamu Mempunyai {{ $notifikasi->count()}} Pesan</li>
+                                    <li class="header">Kamu Mempunyai {{ $notifikasi->count()}} Pesan {{ Auth::user()->id}}</li>
                                     <li>
 
                                         <ul class="menu">
                                           @foreach($notifikasi->get() as $notif)
                                           <li>
-                                            <a href="#">
+                                            <a href="/{{ $notif->link}}">
                                                 <h4>
                                                     {{ $notif->notifikasi_judul}}
-                                                    <small><i class="fa fa-clock-o"></i> {{ $notif->created_at }}</small>
+                                                    <small><i class="fa fa-clock-o"></i></small>
                                                 </h4>
-
                                                 <p>{{ $notif->notifikasi_pesan}}</p>
                                             </a>
                                         </li>

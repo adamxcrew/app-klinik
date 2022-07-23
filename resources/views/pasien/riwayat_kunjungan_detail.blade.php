@@ -101,11 +101,15 @@
     @foreach($tindakan as $td)
       <tr>
         <td>{{ $loop->iteration }}</td>
-        <td>{{$td->tindakan->icd->desc_short??'-'}}</td>
+        <td>{{$td->tindakan->icd->desc_short??'-'}} {{ $td->poliklinik_id }}</td>
         <td>{{$td->tindakan->tindakan}}</td>
-        <td>{{$td->anamnesa}}<br>Nomor Gigi : <b>{{$td->kode_gigi==null?'':$td->kode_gigi}}</b></td>
+        <td>{{$td->anamnesa}}
+          @if($td->poliklinik_id==1)
+            <br>Nomor Gigi : <b>{{$td->kode_gigi==null?'':$td->kode_gigi}}</b>
+          @endif
+        </td>
       </tr>
-      @if($pendaftaran->poliklinik_id==1)
+      @if($td->poliklinik_id==1)
       <tr>
         <td colspan="4"><b>Pemeriksaan Klinis : </b>{{ $td->pemeriksaan_klinis}}</td>
       </tr>

@@ -32,7 +32,7 @@ class StockBarangExport implements FromView, ShouldAutoSize, WithEvents
         ->leftJoin('distribusi_stock', 'distribusi_stock.barang_id', 'barang.id')
         ->leftJoin('unit_stock', 'unit_stock.id', 'distribusi_stock.unit_stock_id')
         ->where('distribusi_stock.unit_stock_id', $this->unit_stock_id)
-        ->orderBy('barang.nama_barang','ASC')
+        ->orderBy('barang.nama_barang', 'ASC')
         ->get();
     }
 

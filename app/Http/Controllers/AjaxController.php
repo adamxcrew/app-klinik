@@ -83,14 +83,9 @@ class AjaxController extends Controller
             ->select('barang.id', DB::raw('CONCAT(barang.nama_barang, " ( ", distribusi_stock.jumlah_stock,")") AS nama_barang'), 'barang.harga')
             ->where('distribusi_stock.unit_stock_id', $poliklinik->unit_stock_id)
             ->where('distribusi_stock.jumlah_stock', '>', 0)
-            ->where('barang.nama_barang', 'like', "%" . $request->q . "%")
-            ->orWhere('barang.keterangan', 'like', "%" . $request->q . "%");
+            ->where('barang.nama_barang', 'like', "%" . $request->q . "%");
 
-            if ($request->has('pelayanan')) {
-                if (strtoupper($request->pelayanan) == 'BPJS') {
-                    $data = $data->where('barang.pelayanan', 'bpjs');
-                }
-            }
+
 
             if (\session('lock_bpjs') != null) {
                 if (\session('lock_bpjs') == 'yes') {
@@ -101,8 +96,15 @@ class AjaxController extends Controller
             $data = Barang::where('nama_barang', 'like', "%" . $request->q . "%");
         }
 
-        $data = $data->limit(20)->get();
-        return response()->json($data);
+        if ($request->has('pelayanan')) {
+            if (strtoupper($request->pelayanan) == 'BPJS') {
+                $data->where('barang.pelayanan', 'bpjs');
+            }
+        }
+
+        $data->orWhere('barang.keterangan', 'like', "%" . $request->q . "%")->groupBy('barang.id');
+
+        return response()->json($data->limit(20)->get());
     }
 
     public function select2Indikator(Request $request)
