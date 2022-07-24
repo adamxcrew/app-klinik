@@ -34,7 +34,7 @@ class JurnalController extends Controller
         }
         $data['akunList'] = Akun::pluck('nama', 'id');
         $data['jurnals'] = Jurnal::with('akun')->get();
-        $data['periode'] = \DB::select("select DISTINCT(tanggal) as tanggal from jurnal where tanggal between '".$data['tanggal_awal']."' and '".$data['tanggal_akhir']."'");
+        $data['periode'] = \DB::select("select DISTINCT(tanggal) as tanggal from jurnal where tanggal between '" . $data['tanggal_awal'] . "' and '" . $data['tanggal_akhir'] . "'");
         return view('jurnal.index', $data);
     }
 

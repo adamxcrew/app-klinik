@@ -7,6 +7,7 @@ use DataTables;
 use App\Models\Akun;
 use App\Http\Requests\AkunStoreRequest;
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
+
 class AkunController extends Controller
 {
     /**
