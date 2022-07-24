@@ -113,6 +113,7 @@
                             <table class="table table-bordered">
                                 <?php $nomor =1 ;$indexTindakan=1;?>
                                 @foreach($pendaftaranTindakan as $tindakan)
+                                @if($tindakan->tindakan->poliklinik_id==7)
                                 <tr class="danger">
                                     <td colspan="6">Nama Pemeriksaan : {{ $tindakan->tindakan->tindakan }} - {{ $indexTindakan }}</td>
                                     <input type="hidden" name="id_tindakan[]" value="{{$tindakan->tindakan->id }}">
@@ -147,6 +148,7 @@
                                     </tr>
                                     @endforeach
                                     <?php $indexTindakan++?>
+                                    @endif
                                 @endforeach
                                 <tr>
                                     <td colspan="4"></td>

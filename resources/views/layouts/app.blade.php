@@ -246,38 +246,11 @@
                     </div>
 
 
-                    <?php $notifikasi = \DB::table('notifikasi')->where('user_id',\Auth::user()->id) ?>
+                    <?php $notifikasi = \DB::table('notifikasi')->where('user_id',session('user_id')) ?>
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
 
-                            <li class="dropdown messages-menu">
-
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-envelope-o"></i>
-                                    <span class="label label-success">{{ $notifikasi->count()}}</span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                  
-                                    <li class="header">Kamu Mempunyai {{ $notifikasi->count()}} Pesan</li>
-                                    <li>
-
-                                        <ul class="menu">
-                                          @foreach($notifikasi->get() as $notif)
-                                          <li>
-                                            <a href="/{{ $notif->link}}">
-                                                <h4>
-                                                    {{ $notif->notifikasi_judul}}
-                                                    <small><i class="fa fa-clock-o"></i></small>
-                                                </h4>
-                                                <p>{{ $notif->notifikasi_pesan}}</p>
-                                            </a>
-                                        </li>
-                                          @endforeach
-                                      </ul>
-                                    </li>
-                                    {{-- <li class="footer"><a href="#">See All Messages</a></li> --}}
-                                </ul>
-                            </li>
+                            @include('layouts.notification')
 
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
