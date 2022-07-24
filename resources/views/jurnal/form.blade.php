@@ -1,5 +1,5 @@
 <div class="form-group">
-    <label class="col-sm-2 control-label">Waktu</label>
+    <label class="col-sm-2 control-label">Tanggal</label>
     <div class="col-sm-2">
         {!! Form::date('tanggal[]', null, ['class'=>'form-control']) !!}
     </div>
@@ -7,7 +7,7 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">Akun</label>
     <div class="col-sm-10">
-        {!! Form::select('akun_id[]', $akunList, null, ['class'=>'form-control','Placeholder'=>'Akun']) !!}
+        {!! Form::select('akun_id[]', $akunList, null, ['class'=>'form-control akun','Placeholder'=>'Akun']) !!}
     </div>
 </div>
 <div class="form-group">
@@ -30,7 +30,7 @@
 </div>
 <hr>
 <div class="form-group">
-    <label class="col-sm-2 control-label">Waktu</label>
+    <label class="col-sm-2 control-label">Tanggal</label>
     <div class="col-sm-2">
         {!! Form::date('tanggal[]', null, ['class'=>'form-control']) !!}
     </div>
@@ -43,7 +43,7 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">Akun</label>
     <div class="col-sm-10">
-        {!! Form::select('akun_id[]', $akunList, null, ['class'=>'form-control','Placeholder'=>'Akun']) !!}
+        {!! Form::select('akun_id[]', $akunList, null, ['class'=>'form-control akun','Placeholder'=>'Akun']) !!}
     </div>
 </div>
 <div class="form-group">

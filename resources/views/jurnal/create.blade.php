@@ -30,7 +30,12 @@
 </div>
 @endsection
 @push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 <script>
+  $( document ).ready(function() {
+    $('.akun').select2();
+});
+
   function copy_form(){
     $.ajax({
       url: "/jurnal/add_form",
@@ -50,3 +55,6 @@
 </script>
 @endpush
 
+@push('css')
+  <link href="{{asset('/select2/dist/css/select2.min.css')}}" rel="stylesheet" />
+@endpush

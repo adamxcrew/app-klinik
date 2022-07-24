@@ -154,6 +154,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('indikator-pemeriksaan-lab', 'IndikatorPemeriksaanLabController');
     Route::resource('hasil-pemeriksaan-lab', 'HasilPemeriksaanLabController');
     Route::resource('tindakan-bhp', 'TindakanBHPController');
+    Route::post('akun/import','AkunController@import_excel');
     Route::resource('akun', 'AkunController');
     Route::get('/jurnal/add_form','JurnalController@add_form');
     Route::resource('jurnal', 'JurnalController');

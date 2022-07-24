@@ -20,22 +20,101 @@
         <div class="box">
 
           <div class="box-body">
-            <a href="{{route('jurnal.create')}}" class="btn btn-info btn-social btn-flat"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
-              Tambah Data</a>
+            <table class="table table-bordered">
+              <tr>
+                <td width="200">Pilih Akun</td>
+                <td>
+                  {{ Form::select('sas',$akunList,null,['class' => 'form-control']) }}
+                </td>
+              </tr>
+              <tr>
+                <td>Periode</td>
+                <td>
+                  <div class="row">
+                    <div class="col-md-3">
+                      {{ Form::date('periode_awal',null,['class' => 'form-control','placeholder'=>'Periode Awal'])}}
+                    </div>
+                    <div class="col-md-3">
+                      {{ Form::date('periode_akhir',null,['class' => 'form-control','placeholder'=>'Periode Awal'])}}
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>
+                  <button class="btn btn-info btn-social btn-flat" type="submit"><i class="fa fa-gear" aria-hidden="true"></i> Filter Data</button>
+                    <button class="btn btn-success btn-social btn-flat" type="submit"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Dowload Excel</button>
+                    <a href="{{route('jurnal.create')}}" class="btn btn-info btn-social btn-flat"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                      Tambah Data</a>
+                </td>
+              </tr>
+            </table>
             <hr>
             @include('alert')
             <table class="table table-bordered table-striped" id="jurnals-table">
               <thead>
                 <tr>
-                  <th>No</th>
-                  <th width="10">Waktu</th>
+                  <th width="10">Tanggal</th>
                   <th>Akun</th>
-                  <th>Nominal</th>
+                  <th>Reff</th>
                   <th>Keterangan</th>
-                  <th>Tipe</th>
+                  <th>Debet</th>
+                  <th>Kredit</th>
                   <th width="60">#</th>
                 </tr>
               </thead>
+              <tbody>
+                @foreach($periode as $tanggal)
+                <tr>
+                  <td>{{ $tanggal->tanggal}}</td>
+                  <td>
+                    @foreach(\App\Models\Jurnal::where('tanggal',$tanggal->tanggal)->get() as $jurnal)
+                    {{ $jurnal->akun->nama}}<br>
+                    @endforeach
+                  </td>
+                  <td>
+                    @foreach(\App\Models\Jurnal::where('tanggal',$tanggal->tanggal)->get() as $jurnal)
+                    {{ $jurnal->akun->kode}}<br>
+                    @endforeach
+                  </td>
+                  <td>
+                    @foreach(\App\Models\Jurnal::where('tanggal',$tanggal->tanggal)->get() as $jurnal)
+                      {{ $jurnal->keterangan}}<br>
+                    @endforeach
+                  </td>
+                  <td>
+                    @foreach(\App\Models\Jurnal::where('tanggal',$tanggal->tanggal)->get() as $jurnal)
+                        @if($jurnal->tipe=='debet')
+                        {{ rupiah($jurnal->nominal)}}<br>
+                      @else
+                        -<br>
+                      @endif
+                    @endforeach
+                  </td>
+                  <td>
+                    @foreach(\App\Models\Jurnal::where('tanggal',$tanggal->tanggal)->get() as $jurnal)
+                        @if($jurnal->tipe=='kredit')
+                        {{ rupiah($jurnal->nominal)}}<br>
+                      @else
+                        -<br>
+                      @endif
+                    @endforeach
+                  </td>
+                  <td>
+                    @foreach(\App\Models\Jurnal::where('tanggal',$tanggal->tanggal)->get() as $jurnal)
+                    <?php
+                    $btn = \Form::open(['url' => 'jurnal/' . $jurnal->id, 'method' => 'DELETE', 'style' => 'float:right;margin-right:5px']);
+                    $btn .= "<button type='submit' class='btn btn-danger btn-sm'><i class='fa fa-trash' aria-hidden='true'></i></button>";
+                    $btn .= \Form::close();
+                    echo $btn;  
+                    ?>
+                    <a class="btn btn-danger btn-sm" href="/jurnal/{{$jurnal->id}}/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                    @endforeach
+                  </td>
+                </tr>                
+                @endforeach
+              </tbody>
             </table>
           </div>
         </div>
@@ -51,41 +130,7 @@
 <script src="{{asset('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 <script>
   $(function() {
-    $('#jurnals-table').DataTable({
-      processing: true,
-      serverSide: true,
-      ajax: '/jurnal',
-      columns: [{
-          data: 'DT_RowIndex',
-          orderable: false,
-          searchable: false
-        },
-        {
-          data: 'tanggal',
-          name: 'tanggal'
-        },
-        {
-          data: 'akun.nama',
-          name: 'akun.nama'
-        },
-        {
-          data: 'nominal',
-          name: 'nominal'
-        },
-        {
-          data: 'keterangan',
-          name: 'keterangan'
-        },
-        {
-          data: 'tipe',
-          name: 'tipe'
-        },
-        {
-          data: 'action',
-          name: 'action'
-        }
-      ]
-    });
+    $('#jurnals-table').DataTable();
   });
 </script>
 @endpush

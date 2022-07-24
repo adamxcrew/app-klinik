@@ -22,6 +22,9 @@
           <div class="box-body">
             <a href="{{route('akun.create')}}" class="btn btn-info btn-social btn-flat"><i class="fa fa-plus-square-o" aria-hidden="true"></i>
               Tambah Data</a>
+              <button type="button" class="btn btn-primary btn-social btn-flat" data-toggle="modal" data-target="#myModal">
+                <i class="fa fa-file-excel-o" aria-hidden="true"></i> Import Data
+              </button>
             <hr>
             @include('alert')
             <table class="table table-bordered table-striped" id="users-table">
@@ -39,6 +42,46 @@
       </div>
     </div>
   </section>
+</div>
+
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Import Data Akun</h4>
+      </div>
+      {{ Form::open(['url'=>'akun/import','files'=>true]) }}
+      <div class="modal-body">
+
+        <div class="alert alert-info" role="alert">Download Template Import <a href="{{ asset('template_import_akun.xlsx')}}">Disini</a></div>
+       <table class="table table-bordered">
+         <tr>
+           <td>Pilih File</td>
+           <td>
+             {{ Form::file('file')}}
+           </td>
+         </tr>
+         <tr>
+          <td>Kosongkan Data Sebelumnya ?</td>
+          <td>
+            <select name="kosongkan" class="form-control">
+              <option value="0">Tidak</option>
+              <option value="1">Ya</option>
+            </select>
+          </td>
+        </tr>
+       </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+        <button type="submit" class="btn btn-primary">Upload</button>
+      </div>
+      {{ Form::close() }}
+    </div>
+  </div>
 </div>
 @endsection
 

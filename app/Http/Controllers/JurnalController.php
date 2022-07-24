@@ -30,7 +30,10 @@ class JurnalController extends Controller
                 ->addIndexColumn()
                 ->make(true);
         }
-        return view('jurnal.index');
+        $data['akunList'] = Akun::pluck('nama', 'id');
+        $data['jurnals'] = Jurnal::with('akun')->get();
+        $data['periode'] = \DB::select("select DISTINCT(tanggal) as tanggal from jurnal");
+        return view('jurnal.index', $data);
     }
 
     /**
