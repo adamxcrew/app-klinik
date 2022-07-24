@@ -17,6 +17,8 @@ class JurnalController extends Controller
      */
     public function index(Request $request)
     {
+        $data['tanggal_awal']       = $request->tanggal_awal ?? date('Y-m-d');
+        $data['tanggal_akhir']      = $request->tanggal_akhir ?? date('Y-m-d');
         if ($request->ajax()) {
             return DataTables::of(Jurnal::with('akun')->get())
                 ->addColumn('action', function ($row) {
@@ -32,7 +34,7 @@ class JurnalController extends Controller
         }
         $data['akunList'] = Akun::pluck('nama', 'id');
         $data['jurnals'] = Jurnal::with('akun')->get();
-        $data['periode'] = \DB::select("select DISTINCT(tanggal) as tanggal from jurnal");
+        $data['periode'] = \DB::select("select DISTINCT(tanggal) as tanggal from jurnal where tanggal between '".$data['tanggal_awal']."' and '".$data['tanggal_akhir']."'");
         return view('jurnal.index', $data);
     }
 

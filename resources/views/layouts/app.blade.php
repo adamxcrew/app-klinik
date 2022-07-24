@@ -62,7 +62,7 @@
             <nav class="navbar navbar-static-top">
                 <div class="containers">
                     <div class="navbar-header">
-                        <a href="../../index2.html" class="navbar-brand"><b>Admin</b>LTE</a>
+                        <a href="../../index2.html" class="navbar-brand"><b>SIKLINIK</b>pro</a>
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                             data-target="#navbar-collapse">
                             <i class="fa fa-bars"></i>
@@ -346,9 +346,12 @@
         <footer class="main-footer">
             <div class="container">
                 <div class="pull-right hidden-xs">
-                    <b>Version</b> 2.4.13
+                    <b>SIKLINIKPro Version</b> 1.0.0
                 </div>
-                <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE</a>.</strong> All rights
+                <?php
+                $setting = \DB::table('setting')->where('id',1)->first();
+                ?>
+                <strong>Copyright &copy; {{ date('Y')}} {{ $setting->nama_instansi}}  | Template By : <a href="https://adminlte.io">AdminLTE</a>.</strong> All rights
                 reserved.
             </div>
 

@@ -20,22 +20,28 @@
         <div class="box">
 
           <div class="box-body">
+            {{ Form::open(['url'=>'jurnal','method'=>'GET']) }}
             <table class="table table-bordered">
               <tr>
                 <td width="200">Pilih Akun</td>
                 <td>
-                  {{ Form::select('sas',$akunList,null,['class' => 'form-control']) }}
+                  <div class="row">
+                    <div class="col-md-4">
+                      {{ Form::select('akun_id',$akunList,$_GET['akun_id']??null,['class' => 'form-control','placeholder'=>'-- Semua Akun --']) }}
+                    </div>
+                  </div>
+                  
                 </td>
               </tr>
               <tr>
                 <td>Periode</td>
                 <td>
                   <div class="row">
-                    <div class="col-md-3">
-                      {{ Form::date('periode_awal',null,['class' => 'form-control','placeholder'=>'Periode Awal'])}}
+                    <div class="col-md-2">
+                      {{ Form::date('tanggal_awal',$tanggal_awal,['class' => 'form-control','placeholder'=>'Periode Awal'])}}
                     </div>
-                    <div class="col-md-3">
-                      {{ Form::date('periode_akhir',null,['class' => 'form-control','placeholder'=>'Periode Awal'])}}
+                    <div class="col-md-2">
+                      {{ Form::date('tanggal_akhir',$tanggal_akhir,['class' => 'form-control','placeholder'=>'Periode Awal'])}}
                     </div>
                   </div>
                 </td>
@@ -50,6 +56,7 @@
                 </td>
               </tr>
             </table>
+            {{ Form::close() }}
             <hr>
             @include('alert')
             <table class="table table-bordered table-striped" id="jurnals-table">
