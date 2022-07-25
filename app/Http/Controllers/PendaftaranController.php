@@ -91,6 +91,7 @@ class PendaftaranController extends Controller
                 }
 
                 $nomorAntrian->whereIn('status_pelayanan', ['selesai_pemeriksaan_medis','selesai_pelayanan','selesai']);
+                $nomorAntrian->where('poliklinik_id',Auth::user()->poliklinik_id);
             }
         }
         // ------------------ FILTER PADA ROLE KASIR -----------------------------

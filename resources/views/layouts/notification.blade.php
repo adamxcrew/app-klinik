@@ -18,7 +18,7 @@
                       <small><i class="fa fa-check-square fa-2" aria-hidden="true"></i>
                         Tandai</small>
                    </h4>
-                   <p>{{ $notif->notifikasi_pesan}} @ {{ substr($notif->created_at,0,16) }}</p>
+                   <p>{{ substr($notif->notifikasi_pesan,0,17)}} @ {{ substr($notif->created_at,0,16) }}</p>
                 </a>
              </li>
              @endforeach
