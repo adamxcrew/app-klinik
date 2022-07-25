@@ -246,7 +246,7 @@
                     </div>
 
 
-                    <?php $notifikasi = \DB::table('notifikasi')->where('user_id',session('user_id'))->orderBy('created_at','desc')-> ?>
+                    <?php $notifikasi = \DB::table('notifikasi')->where('user_id',session('user_id'))->orderBy('created_at','desc') ?>
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
 
