@@ -265,19 +265,19 @@ class PendaftaranController extends Controller
         $notifikasi = \DB::table('notifikasi')
                     ->where('pasien_id', $nomorAntrian->pendaftaran->pasien_id)
                     ->where('poliklinik_id', $nomorAntrian->poliklinik_id)
-                    ->update(['link' => 'pendaftaran/5178/input-indikator/print','display' => 1]);
+                    ->update(['link' => 'pendaftaran/' . $request->nomor_antrian_id . '/input-indikator/print','display' => 1]);
         return redirect('pendaftaran/' . $request->nomor_antrian_id . '/input-indikator')->with('message', 'Data Berhasil Disimpan');
     }
 
-    public function printHasilPemeriksaan($id)
+    public function printHasilPemeriksaan($id, Request $request)
     {
-        $data['nomorAntrian'] = NomorAntrian::with('pendaftaran.pasien', 'dokter')->where('pendaftaran_id', $id)
-        ->where('poliklinik_id', \Auth::user()->poliklinik_id)
+        $data['nomorAntrian'] = NomorAntrian::with('pendaftaran.pasien', 'dokter')->where('id', $id)
         ->with('poliklinik', 'dokter')
         ->first();
 
-        $data['tindakanLab'] = \App\Models\PendaftaranTindakan::with('tindakan')->where('poliklinik_id', \Auth::user()->poliklinik_id)
-        ->where('pendaftaran_id', $id)->get();
+
+        $data['tindakanLab'] = \App\Models\PendaftaranTindakan::with('tindakan')->where('poliklinik_id', $data['nomorAntrian']->poliklinik_id)
+        ->where('pendaftaran_id', $data['nomorAntrian']->pendaftaran_id)->get();
         $pdf = PDF::loadView('pendaftaran.pdf_hasil_pemeriksaan_lab', $data)->setPaper('letter', 'potrait');
         return $pdf->stream();
     }

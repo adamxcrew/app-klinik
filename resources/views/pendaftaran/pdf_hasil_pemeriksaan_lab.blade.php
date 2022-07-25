@@ -72,25 +72,30 @@
 
         <table>
             @foreach($tindakanLab as $tindakan)
-            <tr>
-                <td colspan="4">Pemeriksaan : {{ $tindakan->tindakan->tindakan}}</td>
-            </tr>
-            <tr style="color:white;background-color:#C85C5C;padding:16px 0">
-                <th width="20">No</th>
-                <th>Parameter</th>
-                <th>Satuan</th>
-                <th>Hasil</th>
-                <th>Nilai Normal</th>
-            </tr>
-            @foreach(\App\Models\HasilPemeriksaanLab::where('pendaftaran_id',$nomorAntrian->pendaftaran_id)->where('tindakan_id',$tindakan->tindakan->id)->get() as $hasil)
-            <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $hasil->indikator->nama_indikator}}</td>
-                <td>{{ $hasil->indikator->satuan}}</td>
-                <td>{{ $hasil->hasil}}</td>
-                <td>{{ $hasil->indikator->nilai_rujukan}}</td>
-            </tr>                
-            @endforeach
+                @if($tindakan->tindakan->poliklinik_id==7)
+                <tr>
+                    <td colspan="4">Pemeriksaan : {{ $tindakan->tindakan->tindakan}}</td>
+                </tr>
+                <tr style="color:white;background-color:#C85C5C;padding:16px 0">
+                    <th width="20">No</th>
+                    <th>Parameter</th>
+                    <th>Satuan</th>
+                    <th>Hasil</th>
+                    <th>Nilai Normal</th>
+                </tr>
+                @foreach(\App\Models\HasilPemeriksaanLab::
+                where('pendaftaran_id',$nomorAntrian->pendaftaran->id)
+                ->where('tindakan_id',$tindakan->tindakan->id)
+                ->get() as $hasil)
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $hasil->indikator->nama_indikator}}</td>
+                    <td>{{ $hasil->indikator->satuan}}</td>
+                    <td>{{ $hasil->hasil}}</td>
+                    <td>{{ $hasil->indikator->nilai_rujukan}}</td>
+                </tr>                
+                @endforeach
+            @endif
             @endforeach
         </table>
 
@@ -104,37 +109,8 @@
             font-size:10pt;float:right;margin-right:15%">
             Analisis Laboratorium
             <br> <br> <br> <br> <br> <br> <br> <br> <br>
-            {{ Auth::user()->name}}
+            {{ Auth::user()->name??'-'}}
         </div>
-        {{-- <div style="
-            margin-bottom:50px;
-            border-top:solid 2px #3C2C3E;
-            width:90%;text-align:center;
-            border:1px solid black;
-            position: fixed;
-            bottom: 40;">
-            Jl. Hm. Ashari No.22 Cibinong – Bogor 16911, Telpon : ( 021 ) 8791 6739
-            <br>
-            <table width=90 style="text-align:center">
-                <tr>
-                    <td>
-                        <img src="{{public_path('image/fb.png')}}" alt="facebook" width=20px>
-                    </td>
-                    <td>klinik dr.nurdin wahid</td>
-                    <td>
-                        <img src="{{public_path('image/ig.png')}}" alt="instagram" width=20px>
-                    </td>
-                    <td>klinikdr.nurdin</td>
-                    <td>
-                        <img src="{{public_path('image/twitter.png')}}" alt="twitter" width=20px>
-                    </td>
-                    <td>klinik dr.nurdin wahid</td>
-                    <td>
-                        <img src="{{public_path('image/youtube.png')}}" alt="youtube" width=20px>
-                    </td>
-                    <td>klinik dr.nurdin wahid</td>
-                </tr>
-            </table> --}}
         </div>
     </div>
 </div>

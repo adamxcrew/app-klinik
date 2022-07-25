@@ -155,7 +155,7 @@
                                     <td colspan="2" class="text-left">
                                         <button type="submit" class="btn btn-success">Simpan Hasil</button>
                                         @if($hasilPemeriksaan)
-                                        <a target="new" href="/pendaftaran/{{$nomorAntrian->pendaftaran->id}}/input-indikator/print" target="new" class="btn btn-primary">
+                                        <a target="new" href="/pendaftaran/{{$nomorAntrian->id}}/input-indikator/print" target="new" class="btn btn-primary">
                                             <i class="fa fa-print"></i> Cetak PDF
                                         </a>
                                         @endif
