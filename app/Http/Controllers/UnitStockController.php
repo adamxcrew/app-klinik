@@ -130,6 +130,10 @@ class UnitStockController extends Controller
                     $unit_stock                 = \App\Models\UnitStock::where('nama_unit', $cells[1]->getValue())->first();
                     $stock_baru                 = $cells[3]->getValue() ?? null;
 
+                    // \Log::info($unit_stock);
+                    // \Log::info($barang);
+                    \Log::info($stock_baru);
+
                     if ($barang != null) {
                         if ($stock_baru != null) {
                             DistribusiStock::where('unit_stock_id', $unit_stock->id)
