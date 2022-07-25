@@ -62,7 +62,7 @@
         <tr>
             <td style="padding-right: 20px">Pernafasan</td>
             <td>:</td>
-            <th align="left"> {{ $surat->pendaftaran->tanda_tanda_vital['saturasi_o2']??0 }} X/ Menit</th>
+            <th align="left"> {{ $surat->pendaftaran->tanda_tanda_vital['rr']??0 }} X/ Menit</th>
         </tr>
         <tr>
             <td style="padding-right: 20px">Kesan</td>
